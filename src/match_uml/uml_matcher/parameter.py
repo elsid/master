@@ -14,6 +14,6 @@ class Parameter(NamedElement):
             and self.direction == pattern.direction)
 
     def __eq__(self, other):
-        if other is None  or not isinstance(other, type(self)):
+        if other is None or not isinstance(other, type(self)):
             return False
         return self.type == other.type and self.direction == other.direction

@@ -37,7 +37,7 @@ class Property(NamedElement):
             and self.owner.equivalent_pattern(pattern.owner))
 
     def __eq__(self, other):
-        if other is None  or not isinstance(other, type(self)):
+        if other is None or not isinstance(other, type(self)):
             return False
         return (self.visibility == other.visibility
             and self.aggregation == other.aggregation

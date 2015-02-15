@@ -20,7 +20,7 @@ class Classifier(NamedElement):
         return self.name
 
     def __eq__(self, other):
-        if other is None  or not isinstance(other, type(self)):
+        if other is None or not isinstance(other, type(self)):
             return False
         return (self.properties == other.properties
             and self.operations == other.operations)
