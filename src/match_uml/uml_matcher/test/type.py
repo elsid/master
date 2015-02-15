@@ -15,12 +15,18 @@ class ReprMultiplicityTest(TestCase):
         assert_that(repr_multiplicity(13, 42), equal_to('[13..42]'))
 
 class MakeTypeTest(TestCase):
-    def test_methods_should_succeed(self):
+    def test_sub_equivalent_pattern_should_succeed(self):
         assert_that(Type(Class()).sub_equivalent_pattern(Type(Class())),
             equal_to(True))
+
+    def test_equivalent_pattern_mult_range_should_succeed(self):
         assert_that(Type(Class()).equivalent_pattern_mult_range(Type(Class())),
             equal_to(True))
+
+    def test_eq_should_succeed(self):
         assert_that(Type(Class()), equal_to(Type(Class())))
+
+    def test_repr_should_succeed(self):
         assert_that(repr(Type(Class())), equal_to('anonymous[1..1]'))
 
     def test_make_with_wrong_lower_should_throw_exception(self):
