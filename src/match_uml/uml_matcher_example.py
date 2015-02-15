@@ -2,19 +2,19 @@
 #coding: utf-8
 
 from uml_matcher import (Aggregation, Class, Diagram, Operation, PrimitiveType,
-    Property, Type)
+    Property, Type, Interface)
 
 INT_TYPE = PrimitiveType()
 
-def create_composite_pattern():
-    component = Class('Component',
+def create_decorator_pattern():
+    component = Interface('Component',
         [],
         [Operation('operation')])
     concrete_component = Class('ConcreteComponent',
         [],
         [Operation('operation')])
     decorator_component = Property(Type(component), 'component')
-    decorator = Class('Decorator',
+    decorator = Interface('Decorator',
         [decorator_component],
         [Operation('operation')])
     concrete_decorator = Class('ConcreteDecorator',
@@ -27,7 +27,7 @@ def create_composite_pattern():
             (concrete_decorator, decorator),
         ],
         associations=[
-            {decorator_component, Property(Type(decorator), 'decorator end 1', aggregation=Aggregation.composite)},
+            {decorator_component, Property(Type(decorator), 'decorator end 1', aggregation=Aggregation.shared)},
         ],
     )
 
@@ -64,10 +64,10 @@ def create_target_diagram():
             (cheeseburger, burger),
         ],
         associations=[
-            {burger_with_burger, Property(Type(burger_with), 'burger_with end 1', aggregation=Aggregation.composite)},
-            {hamburger_cutlet, Property(Type(hamburger), 'hamburger end 1', aggregation=Aggregation.composite)},
-            {cheeseburger_cutlet, Property(Type(cheeseburger), 'cheeseburger end 1', aggregation=Aggregation.composite)},
-            {cheeseburger_cheese, Property(Type(cheeseburger), 'cheeseburger end 2', aggregation=Aggregation.composite)},
+            {burger_with_burger, Property(Type(burger_with), 'burger_with end 1', aggregation=Aggregation.shared)},
+            {hamburger_cutlet, Property(Type(hamburger), 'hamburger end 1', aggregation=Aggregation.shared)},
+            {cheeseburger_cutlet, Property(Type(cheeseburger), 'cheeseburger end 1', aggregation=Aggregation.shared)},
+            {cheeseburger_cheese, Property(Type(cheeseburger), 'cheeseburger end 2', aggregation=Aggregation.shared)},
         ],
     )
 
@@ -82,8 +82,8 @@ def print_uml_match_result(result):
     print_graph_match_result(result.associations)
 
 if __name__ == '__main__':
-    composite = create_composite_pattern()
+    pattern = create_decorator_pattern()
     target = create_target_diagram()
-    print (composite)
+    print (pattern)
     print (target)
-    print_uml_match_result(target.match(composite))
+    print_uml_match_result(target.match(pattern))
