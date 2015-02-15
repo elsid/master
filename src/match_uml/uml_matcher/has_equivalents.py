@@ -6,6 +6,7 @@ def has_equivalents(target_values, pattern_values):
         found_equivalent = False
         for index, target in enumerate(target_values):
             if index not in used and target.sub_equivalent_pattern(pattern):
+                used.add(index)
                 found_equivalent = True
                 break
         if not found_equivalent:
