@@ -50,9 +50,10 @@ class Property(NamedElement):
             and self.subsetted_properties == other.subsetted_properties)
 
     def __repr__(self):
-        return ('{visibility}{name}'.format(
+        return ('{visibility}{owner}{name}'.format(
             visibility=self.visibility,
-            name=self.name))
+            name=self.name,
+            owner='' if self.owner is None else '%s::' % self.owner))
 
     def __hash__(self):
         return id(self)
