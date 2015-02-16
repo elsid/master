@@ -91,7 +91,6 @@ def match(target_graph, pattern_graph, limit=None):
             conf.target().neighbors(), conf.pattern().neighbors(),
             current_equivalent)
         repush = True
-        used_pairs = []
         for pairs in variants_generator():
             pairs = conf.filter(pairs)
             if pairs:
