@@ -24,8 +24,8 @@ class Operation(NamedElement):
 
     def sub_equivalent_pattern(self, pattern):
         return (self.visibility == pattern.visibility
-            and self.result is None
-                or self.result.sub_equivalent_pattern(pattern.result)
+            and (self.result is None
+                or self.result.sub_equivalent_pattern(pattern.result))
             and has_equivalents(self.parameters, pattern.parameters)
             and self.is_leaf == pattern.is_leaf
             and self.is_query == pattern.is_query
