@@ -34,8 +34,7 @@ def create_decorator_pattern():
 def create_target_diagram():
     cutlet = Class('Cutlet',
         [],
-        [Operation('price', result=Type(INT_TYPE))]
-    )
+        [Operation('price', result=Type(INT_TYPE))])
     cheese = Class('Cheese',
         [],
         [Operation('price', result=Type(INT_TYPE))])
