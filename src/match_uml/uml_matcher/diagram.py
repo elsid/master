@@ -83,5 +83,5 @@ class Diagram(object):
         )])
 
     def __repr__(self):
-        return ('\n' 'generatlizations' '\n' '%s' % Graph(self.generalizations)
+        return ('\n' 'generalizations' '\n' '%s' % Graph(self.generalizations)
             + '\n' 'associations' '\n' '%s' % Graph(self.associations))
