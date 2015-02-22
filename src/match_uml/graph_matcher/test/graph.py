@@ -7,7 +7,7 @@ from graph_matcher.graph import Graph
 def replace_node_by_obj(nodes):
     return set(n.obj for n in nodes)
 
-class MakeGraphTest(TestCase):
+class MakeGraph(TestCase):
     def test_make_empty_should_succeed(self):
         graph = Graph()
         assert_that(graph.nodes, equal_to(set()))

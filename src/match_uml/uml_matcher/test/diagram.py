@@ -13,7 +13,7 @@ from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import eq_ignore_order, Diagram, MatchResult
 
-class EqIgnoreOrderTest(TestCase):
+class EqIgnoreOrder(TestCase):
     def test_compare_empty_should_be_equal(self):
         assert_that(eq_ignore_order([], []), equal_to(True))
 
@@ -213,7 +213,7 @@ class TargetDiagramFactory(Factory):
             make_diagram,
         ])
 
-class MatchDiagramTest(TestCase):
+class MatchDiagram(TestCase):
     def test_match_empty_should_has_empty_match_result(self):
         assert_that(Diagram().match(Diagram()), equal_to(MatchResult()))
 

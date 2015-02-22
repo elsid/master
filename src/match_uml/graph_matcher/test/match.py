@@ -10,7 +10,7 @@ from graph_matcher.graph import Graph
 def replace_node_by_obj(variants):
     return [[tuple((p[0].obj, p[1].obj)) for p in v] for v in variants]
 
-class MatchTest(TestCase):
+class Match(TestCase):
     def test_match_empty_should_succeed(self):
         assert_that(list(match(Graph(), Graph())), equal_to([]))
 

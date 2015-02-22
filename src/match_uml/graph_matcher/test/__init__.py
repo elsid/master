@@ -3,10 +3,10 @@
 
 from unittest import main
 
-from graph_matcher.test.node import MakeNodeTest
-from graph_matcher.test.graph import MakeGraphTest
-from graph_matcher.test.configuration import MakeConfigurationTest
-from graph_matcher.test.match import MatchTest
+from graph_matcher.test.node import MakeNode
+from graph_matcher.test.graph import MakeGraph
+from graph_matcher.test.configuration import MakeConfiguration
+from graph_matcher.test.match import Match
 
 if __name__ == '__main__':
     main()

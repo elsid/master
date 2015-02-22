@@ -7,14 +7,14 @@ Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 from uml_matcher.errors import (MultLowerTypeError, MultUpperTypeError,
     NegativeMultLower, NegativeMultUpper, MultRangeError)
 
-class ReprMultiplicityTest(TestCase):
+class ReprMultiplicity(TestCase):
     def test_different_combinations_should_succeed(self):
         assert_that(repr_multiplicity(None, None), equal_to(''))
         assert_that(repr_multiplicity(42, None), equal_to('[42..*]'))
         assert_that(repr_multiplicity(None, 42), equal_to('[42]'))
         assert_that(repr_multiplicity(13, 42), equal_to('[13..42]'))
 
-class MakeTypeTest(TestCase):
+class MakeType(TestCase):
     def test_sub_equivalent_pattern_should_succeed(self):
         assert_that(Type(Class()).sub_equivalent_pattern(Type(Class())),
             equal_to(True))

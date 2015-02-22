@@ -6,7 +6,7 @@ from uml_matcher.has_equivalents import has_equivalents
 from uml_matcher.operation import Operation
 from uml_matcher.property import Property
 
-class HasEquivalentsTest(TestCase):
+class HasEquivalents(TestCase):
     def test_empty_in_empty_should_not_found(self):
         assert_that(has_equivalents([], []), equal_to(True))
 

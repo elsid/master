@@ -5,7 +5,7 @@ from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher.node import Node
 
-class MakeNodeTest(TestCase):
+class MakeNode(TestCase):
     def test_make_single_should_succeed(self):
         node = Node('node')
         assert_that(node.obj, equal_to('node'))

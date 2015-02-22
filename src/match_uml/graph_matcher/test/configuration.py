@@ -5,7 +5,7 @@ from hamcrest import assert_that, equal_to
 from graph_matcher.configuration import Configuration
 from graph_matcher.node import Node
 
-class MakeConfigurationTest(TestCase):
+class MakeConfiguration(TestCase):
     def test_make_should_succeed(self):
         target = Node('target')
         pattern = Node('pattern')
