@@ -12,8 +12,8 @@ def make_interface(declaration):
 
 class ClassifiersFactory(Visitor):
     def __init__(self):
-        self.classifiers = {}
         super().__init__()
+        self.classifiers = {}
 
     def visit_ClassDeclaration(self, declaration):
         self.classifiers[declaration.name] = make_class(declaration)

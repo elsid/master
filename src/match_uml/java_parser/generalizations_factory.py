@@ -5,9 +5,9 @@ from uml_matcher.diagram import Generalization
 
 class GeneralizationsFactory(Visitor):
     def __init__(self, classifiers):
+        super().__init__()
         self.classifiers = classifiers
         self.generalizations = []
-        super().__init__()
 
     def visit_ClassDeclaration(self, declaration):
         self.visit_extended(declaration)
