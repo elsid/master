@@ -12,7 +12,9 @@ from java_parser.test.classifiers_factory import TestCaseWithParser
 class MakeGeneralizations(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):
         tree = self.parse('')
-        generalizations = make_generalizations(tree, make_classifiers(tree))
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, equal_to([]))
+        generalizations = make_generalizations(tree, classifiers)
         assert_that(generalizations, equal_to([]))
 
     def test_make_from_one_extend_should_succeed(self):
@@ -20,7 +22,9 @@ class MakeGeneralizations(TestCaseWithParser):
             class Base {}
             class Derived extends Base {}
         ''')
-        generalizations = make_generalizations(tree, make_classifiers(tree))
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, equal_to([]))
+        generalizations = make_generalizations(tree, classifiers)
         assert_that(generalizations, equal_to(
             [(Class('Derived'), Class('Base'))]))
 
@@ -30,7 +34,9 @@ class MakeGeneralizations(TestCaseWithParser):
             interface InterfaceB {}
             class Realization implements InterfaceA, InterfaceB {}
         ''')
-        generalizations = make_generalizations(tree, make_classifiers(tree))
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, equal_to([]))
+        generalizations = make_generalizations(tree, classifiers)
         G = Generalization
         assert_that(generalizations, equal_to([
             G(derived=Class('Realization'), base=Interface('InterfaceA')),

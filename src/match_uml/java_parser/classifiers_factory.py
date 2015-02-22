@@ -2,6 +2,7 @@
 
 from plyj.model import Visitor
 from uml_matcher import Class, Interface
+from java_parser.errors import ClassRedeclaration, InterfaceRedeclaration
 
 def make_class(declaration):
     return Class(declaration.name)
@@ -13,14 +14,25 @@ class ClassifiersFactory(Visitor):
     def __init__(self):
         super().__init__()
         self.classifiers = {}
+        self.errors = []
 
     def visit_ClassDeclaration(self, declaration):
-        self.classifiers[declaration.name] = make_class(declaration)
+        if declaration.name in self.classifiers:
+            self.errors.append(ClassRedeclaration(declaration))
+            return False
+        self.__classifier = make_class(declaration)
+        self.classifiers[declaration.name] = self.__classifier
+        return True
 
     def visit_InterfaceDeclaration(self, declaration):
-        self.classifiers[declaration.name] = make_interface(declaration)
+        if declaration.name in self.classifiers:
+            self.errors.append(InterfaceRedeclaration(declaration))
+            return False
+        self.__classifier = make_interface(declaration)
+        self.classifiers[declaration.name] = self.__classifier
+        return True
 
 def make_classifiers(tree):
     factory = ClassifiersFactory()
     tree.accept(factory)
-    return factory.classifiers
+    return factory.classifiers, factory.errors

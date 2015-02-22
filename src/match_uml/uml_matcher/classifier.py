@@ -4,11 +4,10 @@ from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
 
 class Classifier(NamedElement):
-    def __init__(self, name='anonymous', properties=tuple(),
-            operations=tuple()):
+    def __init__(self, name='anonymous', properties=None, operations=None):
         self.name = name
-        self.properties = properties
-        self.operations = operations
+        self.properties = properties or []
+        self.operations = operations or []
         for property in self.properties:
             property.owner = self
 

@@ -7,6 +7,7 @@ from plyj.model import ClassDeclaration, InterfaceDeclaration
 from uml_matcher import Class, Interface
 from java_parser.classifiers_factory import (make_class, make_interface,
     make_classifiers)
+from java_parser.errors import ClassRedeclaration, InterfaceRedeclaration
 
 class MakeClass(TestCase):
     def test_make_should_succeed(self):
@@ -30,18 +31,21 @@ class TestCaseWithParser(TestCase):
 class MakeClassifiers(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):
         tree = self.parse('')
-        classifiers = make_classifiers(tree)
+        classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({}))
+        assert_that(errors, equal_to([]))
 
     def test_make_one_class_should_succeed(self):
         tree = self.parse('class C {}')
-        classifiers = make_classifiers(tree)
+        classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({'C': Class('C')}))
+        assert_that(errors, equal_to([]))
 
     def test_make_one_interface_should_succeed(self):
         tree = self.parse('interface I {}')
-        classifiers = make_classifiers(tree)
+        classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({'I': Interface('I')}))
+        assert_that(errors, equal_to([]))
 
     def test_make_several_class_should_succeed(self):
         tree = self.parse('''
@@ -50,13 +54,36 @@ class MakeClassifiers(TestCaseWithParser):
             interface I1 {}
             interface I2 {}
         ''')
-        classifiers = make_classifiers(tree)
+        classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({
             'C1': Class('C1'),
             'C2': Class('C2'),
             'I1': Interface('I1'),
-            'I2': Interface('I2')
+            'I2': Interface('I2'),
         }))
+        assert_that(errors, equal_to([]))
+
+    def test_declaration_of_two_same_classes_should_return_error(self):
+        tree = self.parse('''
+            class Class {}
+            class Class {}
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(classifiers, equal_to({'Class': Class('Class')}))
+        assert_that(errors, equal_to(
+            [ClassRedeclaration(ClassDeclaration('Class', []))]))
+
+    def test_declaration_of_two_same_interfaces_should_return_error(self):
+        tree = self.parse('''
+            interface Interface {}
+            interface Interface {}
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(classifiers, equal_to(
+            {'Interface': Interface('Interface')}))
+        assert_that(errors, equal_to(
+            [InterfaceRedeclaration(InterfaceDeclaration('Interface', []))]))
+
 
 if __name__ == '__main__':
     main()
