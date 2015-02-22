@@ -1,8 +1,7 @@
 #coding: utf-8
 
 from plyj.model import Visitor
-Class = __import__('uml_matcher.class', fromlist=['Class']).Class
-from uml_matcher.interface import Interface
+from uml_matcher import Class, Interface
 
 def make_class(declaration):
     return Class(declaration.name)

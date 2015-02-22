@@ -1,7 +1,7 @@
 #coding: utf-8
 
 from plyj.model import Visitor
-from uml_matcher.diagram import Generalization
+from uml_matcher import Generalization
 
 class GeneralizationsFactory(Visitor):
     def __init__(self, classifiers):

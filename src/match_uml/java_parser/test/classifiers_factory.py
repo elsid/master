@@ -4,8 +4,7 @@ from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from plyj.parser import Parser
 from plyj.model import ClassDeclaration, InterfaceDeclaration
-Class = __import__('uml_matcher.class', fromlist=['Class']).Class
-from uml_matcher.interface import Interface
+from uml_matcher import Class, Interface
 from java_parser.classifiers_factory import (make_class, make_interface,
     make_classifiers)
 
