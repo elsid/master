@@ -11,7 +11,8 @@ from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
-from uml_matcher.diagram import eq_ignore_order, Diagram, MatchResult
+from uml_matcher.diagram import (eq_ignore_order, Diagram, MatchResult,
+    Generalization)
 
 class EqIgnoreOrder(TestCase):
     def test_compare_empty_should_be_equal(self):
@@ -84,11 +85,12 @@ class DecoratorPatternDiagramFactory(Factory):
                 aggregation=Aggregation.shared)
 
         def make_diagram(self):
+            G = Generalization
             return Diagram(
                 generalizations=[
-                    (self.concrete_component(), self.component()),
-                    (self.decorator(), self.component()),
-                    (self.concrete_decorator(), self.decorator()),
+                    G(derived=self.concrete_component(), base=self.component()),
+                    G(derived=self.decorator(), base=self.component()),
+                    G(derived=self.concrete_decorator(), base=self.decorator()),
                 ],
                 associations=[
                     {self.decorator_component(), self.decorator_end()},
@@ -106,12 +108,17 @@ class DecoratorPatternDiagramFactory(Factory):
         ])
 
     def match_result(self, other):
+        G = Generalization
         return MatchResult(
             generalizations=[[
-                (self.component(), other.component()),
-                (self.concrete_component(), other.concrete_component()),
-                (self.decorator(), other.decorator()),
-                (self.concrete_decorator(), other.concrete_decorator()),
+                G(derived=self.component(),
+                    base=other.component()),
+                G(derived=self.concrete_component(),
+                    base=other.concrete_component()),
+                G(derived=self.decorator(),
+                    base=other.decorator()),
+                G(derived=self.concrete_decorator(),
+                    base=other.concrete_decorator()),
             ]],
             associations=[[
                 (self.decorator_component(), other.decorator_component()),
@@ -179,13 +186,14 @@ class TargetDiagramFactory(Factory):
                 aggregation=Aggregation.shared)
 
         def make_diagram(self):
+            G = Generalization
             return Diagram(
                 generalizations=[
-                    (self.cutlet(), self.burger_with()),
-                    (self.cheese(), self.burger_with()),
-                    (self.burger_with(), self.burger()),
-                    (self.hamburger(), self.burger()),
-                    (self.cheeseburger(), self.burger()),
+                    G(derived=self.cutlet(), base=self.burger_with()),
+                    G(derived=self.cheese(), base=self.burger_with()),
+                    G(derived=self.burger_with(), base=self.burger()),
+                    G(derived=self.hamburger(), base=self.burger()),
+                    G(derived=self.cheeseburger(), base=self.burger()),
                 ],
                 associations=[
                     {self.burger_with_burger(), self.burger_with_end_1()},
@@ -227,28 +235,29 @@ class MatchDiagram(TestCase):
     def test_match_decorator_pattern_in_target(self):
         t = TargetDiagramFactory()
         p = DecoratorPatternDiagramFactory()
+        G = Generalization
         expected_match_result = MatchResult(
             generalizations=[
                 [
-                    (t.cheeseburger(), p.concrete_component()),
-                    (t.cutlet(), p.concrete_decorator()),
-                    (t.burger(), p.component()),
-                    (t.burger_with(), p.decorator()),
+                    G(derived=t.cheeseburger(), base=p.concrete_component()),
+                    G(derived=t.cutlet(), base=p.concrete_decorator()),
+                    G(derived=t.burger(), base=p.component()),
+                    G(derived=t.burger_with(), base=p.decorator()),
                 ], [
-                    (t.cutlet(), p.concrete_decorator()),
-                    (t.burger(), p.component()),
-                    (t.burger_with(), p.decorator()),
-                    (t.hamburger(), p.concrete_component()),
+                    G(derived=t.cutlet(), base=p.concrete_decorator()),
+                    G(derived=t.burger(), base=p.component()),
+                    G(derived=t.burger_with(), base=p.decorator()),
+                    G(derived=t.hamburger(), base=p.concrete_component()),
                 ], [
-                    (t.cheeseburger(), p.concrete_component()),
-                    (t.burger(), p.component()),
-                    (t.burger_with(), p.decorator()),
-                    (t.cheese(), p.concrete_decorator()),
+                    G(derived=t.cheeseburger(), base=p.concrete_component()),
+                    G(derived=t.burger(), base=p.component()),
+                    G(derived=t.burger_with(), base=p.decorator()),
+                    G(derived=t.cheese(), base=p.concrete_decorator()),
                 ], [
-                    (t.burger(), p.component()),
-                    (t.burger_with(), p.decorator()),
-                    (t.cheese(), p.concrete_decorator()),
-                    (t.hamburger(), p.concrete_component()),
+                    G(derived=t.burger(), base=p.component()),
+                    G(derived=t.burger_with(), base=p.decorator()),
+                    G(derived=t.cheese(), base=p.concrete_decorator()),
+                    G(derived=t.hamburger(), base=p.concrete_component()),
                 ],
             ],
             associations=[

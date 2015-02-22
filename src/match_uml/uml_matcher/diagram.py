@@ -58,6 +58,8 @@ class MatchResult(object):
             self.usages
         ))
 
+Generalization = namedtuple('Generalization', ('derived', 'base'))
+
 class Diagram(object):
     def __init__(self,
             generalizations=tuple(),
