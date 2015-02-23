@@ -30,7 +30,7 @@ class MatchResult(object):
             generalizations=tuple(),
             associations=tuple(),
             dependencies=tuple(),
-            subsitutions=tuple(),
+            substitutions=tuple(),
             usages=tuple()):
         self.generalizations = (generalizations
             if generalizations or len(results) <= 0 else results[0])
@@ -38,15 +38,15 @@ class MatchResult(object):
             if associations or len(results) <= 1 else results[1])
         self.dependencies = (dependencies
             if dependencies or len(results) <= 2 else results[2])
-        self.subsitutions = (subsitutions
-            if subsitutions or len(results) <= 3 else results[3])
+        self.substitutions = (substitutions
+            if substitutions or len(results) <= 3 else results[3])
         self.usages = (usages if usages or len(results) <= 4 else results[4])
 
     def __eq__(self, other):
         return (eq_ignore_order(self.generalizations, other.generalizations)
             and eq_ignore_order(self.associations, other.associations)
             and eq_ignore_order(self.dependencies, other.dependencies)
-            and eq_ignore_order(self.subsitutions, other.subsitutions)
+            and eq_ignore_order(self.substitutions, other.substitutions)
             and eq_ignore_order(self.usages, other.usages))
 
     def __repr__(self):
@@ -54,7 +54,7 @@ class MatchResult(object):
             self.generalizations,
             self.associations,
             self.dependencies,
-            self.subsitutions,
+            self.substitutions,
             self.usages
         ))
 
@@ -65,12 +65,12 @@ class Diagram(object):
             generalizations=tuple(),
             associations=tuple(),
             dependencies=tuple(),
-            subsitutions=tuple(),
+            substitutions=tuple(),
             usages=tuple()):
         self.generalizations = generalizations
         self.associations = associations
         self.dependencies = dependencies
-        self.subsitutions = subsitutions
+        self.substitutions = substitutions
         self.usages = usages
 
     def match(self, pattern):
@@ -78,7 +78,7 @@ class Diagram(object):
             Graph(self.generalizations).match(Graph(pattern.generalizations)),
             Graph(self.associations).match(Graph(pattern.associations)),
             Graph(self.dependencies).match(Graph(pattern.dependencies)),
-            Graph(self.subsitutions).match(Graph(pattern.subsitutions)),
+            Graph(self.substitutions).match(Graph(pattern.substitutions)),
             Graph(self.usages).match(Graph(pattern.usages))
         )])
 
