@@ -5,8 +5,9 @@ from uml_matcher.direction import Direction
 
 
 class Parameter(NamedElement):
-    def __init__(self, type_, direction=Direction.in_):
-        self.type = type_
+    def __init__(self, type, name='anonymous', direction=Direction.in_):
+        self.type = type
+        self.name = name
         self.direction = direction
 
     def sub_equivalent_pattern(self, pattern):
