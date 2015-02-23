@@ -17,7 +17,7 @@ class MakeGeneralizations(TestCaseWithParser):
         generalizations = make_generalizations(tree, classifiers)
         assert_that(generalizations, equal_to([]))
 
-    def test_make_from_one_extend_should_succeed(self):
+    def test_make_class_extends_by_class_should_succeed(self):
         tree = self.parse('''
             class Base {}
             class Derived extends Base {}
@@ -28,7 +28,7 @@ class MakeGeneralizations(TestCaseWithParser):
         assert_that(generalizations, equal_to(
             [(Class('Derived'), Class('Base'))]))
 
-    def test_make_from_two_implments_should_succeed(self):
+    def test_make_class_implements_two_interfaces_should_succeed(self):
         tree = self.parse('''
             interface InterfaceA {}
             interface InterfaceB {}
