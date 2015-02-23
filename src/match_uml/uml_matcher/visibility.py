@@ -1,6 +1,7 @@
-#coding: utf-8
+# coding: utf-8
 
 from enum import Enum
+
 
 class Visibility(Enum):
     public = 1

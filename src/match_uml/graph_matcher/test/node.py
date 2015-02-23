@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher.node import Node
+
 
 class MakeNode(TestCase):
     def test_make_single_should_succeed(self):
@@ -54,7 +55,7 @@ class MakeNode(TestCase):
         other_objs = ['node_%d' % n for n in range(nodes_count)]
         other_nodes = [Node(obj) for obj in other_objs]
         node = Node('node', connected_to=other_nodes,
-            connected_from=other_nodes)
+                    connected_from=other_nodes)
         assert_that(node.connected_to, equal_to(set(other_nodes)))
         assert_that(node.connected_from, equal_to(set(other_nodes)))
         assert_that(node.self_connection, equal_to(False))

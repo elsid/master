@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
@@ -11,8 +11,9 @@ from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
-from uml_matcher.diagram import (eq_ignore_order, Diagram, MatchResult,
-    Generalization)
+from uml_matcher.diagram import (
+    eq_ignore_order, Diagram, MatchResult, Generalization)
+
 
 class EqIgnoreOrder(TestCase):
     def test_compare_empty_should_be_equal(self):
@@ -35,11 +36,12 @@ class EqIgnoreOrder(TestCase):
 
     def test_compare_nested_tuples_equal_should_be_equal(self):
         assert_that(eq_ignore_order([(1, 2), (3, 2)], [(3, 2), (1, 2)]),
-            equal_to(True))
+                    equal_to(True))
 
     def test_compare_twice_nested_tuples_equal_should_be_equal(self):
         assert_that(eq_ignore_order([[(1, 2), (2, 3)], [(3, 4), (4, 5)]],
-            [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]), equal_to(True))
+                    [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]), equal_to(True))
+
 
 class Factory(object):
     def __init__(self, makes):
@@ -54,37 +56,39 @@ class Factory(object):
         self.__dict__[make_method_name] = make_method
         value_name = '__%s' % name
         self.__dict__[value_name] = None
-        def cached_make(self):
-            if self.__dict__[value_name] is None:
-                self.__dict__[value_name] = make_method()
-            return self.__dict__[value_name]
+
+        def cached_make(this):
+            if this.__dict__[value_name] is None:
+                this.__dict__[value_name] = make_method()
+            return this.__dict__[value_name]
         cached_make.__name__ = name
         self.__dict__[name] = MethodType(cached_make, self)
 
+
 class DecoratorPatternDiagramFactory(Factory):
     def __init__(self):
-        def make_component(self):
+        def make_component(_):
             return Interface('Component', [], [Operation('operation')])
 
-        def make_concrete_component(self):
+        def make_concrete_component(_):
             return Class('concrete_component()', [], [Operation('operation')])
 
-        def make_decorator_component(self):
-            return Property(Type(self.component()), 'component')
+        def make_decorator_component(this):
+            return Property(Type(this.component()), 'component')
 
-        def make_decorator(self):
+        def make_decorator(this):
             return Interface('Decorator',
-                    [self.decorator_component()],
-                    [Operation('operation')])
+                             [this.decorator_component()],
+                             [Operation('operation')])
 
-        def make_concrete_decorator(self):
+        def make_concrete_decorator(_):
             return Class('ConcreteDecorator', [], [Operation('operation')])
 
-        def make_decorator_end(self):
-            return Property(Type(self.decorator()), 'decorator end',
-                aggregation=Aggregation.shared)
+        def make_decorator_end(this):
+            return Property(Type(this.decorator()), 'decorator end',
+                            aggregation=Aggregation.shared)
 
-        def make_diagram(self):
+        def make_diagram(_):
             G = Generalization
             return Diagram(
                 generalizations=[
@@ -126,80 +130,82 @@ class DecoratorPatternDiagramFactory(Factory):
             ]],
         )
 
+
 class TargetDiagramFactory(Factory):
     def __init__(self):
         IntType = PrimitiveType()
 
-        def make_cutlet(self):
+        def make_cutlet(_):
             return Class('Cutlet', [],
-                [Operation('price', result=Type(IntType))])
+                         [Operation('price', result=Type(IntType))])
 
-        def make_cheese(self):
+        def make_cheese(_):
             return Class('Cheese', [],
-                [Operation('price', result=Type(IntType))])
+                         [Operation('price', result=Type(IntType))])
 
-        def make_burger(self):
+        def make_burger(_):
             return Class('Burger', [],
-                [Operation('price', result=Type(IntType))])
+                         [Operation('price', result=Type(IntType))])
 
-        def make_hamburger_cutlet(self):
-            return Property(Type(self.cutlet()), 'cutlet')
+        def make_hamburger_cutlet(this):
+            return Property(Type(this.cutlet()), 'cutlet')
 
-        def make_hamburger(self):
+        def make_hamburger(this):
             return Class('Hamburger',
-                [self.hamburger_cutlet()],
+                         [this.hamburger_cutlet()],
+                         [Operation('price', result=Type(IntType))])
+
+        def make_cheeseburger_cutlet(this):
+            return Property(Type(this.cutlet()), 'cutlet')
+
+        def make_cheeseburger_cheese(this):
+            return Property(Type(this.cheese()), 'cheese')
+
+        def make_cheeseburger(this):
+            return Class(
+                'Cheeseburger',
+                [this.cheeseburger_cutlet(), this.cheeseburger_cheese()],
                 [Operation('price', result=Type(IntType))])
 
-        def make_cheeseburger_cutlet(self):
-            return Property(Type(self.cutlet()), 'cutlet')
+        def make_burger_with_burger(this):
+            return Property(Type(this.burger()), 'burger')
 
-        def make_cheeseburger_cheese(self):
-            return Property(Type(self.cheese()), 'cheese')
-
-        def make_cheeseburger(self):
-            return Class('Cheeseburger',
-                [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
-                [Operation('price', result=Type(IntType))])
-
-        def make_burger_with_burger(self):
-            return Property(Type(self.burger()), 'burger')
-
-        def make_burger_with(self):
+        def make_burger_with(this):
             return Class('Burger with',
-                [self.burger_with_burger()],
-                [Operation('price', result=Type(IntType))])
+                         [this.burger_with_burger()],
+                         [Operation('price', result=Type(IntType))])
 
-        def make_burger_with_end_1(self):
-            return Property(Type(self.burger_with()), 'burger_with end 1',
-                aggregation=Aggregation.shared)
+        def make_burger_with_end_1(this):
+            return Property(Type(this.burger_with()), 'burger_with end 1',
+                            aggregation=Aggregation.shared)
 
-        def make_hamburger_end_1(self):
-            return Property(Type(self.hamburger()), 'hamburger end 1',
-                aggregation=Aggregation.shared)
+        def make_hamburger_end_1(this):
+            return Property(Type(this.hamburger()), 'hamburger end 1',
+                            aggregation=Aggregation.shared)
 
-        def make_cheeseburger_end_1(self):
-            return Property(Type(self.cheeseburger()), 'cheeseburger end 1',
-                aggregation=Aggregation.shared)
+        def make_cheeseburger_end_1(this):
+            return Property(Type(this.cheeseburger()), 'cheeseburger end 1',
+                            aggregation=Aggregation.shared)
 
-        def make_cheeseburger_end_2(self):
-            return Property(Type(self.cheeseburger()), 'cheeseburger end 2',
-                aggregation=Aggregation.shared)
+        def make_cheeseburger_end_2(this):
+            return Property(Type(this.cheeseburger()), 'cheeseburger end 2',
+                            aggregation=Aggregation.shared)
 
-        def make_diagram(self):
+        def make_diagram(this):
             G = Generalization
             return Diagram(
                 generalizations=[
-                    G(derived=self.cutlet(), base=self.burger_with()),
-                    G(derived=self.cheese(), base=self.burger_with()),
-                    G(derived=self.burger_with(), base=self.burger()),
-                    G(derived=self.hamburger(), base=self.burger()),
-                    G(derived=self.cheeseburger(), base=self.burger()),
+                    G(derived=this.cutlet(), base=this.burger_with()),
+                    G(derived=this.cheese(), base=this.burger_with()),
+                    G(derived=this.burger_with(), base=this.burger()),
+                    G(derived=this.hamburger(), base=this.burger()),
+                    G(derived=this.cheeseburger(), base=this.burger()),
                 ],
                 associations=[
-                    {self.burger_with_burger(), self.burger_with_end_1()},
-                    {self.hamburger_cutlet(), self.hamburger_end_1()},
-                    {self.cheeseburger_cutlet(), self.cheeseburger_end_1()},
-                    {self.cheeseburger_cheese(), self.cheeseburger_end_2()},
+                    {this.burger_with_burger(), this.burger_with_end_1()},
+                    {this.hamburger_cutlet(), this.hamburger_end_1()},
+                    {this.cheeseburger_cutlet(), this.cheeseburger_end_1()},
+                    {this.cheeseburger_cheese(), this.cheeseburger_end_2()},
                 ],
             )
 
@@ -220,6 +226,7 @@ class TargetDiagramFactory(Factory):
             make_cheeseburger_end_2,
             make_diagram,
         ])
+
 
 class MatchDiagram(TestCase):
     def test_match_empty_should_has_empty_match_result(self):

@@ -1,6 +1,7 @@
-#coding: utf-8
+# coding: utf-8
 
 from copy import copy
+
 
 class Configuration(object):
     def __init__(self, target_node, pattern_node):
@@ -55,8 +56,10 @@ class Configuration(object):
         return result
 
     def __repr__(self):
-        return ', '.join(('%s' if i != self.current else '[%s]') %
-            str((str(p[0]), str(p[1]))) for (i, p) in enumerate(self.selected))
+        return ', '.join(
+            ('%s' if i != self.current else '[%s]')
+            % str((str(p[0]), str(p[1]))) for (i, p)
+            in enumerate(self.selected))
 
     def __eq__(self, other):
         return set(self.selected) == set(other.selected)

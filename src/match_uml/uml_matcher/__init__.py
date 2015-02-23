@@ -1,4 +1,4 @@
-#coding: utf-8
+# coding: utf-8
 
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.classifier import Classifier

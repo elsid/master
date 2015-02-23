@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-#coding: utf-8
+# coding: utf-8
 
-from uml_matcher.test.diagram import (DecoratorPatternDiagramFactory,
-    TargetDiagramFactory)
+
+from uml_matcher.test.diagram import (
+    DecoratorPatternDiagramFactory, TargetDiagramFactory)
+
 
 def print_graph_match_result(result):
     for index, variant in enumerate(result):
-        print (index)
+        print(index)
         for mapping in variant:
-            print ('\t', mapping)
+            print('\t', mapping)
+
 
 def print_uml_match_result(result):
     print_graph_match_result(result.generalizations)
@@ -17,6 +20,6 @@ def print_uml_match_result(result):
 if __name__ == '__main__':
     pattern = DecoratorPatternDiagramFactory().diagram()
     target = TargetDiagramFactory().diagram()
-    print (pattern)
-    print (target)
+    print(pattern)
+    print(target)
     print_uml_match_result(target.match(pattern))

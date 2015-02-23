@@ -1,8 +1,9 @@
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, calling, raises, equal_to
+from hamcrest import assert_that, equal_to
 from uml_matcher.direction import Direction
+
 
 class MakeDirection(TestCase):
     def test_make(self):

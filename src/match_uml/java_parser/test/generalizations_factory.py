@@ -1,13 +1,13 @@
-#coding: utf-8
+# coding: utf-8
 
-from unittest import TestCase, main
+from unittest import main
 from hamcrest import assert_that, equal_to
-from plyj.parser import Parser
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
 from java_parser.classifiers_factory import make_classifiers
 from java_parser.generalizations_factory import make_generalizations
 from java_parser.test.classifiers_factory import TestCaseWithParser
+
 
 class MakeGeneralizations(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):

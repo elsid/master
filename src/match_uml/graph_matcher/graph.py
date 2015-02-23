@@ -1,7 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 
 from graph_matcher.node import Node
 from graph_matcher.match import match
+
 
 class Graph(object):
     def __init__(self, nodes_or_edges=tuple()):

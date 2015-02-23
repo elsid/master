@@ -1,16 +1,21 @@
-#coding: utf-8
+# coding: utf-8
 
 from plyj.model import Visitor
 from uml_matcher import Class, Interface
 from java_parser.errors import ClassRedeclaration, InterfaceRedeclaration
 
+
 def make_class(declaration):
     return Class(declaration.name)
+
 
 def make_interface(declaration):
     return Interface(declaration.name)
 
+
 class ClassifiersFactory(Visitor):
+    __classifier = None
+
     def __init__(self):
         super().__init__()
         self.classifiers = {}
@@ -31,6 +36,7 @@ class ClassifiersFactory(Visitor):
         self.__classifier = make_interface(declaration)
         self.classifiers[declaration.name] = self.__classifier
         return True
+
 
 def make_classifiers(tree):
     factory = ClassifiersFactory()

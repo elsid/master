@@ -1,9 +1,10 @@
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher.configuration import Configuration
 from graph_matcher.node import Node
+
 
 class MakeConfiguration(TestCase):
     def test_make_should_succeed(self):

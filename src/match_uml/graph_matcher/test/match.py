@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from itertools import permutations
@@ -7,8 +7,10 @@ from hamcrest import assert_that, equal_to, contains_inanyorder
 from graph_matcher.match import match
 from graph_matcher.graph import Graph
 
+
 def replace_node_by_obj(variants):
     return [[tuple((p[0].obj, p[1].obj)) for p in v] for v in variants]
+
 
 class Match(TestCase):
     def test_match_empty_should_succeed(self):

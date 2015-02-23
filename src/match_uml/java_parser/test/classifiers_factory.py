@@ -1,13 +1,14 @@
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from plyj.parser import Parser
 from plyj.model import ClassDeclaration, InterfaceDeclaration
 from uml_matcher import Class, Interface
-from java_parser.classifiers_factory import (make_class, make_interface,
-    make_classifiers)
+from java_parser.classifiers_factory import (
+    make_class, make_interface, make_classifiers)
 from java_parser.errors import ClassRedeclaration, InterfaceRedeclaration
+
 
 class MakeClass(TestCase):
     def test_make_should_succeed(self):
@@ -15,11 +16,13 @@ class MakeClass(TestCase):
         class_ = make_class(declaration)
         assert_that(class_, equal_to(Class('Class')))
 
+
 class MakeInterface(TestCase):
     def test_make_should_succeed(self):
         declaration = InterfaceDeclaration(name='Interface', body=None)
         interface = make_interface(declaration)
         assert_that(interface, equal_to(Interface('Interface')))
+
 
 class TestCaseWithParser(TestCase):
     def setUp(self):
@@ -27,6 +30,7 @@ class TestCaseWithParser(TestCase):
 
     def parse(self, text):
         return self.parser.parse_string(text)
+
 
 class MakeClassifiers(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):

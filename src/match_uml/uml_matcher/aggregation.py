@@ -1,6 +1,7 @@
-#coding: utf-8
+# coding: utf-8
 
 from enum import Enum
+
 
 class Aggregation(Enum):
     none = 1

@@ -1,11 +1,13 @@
-#coding: utf-8
+# coding: utf-8
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher.graph import Graph
 
+
 def replace_node_by_obj(nodes):
     return set(n.obj for n in nodes)
+
 
 class MakeGraph(TestCase):
     def test_make_empty_should_succeed(self):

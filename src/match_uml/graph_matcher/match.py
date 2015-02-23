@@ -1,8 +1,9 @@
-#coding: utf-8
+# coding: utf-8
 
 from collections import defaultdict, deque, Counter
 from itertools import tee
 from graph_matcher.configuration import Configuration
+
 
 def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
     for target_node in target_nodes:
@@ -10,11 +11,12 @@ def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
             if equivalent(target_node, pattern_node):
                 yield target_node, pattern_node
 
+
 def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
-        equivalent):
+                                         equivalent):
     def generate_pairs():
         return generate_equivalent_node_pair(target_nodes, pattern_nodes,
-            equivalent)
+                                             equivalent)
 
     def generate():
         pattern_dict = defaultdict(set)
@@ -24,8 +26,8 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
         def gen_recursive(pattern_iter, chain=tuple()):
             try:
                 pattern = next(pattern_iter)
-                not_used_targets = list(pattern_dict[pattern]
-                    .difference(set((target for target, _ in chain))))
+                not_used_targets = list(pattern_dict[pattern].difference(
+                    set((target for target, _ in chain))))
                 pattern_iters = tee(pattern_iter, len(not_used_targets))
                 for index, target in enumerate(not_used_targets):
                     new_chain = list(chain) + [(target, pattern)]
@@ -39,8 +41,10 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
 
     return generate
 
+
 def init_equivalent(target, pattern):
     return target.equivalent_pattern(pattern)
+
 
 def remove_duplicates(values):
     result = []
@@ -49,11 +53,13 @@ def remove_duplicates(values):
             result.append(value)
     return result
 
+
 def match(target_graph, pattern_graph, limit=None):
     variants = deque()
+
     def init_generator():
-        return generate_equivalent_node_pair(target_graph.nodes,
-            pattern_graph.nodes, init_equivalent)
+        return generate_equivalent_node_pair(
+            target_graph.nodes, pattern_graph.nodes, init_equivalent)
 
     for target_node, pattern_node in init_generator():
         conf = Configuration(target_node, pattern_node)
@@ -72,7 +78,7 @@ def match(target_graph, pattern_graph, limit=None):
 
         def neighbor_equivalent(target_node, pattern_node):
             return ((target_node, pattern_node) in conf.visited
-                or init_equivalent(target_node, pattern_node))
+                    or init_equivalent(target_node, pattern_node))
 
         def current_equivalent(target_node, pattern_node):
             if not init_equivalent(target_node, pattern_node):

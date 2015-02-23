@@ -1,7 +1,8 @@
-#coding: utf-8
+# coding: utf-8
 
 from plyj.model import Visitor
 from uml_matcher import Generalization
+
 
 class GeneralizationsFactory(Visitor):
     def __init__(self, classifiers):
@@ -19,14 +20,17 @@ class GeneralizationsFactory(Visitor):
     def visit_extended(self, declaration):
         derived = self.classifiers[declaration.name]
         if declaration.extends:
-            self.generalizations.append(Generalization(derived=derived,
+            self.generalizations.append(Generalization(
+                derived=derived,
                 base=self.classifiers[declaration.extends.name.value]))
 
     def visit_implementation(self, declaration):
         derived = self.classifiers[declaration.name]
         for base_declaration in declaration.implements:
-            self.generalizations.append(Generalization(derived=derived,
+            self.generalizations.append(Generalization(
+                derived=derived,
                 base=self.classifiers[base_declaration.name.value]))
+
 
 def make_generalizations(tree, classifiers):
     factory = GeneralizationsFactory(classifiers)

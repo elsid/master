@@ -1,7 +1,9 @@
-#coding: utf-8
+# coding: utf-8
 
-from uml_matcher.errors import (MultLowerTypeError, MultUpperTypeError,
-    NegativeMultLower, NegativeMultUpper, MultRangeError)
+from uml_matcher.errors import (
+    MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
+    NegativeMultUpper, MultRangeError)
+
 
 def repr_multiplicity(lower, upper):
     if lower:
@@ -15,20 +17,23 @@ def repr_multiplicity(lower, upper):
         else:
             return ''
 
+
 def assert_mult_type(value, Error):
     if value is not None and not isinstance(value, int):
         raise Error(value)
+
 
 def assert_mult_value(value, Error):
     if value is not None and value < 0:
         raise Error(value)
 
+
 class Type(object):
     def __init__(self, classifier,
-            mult_lower=1,
-            mult_upper=1,
-            is_ordered=False,
-            is_unique=True):
+                 mult_lower=1,
+                 mult_upper=1,
+                 is_ordered=False,
+                 is_unique=True):
         assert_mult_type(mult_lower, MultLowerTypeError)
         assert_mult_value(mult_lower, NegativeMultLower)
         assert_mult_type(mult_upper, MultUpperTypeError)
@@ -46,26 +51,26 @@ class Type(object):
         if pattern is None:
             return True
         return (self.classifier.equivalent_pattern(pattern.classifier)
-            and self.equivalent_pattern_mult_range(pattern)
-            and self.is_ordered == pattern.is_ordered
-            and self.is_unique == pattern.is_unique)
+                and self.equivalent_pattern_mult_range(pattern)
+                and self.is_ordered == pattern.is_ordered
+                and self.is_unique == pattern.is_unique)
 
     def equivalent_pattern_mult_range(self, pattern):
         return ((pattern.mult_lower is None
-                or (self.mult_lower is not None
-                    and self.mult_lower >= pattern.mult_lower))
-            and (pattern.mult_upper is None
-                or (self.mult_upper is not None
-                    and self.mult_upper <= pattern.mult_upper)))
+                 or (self.mult_lower is not None
+                     and self.mult_lower >= pattern.mult_lower))
+                and (pattern.mult_upper is None
+                     or (self.mult_upper is not None
+                         and self.mult_upper <= pattern.mult_upper)))
 
     def __eq__(self, other):
         if other is None or not isinstance(other, type(self)):
             return False
         return (self.classifier == other.classifier
-            and self.mult_lower == other.mult_lower
-            and self.mult_upper == other.mult_upper
-            and self.is_ordered == other.is_ordered
-            and self.is_unique == other.is_unique)
+                and self.mult_lower == other.mult_lower
+                and self.mult_upper == other.mult_upper
+                and self.is_ordered == other.is_ordered
+                and self.is_unique == other.is_unique)
 
     def __repr__(self):
         return '{classifier}{multiplicity}'.format(

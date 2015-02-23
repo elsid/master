@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 
 class Node(object):
     obj_equivalent_pattern = None
@@ -22,10 +23,10 @@ class Node(object):
 
     def equivalent_pattern(self, pattern):
         return (self.count_connected_from() >= pattern.count_connected_from()
-            and self.count_connected_to() >= pattern.count_connected_to()
-            and type(self) == type(pattern)
-            and (self.obj_equivalent_pattern is None
-                or self.obj_equivalent_pattern(pattern.obj)))
+                and self.count_connected_to() >= pattern.count_connected_to()
+                and type(self) == type(pattern)
+                and (self.obj_equivalent_pattern is None
+                     or self.obj_equivalent_pattern(pattern.obj)))
 
     def __repr__(self):
         left = ', '.join((str(n.obj) for n in self.connected_from))

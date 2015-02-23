@@ -1,4 +1,5 @@
-#coding: utf-8
+# coding: utf-8
+
 
 def has_equivalents(target_values, pattern_values):
     used = set()
