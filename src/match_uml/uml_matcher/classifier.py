@@ -12,6 +12,12 @@ class Classifier(NamedElement):
         for property_ in self.properties:
             property_.owner = self
 
+    def has_property(self, name):
+        return name in set(property_.name for property_ in self.properties)
+
+    def has_operation(self, name):
+        return name in set(operation.name for operation in self.operations)
+
     def equivalent_pattern(self, pattern):
         return (has_equivalents(self.properties, pattern.properties)
                 and has_equivalents(self.operations, pattern.operations))
