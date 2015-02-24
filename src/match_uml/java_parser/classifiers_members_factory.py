@@ -74,7 +74,7 @@ class VariableType(object):
         return get_type_name(self.field.type, self.variable.dimensions)
 
     def classifier_name(self):
-        return get_type_name(self.field.type)
+        return get_classifier_name(self.field.type)
 
 
 class MethodReturnType(object):
