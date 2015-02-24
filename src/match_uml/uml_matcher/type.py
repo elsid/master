@@ -8,7 +8,8 @@ from uml_matcher.errors import (
 def repr_multiplicity(lower, upper):
     if lower:
         if upper:
-            return '[%d..%d]' % (lower, upper)
+            return ('' if lower == 1 and upper == 1
+                    else '[%d..%d]' % (lower, upper))
         else:
             return '[%d..*]' % lower
     else:

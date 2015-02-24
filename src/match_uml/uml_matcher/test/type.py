@@ -15,6 +15,7 @@ class ReprMultiplicity(TestCase):
         assert_that(repr_multiplicity(42, None), equal_to('[42..*]'))
         assert_that(repr_multiplicity(None, 42), equal_to('[42]'))
         assert_that(repr_multiplicity(13, 42), equal_to('[13..42]'))
+        assert_that(repr_multiplicity(1, 1), equal_to(''))
 
 
 class MakeType(TestCase):
@@ -30,7 +31,7 @@ class MakeType(TestCase):
         assert_that(Type(Class()), equal_to(Type(Class())))
 
     def test_repr_should_succeed(self):
-        assert_that(repr(Type(Class())), equal_to('anonymous[1..1]'))
+        assert_that(repr(Type(Class())), equal_to('anonymous'))
 
     def test_make_with_wrong_lower_should_throw_exception(self):
         assert_that(calling(lambda: Type(None, mult_lower='')),
