@@ -33,9 +33,9 @@ class Operation(NamedElement):
                 and self.is_static == pattern.is_static)
 
     def __eq__(self, other):
-        if other is None or not isinstance(other, type(self)):
-            return False
-        return (self.visibility == other.visibility
+        return (isinstance(other, type(self))
+                and self.name == self.name
+                and self.visibility == other.visibility
                 and self.result == other.result
                 and self.parameters == other.parameters
                 and self.is_leaf == other.is_leaf

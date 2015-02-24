@@ -28,7 +28,8 @@ class Classifier(NamedElement):
     def __eq__(self, other):
         if other is None or not isinstance(other, type(self)):
             return False
-        return (self.properties == other.properties
+        return (self.name == self.name
+                and self.properties == other.properties
                 and self.operations == other.operations)
 
     def __hash__(self):
