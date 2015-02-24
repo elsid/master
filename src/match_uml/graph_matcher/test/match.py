@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from itertools import permutations
 from hamcrest import assert_that, equal_to, contains_inanyorder
 from graph_matcher.match import match
@@ -76,6 +76,3 @@ class Match(TestCase):
         second = Graph({('a', 'b'), ('b', 'c'), ('c', 'a')})
         variants = replace_node_by_obj(match(first, second))
         assert_that(variants, equal_to([]))
-
-if __name__ == '__main__':
-    main()

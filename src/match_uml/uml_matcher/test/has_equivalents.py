@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from uml_matcher.has_equivalents import has_equivalents
 from uml_matcher.operation import Operation
@@ -33,5 +33,3 @@ class HasEquivalents(TestCase):
         assert_that(has_equivalents([Operation()],
                     [Operation(), Operation()]), equal_to(False))
 
-if __name__ == '__main__':
-    main()

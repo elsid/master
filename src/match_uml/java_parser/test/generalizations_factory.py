@@ -1,6 +1,5 @@
 # coding: utf-8
 
-from unittest import main
 from hamcrest import assert_that, equal_to
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
@@ -42,6 +41,3 @@ class MakeGeneralizations(TestCaseWithParser):
             G(derived=Class('Realization'), base=Interface('InterfaceA')),
             G(derived=Class('Realization'), base=Interface('InterfaceB')),
         ]))
-
-if __name__ == '__main__':
-    main()

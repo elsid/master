@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from graph_matcher.graph import Graph
 
@@ -38,6 +38,3 @@ class MakeGraph(TestCase):
                                           '1, 3 -> [2] -> 4' '\n'
                                              '4 -> [3] -> 2' '\n'
                                              '2 -> [4] -> 3'))
-
-if __name__ == '__main__':
-    main()

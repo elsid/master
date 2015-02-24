@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from uml_matcher.direction import Direction
 
@@ -11,5 +11,3 @@ class MakeDirection(TestCase):
         assert_that(str(Direction.out), equal_to('out'))
         assert_that(str(Direction.inout), equal_to('inout'))
 
-if __name__ == '__main__':
-    main()

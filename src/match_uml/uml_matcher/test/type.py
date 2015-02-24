@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, calling, raises, equal_to
 from uml_matcher.type import Type, repr_multiplicity
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
@@ -48,5 +48,3 @@ class MakeType(TestCase):
         assert_that(calling(lambda: Type(None, mult_lower=1, mult_upper=0)),
                     raises(MultRangeError))
 
-if __name__ == '__main__':
-    main()

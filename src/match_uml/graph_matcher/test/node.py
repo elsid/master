@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from graph_matcher.node import Node
 
@@ -65,6 +65,3 @@ class MakeNode(TestCase):
         assert_that(node.equivalent_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('node_0, node_1, node_2 -> [node]'
                                          ' -> node_0, node_1, node_2'))
-
-if __name__ == '__main__':
-    main()

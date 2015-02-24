@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from types import MethodType
 from itertools import permutations
@@ -289,5 +289,3 @@ class MatchDiagram(TestCase):
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))
 
-if __name__ == '__main__':
-    main()
