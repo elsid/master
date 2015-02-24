@@ -26,9 +26,9 @@ class Classifier(NamedElement):
         return self.name
 
     def __eq__(self, other):
-        if other is None or not isinstance(other, type(self)):
-            return False
-        return (self.name == self.name
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and self.name == self.name
                 and self.properties == other.properties
                 and self.operations == other.operations)
 

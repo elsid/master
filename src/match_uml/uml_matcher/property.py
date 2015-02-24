@@ -41,7 +41,8 @@ class Property(NamedElement):
                 and self.owner.equivalent_pattern(pattern.owner))
 
     def sub_eq(self, other):
-        return (isinstance(other, type(self))
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
                 and self.visibility == other.visibility
                 and self.aggregation == other.aggregation
                 and self.is_derived == other.is_derived

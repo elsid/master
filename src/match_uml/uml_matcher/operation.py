@@ -33,7 +33,8 @@ class Operation(NamedElement):
                 and self.is_static == pattern.is_static)
 
     def __eq__(self, other):
-        return (isinstance(other, type(self))
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
                 and self.name == self.name
                 and self.visibility == other.visibility
                 and self.result == other.result

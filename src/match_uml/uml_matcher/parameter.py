@@ -16,7 +16,8 @@ class Parameter(NamedElement):
                 and self.direction == pattern.direction)
 
     def __eq__(self, other):
-        return (isinstance(other, type(self))
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
                 and self.name == self.name
                 and self.type == other.type
                 and self.direction == other.direction)

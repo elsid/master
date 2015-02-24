@@ -64,9 +64,9 @@ class Type(object):
                          and self.mult_upper <= pattern.mult_upper)))
 
     def __eq__(self, other):
-        if other is None or not isinstance(other, type(self)):
-            return False
-        return (self.classifier == other.classifier
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and self.classifier == other.classifier
                 and self.mult_lower == other.mult_lower
                 and self.mult_upper == other.mult_upper
                 and self.is_ordered == other.is_ordered
