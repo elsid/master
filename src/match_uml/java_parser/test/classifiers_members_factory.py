@@ -196,3 +196,18 @@ class FillClassifiers(TestCaseWithParser):
             'void': void_type.classifier,
             'int': int_type.classifier,
         }))
+
+    def test_fill_recursive_class_should_succeed(self):
+        tree = self.parse('''
+            class A {
+                public A a;
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, equal_to([]))
+        assert_that(fill_classifiers(tree, classifiers), equal_to([]))
+        a_type = Type(Class('A'))
+        a_type.classifier.properties = [Property(a_type, 'a')]
+        assert_that(calling(lambda: classifiers == {'A': a_type.classifier}),
+                    raises(RuntimeError))  # FIXME
+        # assert_that(classifiers, equal_to({'A': a_type.classifier}))
