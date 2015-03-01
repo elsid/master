@@ -16,7 +16,7 @@ class MakeGeneralizations(TestCaseWithParser):
         generalizations = make_generalizations(tree, classifiers)
         assert_that(generalizations, empty())
 
-    def test_make_class_extends_by_class_should_succeed(self):
+    def test_make_class_extends_class_should_succeed(self):
         tree = self.parse('''
             class Base {}
             class Derived extends Base {}
