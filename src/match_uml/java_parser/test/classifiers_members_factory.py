@@ -161,7 +161,7 @@ class MakeVariableType(TestCase):
 
 class FillClassifiers(TestCaseWithParser):
     def test_fill_empty_should_succeed(self):
-        assert_that(fill_classifiers(self.parse(''), []), equal_to([]))
+        assert_that(fill_classifiers(self.parse(''), []), equal_to(({}, [])))
 
     def test_fill_one_class_with_one_property_should_succeed(self):
         tree = self.parse('''
@@ -171,7 +171,8 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, equal_to([]))
-        assert_that(fill_classifiers(tree, classifiers), equal_to([]))
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, equal_to([]))
         int_type = Type(DataType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [Property(int_type, 'a')]),
@@ -186,7 +187,8 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, equal_to([]))
-        assert_that(fill_classifiers(tree, classifiers), equal_to([]))
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, equal_to([]))
         void_type = Type(DataType('void'))
         int_type = Type(DataType('int'))
         assert_that(classifiers, equal_to({
@@ -205,7 +207,8 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, equal_to([]))
-        assert_that(fill_classifiers(tree, classifiers), equal_to([]))
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, equal_to([]))
         a_type = Type(Class('A'))
         a_type.classifier.properties = [Property(a_type, 'a')]
         assert_that(calling(lambda: classifiers == {'A': a_type.classifier}),

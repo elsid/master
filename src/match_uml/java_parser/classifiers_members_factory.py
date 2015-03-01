@@ -122,7 +122,7 @@ class ClassifiersMembersFactory(Visitor):
         self.errors = []
         self.classifiers = classifiers
         self.__visited_classifiers = set()
-        self.__types = {}
+        self.types = {}
 
     def visit_ClassDeclaration(self, declaration):
         if declaration.name in self.__visited_classifiers:
@@ -196,13 +196,13 @@ class ClassifiersMembersFactory(Visitor):
         if classifier_name not in self.classifiers:
             self.classifiers[classifier_name] = DataType(classifier_name)
         type_name = declaration_type.type_name()
-        if type_name not in self.__types:
+        if type_name not in self.types:
             classifier = self.classifiers[classifier_name]
-            self.__types[type_name] = declaration_type.type(classifier)
-        return self.__types[type_name]
+            self.types[type_name] = declaration_type.type(classifier)
+        return self.types[type_name]
 
 
 def fill_classifiers(tree, classifiers):
     factory = ClassifiersMembersFactory(classifiers)
     tree.accept(factory)
-    return factory.errors
+    return factory.types, factory.errors
