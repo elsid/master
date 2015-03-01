@@ -172,20 +172,16 @@ class TargetDiagramFactory(Factory):
             return Class('BurgerWith', [this.burger_with_burger()],
                          [Operation(Type(IntType), 'price')])
 
-        def make_burger_with_end_1(this):
+        def make_burger_with_end(this):
             return Property(Type(this.burger_with()), 'BurgerWith_end',
                             aggregation=Aggregation.shared)
 
-        def make_hamburger_end_1(this):
+        def make_hamburger_end(this):
             return Property(Type(this.hamburger()), 'Hamburger_end',
                             aggregation=Aggregation.shared)
 
-        def make_cheeseburger_end_1(this):
-            return Property(Type(this.cheeseburger()), 'Cheeseburger_end_1',
-                            aggregation=Aggregation.shared)
-
-        def make_cheeseburger_end_2(this):
-            return Property(Type(this.cheeseburger()), 'Cheeseburger_end_2',
+        def make_cheeseburger_end(this):
+            return Property(Type(this.cheeseburger()), 'Cheeseburger_end',
                             aggregation=Aggregation.shared)
 
         def make_diagram(this):
@@ -200,10 +196,10 @@ class TargetDiagramFactory(Factory):
                     G(derived=this.cheeseburger(), base=this.burger()),
                 ],
                 associations=[
-                    A({this.burger_with_burger(), this.burger_with_end_1()}),
-                    A({this.hamburger_cutlet(), this.hamburger_end_1()}),
-                    A({this.cheeseburger_cutlet(), this.cheeseburger_end_1()}),
-                    A({this.cheeseburger_cheese(), this.cheeseburger_end_2()}),
+                    A({this.burger_with_burger(), this.burger_with_end()}),
+                    A({this.hamburger_cutlet(), this.hamburger_end()}),
+                    A({this.cheeseburger_cutlet(), this.cheeseburger_end()}),
+                    A({this.cheeseburger_cheese(), this.cheeseburger_end()}),
                 ],
             )
 
@@ -218,10 +214,9 @@ class TargetDiagramFactory(Factory):
             make_cheeseburger,
             make_burger_with_burger,
             make_burger_with,
-            make_burger_with_end_1,
-            make_hamburger_end_1,
-            make_cheeseburger_end_1,
-            make_cheeseburger_end_2,
+            make_burger_with_end,
+            make_hamburger_end,
+            make_cheeseburger_end,
             make_diagram,
         ])
 
@@ -267,19 +262,19 @@ class MatchDiagram(TestCase):
             ],
             associations=[
                 [
-                    (t.hamburger_end_1(), p.decorator_end()),
+                    (t.hamburger_end(), p.decorator_end()),
                     (t.hamburger_cutlet(), p.decorator_component()),
                 ],
                 [
-                    (t.cheeseburger_end_1(), p.decorator_end()),
+                    (t.cheeseburger_end(), p.decorator_end()),
                     (t.cheeseburger_cutlet(), p.decorator_component()),
                 ],
                 [
-                    (t.cheeseburger_end_2(), p.decorator_end()),
+                    (t.cheeseburger_end(), p.decorator_end()),
                     (t.cheeseburger_cheese(), p.decorator_component()),
                 ],
                 [
-                    (t.burger_with_end_1(), p.decorator_end()),
+                    (t.burger_with_end(), p.decorator_end()),
                     (t.burger_with_burger(), p.decorator_component()),
                 ],
             ],
