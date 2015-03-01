@@ -193,7 +193,7 @@ class FillClassifiers(TestCaseWithParser):
         int_type = Type(DataType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation('f', Visibility.private, void_type,
+                Operation(void_type, 'f', Visibility.private,
                           [Parameter(int_type, 'x')])]),
             'void': void_type.classifier,
             'int': int_type.classifier,

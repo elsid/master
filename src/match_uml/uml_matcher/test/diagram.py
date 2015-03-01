@@ -68,21 +68,22 @@ class Factory(object):
 class DecoratorPatternDiagramFactory(Factory):
     def __init__(self):
         def make_component(_):
-            return Interface('Component', [], [Operation('operation')])
+            return Interface('Component', [], [Operation(None, 'operation')])
 
         def make_concrete_component(_):
-            return Class('concrete_component()', [], [Operation('operation')])
+            return Class('concrete_component()', [],
+                         [Operation(None, 'operation')])
 
         def make_decorator_component(this):
             return Property(Type(this.component()), 'component')
 
         def make_decorator(this):
-            return Interface('Decorator',
-                             [this.decorator_component()],
-                             [Operation('operation')])
+            return Interface('Decorator', [this.decorator_component()],
+                             [Operation(None, 'operation')])
 
         def make_concrete_decorator(_):
-            return Class('ConcreteDecorator', [], [Operation('operation')])
+            return Class('ConcreteDecorator', [],
+                         [Operation(None, 'operation')])
 
         def make_decorator_end(this):
             return Property(Type(this.decorator()), 'decorator end',
@@ -137,24 +138,20 @@ class TargetDiagramFactory(Factory):
         IntType = PrimitiveType()
 
         def make_cutlet(_):
-            return Class('Cutlet', [],
-                         [Operation('price', result=Type(IntType))])
+            return Class('Cutlet', [], [Operation(Type(IntType), 'price')])
 
         def make_cheese(_):
-            return Class('Cheese', [],
-                         [Operation('price', result=Type(IntType))])
+            return Class('Cheese', [], [Operation(Type(IntType), 'price')])
 
         def make_burger(_):
-            return Class('Burger', [],
-                         [Operation('price', result=Type(IntType))])
+            return Class('Burger', [], [Operation(Type(IntType), 'price')])
 
         def make_hamburger_cutlet(this):
             return Property(Type(this.cutlet()), 'cutlet')
 
         def make_hamburger(this):
-            return Class('Hamburger',
-                         [this.hamburger_cutlet()],
-                         [Operation('price', result=Type(IntType))])
+            return Class('Hamburger', [this.hamburger_cutlet()],
+                         [Operation(Type(IntType), 'price')])
 
         def make_cheeseburger_cutlet(this):
             return Property(Type(this.cutlet()), 'cutlet')
@@ -166,15 +163,14 @@ class TargetDiagramFactory(Factory):
             return Class(
                 'Cheeseburger',
                 [this.cheeseburger_cutlet(), this.cheeseburger_cheese()],
-                [Operation('price', result=Type(IntType))])
+                [Operation(Type(IntType), 'price')])
 
         def make_burger_with_burger(this):
             return Property(Type(this.burger()), 'burger')
 
         def make_burger_with(this):
-            return Class('Burger with',
-                         [this.burger_with_burger()],
-                         [Operation('price', result=Type(IntType))])
+            return Class('Burger with', [this.burger_with_burger()],
+                         [Operation(Type(IntType), 'price')])
 
         def make_burger_with_end_1(this):
             return Property(Type(this.burger_with()), 'burger_with end 1',

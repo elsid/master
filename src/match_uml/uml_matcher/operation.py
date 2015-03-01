@@ -7,10 +7,9 @@ from uml_matcher.has_equivalents import has_equivalents
 
 
 class Operation(NamedElement):
-    def __init__(self,
+    def __init__(self, result,
                  name='anonymous',
                  visibility=Visibility.public,
-                 result=None,
                  parameters=tuple(),
                  is_leaf=False,
                  is_query=False,

@@ -18,18 +18,18 @@ class HasEquivalents(TestCase):
         assert_that(has_equivalents([1], []), equal_to(True))
 
     def test_one_same_should_should_found(self):
-        assert_that(has_equivalents([Operation()], [Operation()]),
+        assert_that(has_equivalents([Operation(None)], [Operation(None)]),
                     equal_to(True))
 
     def test_one_different_should_not_found(self):
-        assert_that(has_equivalents([Property(None)], [Operation()]),
+        assert_that(has_equivalents([Property(None)], [Operation(None)]),
                     equal_to(False))
 
     def test_two_in_two_with_same_should_found(self):
-        assert_that(has_equivalents([Property(None), Operation()],
-                    [Property(None), Operation()]), equal_to(True))
+        assert_that(has_equivalents([Property(None), Operation(None)],
+                    [Property(None), Operation(None)]), equal_to(True))
 
     def test_one_in_two_same_should_not_found(self):
-        assert_that(has_equivalents([Operation()],
-                    [Operation(), Operation()]), equal_to(False))
+        assert_that(has_equivalents([Operation(None)],
+                    [Operation(None), Operation(None)]), equal_to(False))
 
