@@ -5,7 +5,7 @@ from hamcrest import assert_that, equal_to, empty
 from plyj.parser import Parser
 from plyj.model import ClassDeclaration, InterfaceDeclaration
 from uml_matcher import Class, Interface
-from java_parser.classifiers_factory import (
+from java_parser.classifiers import (
     make_class, make_interface, make_classifiers)
 from java_parser.errors import ClassRedeclaration, InterfaceRedeclaration
 

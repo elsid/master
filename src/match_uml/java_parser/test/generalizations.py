@@ -3,9 +3,9 @@
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
-from java_parser.classifiers_factory import make_classifiers
-from java_parser.generalizations_factory import make_generalizations
-from java_parser.test.classifiers_factory import TestCaseWithParser
+from java_parser.classifiers import make_classifiers
+from java_parser.generalizations import make_generalizations
+from java_parser.test.classifiers import TestCaseWithParser
 
 
 class MakeGeneralizations(TestCaseWithParser):

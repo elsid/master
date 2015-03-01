@@ -7,11 +7,11 @@ from plyj.model import (
     VariableDeclarator, Variable)
 from uml_matcher import (
     Visibility, Type, Class, Property, DataType, Operation, Parameter)
-from java_parser.classifiers_factory import make_classifiers
-from java_parser.classifiers_members_factory import (
+from java_parser.classifiers import make_classifiers
+from java_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
     get_type_name, get_classifier_name, VariableType, fill_classifiers,)
-from java_parser.test.classifiers_factory import TestCaseWithParser
+from java_parser.test.classifiers import TestCaseWithParser
 from java_parser.errors import PlyjNameTypeError
 
 
