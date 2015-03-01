@@ -2,6 +2,7 @@
 
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
+from uml_matcher.diagram import eq_ignore_order
 
 
 class Classifier(NamedElement):
@@ -29,8 +30,8 @@ class Classifier(NamedElement):
         return (id(self) == id(other)
                 or isinstance(other, type(self))
                 and self.name == self.name
-                and self.properties == other.properties
-                and self.operations == other.operations)
+                and eq_ignore_order(self.properties, other.properties)
+                and eq_ignore_order(self.operations, other.operations))
 
     def __hash__(self):
         return id(self)
