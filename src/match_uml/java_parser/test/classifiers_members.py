@@ -161,7 +161,7 @@ class MakeVariableType(TestCase):
 
 class FillClassifiers(TestCaseWithParser):
     def test_fill_empty_should_succeed(self):
-        assert_that(fill_classifiers(self.parse(''), []), equal_to(({}, [])))
+        assert_that(fill_classifiers(self.parse(''), {}), equal_to(({}, [])))
 
     def test_fill_one_class_with_one_property_should_succeed(self):
         tree = self.parse('''

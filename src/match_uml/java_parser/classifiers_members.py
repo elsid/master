@@ -122,7 +122,7 @@ class ClassifiersMembersFactory(Visitor):
         self.errors = []
         self.classifiers = classifiers
         self.__visited_classifiers = set()
-        self.types = {}
+        self.types = dict((c.name, Type(c)) for c in classifiers.values())
 
     def visit_ClassDeclaration(self, declaration):
         if declaration.name in self.__visited_classifiers:
