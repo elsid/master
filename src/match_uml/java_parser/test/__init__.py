@@ -7,3 +7,4 @@ from java_parser.test.classifiers_members import (
     GetTypeName, GetClassifierName, MakeVariableType, FillClassifiers)
 from java_parser.test.generalizations import MakeGeneralizations
 from java_parser.test.associations import MakeAssociation, MakeAssociations
+from java_parser.test.diagram import MakeDiagram
