@@ -86,7 +86,7 @@ class DecoratorPatternDiagramFactory(Factory):
                          [Operation(None, 'operation')])
 
         def make_decorator_end(this):
-            return Property(Type(this.decorator()), 'decorator end',
+            return Property(Type(this.decorator()), 'Decorator_end',
                             aggregation=Aggregation.shared)
 
         def make_diagram(_):
@@ -169,23 +169,23 @@ class TargetDiagramFactory(Factory):
             return Property(Type(this.burger()), 'burger')
 
         def make_burger_with(this):
-            return Class('Burger with', [this.burger_with_burger()],
+            return Class('BurgerWith', [this.burger_with_burger()],
                          [Operation(Type(IntType), 'price')])
 
         def make_burger_with_end_1(this):
-            return Property(Type(this.burger_with()), 'burger_with end 1',
+            return Property(Type(this.burger_with()), 'BurgerWith_end',
                             aggregation=Aggregation.shared)
 
         def make_hamburger_end_1(this):
-            return Property(Type(this.hamburger()), 'hamburger end 1',
+            return Property(Type(this.hamburger()), 'Hamburger_end',
                             aggregation=Aggregation.shared)
 
         def make_cheeseburger_end_1(this):
-            return Property(Type(this.cheeseburger()), 'cheeseburger end 1',
+            return Property(Type(this.cheeseburger()), 'Cheeseburger_end_1',
                             aggregation=Aggregation.shared)
 
         def make_cheeseburger_end_2(this):
-            return Property(Type(this.cheeseburger()), 'cheeseburger end 2',
+            return Property(Type(this.cheeseburger()), 'Cheeseburger_end_2',
                             aggregation=Aggregation.shared)
 
         def make_diagram(this):
