@@ -3,3 +3,4 @@
 from java_parser.classifiers_factory import make_classifiers
 from java_parser.classifiers_members_factory import fill_classifiers
 from java_parser.generalizations_factory import make_generalizations
+from java_parser.associations import make_associations
