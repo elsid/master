@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase
-from hamcrest import assert_that, equal_to, calling, raises
+from hamcrest import assert_that, equal_to, calling, raises, empty
 from plyj.model import (
     FieldDeclaration, MethodDeclaration, Name as PlyjName, Type as PlyjType,
     VariableDeclarator, Variable)
@@ -170,9 +170,9 @@ class FillClassifiers(TestCaseWithParser):
             }
         ''')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         int_type = Type(DataType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [Property(int_type, 'a')]),
@@ -186,9 +186,9 @@ class FillClassifiers(TestCaseWithParser):
             }
         ''')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         void_type = Type(DataType('void'))
         int_type = Type(DataType('int'))
         assert_that(classifiers, equal_to({
@@ -206,9 +206,9 @@ class FillClassifiers(TestCaseWithParser):
             }
         ''')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         a_type = Type(Class('A'))
         a_type.classifier.properties = [Property(a_type, 'a')]
         assert_that(calling(lambda: classifiers == {'A': a_type.classifier}),

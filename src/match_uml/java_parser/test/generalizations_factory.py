@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, empty
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
 from java_parser.classifiers_factory import make_classifiers
@@ -12,9 +12,9 @@ class MakeGeneralizations(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):
         tree = self.parse('')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         generalizations = make_generalizations(tree, classifiers)
-        assert_that(generalizations, equal_to([]))
+        assert_that(generalizations, empty())
 
     def test_make_class_extends_by_class_should_succeed(self):
         tree = self.parse('''
@@ -22,7 +22,7 @@ class MakeGeneralizations(TestCaseWithParser):
             class Derived extends Base {}
         ''')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         generalizations = make_generalizations(tree, classifiers)
         assert_that(generalizations, equal_to(
             [(Class('Derived'), Class('Base'))]))
@@ -34,7 +34,7 @@ class MakeGeneralizations(TestCaseWithParser):
             class Realization implements InterfaceA, InterfaceB {}
         ''')
         classifiers, errors = make_classifiers(tree)
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
         generalizations = make_generalizations(tree, classifiers)
         G = Generalization
         assert_that(generalizations, equal_to([

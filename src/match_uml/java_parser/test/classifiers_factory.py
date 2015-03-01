@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, empty
 from plyj.parser import Parser
 from plyj.model import ClassDeclaration, InterfaceDeclaration
 from uml_matcher import Class, Interface
@@ -37,19 +37,19 @@ class MakeClassifiers(TestCaseWithParser):
         tree = self.parse('')
         classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({}))
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
 
     def test_make_one_class_should_succeed(self):
         tree = self.parse('class C {}')
         classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({'C': Class('C')}))
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
 
     def test_make_one_interface_should_succeed(self):
         tree = self.parse('interface I {}')
         classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({'I': Interface('I')}))
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
 
     def test_make_several_class_should_succeed(self):
         tree = self.parse('''
@@ -65,7 +65,7 @@ class MakeClassifiers(TestCaseWithParser):
             'I1': Interface('I1'),
             'I2': Interface('I2'),
         }))
-        assert_that(errors, equal_to([]))
+        assert_that(errors, empty())
 
     def test_declaration_of_two_same_classes_should_return_error(self):
         tree = self.parse('''

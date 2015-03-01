@@ -3,7 +3,7 @@
 
 from unittest import TestCase
 from itertools import permutations
-from hamcrest import assert_that, equal_to, contains_inanyorder
+from hamcrest import assert_that, equal_to, contains_inanyorder, empty
 from graph_matcher.match import match
 from graph_matcher.graph import Graph
 
@@ -14,7 +14,7 @@ def replace_node_by_obj(variants):
 
 class Match(TestCase):
     def test_match_empty_should_succeed(self):
-        assert_that(list(match(Graph(), Graph())), equal_to([]))
+        assert_that(list(match(Graph(), Graph())), empty())
 
     def test_match_with_one_node_should_succeed(self):
         first = Graph({1})
@@ -75,4 +75,4 @@ class Match(TestCase):
         first = Graph({(1, 2), (2, 3), (3, 4)})
         second = Graph({('a', 'b'), ('b', 'c'), ('c', 'a')})
         variants = replace_node_by_obj(match(first, second))
-        assert_that(variants, equal_to([]))
+        assert_that(variants, empty())
