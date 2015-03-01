@@ -135,53 +135,71 @@ class DecoratorPatternDiagramFactory(Factory):
 
 class TargetDiagramFactory(Factory):
     def __init__(self):
-        IntType = PrimitiveType()
+        int_type = Type(PrimitiveType('int'))
 
         def make_cutlet(_):
-            return Class('Cutlet', [], [Operation(Type(IntType), 'price')])
+            return Class('Cutlet', [], [Operation(int_type, 'price')])
+
+        def make_cutlet_type(this):
+            return Type(this.cutlet())
 
         def make_cheese(_):
-            return Class('Cheese', [], [Operation(Type(IntType), 'price')])
+            return Class('Cheese', [], [Operation(int_type, 'price')])
+
+        def make_cheese_type(this):
+            return Type(this.cheese())
 
         def make_burger(_):
-            return Class('Burger', [], [Operation(Type(IntType), 'price')])
+            return Class('Burger', [], [Operation(int_type, 'price')])
+
+        def make_burger_type(this):
+            return Type(this.burger())
 
         def make_hamburger_cutlet(this):
-            return Property(Type(this.cutlet()), 'cutlet')
+            return Property(this.cutlet_type(), 'cutlet')
 
         def make_hamburger(this):
             return Class('Hamburger', [this.hamburger_cutlet()],
-                         [Operation(Type(IntType), 'price')])
+                         [Operation(int_type, 'price')])
+
+        def make_hamburger_type(this):
+            return Type(this.hamburger())
 
         def make_cheeseburger_cutlet(this):
-            return Property(Type(this.cutlet()), 'cutlet')
+            return Property(this.cutlet_type(), 'cutlet')
 
         def make_cheeseburger_cheese(this):
-            return Property(Type(this.cheese()), 'cheese')
+            return Property(this.cheese_type(), 'cheese')
 
         def make_cheeseburger(this):
             return Class(
                 'Cheeseburger',
                 [this.cheeseburger_cutlet(), this.cheeseburger_cheese()],
-                [Operation(Type(IntType), 'price')])
+                [Operation(int_type, 'price')])
+
+        def make_cheeseburger_type(this):
+            return Type(this.cheeseburger())
 
         def make_burger_with_burger(this):
-            return Property(Type(this.burger()), 'burger')
+            return Property(this.burger_type(), 'burger')
 
         def make_burger_with(this):
             return Class('BurgerWith', [this.burger_with_burger()],
-                         [Operation(Type(IntType), 'price')])
+                         [Operation(int_type, 'price')])
+
+        def make_burger_with_type(this):
+            return Type(this.burger_with())
 
         def make_burger_with_end(this):
-            return Property(Type(this.burger_with()), 'BurgerWith_end',
+            return Property(this.burger_with_type(), 'BurgerWith_end',
                             aggregation=Aggregation.shared)
 
         def make_hamburger_end(this):
-            return Property(Type(this.hamburger()), 'Hamburger_end',
+            return Property(this.hamburger_type(), 'Hamburger_end',
                             aggregation=Aggregation.shared)
 
         def make_cheeseburger_end(this):
-            return Property(Type(this.cheeseburger()), 'Cheeseburger_end',
+            return Property(this.cheeseburger_type(), 'Cheeseburger_end',
                             aggregation=Aggregation.shared)
 
         def make_diagram(this):
@@ -205,15 +223,21 @@ class TargetDiagramFactory(Factory):
 
         super().__init__([
             make_cutlet,
+            make_cutlet_type,
             make_cheese,
+            make_cheese_type,
             make_burger,
+            make_burger_type,
             make_hamburger_cutlet,
             make_hamburger,
+            make_hamburger_type,
             make_cheeseburger_cutlet,
             make_cheeseburger_cheese,
             make_cheeseburger,
+            make_cheeseburger_type,
             make_burger_with_burger,
             make_burger_with,
+            make_burger_with_type,
             make_burger_with_end,
             make_hamburger_end,
             make_cheeseburger_end,
