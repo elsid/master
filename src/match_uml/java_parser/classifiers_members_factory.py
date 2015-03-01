@@ -158,6 +158,7 @@ class ClassifiersMembersFactory(Visitor):
             visibility=get_visibility(self.__field),
             is_read_only='final' in self.__field.modifiers,
             is_static='static' in self.__field.modifiers,
+            owner=self.__classifier,
         ))
         return True
 
