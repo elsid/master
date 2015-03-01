@@ -90,5 +90,5 @@ class Diagram(object):
         )])
 
     def __repr__(self):
-        return ('\ngeneralizations\n{g}\nassociations{a}'.format(
+        return ('\ngeneralizations\n{g}\nassociations\n{a}'.format(
             g=Graph(self.generalizations), a=Graph(self.associations)))
