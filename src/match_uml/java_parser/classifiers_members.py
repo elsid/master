@@ -3,7 +3,7 @@
 from plyj.model import Visitor, Type as PlyjType, Name as PlyjName
 
 from uml_matcher import (
-    Property, Operation, DataType, Visibility, Type, Parameter)
+    Property, Operation, DataType, Visibility, Type, Parameter, PrimitiveType)
 from java_parser.errors import (
     MethodRedeclaration, VariableRedeclaration, FieldModifiersDuplication,
     MethodModifiersDuplication, FormalParameterModifiersDuplication,
@@ -117,6 +117,9 @@ class ClassifiersMembersFactory(Visitor):
     __field = None
     __operation = None
 
+    PRIMITIVE_TYPES = frozenset(('void', 'byte', 'short', 'int', 'long',
+                                 'float', 'double', 'boolean', 'char'))
+
     def __init__(self, classifiers):
         super().__init__()
         self.errors = []
@@ -195,7 +198,10 @@ class ClassifiersMembersFactory(Visitor):
     def __get_classifier_type(self, declaration_type):
         classifier_name = declaration_type.classifier_name()
         if classifier_name not in self.classifiers:
-            self.classifiers[classifier_name] = DataType(classifier_name)
+            self.classifiers[classifier_name] = (
+                PrimitiveType(classifier_name)
+                if classifier_name in self.PRIMITIVE_TYPES
+                else DataType(classifier_name))
         type_name = declaration_type.type_name()
         if type_name not in self.types:
             classifier = self.classifiers[classifier_name]

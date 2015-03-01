@@ -6,7 +6,7 @@ from plyj.model import (
     FieldDeclaration, MethodDeclaration, Name as PlyjName, Type as PlyjType,
     VariableDeclarator, Variable)
 from uml_matcher import (
-    Visibility, Type, Class, Property, DataType, Operation, Parameter)
+    Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType)
 from java_parser.classifiers import make_classifiers
 from java_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
@@ -173,7 +173,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        int_type = Type(DataType('int'))
+        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [Property(int_type, 'a')]),
             'int': int_type.classifier,
@@ -189,8 +189,8 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        void_type = Type(DataType('void'))
-        int_type = Type(DataType('int'))
+        void_type = Type(PrimitiveType('void'))
+        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
                 Operation(void_type, 'f', Visibility.private,
