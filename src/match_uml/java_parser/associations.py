@@ -1,11 +1,12 @@
 # coding: utf-8
 
-from uml_matcher import Class, Interface, Property
+from uml_matcher import Class, Interface, Property, BinaryAssociation
 
 
 def make_association(property_, types):
-    return (property_, Property(types[property_.owner.name],
-                                property_.owner.name + '_end'))
+    return BinaryAssociation({
+        property_,
+        Property(types[property_.owner.name], property_.owner.name + '_end')})
 
 
 def make_associations(types):

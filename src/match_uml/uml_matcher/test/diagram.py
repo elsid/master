@@ -12,7 +12,7 @@ from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import (
-    eq_ignore_order, Diagram, MatchResult, Generalization)
+    eq_ignore_order, Diagram, MatchResult, Generalization, BinaryAssociation)
 
 
 class EqIgnoreOrder(TestCase):
@@ -90,6 +90,7 @@ class DecoratorPatternDiagramFactory(Factory):
 
         def make_diagram(_):
             G = Generalization
+            A = BinaryAssociation
             return Diagram(
                 generalizations=[
                     G(derived=self.concrete_component(), base=self.component()),
@@ -97,7 +98,7 @@ class DecoratorPatternDiagramFactory(Factory):
                     G(derived=self.concrete_decorator(), base=self.decorator()),
                 ],
                 associations=[
-                    {self.decorator_component(), self.decorator_end()},
+                    A({self.decorator_component(), self.decorator_end()}),
                 ],
             )
 
@@ -193,6 +194,7 @@ class TargetDiagramFactory(Factory):
 
         def make_diagram(this):
             G = Generalization
+            A = BinaryAssociation
             return Diagram(
                 generalizations=[
                     G(derived=this.cutlet(), base=this.burger_with()),
@@ -202,10 +204,10 @@ class TargetDiagramFactory(Factory):
                     G(derived=this.cheeseburger(), base=this.burger()),
                 ],
                 associations=[
-                    {this.burger_with_burger(), this.burger_with_end_1()},
-                    {this.hamburger_cutlet(), this.hamburger_end_1()},
-                    {this.cheeseburger_cutlet(), this.cheeseburger_end_1()},
-                    {this.cheeseburger_cheese(), this.cheeseburger_end_2()},
+                    A({this.burger_with_burger(), this.burger_with_end_1()}),
+                    A({this.hamburger_cutlet(), this.hamburger_end_1()}),
+                    A({this.cheeseburger_cutlet(), this.cheeseburger_end_1()}),
+                    A({this.cheeseburger_cheese(), this.cheeseburger_end_2()}),
                 ],
             )
 

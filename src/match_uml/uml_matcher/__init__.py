@@ -4,7 +4,8 @@ from uml_matcher.aggregation import Aggregation
 from uml_matcher.classifier import Classifier
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 from uml_matcher.data_type import DataType
-from uml_matcher.diagram import Diagram, Generalization, MatchResult
+from uml_matcher.diagram import (
+    Diagram, Generalization, MatchResult, BinaryAssociation)
 from uml_matcher.direction import Direction
 from uml_matcher.interface import Interface
 from uml_matcher.named_element import NamedElement

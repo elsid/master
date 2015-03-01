@@ -67,6 +67,18 @@ class MatchResult(object):
 Generalization = namedtuple('Generalization', ('derived', 'base'))
 
 
+class BinaryAssociation(object):
+    def __init__(self, ends):
+        assert isinstance(ends, set) and len(ends) == 2
+        self.ends = ends
+
+    def __eq__(self, other):
+        return eq_ignore_order(self.ends, other.ends)
+
+    def __repr__(self):
+        return 'BinaryAssociation' + repr(self.ends)
+
+
 class Diagram(object):
     def __init__(self,
                  generalizations=tuple(),
@@ -81,9 +93,11 @@ class Diagram(object):
         self.usages = usages
 
     def match(self, pattern):
+        self_associations = [x.ends for x in self.associations]
+        pattern_associations = [x.ends for x in pattern.associations]
         return MatchResult([list(replace_node_by_obj(r)) for r in (
             Graph(self.generalizations).match(Graph(pattern.generalizations)),
-            Graph(self.associations).match(Graph(pattern.associations)),
+            Graph(self_associations).match(Graph(pattern_associations)),
             Graph(self.dependencies).match(Graph(pattern.dependencies)),
             Graph(self.substitutions).match(Graph(pattern.substitutions)),
             Graph(self.usages).match(Graph(pattern.usages))
