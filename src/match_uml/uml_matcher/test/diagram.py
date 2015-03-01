@@ -288,4 +288,3 @@ class MatchDiagram(TestCase):
         )
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))
-
