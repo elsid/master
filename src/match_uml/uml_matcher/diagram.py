@@ -89,6 +89,13 @@ class Diagram(object):
             Graph(self.usages).match(Graph(pattern.usages))
         )])
 
+    def __eq__(self, other):
+        return (eq_ignore_order(self.generalizations, other.generalizations)
+                and eq_ignore_order(self.associations, other.associations)
+                and eq_ignore_order(self.dependencies, other.dependencies)
+                and eq_ignore_order(self.substitutions, other.substitutions)
+                and eq_ignore_order(self.usages, other.usages))
+
     def __repr__(self):
         return ('\ngeneralizations\n{g}\nassociations\n{a}'.format(
             g=Graph(self.generalizations), a=Graph(self.associations)))
