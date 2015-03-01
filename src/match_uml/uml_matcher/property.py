@@ -16,7 +16,8 @@ class Property(NamedElement):
                  is_leaf=False,
                  is_read_only=False,
                  is_static=False,
-                 subsetted_properties=tuple()):
+                 subsetted_properties=tuple(),
+                 owner=None):
         self.type = type
         self.name = name
         self.visibility = visibility
@@ -28,7 +29,7 @@ class Property(NamedElement):
         self.is_read_only = is_read_only
         self.is_static = is_static
         self.subsetted_properties = subsetted_properties
-        self.owner = None
+        self.owner = owner
 
     def sub_equivalent_pattern(self, pattern):
         return (self.sub_eq(pattern)
