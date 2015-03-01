@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from hamcrest import assert_that, equal_to, empty
+from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
 from java_parser.classifiers_factory import make_classifiers
@@ -41,3 +41,35 @@ class MakeGeneralizations(TestCaseWithParser):
             G(derived=Class('Realization'), base=Interface('InterfaceA')),
             G(derived=Class('Realization'), base=Interface('InterfaceB')),
         ]))
+
+    def test_make_interface_extends_two_interfaces_should_succeed(self):
+        tree = self.parse('''
+            interface InterfaceA {}
+            interface InterfaceB {}
+            interface InterfaceC extends InterfaceA, InterfaceB {}
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        generalizations = make_generalizations(tree, classifiers)
+        G = Generalization
+        assert_that(generalizations, contains_inanyorder(
+            G(derived=Interface('InterfaceC'), base=Interface('InterfaceA')),
+            G(derived=Interface('InterfaceC'), base=Interface('InterfaceB')),
+        ))
+
+    def test_make_class_extends_and_implements_should_succeed(self):
+        tree = self.parse('''
+            interface InterfaceA {}
+            interface InterfaceB {}
+            class Base {}
+            class Realization extends Base implements InterfaceA, InterfaceB {}
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        generalizations = make_generalizations(tree, classifiers)
+        G = Generalization
+        assert_that(generalizations, contains_inanyorder(
+            G(derived=Class('Realization'), base=Class('Base')),
+            G(derived=Class('Realization'), base=Interface('InterfaceA')),
+            G(derived=Class('Realization'), base=Interface('InterfaceB')),
+        ))

@@ -11,22 +11,16 @@ class GeneralizationsFactory(Visitor):
         self.generalizations = []
 
     def visit_ClassDeclaration(self, declaration):
-        self.visit_extended(declaration)
-        self.visit_implementation(declaration)
+        if declaration.extends:
+            self.__make_generalizations(declaration, (declaration.extends,))
+        self.__make_generalizations(declaration, declaration.implements)
 
     def visit_InterfaceDeclaration(self, declaration):
-        self.visit_extended(declaration)
+        self.__make_generalizations(declaration, declaration.extends)
 
-    def visit_extended(self, declaration):
+    def __make_generalizations(self, declaration, base_declarations):
         derived = self.classifiers[declaration.name]
-        if declaration.extends:
-            self.generalizations.append(Generalization(
-                derived=derived,
-                base=self.classifiers[declaration.extends.name.value]))
-
-    def visit_implementation(self, declaration):
-        derived = self.classifiers[declaration.name]
-        for base_declaration in declaration.implements:
+        for base_declaration in base_declarations:
             self.generalizations.append(Generalization(
                 derived=derived,
                 base=self.classifiers[base_declaration.name.value]))
