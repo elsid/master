@@ -1,13 +1,14 @@
 # coding: utf-8
 
-from plyj.model import Visitor, Type as PlyjType, Name as PlyjName
+from plyj.model import Visitor, Type as PlyjType
 
 from uml_matcher import (
     Property, Operation, DataType, Visibility, Type, Parameter, PrimitiveType)
+from java_parser.full_classifiers_names import get_name_value
 from java_parser.errors import (
     MethodRedeclaration, VariableRedeclaration, FieldModifiersDuplication,
     MethodModifiersDuplication, FormalParameterModifiersDuplication,
-    PlyjDeclarationTypeError, PlyjNameTypeError)
+    PlyjDeclarationTypeError)
 
 
 def get_visibility(declaration):
@@ -21,15 +22,6 @@ def get_visibility(declaration):
 
 def has_duplications(values):
     return len(values) != len(set(values))
-
-
-def get_name_value(name):
-    if isinstance(name, str):
-        return name
-    elif isinstance(name, PlyjName):
-        return name.value
-    else:
-        raise PlyjNameTypeError(name)
 
 
 def format_type_arguments(type_arguments):
