@@ -51,7 +51,7 @@ class DecoratorDiagramFactory(Factory):
                 ],
             )
 
-        super().__init__([
+        super(DecoratorDiagramFactory, self).__init__([
             make_component,
             make_concrete_component,
             make_decorator_component,
@@ -147,7 +147,7 @@ class BurgersDiagramFactory(Factory):
                 ],
             )
 
-        super().__init__([
+        super(BurgersDiagramFactory, self).__init__([
             make_cutlet,
             make_cutlet_type,
             make_cheese,

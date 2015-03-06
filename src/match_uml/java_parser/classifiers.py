@@ -17,7 +17,7 @@ class ClassifiersFactory(Visitor):
     __classifier = None
 
     def __init__(self):
-        super().__init__()
+        super(ClassifiersFactory, self).__init__()
         self.classifiers = {}
         self.errors = []
 

@@ -121,7 +121,7 @@ class ClassifiersMembersFactory(Visitor):
                                  'float', 'double', 'boolean', 'char'))
 
     def __init__(self, classifiers):
-        super().__init__()
+        super(ClassifiersMembersFactory, self).__init__()
         self.errors = []
         self.classifiers = classifiers
         self.__visited_classifiers = set()

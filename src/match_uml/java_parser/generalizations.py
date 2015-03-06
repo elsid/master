@@ -6,7 +6,7 @@ from uml_matcher import Generalization
 
 class GeneralizationsFactory(Visitor):
     def __init__(self, classifiers):
-        super().__init__()
+        super(GeneralizationsFactory, self).__init__()
         self.classifiers = classifiers
         self.generalizations = []
 

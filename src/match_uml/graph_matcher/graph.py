@@ -49,4 +49,4 @@ class Graph(object):
         return match(self, pattern, limit)
 
     def __repr__(self):
-        return '\n'.join(repr(node) for node in self.nodes)
+        return '\n'.join(repr(node) for node in sorted(self.nodes))

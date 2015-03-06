@@ -30,14 +30,14 @@ class ClassRedeclaration(Redeclaration):
     ENTITY = 'class'
 
     def __init__(self, declaration):
-        super().__init__(declaration)
+        super(ClassRedeclaration, self).__init__(declaration)
 
 
 class InterfaceRedeclaration(Redeclaration):
     ENTITY = 'interface'
 
     def __init__(self, declaration):
-        super().__init__(declaration)
+        super(InterfaceRedeclaration, self).__init__(declaration)
 
 
 class ClassifierTypeError(Exception):
@@ -63,7 +63,7 @@ class MemberRedeclaration(Redeclaration):
     ENTITY = 'member'
 
     def __init__(self, classifier, declaration):
-        super().__init__(declaration)
+        super(MemberRedeclaration, self).__init__(declaration)
         self.classifier = classifier
 
     def __str__(self):
@@ -79,14 +79,14 @@ class VariableRedeclaration(MemberRedeclaration):
     ENTITY = 'variable'
 
     def __init__(self, classifier, declaration):
-        super().__init__(classifier, declaration)
+        super(VariableRedeclaration, self).__init__(classifier, declaration)
 
 
 class MethodRedeclaration(MemberRedeclaration):
     ENTITY = 'method'
 
     def __init__(self, classifier, declaration):
-        super().__init__(classifier, declaration)
+        super(MethodRedeclaration, self).__init__(classifier, declaration)
 
 
 class MemberModifiersDuplication(Error):
@@ -113,7 +113,7 @@ class MemberModifiersDuplication(Error):
 
 class FieldModifiersDuplication(MemberModifiersDuplication):
     def __init__(self, classifier, declaration):
-        super().__init__(classifier, declaration)
+        super(FieldModifiersDuplication, self).__init__(classifier, declaration)
 
     def _prefix(self):
         vars_decls = self.declaration.variable_declarators
@@ -124,7 +124,8 @@ class FieldModifiersDuplication(MemberModifiersDuplication):
 
 class MethodModifiersDuplication(MemberModifiersDuplication):
     def __init__(self, classifier, declaration):
-        super().__init__(classifier, declaration)
+        super(MethodModifiersDuplication, self).__init__(classifier,
+                                                         declaration)
 
     def _prefix(self):
         return 'Method "%s" of' % self.declaration.name
@@ -132,7 +133,8 @@ class MethodModifiersDuplication(MemberModifiersDuplication):
 
 class FormalParameterModifiersDuplication(MemberModifiersDuplication):
     def __init__(self, classifier, method, declaration):
-        super().__init__(classifier, declaration)
+        super(FormalParameterModifiersDuplication, self).__init__(
+            classifier, declaration)
         self.method = method
 
     def _prefix(self):
