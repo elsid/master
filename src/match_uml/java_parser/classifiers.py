@@ -14,8 +14,6 @@ def make_interface(declaration):
 
 
 class ClassifiersFactory(Visitor):
-    __classifier = None
-
     def __init__(self):
         super(ClassifiersFactory, self).__init__()
         self.classifiers = {}
@@ -25,16 +23,16 @@ class ClassifiersFactory(Visitor):
         if declaration.name in self.classifiers:
             self.errors.append(ClassRedeclaration(declaration))
             return False
-        self.__classifier = make_class(declaration)
-        self.classifiers[declaration.name] = self.__classifier
+        classifier = make_class(declaration)
+        self.classifiers[declaration.name] = classifier
         return True
 
     def visit_InterfaceDeclaration(self, declaration):
         if declaration.name in self.classifiers:
             self.errors.append(InterfaceRedeclaration(declaration))
             return False
-        self.__classifier = make_interface(declaration)
-        self.classifiers[declaration.name] = self.__classifier
+        classifier = make_interface(declaration)
+        self.classifiers[declaration.name] = classifier
         return True
 
 
