@@ -108,7 +108,6 @@ class FormalParameterType(object):
 
 
 class ClassifiersMembersFactory(Visitor):
-    __classifier = None
     __field = None
     __operation = None
 
@@ -116,51 +115,64 @@ class ClassifiersMembersFactory(Visitor):
         super(ClassifiersMembersFactory, self).__init__()
         self.errors = []
         self.classifiers = classifiers
+        self.__classifiers_chain = []
         self.__visited_classifiers = set()
         self.types = dict((c.name, Type(c)) for c in classifiers.values())
 
     def visit_ClassDeclaration(self, declaration):
         return self.__visit_classifier(declaration)
 
+    def leave_ClassDeclaration(self, declaration):
+        self.__leave_classifier(declaration)
+
     def visit_InterfaceDeclaration(self, declaration):
         return self.__visit_classifier(declaration)
 
+    def leave_InterfaceDeclaration(self, declaration):
+        self.__leave_classifier(declaration)
+
     def visit_EnumDeclaration(self, declaration):
         return self.__visit_classifier(declaration)
+
+    def leave_EnumDeclaration(self, declaration):
+        self.__leave_classifier(declaration)
 
     def visit_FieldDeclaration(self, declaration):
         self.__field = declaration
         if has_duplications(self.__field.modifiers):
             self.errors.append(FieldModifiersDuplication(
-                self.__classifier, self.__field))
+                self.__current_classifier(), self.__field))
             return False
         return True
 
+    def leave_FieldDeclaration(self, _):
+        self.__field = None
+
     def visit_VariableDeclarator(self, declaration):
-        if self.__classifier.has_property(declaration.variable.name):
-            self.errors.append(VariableRedeclaration(self.__classifier,
-                                                     declaration.variable))
+        if self.__current_classifier().has_property(declaration.variable.name):
+            self.errors.append(VariableRedeclaration(
+                self.__current_classifier(), declaration.variable))
             return False
         if self.__field:
-            self.__classifier.properties.append(Property(
+            self.__current_classifier().properties.append(Property(
                 type=self.__get_classifier_type(VariableType(
                     self.__field, declaration.variable)),
                 name=declaration.variable.name,
                 visibility=get_visibility(self.__field),
                 is_read_only='final' in self.__field.modifiers,
                 is_static='static' in self.__field.modifiers,
-                owner=self.__classifier,
+                owner=self.__current_classifier(),
             ))
             return True
 
     def visit_MethodDeclaration(self, declaration):
-        if self.__classifier.has_operation(declaration.name):
-            self.errors.append(MethodRedeclaration(self.__classifier,
+        if self.__current_classifier().has_operation(declaration.name):
+            self.errors.append(MethodRedeclaration(self.__current_classifier(),
                                                    declaration))
             return False
         if has_duplications(declaration.modifiers):
             self.errors.append(MethodModifiersDuplication(
-                self.__classifier, declaration))
+                self.__current_classifier(), declaration))
             return False
         self.__operation = Operation(
             name=declaration.name,
@@ -169,13 +181,16 @@ class ClassifiersMembersFactory(Visitor):
             parameters=[],
             is_static='static' in declaration.modifiers,
         )
-        self.__classifier.operations.append(self.__operation)
+        self.__current_classifier().operations.append(self.__operation)
         return True
+
+    def leave_MethodDeclaration(self, _):
+        self.__operation = None
 
     def visit_FormalParameter(self, declaration):
         if has_duplications(declaration.modifiers):
             self.errors.append(FormalParameterModifiersDuplication(
-                self.__classifier, declaration))
+                self.__current_classifier(), declaration))
             return False
         if self.__operation:
             self.__operation.parameters.append(Parameter(
@@ -202,8 +217,15 @@ class ClassifiersMembersFactory(Visitor):
         if declaration.name in self.__visited_classifiers:
             return False
         self.__visited_classifiers.add(declaration.name)
-        self.__classifier = self.classifiers[declaration.name]
+        classifier = self.classifiers[declaration.name]
+        self.__classifiers_chain.append(classifier)
         return True
+
+    def __leave_classifier(self, _):
+        self.__classifiers_chain.pop()
+
+    def __current_classifier(self):
+        return self.__classifiers_chain[-1]
 
 
 def fill_classifiers(tree, classifiers):
