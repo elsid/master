@@ -2,6 +2,7 @@
 
 from java_parser.test.classifiers import (
     MakeClass, MakeInterface, MakeClassifiers)
+from java_parser.test.external_classifiers import GenerateSubpaths
 from java_parser.test.classifiers_members import (
     GetVisibility, HasDuplications, GetNameValue, FormatTypeArguments,
     GetTypeName, GetClassifierName, MakeVariableType, FillClassifiers)
