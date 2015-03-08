@@ -43,8 +43,8 @@ class DiagramFactory(object):
         self.__make_classifiers()
         if self.external_path_list:
             self.__make_external_classifiers()
-        self.__make_generalizations()
         self.__set_full_types_names()
+        self.__make_generalizations()
         self.__fill_classifiers()
         self.__make_associations()
         return Diagram(self.generalizations, self.associations)
