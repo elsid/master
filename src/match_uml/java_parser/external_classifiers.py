@@ -102,12 +102,24 @@ class ClassInfoCache(object):
                 yield class_info
 
 
+__class_info_cache = []
+
+
+def get_class_info_cache(path_list):
+    for cache_path_list, cache in __class_info_cache:
+        if path_list == cache_path_list:
+            return cache
+    cache = ClassInfoCache(path_list)
+    __class_info_cache.append((path_list, cache))
+    return cache
+
+
 class ExternalClassifiersFactory(Visitor):
     def __init__(self, path_list):
         super(ExternalClassifiersFactory, self).__init__()
         self.classifiers = {}
         self.errors = []
-        self.__class_info_cache = ClassInfoCache(path_list)
+        self.__class_info_cache = get_class_info_cache(path_list)
 
     def visit_ImportDeclaration(self, declaration):
         import_name = get_name_value(declaration.name)
