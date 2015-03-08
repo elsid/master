@@ -18,6 +18,9 @@ class GeneralizationsFactory(Visitor):
     def visit_InterfaceDeclaration(self, declaration):
         self.__make_generalizations(declaration, declaration.extends)
 
+    def visit_EnumDeclaration(self, declaration):
+        self.__make_generalizations(declaration, declaration.implements)
+
     def __make_generalizations(self, declaration, base_declarations):
         derived = self.classifiers[declaration.name]
         for base_declaration in base_declarations:

@@ -29,6 +29,9 @@ class FindAllClassifiers(Visitor):
     def visit_InterfaceDeclaration(self, declaration):
         return self.__visit_classifier(declaration)
 
+    def visit_EnumDeclaration(self, declaration):
+        return self.__visit_classifier(declaration)
+
     def __visit_classifier(self, declaration):
         classifier = self.classifiers[get_name_value(declaration.name)]
         self.found_classifiers[classifier.name] = classifier
@@ -70,6 +73,12 @@ class SetFullTypesNames(Visitor):
         return self.__visit_classifier(declaration)
 
     def leave_InterfaceDeclaration(self, declaration):
+        return self.__leave_classifier(declaration)
+
+    def visit_EnumDeclaration(self, declaration):
+        return self.__visit_classifier(declaration)
+
+    def leave_EnumDeclaration(self, declaration):
         return self.__leave_classifier(declaration)
 
     def visit_Type(self, declaration):

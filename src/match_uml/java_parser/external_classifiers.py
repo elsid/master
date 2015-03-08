@@ -5,7 +5,7 @@ from os.path import join, isdir, isfile
 from plyj.model import Visitor
 from javatools import unpack_classfile
 from javatools.jarinfo import JarInfo
-from uml_matcher import Class, Interface
+from uml_matcher import Class, Interface, Enumeration
 from java_parser.full_classifiers_names import get_name_value
 
 
@@ -35,9 +35,15 @@ def make_interface(class_info):
     return Interface(class_info.pretty_this())
 
 
+def make_enumeration(class_info):
+    return Enumeration(class_info.pretty_this())
+
+
 def make_classifier(class_info):
     if class_info.is_interface():
         return make_interface(class_info)
+    elif class_info.is_enum():
+        return make_enumeration(class_info)
     else:
         return make_class(class_info)
 

@@ -36,6 +36,12 @@ class SetFullClassifiersNames(Visitor):
     def leave_InterfaceDeclaration(self, declaration):
         return self.__leave_classifier(declaration)
 
+    def visit_EnumDeclaration(self, declaration):
+        return self.__visit_classifier(declaration)
+
+    def leave_EnumDeclaration(self, declaration):
+        return self.__leave_classifier(declaration)
+
     def __visit_classifier(self, declaration):
         name = declaration.name
         self.__set_full_name(declaration)

@@ -121,18 +121,13 @@ class ClassifiersMembersFactory(Visitor):
         self.types = dict((c.name, Type(c)) for c in classifiers.values())
 
     def visit_ClassDeclaration(self, declaration):
-        if declaration.name in self.__visited_classifiers:
-            return False
-        self.__visited_classifiers.add(declaration.name)
-        self.__classifier = self.classifiers[declaration.name]
-        return True
+        return self.__visit_classifier(declaration)
 
     def visit_InterfaceDeclaration(self, declaration):
-        if declaration.name in self.__visited_classifiers:
-            return False
-        self.__visited_classifiers.add(declaration.name)
-        self.__classifier = self.classifiers[declaration.name]
-        return True
+        return self.__visit_classifier(declaration)
+
+    def visit_EnumDeclaration(self, declaration):
+        return self.__visit_classifier(declaration)
 
     def visit_FieldDeclaration(self, declaration):
         self.__field = declaration
@@ -201,6 +196,12 @@ class ClassifiersMembersFactory(Visitor):
             self.types[type_name] = declaration_type.type(classifier)
         return self.types[type_name]
 
+    def __visit_classifier(self, declaration):
+        if declaration.name in self.__visited_classifiers:
+            return False
+        self.__visited_classifiers.add(declaration.name)
+        self.__classifier = self.classifiers[declaration.name]
+        return True
 
 def fill_classifiers(tree, classifiers):
     factory = ClassifiersMembersFactory(classifiers)

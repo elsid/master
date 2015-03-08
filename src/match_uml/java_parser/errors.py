@@ -40,6 +40,13 @@ class InterfaceRedeclaration(Redeclaration):
         super(InterfaceRedeclaration, self).__init__(declaration)
 
 
+class EnumerationRedeclaration(Redeclaration):
+    ENTITY = 'enumeration'
+
+    def __init__(self, declaration):
+        super(EnumerationRedeclaration, self).__init__(declaration)
+
+
 class ClassifierTypeError(Exception):
     def __init__(self, classifier):
         self.classifier = classifier
@@ -49,12 +56,14 @@ class ClassifierTypeError(Exception):
 
 
 def get_classifier_type_name(classifier):
-    from uml_matcher import Class, Interface
+    from uml_matcher import Class, Interface, Enumeration
 
     if isinstance(classifier, Class):
         return 'class'
     elif isinstance(classifier, Interface):
         return 'interface'
+    elif isinstance(classifier, Enumeration):
+        return 'enumeration'
     else:
         raise ClassifierTypeError(classifier)
 

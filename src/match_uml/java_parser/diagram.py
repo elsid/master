@@ -24,9 +24,9 @@ class DiagramFactory(object):
     files = None
     trees = None
     classifiers = None
-    generalizations = None
+    generalizations = tuple()
     types = None
-    associations = None
+    associations = tuple()
 
     def __init__(self, dirs=None, files=None, trees=None,
                  external_path_list=None):
