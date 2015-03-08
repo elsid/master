@@ -174,7 +174,7 @@ class BurgersDiagramFactory(Factory):
 class MakeDiagram(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):
         tree = self.parse('')
-        diagram, errors = make_diagram(tree)
+        diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
         assert_that(diagram, equal_to(Diagram()))
 
@@ -194,7 +194,7 @@ class MakeDiagram(TestCaseWithParser):
                 public void operation() {}
             }
         ''')
-        diagram, errors = make_diagram(tree)
+        diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
         assert_that(diagram, equal_to(DecoratorDiagramFactory().diagram()))
 
@@ -223,6 +223,6 @@ class MakeDiagram(TestCaseWithParser):
                 public int price() {}
             }
         ''')
-        diagram, errors = make_diagram(tree)
+        diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
         assert_that(diagram, equal_to(BurgersDiagramFactory().diagram()))
