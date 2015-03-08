@@ -2,6 +2,7 @@
 
 from plyj.model import Visitor
 from java_parser.full_classifiers_names import get_name_value
+from java_parser.external_classifiers import FORCE_IMPORT
 from java_parser.errors import TypeNameNotFound, AmbiguousTypeName
 
 
@@ -13,6 +14,10 @@ class SetFullTypesNames(Visitor):
         self.errors = []
         self.__classifiers = classifiers
         self.__visible_classifiers = {}
+        for force_import in FORCE_IMPORT:
+            for classifier in classifiers.itervalues():
+                if classifier.name.startswith(force_import):
+                    self.__visible_classifiers[classifier.name] = classifier
         self.__classifiers_chain = []
 
     def visit_PackageDeclaration(self, declaration):
