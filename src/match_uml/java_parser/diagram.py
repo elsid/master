@@ -81,7 +81,7 @@ class DiagramFactory(object):
 
     def __set_full_types_names(self):
         for tree in self.trees:
-            set_full_types_names(tree, self.classifiers)
+            self.errors += set_full_types_names(tree, self.classifiers)
 
     def __fill_classifiers(self):
         self.types = {}
