@@ -4,8 +4,7 @@ from hamcrest import assert_that, equal_to, empty
 from uml_matcher import (
     Diagram, Operation, Type, PrimitiveType, Aggregation, Interface, Class,
     Property, Generalization, BinaryAssociation)
-from uml_matcher.diagram import eq_ignore_order
-from uml_matcher.test.diagram import Factory, TargetDiagramFactory
+from uml_matcher.test.diagram import Factory
 from java_parser.diagram import make_diagram
 from java_parser.test.classifiers import TestCaseWithParser
 
