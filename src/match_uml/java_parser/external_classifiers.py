@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from os import walk
 from os.path import join, isdir, isfile
 from plyj.model import Visitor
 from javatools import unpack_classfile
@@ -21,9 +22,9 @@ def generate_subpaths(import_name):
 
 
 def get_files(path):
-    for root, _, files in os.walk(path):
-        for file in files:
-            yield join(root, file)
+    for root, _, files in walk(path):
+        for file_path in files:
+            yield join(root, file_path)
 
 
 def make_class(class_info):
