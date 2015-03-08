@@ -170,9 +170,13 @@ class TypeNameNotFound(TypeNameError):
         super(TypeNameNotFound, self).__init__(classifier, declaration)
 
     def __str__(self):
-        return 'Type name {type} used in {classifier} not found'.format(
-            type='"%s"' % self.declaration.name.value,
-            classifier='"%s"' % self.classifier.name)
+        from java_parser.full_classifiers_names import get_name_value
+        if self.classifier:
+            return 'Type name {type} used in {classifier} not found'.format(
+                type='"%s"' % get_name_value(self.declaration.name),
+                classifier='"%s"' % self.classifier.name)
+        return 'Type name {type} not found'.format(
+            type='"%s"' % get_name_value(self.declaration.name))
 
 
 class AmbiguousTypeName(TypeNameError):
@@ -180,6 +184,10 @@ class AmbiguousTypeName(TypeNameError):
         super(AmbiguousTypeName, self).__init__(classifier, declaration)
 
     def __str__(self):
-        return 'Type name {type} used in {classifier} is ambiguous'.format(
-            type='"%s"' % self.declaration.name.value,
-            classifier='"%s"' % self.classifier.name)
+        from java_parser.full_classifiers_names import get_name_value
+        if self.classifier:
+            return 'Type name {type} used in {classifier} is ambiguous'.format(
+                type='"%s"' % get_name_value(self.declaration.name),
+                classifier='"%s"' % self.classifier.name)
+        return 'Type name {type} is ambiguous'.format(
+            type='"%s"' % get_name_value(self.declaration.name))
