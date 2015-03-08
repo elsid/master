@@ -102,7 +102,7 @@ class SetFullTypesNames(Visitor):
         if not classifiers_names:
             self.__add_error_type_not_found(declaration)
         elif len(classifiers_names) > 1:
-            self.__add_error_ambiguous_type_name(declaration)
+            self.__add_error_ambiguous_type_name(declaration, classifiers_names)
         else:
             set_declaration_name(declaration, tuple(classifiers_names)[0])
 
@@ -118,9 +118,10 @@ class SetFullTypesNames(Visitor):
         classifier = self.__current_classifier()
         self.errors.append(TypeNameNotFound(classifier, declaration))
 
-    def __add_error_ambiguous_type_name(self, declaration):
+    def __add_error_ambiguous_type_name(self, declaration, candidates):
         classifier = self.__current_classifier()
-        self.errors.append(AmbiguousTypeName(classifier, declaration))
+        self.errors.append(AmbiguousTypeName(classifier, declaration,
+                                             candidates))
 
     def __current_classifier(self):
         return (self.classifiers[self.__classifiers_chain[-1]]

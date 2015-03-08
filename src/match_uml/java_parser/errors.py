@@ -180,14 +180,22 @@ class TypeNameNotFound(TypeNameError):
 
 
 class AmbiguousTypeName(TypeNameError):
-    def __init__(self, classifier, declaration):
+    def __init__(self, classifier, declaration, candidates):
         super(AmbiguousTypeName, self).__init__(classifier, declaration)
+        self.candidates = candidates
 
     def __str__(self):
         from java_parser.full_classifiers_names import get_name_value
         if self.classifier:
-            return 'Type name {type} used in {classifier} is ambiguous'.format(
-                type='"%s"' % get_name_value(self.declaration.name),
-                classifier='"%s"' % self.classifier.name)
-        return 'Type name {type} is ambiguous'.format(
-            type='"%s"' % get_name_value(self.declaration.name))
+            return ('Type name {type} used in {classifier} is ambiguous, '
+                    'candidates is {candidates}').format(
+                        type='"%s"' % get_name_value(self.declaration.name),
+                        classifier='"%s"' % self.classifier.name,
+                        candidates=self.__format_candidates())
+        return ('Type name {type} is ambiguous, candidates is {'
+                'candidates}'.format(
+                    type='"%s"' % get_name_value(self.declaration.name),
+                    candidates=self.__format_candidates()))
+
+    def __format_candidates(self):
+        return ', '.join('"%s"' % x for x in self.candidates)
