@@ -76,11 +76,11 @@ class FormatTypeArguments(TestCase):
         assert_that(format_type_arguments([]), equal_to(''))
 
     def test_format_one_should_succeed(self):
-        assert_that(format_type_arguments(['int']), equal_to('<int>'))
+        assert_that(format_type_arguments(['int']), equal_to('<>'))
 
     def test_format_two_should_succeed(self):
         assert_that(format_type_arguments(['int', 'float']),
-                    equal_to('<int, float>'))
+                    equal_to('<>'))
 
 
 class GetTypeName(TestCase):
@@ -103,12 +103,12 @@ class GetTypeName(TestCase):
 
     def test_get_from_template_plyj_type_should_succeed(self):
         assert_that(get_type_name(PlyjType('List', type_arguments=['int'])),
-                    equal_to('List<int>'))
+                    equal_to('List<>'))
 
     def test_get_from_template_with_two_args_should_succeed(self):
         assert_that(get_type_name(
             PlyjType('HashMap', type_arguments=['String', 'int'])),
-            equal_to('HashMap<String, int>'))
+            equal_to('HashMap<>'))
 
     def test_get_from_template_with_inserted_template_should_succeed(self):
         assert_that(get_type_name(
@@ -116,7 +116,7 @@ class GetTypeName(TestCase):
                      type_arguments=['String',
                                      PlyjType('List',
                                               type_arguments=['int'])])),
-                    equal_to('HashMap<String, List<int>>'))
+                    equal_to('HashMap<>'))
 
 
 class GetClassifierName(TestCase):

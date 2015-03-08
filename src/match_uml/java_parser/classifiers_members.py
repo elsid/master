@@ -29,8 +29,7 @@ def has_duplications(values):
 
 
 def format_type_arguments(type_arguments):
-    args = ', '.join(get_type_name(t) for t in type_arguments)
-    return '<%s>' % args if args else ''
+    return '<>' if type_arguments else ''
 
 
 def get_type_name(declaration_type, add_dimensions=0):
