@@ -171,7 +171,7 @@ class TypeNameNotFound(TypeNameError):
 
     def __str__(self):
         return 'Type name {type} used in {classifier} not found'.format(
-            type='"%s"' % self.declaration.name,
+            type='"%s"' % self.declaration.name.value,
             classifier='"%s"' % self.classifier.name)
 
 
@@ -181,5 +181,5 @@ class AmbiguousTypeName(TypeNameError):
 
     def __str__(self):
         return 'Type name {type} used in {classifier} is ambiguous'.format(
-            type='"%s"' % self.declaration.name,
+            type='"%s"' % self.declaration.name.value,
             classifier='"%s"' % self.classifier.name)
