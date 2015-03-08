@@ -64,6 +64,7 @@ class MatchResult(object):
             self.usages
         ))
 
+
 Generalization = namedtuple('Generalization', ('derived', 'base'))
 
 
