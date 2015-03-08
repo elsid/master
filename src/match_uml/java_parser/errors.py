@@ -157,3 +157,29 @@ class PlyjNameTypeError(Exception):
 
     def __str__(self):
         return 'Not a name of type: %s' % type(self.name)
+
+
+class TypeNameError(Error):
+    def __init__(self, classifier, declaration):
+        self.classifier = classifier
+        self.declaration = declaration
+
+
+class TypeNameNotFound(TypeNameError):
+    def __init__(self, classifier, declaration):
+        super(TypeNameNotFound, self).__init__(classifier, declaration)
+
+    def __str__(self):
+        return 'Type name {type} used in {classifier} not found'.format(
+            type='"%s"' % self.declaration.name,
+            classifier='"%s"' % self.classifier.name)
+
+
+class AmbiguousTypeName(TypeNameError):
+    def __init__(self, classifier, declaration):
+        super(AmbiguousTypeName, self).__init__(classifier, declaration)
+
+    def __str__(self):
+        return 'Type name {type} used in {classifier} is ambiguous'.format(
+            type='"%s"' % self.declaration.name,
+            classifier='"%s"' % self.classifier.name)
