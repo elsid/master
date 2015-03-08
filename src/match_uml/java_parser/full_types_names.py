@@ -37,7 +37,7 @@ class SetFullTypesNames(Visitor):
     def visit_Type(self, declaration):
         type_name = declaration.name.value
         subclassifier_name = '$'.join((self.__classifiers_chain[-1], type_name))
-        if subclassifier_name in self.__classifiers:
+        if subclassifier_name in self.__visible_classifiers:
             declaration.name.value = subclassifier_name
         else:
             classifiers_names = tuple(self.__find_classifiers_names(type_name))
@@ -63,7 +63,7 @@ class SetFullTypesNames(Visitor):
         return True
 
     def __find_classifiers_names(self, type_name):
-        for name in self.__classifiers.iterkeys():
+        for name in self.__visible_classifiers.iterkeys():
             if name.endswith(type_name):
                 yield name
 
