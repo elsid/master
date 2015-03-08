@@ -88,7 +88,7 @@ class ClassInfoCache(object):
                 yield class_info
 
     def __get_from_class_file(self, import_name, subpath):
-        for file_path, class_info in self.__class_files.iterkeys():
+        for file_path, class_info in self.__class_files.iteritems():
             if subpath in file_path:
                 if not class_info:
                     class_info = unpack_classfile(file_path)
