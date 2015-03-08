@@ -142,16 +142,17 @@ class ClassifiersMembersFactory(Visitor):
             self.errors.append(VariableRedeclaration(self.__classifier,
                                                      declaration.variable))
             return False
-        self.__classifier.properties.append(Property(
-            type=self.__get_classifier_type(VariableType(self.__field,
-                                                         declaration.variable)),
-            name=declaration.variable.name,
-            visibility=get_visibility(self.__field),
-            is_read_only='final' in self.__field.modifiers,
-            is_static='static' in self.__field.modifiers,
-            owner=self.__classifier,
-        ))
-        return True
+        if self.__field:
+            self.__classifier.properties.append(Property(
+                type=self.__get_classifier_type(VariableType(
+                    self.__field, declaration.variable)),
+                name=declaration.variable.name,
+                visibility=get_visibility(self.__field),
+                is_read_only='final' in self.__field.modifiers,
+                is_static='static' in self.__field.modifiers,
+                owner=self.__classifier,
+            ))
+            return True
 
     def visit_MethodDeclaration(self, declaration):
         if self.__classifier.has_operation(declaration.name):
@@ -202,6 +203,7 @@ class ClassifiersMembersFactory(Visitor):
         self.__visited_classifiers.add(declaration.name)
         self.__classifier = self.classifiers[declaration.name]
         return True
+
 
 def fill_classifiers(tree, classifiers):
     factory = ClassifiersMembersFactory(classifiers)
