@@ -1,19 +1,12 @@
 # coding: utf-8
 
-from os import walk
-from os.path import join
 from plyj.parser import Parser
 from uml_matcher import Diagram
 from java_parser import (
     set_full_classifiers_names, make_classifiers, make_external_classifiers,
     make_generalizations, set_full_types_names, fill_classifiers,
     make_associations)
-
-
-def find_files(path):
-    for root, _, files in walk(path):
-        for file_name in files:
-            yield join(root, file_name)
+from java_parser.external_classifiers import find_files
 
 
 def find_java_files(path):
