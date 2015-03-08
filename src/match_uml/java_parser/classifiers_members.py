@@ -178,11 +178,13 @@ class ClassifiersMembersFactory(Visitor):
             self.errors.append(FormalParameterModifiersDuplication(
                 self.__classifier, declaration))
             return False
-        self.__operation.parameters.append(Parameter(
-            type=self.__get_classifier_type(FormalParameterType(declaration)),
-            name=declaration.variable.name,
-        ))
-        return True
+        if self.__operation:
+            self.__operation.parameters.append(Parameter(
+                type=self.__get_classifier_type(
+                    FormalParameterType(declaration)),
+                name=declaration.variable.name,
+            ))
+            return True
 
     def __get_classifier_type(self, declaration_type):
         classifier_name = declaration_type.classifier_name()
