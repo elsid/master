@@ -1,12 +1,13 @@
 # coding: utf-8
 
 from plyj.parser import Parser
-from uml_matcher import Diagram
+from uml_matcher import Diagram, PrimitiveType
 from java_parser import (
     set_full_classifiers_names, make_classifiers, make_external_classifiers,
     make_generalizations, set_full_types_names, fill_classifiers,
     make_associations)
 from java_parser.external_classifiers import find_files
+from java_parser.classifiers_members import PRIMITIVE_TYPES
 
 
 def find_java_files(path):
@@ -41,6 +42,7 @@ class DiagramFactory(object):
         self.__parse_files()
         self.__set_full_classifiers_names()
         self.__make_classifiers()
+        self.__make_primitive_types()
         if self.external_path_list:
             self.__make_external_classifiers()
         self.__set_full_types_names()
@@ -59,6 +61,10 @@ class DiagramFactory(object):
     def __set_full_classifiers_names(self):
         for tree in self.trees:
             set_full_classifiers_names(tree)
+
+    def __make_primitive_types(self):
+        for name in PRIMITIVE_TYPES:
+            self.classifiers[name] = PrimitiveType(name)
 
     def __make_classifiers(self):
         self.classifiers = {}

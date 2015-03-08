@@ -11,6 +11,10 @@ from java_parser.errors import (
     PlyjDeclarationTypeError)
 
 
+PRIMITIVE_TYPES = frozenset(('void', 'byte', 'short', 'int', 'long', 'float',
+                             'double', 'boolean', 'char'))
+
+
 def get_visibility(declaration):
     if 'public' in declaration.modifiers:
         return Visibility.public
@@ -109,9 +113,6 @@ class ClassifiersMembersFactory(Visitor):
     __field = None
     __operation = None
 
-    PRIMITIVE_TYPES = frozenset(('void', 'byte', 'short', 'int', 'long',
-                                 'float', 'double', 'boolean', 'char'))
-
     def __init__(self, classifiers):
         super(ClassifiersMembersFactory, self).__init__()
         self.errors = []
@@ -192,7 +193,7 @@ class ClassifiersMembersFactory(Visitor):
         if classifier_name not in self.classifiers:
             self.classifiers[classifier_name] = (
                 PrimitiveType(classifier_name)
-                if classifier_name in self.PRIMITIVE_TYPES
+                if classifier_name in PRIMITIVE_TYPES
                 else DataType(classifier_name))
         type_name = declaration_type.type_name()
         if type_name not in self.types:
