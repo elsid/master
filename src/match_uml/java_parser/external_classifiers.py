@@ -21,7 +21,7 @@ def generate_subpaths(import_name):
                    if subpackages and subclasses else subpackages + subclasses)
 
 
-def get_files(path):
+def find_files(path):
     for root, _, files in walk(path):
         for file_path in files:
             yield join(root, file_path)
@@ -64,7 +64,7 @@ class ClassInfoCache(object):
         self.__jar_files = {}
         for path in path_list:
             if isdir(path):
-                for file_path in get_files(path):
+                for file_path in find_files(path):
                     self.__process_file(file_path)
             elif isfile(path):
                 self.__process_file(path)
