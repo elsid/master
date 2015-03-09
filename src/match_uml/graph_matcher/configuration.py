@@ -62,4 +62,6 @@ class Configuration(object):
             in enumerate(self.selected))
 
     def __eq__(self, other):
-        return set(self.selected) == set(other.selected)
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and set(self.selected) == set(other.selected))

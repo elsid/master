@@ -55,7 +55,9 @@ class Property(NamedElement):
                 and self.subsetted_properties == other.subsetted_properties)
 
     def __eq__(self, other):
-        return (self.sub_eq(other) and self.name == self.name
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and self.sub_eq(other) and self.name == self.name
                 and self.type == other.type)
 
     def __repr__(self):

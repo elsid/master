@@ -50,7 +50,9 @@ class MatchResult(object):
         self.usages = (usages if usages or len(results) <= 4 else results[4])
 
     def __eq__(self, other):
-        return (eq_ignore_order(self.generalizations, other.generalizations)
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and eq_ignore_order(self.generalizations, other.generalizations)
                 and eq_ignore_order(self.associations, other.associations)
                 and eq_ignore_order(self.dependencies, other.dependencies)
                 and eq_ignore_order(self.substitutions, other.substitutions)
@@ -75,7 +77,9 @@ class BinaryAssociation(object):
         self.ends = ends
 
     def __eq__(self, other):
-        return eq_ignore_order(self.ends, other.ends)
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and eq_ignore_order(self.ends, other.ends))
 
     def __repr__(self):
         return 'BinaryAssociation' + repr(self.ends)
@@ -106,7 +110,9 @@ class Diagram(object):
         )])
 
     def __eq__(self, other):
-        return (eq_ignore_order(self.generalizations, other.generalizations)
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and eq_ignore_order(self.generalizations, other.generalizations)
                 and eq_ignore_order(self.associations, other.associations)
                 and eq_ignore_order(self.dependencies, other.dependencies)
                 and eq_ignore_order(self.substitutions, other.substitutions)

@@ -22,7 +22,9 @@ class Redeclaration(Error):
         return '"%s"' % str(self)
 
     def __eq__(self, other):
-        return (self.ENTITY == other.ENTITY
+        return (id(self) == id(other)
+                or isinstance(other, type(self))
+                and self.ENTITY == other.ENTITY
                 and self.declaration == other.declaration)
 
 
