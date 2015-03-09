@@ -48,7 +48,7 @@ class Type(object):
         self.is_ordered = is_ordered
         self.is_unique = is_unique
 
-    def sub_equivalent_pattern(self, pattern):
+    def sub_equiv_pattern(self, pattern):
         if pattern is None:
             return True
         return (self.classifier.equivalent_pattern(pattern.classifier)

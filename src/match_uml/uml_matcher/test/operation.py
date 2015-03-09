@@ -7,5 +7,5 @@ from uml_matcher.operation import Operation
 
 class MakeOperation(TestCase):
     def test_equivalent_pattern_should_succeed(self):
-        assert_that(Operation(None).sub_equivalent_pattern(Operation(None)),
+        assert_that(Operation(None).sub_equiv_pattern(Operation(None)),
                     equal_to(True))

@@ -10,9 +10,9 @@ class Parameter(NamedElement):
         self.type = type
         self.direction = direction
 
-    def sub_equivalent_pattern(self, pattern):
+    def sub_equiv_pattern(self, pattern):
         return ((self.type is None or pattern.type is not None
-                 and self.type.sub_equivalent_pattern(pattern.type))
+                 and self.type.sub_equiv_pattern(pattern.type))
                 and self.direction == pattern.direction)
 
     def __eq__(self, other):

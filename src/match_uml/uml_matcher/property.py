@@ -31,13 +31,13 @@ class Property(NamedElement):
         self.subsetted_properties = subsetted_properties
         self.owner = owner
 
-    def sub_equivalent_pattern(self, pattern):
+    def sub_equiv_pattern(self, pattern):
         return (self.sub_eq(pattern)
                 and (self.type is None or pattern.type is not None
-                     and self.type.sub_equivalent_pattern(pattern.type)))
+                     and self.type.sub_equiv_pattern(pattern.type)))
 
     def equivalent_pattern(self, pattern):
-        return (self.sub_equivalent_pattern(pattern) and self.owner is None
+        return (self.sub_equiv_pattern(pattern) and self.owner is None
                 or self.owner is not None and pattern.owner is not None
                 and self.owner.equivalent_pattern(pattern.owner))
 
