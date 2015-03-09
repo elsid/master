@@ -7,7 +7,7 @@ from uml_matcher.diagram import eq_ignore_order
 
 class Classifier(NamedElement):
     def __init__(self, name='anonymous', properties=None, operations=None):
-        self.name = name
+        super(Classifier, self).__init__(name)
         self.properties = properties or []
         self.operations = operations or []
         for property_ in self.properties:
@@ -23,13 +23,10 @@ class Classifier(NamedElement):
         return (has_equivalents(self.properties, pattern.properties)
                 and has_equivalents(self.operations, pattern.operations))
 
-    def __repr__(self):
-        return self.name
-
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
-                and self.name == self.name
+                or super(Classifier, self).__eq__(other)
+                and isinstance(other, type(self))
                 and eq_ignore_order(self.properties, other.properties)
                 and eq_ignore_order(self.operations, other.operations))
 

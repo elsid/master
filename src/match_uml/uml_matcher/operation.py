@@ -14,7 +14,7 @@ class Operation(NamedElement):
                  is_leaf=False,
                  is_query=False,
                  is_static=False):
-        self.name = name
+        super(Operation, self).__init__(name)
         self.visibility = visibility
         self.result = result
         self.parameters = parameters
@@ -33,8 +33,8 @@ class Operation(NamedElement):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
-                and self.name == self.name
+                or super(Operation, self).__eq__(other)
+                and isinstance(other, type(self))
                 and self.visibility == other.visibility
                 and self.result == other.result
                 and tuple(self.parameters) == tuple(other.parameters)

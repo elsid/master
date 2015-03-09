@@ -18,8 +18,8 @@ class Property(NamedElement):
                  is_static=False,
                  subsetted_properties=tuple(),
                  owner=None):
+        super(Property, self).__init__(name)
         self.type = type
-        self.name = name
         self.visibility = visibility
         self.aggregation = aggregation
         self.is_derived = is_derived
@@ -56,8 +56,9 @@ class Property(NamedElement):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
-                and self.sub_eq(other) and self.name == other.name
+                or super(Property, self).__eq__(other)
+                and isinstance(other, type(self))
+                and self.sub_eq(other)
                 and self.type == other.type)
 
     def __repr__(self):
