@@ -57,7 +57,7 @@ class Property(NamedElement):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, type(self))
-                and self.sub_eq(other) and self.name == self.name
+                and self.sub_eq(other) and self.name == other.name
                 and self.type == other.type)
 
     def __repr__(self):
