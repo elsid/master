@@ -34,10 +34,9 @@ class Graph(object):
 
         for node_or_edge in nodes_or_edges:
             edge = node_or_edge
-            if ((isinstance(edge, tuple) or isinstance(edge, set))
-                    and len(edge) == 2):
+            if isinstance(edge, (tuple, set, frozenset)) and len(edge) == 2:
                 src, dst = edge
-                if isinstance(edge, set):
+                if isinstance(edge, (set, frozenset)):
                     make_edge(dst, src)
                 make_edge(src, dst)
             else:
