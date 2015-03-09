@@ -3,6 +3,24 @@
 from collections import Counter
 
 
+class ClassifierTypeError(Exception):
+    def __init__(self, classifier):
+        super(ClassifierTypeError, self).__init__(
+            'unknown classifier type: %s' % type(classifier))
+
+
+class PlyjDeclarationTypeError(Exception):
+    def __init__(self, declaration):
+        super(PlyjDeclarationTypeError, self).__init__(
+            'not a type of declaration: %s' % type(declaration))
+
+
+class PlyjNameTypeError(Exception):
+    def __init__(self, name):
+        super(PlyjNameTypeError, self).__init__(
+            'not a name of type: %s' % type(name))
+
+
 class Error(object):
     pass
 
@@ -14,12 +32,9 @@ class Redeclaration(Error):
         self.declaration = declaration
 
     def __str__(self):
-        return 'redeclaration of {entity} "{name}"'.format(
+        return 'error: redeclaration of {entity} {name}'.format(
             entity=self.ENTITY,
-            name=self.declaration.name)
-
-    def __repr__(self):
-        return '"%s"' % str(self)
+            name='"%s"' % self.declaration.name)
 
     def __eq__(self, other):
         return (id(self) == id(other)
@@ -49,14 +64,6 @@ class EnumerationRedeclaration(Redeclaration):
         super(EnumerationRedeclaration, self).__init__(declaration)
 
 
-class ClassifierTypeError(Exception):
-    def __init__(self, classifier):
-        self.classifier = classifier
-
-    def __str__(self):
-        return 'Unknown classifier type: %s' % type(self.classifier)
-
-
 def get_classifier_type_name(classifier):
     from uml_matcher import Class, Interface, Enumeration
 
@@ -78,12 +85,12 @@ class MemberRedeclaration(Redeclaration):
         self.classifier = classifier
 
     def __str__(self):
-        return ('redeclaration of {entity} "{name}" in {ctype} "{classifier}"'
-                .format(
+        return ('error: redeclaration of {entity} {name} in {ctype} '
+                '{classifier}'.format(
                     entity=self.ENTITY,
-                    name=self.declaration.name,
+                    name='"%s"' % self.declaration.name,
                     ctype=get_classifier_type_name(self.classifier),
-                    classifier=self.classifier))
+                    classifier='"%s"' % self.classifier.name))
 
 
 class VariableRedeclaration(MemberRedeclaration):
@@ -101,8 +108,6 @@ class MethodRedeclaration(MemberRedeclaration):
 
 
 class MemberModifiersDuplication(Error):
-    ENTITY = 'Member'
-
     def __init__(self, classifier, declaration):
         self.classifier = classifier
         self.declaration = declaration
@@ -110,11 +115,11 @@ class MemberModifiersDuplication(Error):
             (x for x, n in Counter(declaration.modifiers).items() if n > 1))
 
     def __str__(self):
-        return ('{prefix} {ctype} {classifier} has duplicated '
+        return ('error: {prefix} {ctype} {classifier} has duplicated '
                 'modifier{mmult}: {modifiers}'.format(
                     prefix=self._prefix(),
                     ctype=get_classifier_type_name(self.classifier),
-                    classifier='"%s"' % self.classifier,
+                    classifier='"%s"' % self.classifier.name,
                     mmult='s' if len(self.duplicated_modifiers) > 1 else '',
                     modifiers=', '.join(self.duplicated_modifiers)))
 
@@ -128,7 +133,7 @@ class FieldModifiersDuplication(MemberModifiersDuplication):
 
     def _prefix(self):
         vars_decls = self.declaration.variable_declarators
-        return ('Field variable{fmult} {vars} of'.format(
+        return ('field variable{fmult} {vars} of'.format(
             fmult='s' if len(vars_decls) > 1 else '',
             vars=', '.join('"%s"' % v.variable.name for v in vars_decls)))
 
@@ -139,7 +144,7 @@ class MethodModifiersDuplication(MemberModifiersDuplication):
                                                          declaration)
 
     def _prefix(self):
-        return 'Method "%s" of' % self.declaration.name
+        return 'method "%s" of' % self.declaration.name
 
 
 class FormalParameterModifiersDuplication(MemberModifiersDuplication):
@@ -149,25 +154,9 @@ class FormalParameterModifiersDuplication(MemberModifiersDuplication):
         self.method = method
 
     def _prefix(self):
-        return ('Formal parameter {param} of method {method} in'.format(
+        return ('formal parameter {param} of method {method} in'.format(
             param='"%s"' % self.declaration.variable.name,
             method='"%s"' % self.method.name))
-
-
-class PlyjDeclarationTypeError(Exception):
-    def __init__(self, declaration):
-        self.declaration = declaration
-
-    def __str__(self):
-        return 'Not a type of declaration: %s' % type(self.declaration)
-
-
-class PlyjNameTypeError(Exception):
-    def __init__(self, name):
-        self.name = name
-
-    def __str__(self):
-        return 'Not a name of type: %s' % type(self.name)
 
 
 class TypeNameError(Error):
@@ -183,10 +172,11 @@ class TypeNameNotFound(TypeNameError):
     def __str__(self):
         from java_parser.full_classifiers_names import get_name_value
         if self.classifier:
-            return 'Type name {type} used in {classifier} not found'.format(
-                type='"%s"' % get_name_value(self.declaration.name),
-                classifier='"%s"' % self.classifier.name)
-        return 'Type name {type} not found'.format(
+            return ('error: type name {type} used in {classifier} not '
+                    'found'.format(
+                        type='"%s"' % get_name_value(self.declaration.name),
+                        classifier='"%s"' % self.classifier.name))
+        return 'error: type name {type} not found'.format(
             type='"%s"' % get_name_value(self.declaration.name))
 
 
@@ -198,15 +188,15 @@ class AmbiguousTypeName(TypeNameError):
     def __str__(self):
         from java_parser.full_classifiers_names import get_name_value
         if self.classifier:
-            return ('Type name {type} used in {classifier} is ambiguous, '
-                    'candidates is {candidates}').format(
+            return ('error: type name {type} used in {classifier} is '
+                    'ambiguous, candidates are:\n{candidates}').format(
                         type='"%s"' % get_name_value(self.declaration.name),
                         classifier='"%s"' % self.classifier.name,
                         candidates=self.__format_candidates())
-        return ('Type name {type} is ambiguous, candidates is {'
+        return ('error: type name {type} is ambiguous, candidates are:\n{'
                 'candidates}'.format(
                     type='"%s"' % get_name_value(self.declaration.name),
                     candidates=self.__format_candidates()))
 
     def __format_candidates(self):
-        return ', '.join('"%s"' % x for x in self.candidates)
+        return '\n'.join('\t"%s"' % x for x in self.candidates)
