@@ -20,7 +20,8 @@ class Classifier(NamedElement):
         return name in set(operation.name for operation in self.operations)
 
     def equiv_pattern(self, pattern):
-        return (has_equivalents(self.properties, pattern.properties)
+        return (isinstance(pattern, Classifier)
+                and has_equivalents(self.properties, pattern.properties)
                 and has_equivalents(self.operations, pattern.operations))
 
     def __eq__(self, other):

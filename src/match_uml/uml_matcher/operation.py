@@ -4,6 +4,7 @@
 from uml_matcher.named_element import NamedElement
 from uml_matcher.visibility import Visibility
 from uml_matcher.has_equivalents import has_equivalents
+from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Operation(NamedElement):
@@ -23,13 +24,13 @@ class Operation(NamedElement):
         self.is_static = is_static
 
     def sub_equiv_pattern(self, pattern):
-        return (self.visibility == pattern.visibility
-                and (self.result is None
-                     or self.result.sub_equiv_pattern(pattern.result))
+        return (isinstance(pattern, Operation)
+                and eq_pattern(self.visibility, pattern.visibility)
+                and sub_equiv_pattern(self.result, pattern.result)
                 and has_equivalents(self.parameters, pattern.parameters)
-                and self.is_leaf == pattern.is_leaf
-                and self.is_query == pattern.is_query
-                and self.is_static == pattern.is_static)
+                and eq_pattern(self.is_leaf, pattern.is_leaf)
+                and eq_pattern(self.is_query, pattern.is_query)
+                and eq_pattern(self.is_static, pattern.is_static))
 
     def __eq__(self, other):
         return (id(self) == id(other)

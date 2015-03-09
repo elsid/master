@@ -3,6 +3,7 @@
 from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
+from uml_matcher.eq_pattern import eq_pattern, equiv_pattern
 
 
 def repr_multiplicity(lower, upper):
@@ -49,12 +50,11 @@ class Type(object):
         self.is_unique = is_unique
 
     def sub_equiv_pattern(self, pattern):
-        if pattern is None:
-            return True
-        return (self.classifier.equiv_pattern(pattern.classifier)
+        return (isinstance(pattern, Type)
+                and equiv_pattern(self.classifier, pattern.classifier)
                 and self.equiv_pattern_mult_range(pattern)
-                and self.is_ordered == pattern.is_ordered
-                and self.is_unique == pattern.is_unique)
+                and eq_pattern(self.is_ordered, pattern.is_ordered)
+                and eq_pattern(self.is_unique, pattern.is_unique))
 
     def equiv_pattern_mult_range(self, pattern):
         return ((pattern.mult_lower is None

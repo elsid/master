@@ -2,6 +2,7 @@
 
 from uml_matcher.named_element import NamedElement
 from uml_matcher.direction import Direction
+from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Parameter(NamedElement):
@@ -11,9 +12,9 @@ class Parameter(NamedElement):
         self.direction = direction
 
     def sub_equiv_pattern(self, pattern):
-        return ((self.type is None or pattern.type is not None
-                 and self.type.sub_equiv_pattern(pattern.type))
-                and self.direction == pattern.direction)
+        return (isinstance(pattern, Parameter)
+                and (sub_equiv_pattern(self.type, pattern.type))
+                and eq_pattern(self.direction, pattern.direction))
 
     def __eq__(self, other):
         return (id(self) == id(other)

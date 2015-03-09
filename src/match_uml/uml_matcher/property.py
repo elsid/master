@@ -3,6 +3,8 @@
 from uml_matcher.named_element import NamedElement
 from uml_matcher.visibility import Visibility
 from uml_matcher.aggregation import Aggregation
+from uml_matcher.eq_pattern import eq_pattern, equiv_pattern, sub_equiv_pattern
+from uml_matcher.has_equivalents import has_equivalents
 
 
 class Property(NamedElement):
@@ -32,14 +34,22 @@ class Property(NamedElement):
         self.owner = owner
 
     def sub_equiv_pattern(self, pattern):
-        return (self.sub_eq(pattern)
-                and (self.type is None or pattern.type is not None
-                     and self.type.sub_equiv_pattern(pattern.type)))
+        return (isinstance(pattern, Property)
+                and eq_pattern(self.visibility, pattern.visibility)
+                and eq_pattern(self.aggregation, pattern.aggregation)
+                and eq_pattern(self.is_derived, pattern.is_derived)
+                and eq_pattern(self.is_derived_union, pattern.is_derived_union)
+                and eq_pattern(self.is_id, pattern.is_id)
+                and eq_pattern(self.is_leaf, pattern.is_leaf)
+                and eq_pattern(self.is_read_only, pattern.is_read_only)
+                and eq_pattern(self.is_static, pattern.is_static)
+                and has_equivalents(self.subsetted_properties,
+                                    pattern.subsetted_properties)
+                and sub_equiv_pattern(self.type, pattern.type))
 
     def equiv_pattern(self, pattern):
-        return (self.sub_equiv_pattern(pattern) and self.owner is None
-                or self.owner is not None and pattern.owner is not None
-                and self.owner.equiv_pattern(pattern.owner))
+        return (self.sub_equiv_pattern(pattern)
+                and equiv_pattern(self.owner, pattern.owner))
 
     def sub_eq(self, other):
         return (id(self) == id(other)
