@@ -9,6 +9,7 @@ def replace_node_by_obj(variants):
 
 
 def eq_ignore_order(first, second):
+
     def is_list(value):
         return isinstance(value, list)
 
@@ -18,11 +19,12 @@ def eq_ignore_order(first, second):
     for x in first:
         found_eq = False
 
-        def is_can_be_used(i, y):
+        def can_be_used(i, y):
             return (i not in used and (is_list(y) and eq_ignore_order(x, y) or
                     not is_list(y) and x == y))
+
         for i, y in enumerate(second):
-            if is_can_be_used(i, y):
+            if can_be_used(i, y):
                 used.add(i)
                 found_eq = True
                 break
