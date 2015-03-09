@@ -16,7 +16,7 @@ class MakeNode(TestCase):
         assert_that(node.neighbors(), equal_to(set()))
         assert_that(node.count_connected_from(), equal_to(0))
         assert_that(node.count_connected_to(), equal_to(0))
-        assert_that(node.equivalent_pattern(node), equal_to(True))
+        assert_that(node.equiv_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('[node]'))
         assert_that(str(node), equal_to(str('node')))
         assert_that(hash(node), equal_to(id('node')))
@@ -33,7 +33,7 @@ class MakeNode(TestCase):
         assert_that(node.neighbors(), equal_to(set(other_nodes)))
         assert_that(node.count_connected_to(), equal_to(len(other_nodes)))
         assert_that(node.count_connected_from(), equal_to(0))
-        assert_that(node.equivalent_pattern(node), equal_to(True))
+        assert_that(node.equiv_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('[node] -> node_0, node_1, node_2'))
 
     def test_make_with_connected_from_should_succeed(self):
@@ -47,7 +47,7 @@ class MakeNode(TestCase):
         assert_that(node.neighbors(), equal_to(set(other_nodes)))
         assert_that(node.count_connected_to(), equal_to(0))
         assert_that(node.count_connected_from(), equal_to(len(other_nodes)))
-        assert_that(node.equivalent_pattern(node), equal_to(True))
+        assert_that(node.equiv_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('node_0, node_1, node_2 -> [node]'))
 
     def test_make_with_connected_should_succeed(self):
@@ -62,6 +62,6 @@ class MakeNode(TestCase):
         assert_that(node.neighbors(), equal_to(set(other_nodes)))
         assert_that(node.count_connected_to(), equal_to(len(other_nodes)))
         assert_that(node.count_connected_from(), equal_to(len(other_nodes)))
-        assert_that(node.equivalent_pattern(node), equal_to(True))
+        assert_that(node.equiv_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('node_0, node_1, node_2 -> [node]'
                                          ' -> node_0, node_1, node_2'))

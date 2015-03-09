@@ -43,7 +43,7 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
 
 
 def init_equivalent(target, pattern):
-    return target.equivalent_pattern(pattern)
+    return target.equiv_pattern(pattern)
 
 
 def remove_duplicates(values):

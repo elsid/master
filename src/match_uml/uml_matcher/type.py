@@ -51,7 +51,7 @@ class Type(object):
     def sub_equiv_pattern(self, pattern):
         if pattern is None:
             return True
-        return (self.classifier.equivalent_pattern(pattern.classifier)
+        return (self.classifier.equiv_pattern(pattern.classifier)
                 and self.equivalent_pattern_mult_range(pattern)
                 and self.is_ordered == pattern.is_ordered
                 and self.is_unique == pattern.is_unique)

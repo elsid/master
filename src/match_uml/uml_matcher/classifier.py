@@ -19,7 +19,7 @@ class Classifier(NamedElement):
     def has_operation(self, name):
         return name in set(operation.name for operation in self.operations)
 
-    def equivalent_pattern(self, pattern):
+    def equiv_pattern(self, pattern):
         return (has_equivalents(self.properties, pattern.properties)
                 and has_equivalents(self.operations, pattern.operations))
 

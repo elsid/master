@@ -9,7 +9,7 @@ from uml_matcher.type import Type
 
 class MakeClassifier(TestCase):
     def test_equivalent_pattern_should_succeed(self):
-        assert_that(Classifier().equivalent_pattern(Classifier()),
+        assert_that(Classifier().equiv_pattern(Classifier()),
                     equal_to(True))
 
     def test_eq_empty_should_succeed(self):

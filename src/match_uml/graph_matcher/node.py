@@ -9,8 +9,8 @@ class Node(object):
         self.connected_to = set(connected_to).difference({self})
         self.connected_from = set(connected_from).difference({self})
         self.self_connection = self in connected_to and self in connected_from
-        if 'equivalent_pattern' in dir(self.obj):
-            self.obj_equivalent_pattern = self.obj.equivalent_pattern
+        if 'equiv_pattern' in dir(self.obj):
+            self.obj_equivalent_pattern = self.obj.equiv_pattern
 
     def neighbors(self):
         return self.connected_to.union(self.connected_from)
@@ -21,7 +21,7 @@ class Node(object):
     def count_connected_to(self):
         return len(self.connected_to)
 
-    def equivalent_pattern(self, pattern):
+    def equiv_pattern(self, pattern):
         return (self.count_connected_from() >= pattern.count_connected_from()
                 and self.count_connected_to() >= pattern.count_connected_to()
                 and type(self) == type(pattern)
