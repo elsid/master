@@ -24,7 +24,7 @@ class MakeType(TestCase):
                     equal_to(True))
 
     def test_equivalent_pattern_mult_range_should_succeed(self):
-        assert_that(Type(Class()).equivalent_pattern_mult_range(Type(Class())),
+        assert_that(Type(Class()).equiv_pattern_mult_range(Type(Class())),
                     equal_to(True))
 
     def test_eq_should_succeed(self):

@@ -52,11 +52,11 @@ class Type(object):
         if pattern is None:
             return True
         return (self.classifier.equiv_pattern(pattern.classifier)
-                and self.equivalent_pattern_mult_range(pattern)
+                and self.equiv_pattern_mult_range(pattern)
                 and self.is_ordered == pattern.is_ordered
                 and self.is_unique == pattern.is_unique)
 
-    def equivalent_pattern_mult_range(self, pattern):
+    def equiv_pattern_mult_range(self, pattern):
         return ((pattern.mult_lower is None
                  or (self.mult_lower is not None
                      and self.mult_lower >= pattern.mult_lower))
