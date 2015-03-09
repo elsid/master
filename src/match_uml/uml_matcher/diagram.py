@@ -32,12 +32,13 @@ def eq_ignore_order(first, second):
 
 
 class MatchResult(object):
-    def __init__(self, results=tuple(),
+    def __init__(self, results=None,
                  generalizations=tuple(),
                  associations=tuple(),
                  dependencies=tuple(),
                  substitutions=tuple(),
                  usages=tuple()):
+        results = results or tuple()
         self.generalizations = (generalizations if generalizations
                                 or len(results) <= 0 else results[0])
         self.associations = (associations if associations
