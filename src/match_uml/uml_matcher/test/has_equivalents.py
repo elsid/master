@@ -8,13 +8,13 @@ from uml_matcher.property import Property
 
 
 class HasEquivalents(TestCase):
-    def test_empty_in_empty_should_not_found(self):
+    def test_empty_in_empty_should_found(self):
         assert_that(has_equivalents([], []), equal_to(True))
 
     def test_empty_in_not_empty_should_not_found(self):
         assert_that(has_equivalents([], [1]), equal_to(False))
 
-    def test_not_empty_in_empty_should_not_found(self):
+    def test_not_empty_in_empty_should_found(self):
         assert_that(has_equivalents([1], []), equal_to(True))
 
     def test_one_same_should_should_found(self):
