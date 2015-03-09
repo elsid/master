@@ -31,6 +31,6 @@ class MakeAssociations(TestCase):
         interface_b.properties.append(property_b_of_a)
         associations = make_associations({'A': type_a, 'B': type_b})
         assert_that(associations, contains_inanyorder(
-            BinaryAssociation({property_b_of_a, Property(type_a, 'B_end')}),
-            BinaryAssociation({property_a_of_b, Property(type_b, 'A_end')}),
+            BinaryAssociation({property_b_of_a, Property(type_a, 'A_end')}),
+            BinaryAssociation({property_a_of_b, Property(type_b, 'B_end')}),
         ))
