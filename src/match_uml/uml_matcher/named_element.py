@@ -14,4 +14,4 @@ class NamedElement(object):
                 and self.name == other.name)
 
     def __lt__(self, other):
-        return id(self) < id(other)
+        return self.name < other.name
