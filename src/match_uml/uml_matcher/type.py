@@ -66,7 +66,7 @@ class Type(object):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, Type)
                 and self.classifier == other.classifier
                 and self.mult_lower == other.mult_lower
                 and self.mult_upper == other.mult_upper

@@ -63,5 +63,5 @@ class Configuration(object):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, Configuration)
                 and set(self.selected) == set(other.selected))

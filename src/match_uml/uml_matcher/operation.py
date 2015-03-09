@@ -34,7 +34,7 @@ class Operation(NamedElement):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Operation, self).__eq__(other)
-                and isinstance(other, type(self))
+                and isinstance(other, Operation)
                 and self.visibility == other.visibility
                 and self.result == other.result
                 and tuple(self.parameters) == tuple(other.parameters)

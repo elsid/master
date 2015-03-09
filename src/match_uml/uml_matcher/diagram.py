@@ -53,7 +53,7 @@ class MatchResult(object):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, MatchResult)
                 and eq_ignore_order(self.generalizations, other.generalizations)
                 and eq_ignore_order(self.associations, other.associations)
                 and eq_ignore_order(self.dependencies, other.dependencies)
@@ -85,7 +85,7 @@ class BinaryAssociation(frozenset):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, BinaryAssociation)
                 and eq_ignore_order(self, other))
 
     def __repr__(self):
@@ -116,7 +116,7 @@ class Diagram(object):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, Diagram)
                 and eq_ignore_order(self.generalizations, other.generalizations)
                 and eq_ignore_order(self.associations, other.associations)
                 and eq_ignore_order(self.dependencies, other.dependencies)

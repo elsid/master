@@ -43,7 +43,7 @@ class Property(NamedElement):
 
     def sub_eq(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, Property)
                 and self.visibility == other.visibility
                 and self.aggregation == other.aggregation
                 and self.is_derived == other.is_derived
@@ -57,7 +57,7 @@ class Property(NamedElement):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Property, self).__eq__(other)
-                and isinstance(other, type(self))
+                and isinstance(other, Property)
                 and self.sub_eq(other)
                 and self.type == other.type)
 

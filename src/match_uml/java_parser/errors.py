@@ -38,7 +38,7 @@ class Redeclaration(Error):
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, type(self))
+                or isinstance(other, Redeclaration)
                 and self.ENTITY == other.ENTITY
                 and self.declaration == other.declaration)
 
@@ -49,6 +49,11 @@ class ClassRedeclaration(Redeclaration):
     def __init__(self, declaration):
         super(ClassRedeclaration, self).__init__(declaration)
 
+    def __eq__(self, other):
+        return (id(self) == id(other)
+                or super(ClassRedeclaration, self).__eq__(other)
+                and isinstance(other, ClassRedeclaration))
+
 
 class InterfaceRedeclaration(Redeclaration):
     ENTITY = 'interface'
@@ -56,12 +61,22 @@ class InterfaceRedeclaration(Redeclaration):
     def __init__(self, declaration):
         super(InterfaceRedeclaration, self).__init__(declaration)
 
+    def __eq__(self, other):
+        return (id(self) == id(other)
+                or super(InterfaceRedeclaration, self).__eq__(other)
+                and isinstance(other, InterfaceRedeclaration))
+
 
 class EnumerationRedeclaration(Redeclaration):
     ENTITY = 'enumeration'
 
     def __init__(self, declaration):
         super(EnumerationRedeclaration, self).__init__(declaration)
+
+    def __eq__(self, other):
+        return (id(self) == id(other)
+                or super(EnumerationRedeclaration, self).__eq__(other)
+                and isinstance(other, EnumerationRedeclaration))
 
 
 def get_classifier_type_name(classifier):

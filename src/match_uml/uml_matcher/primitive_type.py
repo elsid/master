@@ -4,4 +4,7 @@ from uml_matcher.classifier import Classifier
 
 
 class PrimitiveType(Classifier):
-    pass
+    def __eq__(self, other):
+        return (id(self) == id(other)
+                or super(PrimitiveType, self).__eq__(other)
+                and isinstance(other, PrimitiveType))

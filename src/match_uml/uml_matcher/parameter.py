@@ -18,6 +18,6 @@ class Parameter(NamedElement):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Parameter, self).__eq__(other)
-                and isinstance(other, type(self))
+                and isinstance(other, Parameter)
                 and self.type == other.type
                 and self.direction == other.direction)

@@ -26,7 +26,7 @@ class Classifier(NamedElement):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Classifier, self).__eq__(other)
-                and isinstance(other, type(self))
+                and isinstance(other, Classifier)
                 and eq_ignore_order(self.properties, other.properties)
                 and eq_ignore_order(self.operations, other.operations))
 
