@@ -59,30 +59,35 @@ class MatchResult(object):
                 and eq_ignore_order(self.usages, other.usages))
 
     def __repr__(self):
-        return '\n'.join(repr(r) for r in (
-            self.generalizations,
-            self.associations,
-            self.dependencies,
-            self.substitutions,
-            self.usages
-        ))
+        connections = (
+            ('generalizations', self.generalizations),
+            ('associations', self.associations),
+            ('dependencies', self.dependencies),
+            ('substitutions', self.substitutions),
+            ('usages', self.usages),
+        )
+        return ('\n'.join('%s\n%s' % (n, '\n'.join('%s\n' % '\n'.join(
+            '  %s === %s' % tuple(y) for y in x) for x in v))
+            for n, v in connections if v))
 
 
-Generalization = namedtuple('Generalization', ('derived', 'base'))
+class Generalization(namedtuple('Generalization', ('derived', 'base'))):
+    def __repr__(self):
+        return '%s --> %s' % (self.derived, self.base)
 
 
-class BinaryAssociation(object):
+class BinaryAssociation(frozenset):
     def __init__(self, ends):
-        assert isinstance(ends, set) and len(ends) == 2
-        self.ends = ends
+        assert len(ends) == 2
+        super(BinaryAssociation, self).__init__(ends)
 
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, type(self))
-                and eq_ignore_order(self.ends, other.ends))
+                and eq_ignore_order(self, other))
 
     def __repr__(self):
-        return 'BinaryAssociation' + repr(self.ends)
+        return '%s --- %s' % tuple(self)
 
 
 class Diagram(object):
@@ -99,11 +104,9 @@ class Diagram(object):
         self.usages = usages
 
     def match(self, pattern):
-        self_associations = [x.ends for x in self.associations]
-        pattern_associations = [x.ends for x in pattern.associations]
         return MatchResult([list(replace_node_by_obj(r)) for r in (
             Graph(self.generalizations).match(Graph(pattern.generalizations)),
-            Graph(self_associations).match(Graph(pattern_associations)),
+            Graph(self.associations).match(Graph(pattern.associations)),
             Graph(self.dependencies).match(Graph(pattern.dependencies)),
             Graph(self.substitutions).match(Graph(pattern.substitutions)),
             Graph(self.usages).match(Graph(pattern.usages))
@@ -119,5 +122,12 @@ class Diagram(object):
                 and eq_ignore_order(self.usages, other.usages))
 
     def __repr__(self):
-        return ('\ngeneralizations\n{g}\nassociations\n{a}'.format(
-            g=Graph(self.generalizations), a=Graph(self.associations)))
+        connections = (
+            ('generalizations', self.generalizations),
+            ('associations', self.associations),
+            ('dependencies', self.dependencies),
+            ('substitutions', self.substitutions),
+            ('usages', self.usages),
+        )
+        return ('\n'.join('%s\n%s' % (n, '\n'.join(
+            '  %s' % repr(x) for x in v)) for n, v in connections if v))
