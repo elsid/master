@@ -1,8 +1,11 @@
 # coding: utf-8
 
-from collections import defaultdict, deque, Counter
+from collections import defaultdict, deque, Counter, namedtuple
 from itertools import tee
 from graph_matcher.configuration import Configuration
+
+
+Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
 
 
 def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
@@ -30,7 +33,7 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
                     set((target for target, _ in chain))))
                 pattern_iters = tee(pattern_iter, len(not_used_targets))
                 for index, target in enumerate(not_used_targets):
-                    new_chain = list(chain) + [(target, pattern)]
+                    new_chain = list(chain) + [Equivalent(target, pattern)]
                     for c in gen_recursive(pattern_iters[index], new_chain):
                         yield c
             except StopIteration:
