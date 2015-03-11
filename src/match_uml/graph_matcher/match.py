@@ -62,15 +62,12 @@ def match(target_graph, pattern_graph, limit=None):
     if limit == 0:
         return
 
-    variants = deque()
-
     def init_generator():
         return generate_equivalent_node_pair(
             target_graph.nodes, pattern_graph.nodes, init_equivalent)
 
-    for target_node, pattern_node in init_generator():
-        conf = Configuration(target_node, pattern_node)
-        variants.append(conf)
+    variants = deque(Configuration(target_node, pattern_node)
+                     for target_node, pattern_node in init_generator())
     result = []
     while variants:
         conf = variants.pop()
@@ -96,7 +93,7 @@ def match(target_graph, pattern_graph, limit=None):
                     if neighbor_equivalent(target_neighbor, pattern_neighbor):
                         target_equivalents[target_neighbor] += 1
             for target_neighbor in target_node.neighbors():
-                if 0 == target_equivalents[target_neighbor]:
+                if target_equivalents[target_neighbor] == 0:
                     return False
             return True
 
