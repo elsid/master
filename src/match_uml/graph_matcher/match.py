@@ -58,6 +58,7 @@ def remove_duplicates(values):
 
 
 def match(target_graph, pattern_graph, limit=None):
+    assert limit is None or limit >= 0
     if limit == 0:
         return
 
