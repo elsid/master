@@ -1,5 +1,7 @@
 # coding: utf-8
 
+from collections import deque
+
 
 class Node(object):
     obj_equivalent_pattern = None
@@ -27,6 +29,18 @@ class Node(object):
                 and type(self) == type(pattern)
                 and (self.obj_equivalent_pattern is None
                      or self.obj_equivalent_pattern(pattern.obj)))
+
+    def get_connected_component(self):
+        nodes = deque((self,))
+        visited = set()
+        while nodes:
+            node = nodes.pop()
+            visited.add(node)
+            for neighbor in node.neighbors():
+                if neighbor not in visited:
+                    nodes.append(neighbor)
+                    visited.add(neighbor)
+        return visited
 
     def __repr__(self):
         left = ', '.join((str(n.obj) for n in self.connected_from))
