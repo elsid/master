@@ -58,6 +58,9 @@ def remove_duplicates(values):
 
 
 def match(target_graph, pattern_graph, limit=None):
+    if limit == 0:
+        return
+
     variants = deque()
 
     def init_generator():
