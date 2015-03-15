@@ -50,5 +50,14 @@ class Graph(object):
     def match(self, pattern, limit=None):
         return match(self, pattern, limit)
 
+    def get_connected_components(self):
+        nodes_components = {}
+        for node in self.nodes:
+            if node not in nodes_components:
+                component = node.get_connected_component()
+                for component_node in component:
+                    nodes_components[component_node] = component
+                yield component
+
     def __repr__(self):
         return '\n'.join(repr(node) for node in sorted(self.nodes))

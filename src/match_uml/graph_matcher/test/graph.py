@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from graph_matcher.graph import Graph
 
 
@@ -38,3 +38,32 @@ class MakeGraph(TestCase):
                                           '1, 3 -> [2] -> 4' '\n'
                                              '4 -> [3] -> 2' '\n'
                                              '2 -> [4] -> 3'))
+
+
+def get_connected_components(graph):
+    return [replace_node_by_obj(x) for x in graph.get_connected_components()]
+
+
+class GraphGetConnectedComponents(TestCase):
+    def test_empty_should_succeed(self):
+        assert_that(get_connected_components(Graph()), empty())
+
+    def test_two_not_connected_should_succeed(self):
+        assert_that(get_connected_components(Graph({1, 2})),
+                    contains_inanyorder({1}, {2}))
+
+    def test_two_connected_should_succeed(self):
+        assert_that(get_connected_components(Graph([(1, 2)])),
+                    equal_to([{1, 2}]))
+
+    def test_two_double_connected_should_succeed(self):
+        assert_that(get_connected_components(Graph([{1, 2}])),
+                    equal_to([{1, 2}]))
+
+    def test_three_connected_should_succeed(self):
+        assert_that(get_connected_components(Graph({(1, 2), (2, 3)})),
+                    equal_to([{1, 2, 3}]))
+
+    def test_two_components_should_succeed(self):
+        assert_that(get_connected_components(Graph({(1, 2), (3, 4)})),
+                    contains_inanyorder({1, 2}, {3, 4}))
