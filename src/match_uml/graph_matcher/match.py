@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from collections import defaultdict, deque, Counter, namedtuple
-from itertools import tee
+from itertools import tee, combinations, permutations
 from graph_matcher.configuration import Configuration
 
 
@@ -57,7 +57,7 @@ def remove_duplicates(values):
     return result
 
 
-def match(target_graph, pattern_graph):
+def match_one(target_graph, pattern_graph):
     def init_generator():
         return generate_equivalent_node_pair(
             target_graph.nodes, pattern_graph.nodes, init_equivalent)
@@ -107,3 +107,107 @@ def match(target_graph, pattern_graph):
         if repush:
             conf.step()
             variants.append(conf)
+
+
+def match_one_pattern(pattern_graph, target_components):
+    from graph_matcher.graph import Graph
+    for component in target_components:
+        for v in match_one(Graph(nodes=component), pattern_graph):
+            yield v
+
+
+def match_one_target(target_graph, pattern_components):
+    from graph_matcher.graph import Graph
+    for component in pattern_components:
+        for v in match_one(target_graph, Graph(nodes=component)):
+            yield v
+
+
+def match(target_graph, pattern_graph):
+    from graph_matcher.graph import Graph
+    target_components = tuple(target_graph.get_connected_components())
+    pattern_components = tuple(pattern_graph.get_connected_components())
+    target_n = len(target_components)
+    pattern_n = len(pattern_components)
+    if target_n <= 1:
+        if pattern_n <= 1:
+            for v in match_one(target_graph, pattern_graph):
+                yield v
+        else:
+            for v in match_one_target(target_graph, pattern_components):
+                yield v
+    else:
+        if pattern_n <= 1:
+            for v in match_one_pattern(pattern_graph, target_components):
+                yield v
+        else:
+            if pattern_n < target_n:
+
+                def match_combination(target_components):
+                    for target_component in target_components:
+                        target_graph = Graph(nodes=target_component)
+                        for pp in permutations(pattern_components, pattern_n):
+                            for v in match_one_target(target_graph, pp):
+                                yield v
+
+                target_combinations = combinations(target_components, pattern_n)
+                for target_combination in target_combinations:
+                    variants = generate_merged_variants(match_combination(
+                        target_combination))
+                    for v in variants:
+                        yield v
+            else:
+
+                def match_combination(pattern_components):
+                    for pattern_component in pattern_components:
+                        pattern_graph = Graph(nodes=pattern_component)
+                        for tp in permutations(target_components, target_n):
+                            for v in match_one_pattern(pattern_graph, tp):
+                                yield v
+
+                pattern_combinations = combinations(pattern_components,
+                                                    target_n)
+                for pattern_combination in pattern_combinations:
+                    variants = generate_merged_variants(match_combination(
+                        pattern_combination))
+                    for v in variants:
+                        yield v
+
+
+def generate_merged_variants(variants):
+    variants = tuple(variants)
+    for n in xrange(len(variants), 0, -1):
+        result = []
+        for combination in combinations(variants, n):
+            union = unite_variants(combination)
+            if union:
+                union = sorted(union)
+                if union not in result:
+                    result.append(union)
+                    yield union
+        if result:
+            return
+
+
+def unite_variants(variants):
+    if not variants:
+        return None
+    elif len(variants) == 1:
+        return variants[0]
+    elif len(variants) == 2:
+        return unite_two_variants_sets(variants[0], variants[1])
+    else:
+        union = variants[0]
+        for variants_set in variants[1:]:
+            union = unite_two_variants_sets(union, variants_set)
+            if not union:
+                return None
+        return union
+
+
+def unite_two_variants_sets(first, second):
+    if {x.target for x in first} & {x.target for x in second}:
+        return None
+    if {x.pattern for x in first} & {x.pattern for x in second}:
+        return None
+    return first + second
