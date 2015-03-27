@@ -33,7 +33,7 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
                     set((target for target, _ in chain))))
                 pattern_iters = tee(pattern_iter, len(not_used_targets))
                 for index, target in enumerate(not_used_targets):
-                    new_chain = list(chain) + [Equivalent(target, pattern)]
+                    new_chain = list(chain) + [(target, pattern)]
                     for c in gen_recursive(pattern_iters[index], new_chain):
                         yield c
             except StopIteration:
@@ -71,7 +71,7 @@ def match(target_graph, pattern_graph):
             if conf.visited_patterns() == pattern_graph.nodes:
                 if conf.visited not in result:
                     result.append(conf.visited)
-                    yield sorted(conf.visited)
+                    yield sorted(Equivalent(t, p) for t, p in conf.visited)
             continue
 
         def neighbor_equivalent(target_node, pattern_node):

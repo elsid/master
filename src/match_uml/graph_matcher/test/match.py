@@ -4,12 +4,13 @@
 from unittest import TestCase
 from itertools import permutations
 from hamcrest import assert_that, equal_to, contains_inanyorder, empty
-from graph_matcher.match import match
+from graph_matcher.match import match, Equivalent
 from graph_matcher.graph import Graph
 
 
 def replace_node_by_obj(variants):
-    return [[tuple((p[0].obj, p[1].obj)) for p in v] for v in variants]
+    return [[Equivalent(x.target.obj, x.pattern.obj) for x in variant]
+            for variant in variants]
 
 
 class Match(TestCase):
@@ -20,9 +21,11 @@ class Match(TestCase):
         first = Graph({1})
         second = Graph({'a'})
         first_variants = replace_node_by_obj(match(first, second))
-        assert_that(first_variants, equal_to([[(1, 'a')]]))
+        assert_that(first_variants, equal_to(
+            [[Equivalent(target=1, pattern='a')]]))
         second_variants = replace_node_by_obj(match(second, first))
-        assert_that(second_variants, equal_to([[('a', 1)]]))
+        assert_that(second_variants, equal_to(
+            [[Equivalent(target='a', pattern=1)]]))
 
     def test_match_with_one_edge_should_succeed(self):
         first = Graph({(1, 2)})
