@@ -47,8 +47,8 @@ class Graph(object):
     def __init__(self, nodes_or_edges=tuple(), nodes=None):
         self.nodes = nodes or generate_nodes(nodes_or_edges)
 
-    def match(self, pattern, limit=None):
-        return match(self, pattern, limit)
+    def match(self, pattern):
+        return match(self, pattern)
 
     def get_connected_components(self):
         nodes_components = {}

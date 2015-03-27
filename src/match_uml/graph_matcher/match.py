@@ -57,11 +57,7 @@ def remove_duplicates(values):
     return result
 
 
-def match(target_graph, pattern_graph, limit=None):
-    assert limit is None or limit >= 0
-    if limit == 0:
-        return
-
+def match(target_graph, pattern_graph):
     def init_generator():
         return generate_equivalent_node_pair(
             target_graph.nodes, pattern_graph.nodes, init_equivalent)
@@ -76,8 +72,6 @@ def match(target_graph, pattern_graph, limit=None):
                 if conf.visited not in result:
                     result.append(conf.visited)
                     yield sorted(conf.visited)
-                if limit is not None and len(result) >= limit:
-                    return
             continue
 
         def neighbor_equivalent(target_node, pattern_node):
