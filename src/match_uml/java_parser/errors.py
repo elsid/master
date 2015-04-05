@@ -214,4 +214,4 @@ class AmbiguousTypeName(TypeNameError):
                     candidates=self.__format_candidates()))
 
     def __format_candidates(self):
-        return '\n'.join('\t"%s"' % x for x in self.candidates)
+        return '\n'.join('%s"%s"' % (4 * ' ', x) for x in self.candidates)
