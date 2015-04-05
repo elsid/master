@@ -12,7 +12,7 @@ from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
-from uml_matcher.match import MatchResult
+from uml_matcher.match import MatchResult, MatchVariant
 
 
 class Factory(object):
@@ -87,18 +87,24 @@ class DecoratorPatternDiagramFactory(Factory):
 
     def match_result(self, other):
         E = Equivalent
-        return MatchResult(
-            generalizations=[[
-                E(self.component(), other.component()),
-                E(self.concrete_component(), other.concrete_component()),
-                E(self.decorator(), other.decorator()),
-                E(self.concrete_decorator(), other.concrete_decorator()),
-            ]],
-            associations=[[
-                E(self.decorator_component(), other.decorator_component()),
-                E(self.decorator_end(), other.decorator_end()),
-            ]],
-        )
+        return MatchResult([
+            MatchVariant(
+                generalizations=(
+                    E(target=self.component(), pattern=other.component()),
+                    E(target=self.concrete_component(),
+                      pattern=other.concrete_component()),
+                    E(target=self.decorator(), pattern=other.decorator()),
+                    E(target=self.concrete_decorator(),
+                      pattern=other.concrete_decorator()),
+                ),
+                associations=(
+                    E(target=self.decorator_component(),
+                      pattern=other.decorator_component()),
+                    E(target=self.decorator_end(),
+                      pattern=other.decorator_end()),
+                ),
+            )
+        ])
 
 
 class TargetDiagramFactory(Factory):
@@ -228,48 +234,91 @@ class MatchDiagram(TestCase):
         t = TargetDiagramFactory()
         p = DecoratorPatternDiagramFactory()
         E = Equivalent
-        expected_match_result = MatchResult(
-            generalizations=[
-                [
-                    E(t.cheeseburger(), p.concrete_component()),
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                ], [
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.hamburger(), p.concrete_component()),
-                ], [
-                    E(t.cheeseburger(), p.concrete_component()),
+        expected_match_result = MatchResult([
+            MatchVariant(
+                generalizations=[
                     E(t.burger(), p.component()),
                     E(t.burger_with(), p.decorator()),
                     E(t.cheese(), p.concrete_decorator()),
-                ], [
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cheese(), p.concrete_decorator()),
-                    E(t.hamburger(), p.concrete_component()),
+                    E(t.cheeseburger(), p.concrete_component()),
                 ],
-            ],
-            associations=[
-                [
-                    E(t.hamburger_end(), p.decorator_end()),
-                    E(t.hamburger_cutlet(), p.decorator_component()),
-                ],
-                [
-                    E(t.cheeseburger_end(), p.decorator_end()),
-                    E(t.cheeseburger_cutlet(), p.decorator_component()),
-                ],
-                [
-                    E(t.cheeseburger_end(), p.decorator_end()),
-                    E(t.cheeseburger_cheese(), p.decorator_component()),
-                ],
-                [
+                associations=[
                     E(t.burger_with_end(), p.decorator_end()),
                     E(t.burger_with_burger(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cheese(), p.concrete_decorator()),
+                    E(t.hamburger(), p.concrete_component()),
                 ],
-            ],
-        )
+                associations=[
+                    E(t.burger_with_end(), p.decorator_end()),
+                    E(t.burger_with_burger(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cutlet(), p.concrete_decorator()),
+                    E(t.cheeseburger(), p.concrete_component()),
+                ],
+                associations=[
+                    E(t.burger_with_end(), p.decorator_end()),
+                    E(t.burger_with_burger(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cutlet(), p.concrete_decorator()),
+                    E(t.hamburger(), p.concrete_component()),
+                ],
+                associations=[
+                    E(t.burger_with_end(), p.decorator_end()),
+                    E(t.burger_with_burger(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cheese(), p.concrete_decorator()),
+                    E(t.cheeseburger(), p.concrete_component()),
+                ],
+                associations=[
+                    E(t.cheeseburger_end(), p.decorator_end()),
+                    E(t.cheeseburger_cheese(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cutlet(), p.concrete_decorator()),
+                    E(t.cheeseburger(), p.concrete_component()),
+                ],
+                associations=[
+                    E(t.cheeseburger_end(), p.decorator_end()),
+                    E(t.cheeseburger_cutlet(), p.decorator_component()),
+                ]
+            ),
+            MatchVariant(
+                generalizations=[
+                    E(t.burger(), p.component()),
+                    E(t.burger_with(), p.decorator()),
+                    E(t.cutlet(), p.concrete_decorator()),
+                    E(t.hamburger(), p.concrete_component()),
+                ],
+                associations=[
+                    E(t.hamburger_end(), p.decorator_end()),
+                    E(t.hamburger_cutlet(), p.decorator_component()),
+                ]
+            ),
+        ])
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))

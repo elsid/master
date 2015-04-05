@@ -1,32 +1,50 @@
 # coding: utf-8
 
+from collections import namedtuple
 from graph_matcher import Graph, replace_node_by_obj
 
 
-class MatchResult(object):
-    def __init__(self, results=None,
-                 generalizations=tuple(),
-                 associations=tuple()):
-        results = results or tuple()
-        self.generalizations = (generalizations if generalizations
-                                or len(results) <= 0 else results[0])
-        self.associations = (associations if associations
-                             or len(results) <= 1 else results[1])
+BaseMatchVariant = namedtuple('BaseMatchVariant',
+                              ('generalizations', 'associations'))
+
+
+class MatchVariant(BaseMatchVariant):
+    def __new__(cls, generalizations=tuple(), associations=tuple()):
+        return super(MatchVariant, cls).__new__(cls, tuple(generalizations),
+                                                tuple(associations))
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or isinstance(other, MatchResult)
+                or isinstance(other, MatchVariant)
                 and eq_ignore_order(self.generalizations, other.generalizations)
                 and eq_ignore_order(self.associations, other.associations))
 
     def __repr__(self):
-        connections = (
-            ('generalizations', self.generalizations),
-            ('associations', self.associations),
-        )
-        return ('\n'.join('%s\n%s' % (n, '\n'.join('%s\n' % '\n'.join(
-            '  %s === %s' % tuple(y) for y in x) for x in v))
-            for n, v in connections if v))
+        def gen():
+            yield 'generalizations'
+            if not self.generalizations:
+                yield '  nothing'
+            for x in self.generalizations:
+                yield '  %s === %s' % (x.target, x.pattern)
+            yield 'associations'
+            if not self.associations:
+                yield '  nothing'
+            for x in self.associations:
+                yield '  %s === %s' % (x.target, x.pattern)
+        return '\n'.join(gen())
+
+
+class MatchResult(object):
+    def __init__(self, variants=tuple()):
+        self.variants = tuple(variants)
+
+    def __eq__(self, other):
+        return (id(self) == id(other)
+                or isinstance(other, MatchResult)
+                and eq_ignore_order(self.variants, other.variants))
+
+    def __repr__(self):
+        return '\n'.join('%s\n' % repr(x) for x in self.variants)
 
 
 def eq_ignore_order(first, second):
@@ -55,7 +73,41 @@ def eq_ignore_order(first, second):
 
 
 def match(target, pattern):
-    return MatchResult([list(replace_node_by_obj(r)) for r in (
-        Graph(target.generalizations).match(Graph(pattern.generalizations)),
-        Graph(target.associations).match(Graph(pattern.associations)),
-    )])
+    generalizations_variants = replace_node_by_obj(
+        Graph(target.generalizations).match(Graph(pattern.generalizations)))
+    associations_variants = replace_node_by_obj(
+        Graph(target.associations).match(Graph(pattern.associations)))
+    return MatchResult(combine(generalizations_variants, associations_variants))
+
+
+def combine(generalizations_variants, associations_variants):
+    if associations_variants:
+        if generalizations_variants:
+
+            def add(result, x):
+                result += combine_association(generalizations_variants, x)
+                return result
+
+            return reduce(add, associations_variants, list())
+        else:
+            return (MatchVariant(associations=x) for x in associations_variants)
+    elif generalizations_variants:
+        return (MatchVariant(generalizations=x)
+                for x in generalizations_variants)
+    else:
+        return tuple()
+
+
+def combine_association(generalizations_variants, associations_variant):
+    return (MatchVariant(generalizations=x, associations=associations_variant)
+            for x in generalizations_variants
+            if has_correspondence(x, associations_variant))
+
+
+def has_correspondence(generalizations_variant, associations_variant):
+    gt_classifiers = (x.target for x in generalizations_variant)
+    at_classifiers = (x.target.type.classifier for x in associations_variant)
+    gp_classifiers = (x.pattern for x in generalizations_variant)
+    ap_classifiers = (x.pattern.type.classifier for x in associations_variant)
+    return (frozenset(gt_classifiers) >= frozenset(at_classifiers)
+            and frozenset(gp_classifiers) >= frozenset(ap_classifiers))
