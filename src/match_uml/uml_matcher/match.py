@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from graph_matcher import Graph
+from graph_matcher import Graph, replace_node_by_obj
 
 
 class MatchResult(object):
@@ -59,7 +59,3 @@ def match(target, pattern):
         Graph(target.generalizations).match(Graph(pattern.generalizations)),
         Graph(target.associations).match(Graph(pattern.associations)),
     )])
-
-
-def replace_node_by_obj(variants):
-    return ([tuple((p[0].obj, p[1].obj)) for p in v] for v in variants)

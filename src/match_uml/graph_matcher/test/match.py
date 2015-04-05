@@ -4,13 +4,8 @@
 from unittest import TestCase
 from itertools import permutations
 from hamcrest import assert_that, equal_to, contains_inanyorder, empty
-from graph_matcher.match import match, Equivalent
+from graph_matcher.match import Equivalent, match, replace_node_by_obj
 from graph_matcher.graph import Graph
-
-
-def replace_node_by_obj(variants):
-    return [[Equivalent(x.target.obj, x.pattern.obj) for x in variant]
-            for variant in variants]
 
 
 class Match(TestCase):

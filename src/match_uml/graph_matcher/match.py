@@ -8,6 +8,11 @@ from graph_matcher.configuration import Configuration
 Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
 
 
+def replace_node_by_obj(variants):
+    return [[Equivalent(x.target.obj, x.pattern.obj) for x in variant]
+            for variant in variants]
+
+
 def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
     for target_node in target_nodes:
         for pattern_node in pattern_nodes:
