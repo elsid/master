@@ -2,7 +2,7 @@
 
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
-from uml_matcher.diagram import eq_ignore_order
+from uml_matcher.match import eq_ignore_order
 
 
 class Classifier(NamedElement):
