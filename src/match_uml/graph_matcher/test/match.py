@@ -31,47 +31,47 @@ class Match(TestCase):
         first = Graph({1})
         second = Graph({'a', 'b'})
         first_variants = replace_node_by_obj(match(first, second))
-        assert_that(first_variants, equal_to([
+        assert_that(first_variants, contains_inanyorder(
             [(1, 'a')], [(1, 'b')]
-        ]))
+        ))
         second_variants = replace_node_by_obj(match(second, first))
-        assert_that(second_variants, equal_to([
+        assert_that(second_variants, contains_inanyorder(
             [('a', 1)], [('b', 1)]
-        ]))
+        ))
 
     def test_match_with_two_components_should_succeed(self):
         first = Graph({1, 2})
         second = Graph({'a', 'b'})
         first_variants = replace_node_by_obj(match(first, second))
-        assert_that(first_variants, equal_to([
+        assert_that(first_variants, contains_inanyorder(
             [(1, 'a'), (2, 'b')], [(1, 'b'), (2, 'a')]
-        ]))
+        ))
         second_variants = replace_node_by_obj(match(second, first))
-        assert_that(second_variants, equal_to([
+        assert_that(second_variants, contains_inanyorder(
             [('a', 1), ('b', 2)], [('a', 2), ('b', 1)]
-        ]))
+        ))
 
     def test_match_with_two_and_three_components_should_succeed(self):
         first = Graph({1, 2})
         second = Graph({'a', 'b', 'c'})
         first_variants = replace_node_by_obj(match(first, second))
-        assert_that(first_variants, equal_to([
+        assert_that(first_variants, contains_inanyorder(
             [(1, 'c'), (2, 'b')], [(1, 'b'), (2, 'c')], [(1, 'c'), (2, 'a')],
             [(1, 'a'), (2, 'c')], [(1, 'b'), (2, 'a')], [(1, 'a'), (2, 'b')],
-        ]))
+        ))
         second_variants = replace_node_by_obj(match(second, first))
-        assert_that(second_variants, equal_to([
+        assert_that(second_variants, contains_inanyorder(
             [('b', 2), ('c', 1)], [('b', 1), ('c', 2)], [('a', 2), ('c', 1)],
             [('a', 1), ('c', 2)], [('a', 2), ('b', 1)], [('a', 1), ('b', 2)],
-        ]))
+        ))
 
     def test_match_with_one_edge_should_succeed(self):
         first = Graph({(1, 2)})
         second = Graph({('a', 'b')})
         first_variants = replace_node_by_obj(match(first, second))
-        assert_that(first_variants, equal_to([[(1, 'a'), (2, 'b')]]))
+        assert_that(first_variants, contains_inanyorder([(1, 'a'), (2, 'b')]))
         second_variants = replace_node_by_obj(match(second, first))
-        assert_that(second_variants, equal_to([[('a', 1), ('b', 2)]]))
+        assert_that(second_variants, contains_inanyorder([('a', 1), ('b', 2)]))
 
     def test_match_with_self_connected_nodes_should_succeed(self):
         first = Graph({(1, 1)})
