@@ -73,11 +73,30 @@ def eq_ignore_order(first, second):
 
 
 def match(target, pattern):
-    generalizations_variants = replace_node_by_obj(
-        Graph(target.generalizations).match(Graph(pattern.generalizations)))
-    associations_variants = replace_node_by_obj(
-        Graph(target.associations).match(Graph(pattern.associations)))
-    return MatchResult(combine(generalizations_variants, associations_variants))
+    generalizations_variants = match_generalizations(target, pattern)
+    associations_variants = match_associations(target, pattern)
+    combined_variants = combine(generalizations_variants, associations_variants)
+    return MatchResult(combined_variants)
+
+
+def match_generalizations(target, pattern):
+
+    def generate_classifiers(associations):
+        for association in associations:
+            for end in association:
+                yield end.type.classifier
+
+    target_graph = Graph(list(target.generalizations)
+                         + list(generate_classifiers(target.associations)))
+    pattern_graph = Graph(list(pattern.generalizations)
+                          + list(generate_classifiers(pattern.associations)))
+    return replace_node_by_obj(target_graph.match(pattern_graph))
+
+
+def match_associations(target, pattern):
+    target_graph = Graph(target.associations)
+    pattern_graph = Graph(pattern.associations)
+    return replace_node_by_obj(target_graph.match(pattern_graph))
 
 
 def combine(generalizations_variants, associations_variants):
