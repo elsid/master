@@ -179,6 +179,25 @@ class FillClassifiers(TestCaseWithParser):
             'int': int_type.classifier,
         }))
 
+    def test_fill_one_class_with_two_same_property_should_return_error(self):
+        tree = self.parse('''
+            class A {
+                public int a;
+                public float a;
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(len(errors), equal_to(1))
+        assert_that(str(errors[0]), equal_to(
+            'error: redeclaration of variable "a" in class "A"'))
+        int_type = Type(PrimitiveType('int'))
+        assert_that(classifiers, equal_to({
+            'A': Class('A', [Property(int_type, 'a')]),
+            'int': int_type.classifier,
+        }))
+
     def test_fill_one_class_with_one_operation_should_succeed(self):
         tree = self.parse('''
             class A {
