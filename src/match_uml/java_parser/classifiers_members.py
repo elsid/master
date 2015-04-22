@@ -166,10 +166,6 @@ class ClassifiersMembersFactory(Visitor):
             return True
 
     def visit_MethodDeclaration(self, declaration):
-        if self.__current_classifier().has_operation(declaration.name):
-            self.errors.append(MethodRedeclaration(self.__current_classifier(),
-                                                   declaration))
-            return False
         if has_duplications(declaration.modifiers):
             self.errors.append(MethodModifiersDuplication(
                 self.__current_classifier(), declaration))
@@ -181,10 +177,14 @@ class ClassifiersMembersFactory(Visitor):
             parameters=[],
             is_static='static' in declaration.modifiers,
         )
-        self.__current_classifier().operations.append(self.__operation)
         return True
 
-    def leave_MethodDeclaration(self, _):
+    def leave_MethodDeclaration(self, declaration):
+        if self.__operation in self.__current_classifier().operations:
+            self.errors.append(MethodRedeclaration(
+                self.__operation, self.__current_classifier(), declaration))
+        else:
+            self.__current_classifier().operations.append(self.__operation)
         self.__operation = None
 
     def visit_FormalParameter(self, declaration):

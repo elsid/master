@@ -100,12 +100,15 @@ class MemberRedeclaration(Redeclaration):
         self.classifier = classifier
 
     def __str__(self):
-        return ('error: redeclaration of {entity} {name} in {ctype} '
+        return ('error: redeclaration of {entity} {what} in {ctype} '
                 '{classifier}'.format(
                     entity=self.ENTITY,
-                    name='"%s"' % self.declaration.name,
+                    what='"%s"' % self._what(),
                     ctype=get_classifier_type_name(self.classifier),
                     classifier='"%s"' % self.classifier.name))
+
+    def _what(self):
+        raise NotImplemented()
 
 
 class VariableRedeclaration(MemberRedeclaration):
@@ -114,12 +117,19 @@ class VariableRedeclaration(MemberRedeclaration):
     def __init__(self, classifier, declaration):
         super(VariableRedeclaration, self).__init__(classifier, declaration)
 
+    def _what(self):
+        return self.declaration.name
+
 
 class MethodRedeclaration(MemberRedeclaration):
     ENTITY = 'method'
 
-    def __init__(self, classifier, declaration):
+    def __init__(self, operation, classifier, declaration):
         super(MethodRedeclaration, self).__init__(classifier, declaration)
+        self.operation = operation
+
+    def _what(self):
+        return self.operation
 
 
 class MemberModifiersDuplication(Error):

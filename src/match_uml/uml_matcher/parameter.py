@@ -22,3 +22,9 @@ class Parameter(NamedElement):
                 and isinstance(other, Parameter)
                 and self.type == other.type
                 and self.direction == other.direction)
+
+    def __repr__(self):
+        return '{direction}{name}: {type}'.format(
+            name=self.name,
+            type=self.type,
+            direction=self.direction)

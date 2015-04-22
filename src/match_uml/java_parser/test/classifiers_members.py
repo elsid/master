@@ -218,6 +218,56 @@ class FillClassifiers(TestCaseWithParser):
             'int': int_type.classifier,
         }))
 
+    def test_fill_one_class_with_two_overloaded_operations_should_succeed(self):
+        tree = self.parse('''
+            class A {
+                void f(int x);
+                void f(float x);
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, empty())
+        void_type = Type(PrimitiveType('void'))
+        int_type = Type(PrimitiveType('int'))
+        float_type = Type(PrimitiveType('float'))
+        assert_that(classifiers, equal_to({
+            'A': Class('A', [], [
+                Operation(void_type, 'f', Visibility.private,
+                          [Parameter(int_type, 'x')]),
+                Operation(void_type, 'f', Visibility.private,
+                          [Parameter(float_type, 'x')]),
+            ]),
+            'void': void_type.classifier,
+            'int': int_type.classifier,
+            'float': float_type.classifier,
+        }))
+
+    def test_fill_one_class_with_two_same_operations_should_return_error(self):
+        tree = self.parse('''
+            class A {
+                void f(int x);
+                void f(int x);
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(len(errors), equal_to(1))
+        assert_that(str(errors[0]), equal_to(
+            'error: redeclaration of method "-f(x: int): void" in class "A"'))
+        void_type = Type(PrimitiveType('void'))
+        int_type = Type(PrimitiveType('int'))
+        assert_that(classifiers, equal_to({
+            'A': Class('A', [], [
+                Operation(void_type, 'f', Visibility.private,
+                          [Parameter(int_type, 'x')]),
+            ]),
+            'void': void_type.classifier,
+            'int': int_type.classifier,
+        }))
+
     def test_fill_recursive_class_should_succeed(self):
         tree = self.parse('''
             class A {
