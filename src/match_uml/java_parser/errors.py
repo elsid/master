@@ -127,7 +127,7 @@ class MemberModifiersDuplication(Error):
         self.classifier = classifier
         self.declaration = declaration
         self.duplicated_modifiers = sorted(
-            (x for x, n in Counter(declaration.modifiers).items() if n > 1))
+            (x for x, n in Counter(declaration.modifiers).iteritems() if n > 1))
 
     def __str__(self):
         return ('error: {prefix} {ctype} {classifier} has duplicated '
