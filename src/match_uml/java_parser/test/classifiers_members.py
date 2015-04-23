@@ -159,6 +159,11 @@ class MakeVariableType(TestCase):
         assert_that(variable_type.classifier_name(), equal_to('A'))
 
 
+VOID_TYPE = Type(PrimitiveType('void'))
+INT_TYPE = Type(PrimitiveType('int'))
+FLOAT_TYPE = Type(PrimitiveType('float'))
+
+
 class FillClassifiers(TestCaseWithParser):
     def test_fill_empty_should_succeed(self):
         assert_that(fill_classifiers(self.parse(''), {}), equal_to(({}, [])))
@@ -173,10 +178,9 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
-            'A': Class('A', [Property(int_type, 'a')]),
-            'int': int_type.classifier,
+            'A': Class('A', [Property(INT_TYPE, 'a')]),
+            'int': INT_TYPE.classifier,
         }))
 
     def test_fill_one_class_with_two_same_property_should_return_error(self):
@@ -192,10 +196,9 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of variable "a" in class "A"'))
-        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
-            'A': Class('A', [Property(int_type, 'a')]),
-            'int': int_type.classifier,
+            'A': Class('A', [Property(INT_TYPE, 'a')]),
+            'int': INT_TYPE.classifier,
         }))
 
     def test_fill_one_class_with_one_operation_should_succeed(self):
@@ -208,14 +211,12 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        void_type = Type(PrimitiveType('void'))
-        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(void_type, 'f', Visibility.private,
-                          [Parameter(int_type, 'x')])]),
-            'void': void_type.classifier,
-            'int': int_type.classifier,
+                Operation(VOID_TYPE, 'f', Visibility.private,
+                          [Parameter(INT_TYPE, 'x')])]),
+            'void': VOID_TYPE.classifier,
+            'int': INT_TYPE.classifier,
         }))
 
     def test_fill_one_class_with_two_overloaded_operations_should_succeed(self):
@@ -229,19 +230,16 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        void_type = Type(PrimitiveType('void'))
-        int_type = Type(PrimitiveType('int'))
-        float_type = Type(PrimitiveType('float'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(void_type, 'f', Visibility.private,
-                          [Parameter(int_type, 'x')]),
-                Operation(void_type, 'f', Visibility.private,
-                          [Parameter(float_type, 'x')]),
+                Operation(VOID_TYPE, 'f', Visibility.private,
+                          [Parameter(INT_TYPE, 'x')]),
+                Operation(VOID_TYPE, 'f', Visibility.private,
+                          [Parameter(FLOAT_TYPE, 'x')]),
             ]),
-            'void': void_type.classifier,
-            'int': int_type.classifier,
-            'float': float_type.classifier,
+            'void': VOID_TYPE.classifier,
+            'int': INT_TYPE.classifier,
+            'float': FLOAT_TYPE.classifier,
         }))
 
     def test_fill_one_class_with_local_class_should_succeed(self):
@@ -258,13 +256,12 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        void_type = Type(PrimitiveType('void'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(void_type, 'f', Visibility.private)]),
+                Operation(VOID_TYPE, 'f', Visibility.private)]),
             'B': Class('B', [], [
-                Operation(void_type, 'g', Visibility.private)]),
-            'void': void_type.classifier,
+                Operation(VOID_TYPE, 'g', Visibility.private)]),
+            'void': VOID_TYPE.classifier,
         }))
 
     def test_fill_one_class_with_two_same_operations_should_return_error(self):
@@ -280,15 +277,13 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of method "-f(x: int): void" in class "A"'))
-        void_type = Type(PrimitiveType('void'))
-        int_type = Type(PrimitiveType('int'))
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(void_type, 'f', Visibility.private,
-                          [Parameter(int_type, 'x')]),
+                Operation(VOID_TYPE, 'f', Visibility.private,
+                          [Parameter(INT_TYPE, 'x')]),
             ]),
-            'void': void_type.classifier,
-            'int': int_type.classifier,
+            'void': VOID_TYPE.classifier,
+            'int': INT_TYPE.classifier,
         }))
 
     def test_fill_recursive_class_should_succeed(self):
