@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from plyj.model import Visitor, Name as PlyjName
+from plyj.model import Visitor, Name as PlyjName, Type as PlyjType
 from java_parser.full_classifiers_names import get_name_value
 from java_parser.external_classifiers import FORCE_IMPORT
 from java_parser.classifiers_members import PRIMITIVE_TYPES
@@ -13,6 +13,8 @@ def set_declaration_name(declaration, name):
         declaration.name = name
     elif isinstance(declaration.name, PlyjName):
         declaration.name.value = name
+    elif isinstance(declaration.name, PlyjType):
+        set_declaration_name(declaration.name, name)
     else:
         raise PlyjNameTypeError(declaration.name)
 
