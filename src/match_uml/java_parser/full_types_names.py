@@ -121,6 +121,10 @@ class SetFullTypesNames(Visitor):
             set_declaration_name(declaration, tuple(classifiers_names)[0])
 
     def __find_classifiers_names(self, type_name):
+        package = self.__package
+        if package and package + '.' + type_name in self.visible_classifiers:
+            yield package + '.' + type_name
+            return
         def is_type_name(name):
             return (name == type_name or name.endswith('.' + type_name) or
                     name.endswith('$' + type_name))
