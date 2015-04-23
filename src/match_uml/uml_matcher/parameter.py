@@ -27,4 +27,4 @@ class Parameter(NamedElement):
         return '{direction}{name}: {type}'.format(
             name=self.name,
             type=self.type,
-            direction=self.direction)
+            direction='%s ' % self.direction if str(self.direction) else '')
