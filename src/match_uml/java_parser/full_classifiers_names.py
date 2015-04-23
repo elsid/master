@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from plyj.model import Visitor, Name as PlyjName
+from plyj.model import Visitor, Name as PlyjName, Type as PlyjType
 from java_parser.errors import PlyjNameTypeError
 
 
@@ -9,6 +9,8 @@ def get_name_value(name):
         return name
     elif isinstance(name, PlyjName):
         return name.value
+    elif isinstance(name, PlyjType):
+        return get_name_value(name.name)
     else:
         raise PlyjNameTypeError(name)
 
