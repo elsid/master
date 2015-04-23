@@ -154,19 +154,20 @@ class ClassifiersMembersFactory(Visitor):
         self.__field = None
 
     def visit_VariableDeclarator(self, declaration):
-        if self.__current_classifier().has_property(declaration.variable.name):
-            self.errors.append(VariableRedeclaration(
-                self.__current_classifier(), declaration.variable))
+        classifier = self.__current_classifier()
+        if classifier.has_property(declaration.variable.name):
+            self.errors.append(VariableRedeclaration(classifier,
+                                                     declaration.variable))
             return False
         if self.__field:
-            self.__current_classifier().properties.append(Property(
+            classifier.properties.append(Property(
                 type=self.__get_classifier_type(VariableType(
                     self.__field, declaration.variable)),
                 name=declaration.variable.name,
                 visibility=get_visibility(self.__field),
                 is_read_only='final' in self.__field.modifiers,
                 is_static='static' in self.__field.modifiers,
-                owner=self.__current_classifier(),
+                owner=classifier,
             ))
             return True
 
