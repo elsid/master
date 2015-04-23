@@ -24,7 +24,7 @@ class Parameter(NamedElement):
                 and self.direction == other.direction)
 
     def __repr__(self):
-        return '{direction}{name}: {type}'.format(
+        return '{direction}{name}{type}'.format(
             name=self.name,
-            type=self.type,
+            type=': %s' % self.type if self.type else '',
             direction='%s ' % self.direction if str(self.direction) else '')
