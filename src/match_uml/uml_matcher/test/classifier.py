@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase
-from hamcrest import assert_that, equal_to, calling, raises
+from hamcrest import assert_that, equal_to
 from uml_matcher.classifier import Classifier
 from uml_matcher.property import Property
 from uml_matcher.type import Type
@@ -25,5 +25,5 @@ class MakeClassifier(TestCase):
         a1.properties = [Property(Type(a1), 'a')]
         a2 = Classifier('A')
         a2.properties = [Property(Type(a2), 'a')]
-        assert_that(calling(lambda: a1 == a2), raises(RuntimeError))  # FIXME
-        # assert_that(a1, equal_to(a2))
+        assert_that(a1, equal_to(a2))
+        assert_that(a1.equiv_pattern(a2), equal_to(True))

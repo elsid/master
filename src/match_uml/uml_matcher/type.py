@@ -4,6 +4,7 @@ from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
 from uml_matcher.eq_pattern import eq_pattern, equiv_pattern
+from uml_matcher.cached_eq import cached_eq
 
 
 def repr_multiplicity(lower, upper):
@@ -64,6 +65,7 @@ class Type(object):
                      or (self.mult_upper is not None
                          and self.mult_upper <= pattern.mult_upper)))
 
+    @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, Type)

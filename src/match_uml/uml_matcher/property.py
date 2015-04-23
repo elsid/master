@@ -5,6 +5,7 @@ from uml_matcher.visibility import Visibility
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.eq_pattern import eq_pattern, equiv_pattern, sub_equiv_pattern
 from uml_matcher.has_equivalents import has_equivalents
+from uml_matcher.cached_eq import cached_eq
 
 
 class Property(NamedElement):
@@ -47,6 +48,7 @@ class Property(NamedElement):
                                     pattern.subsetted_properties)
                 and sub_equiv_pattern(self.type, pattern.type))
 
+    @cached_eq
     def equiv_pattern(self, pattern):
         return (self.sub_equiv_pattern(pattern)
                 and equiv_pattern(self.owner, pattern.owner))
@@ -64,6 +66,7 @@ class Property(NamedElement):
                 and self.is_static == other.is_static
                 and self.subsetted_properties == other.subsetted_properties)
 
+    @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Property, self).__eq__(other)

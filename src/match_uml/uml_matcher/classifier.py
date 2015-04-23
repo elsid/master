@@ -3,6 +3,7 @@
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
 from uml_matcher.match import eq_ignore_order
+from uml_matcher.cached_eq import cached_eq
 
 
 class Classifier(NamedElement):
@@ -19,6 +20,7 @@ class Classifier(NamedElement):
     def has_operation(self, name):
         return name in set(operation.name for operation in self.operations)
 
+    @cached_eq
     def equiv_pattern(self, pattern):
         return (isinstance(pattern, Classifier)
                 and has_equivalents(self.properties, pattern.properties)

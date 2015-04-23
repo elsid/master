@@ -298,6 +298,4 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         a_type = Type(Class('A'))
         a_type.classifier.properties = [Property(a_type, 'a')]
-        assert_that(calling(lambda: classifiers == {'A': a_type.classifier}),
-                    raises(RuntimeError))  # FIXME
-        # assert_that(classifiers, equal_to({'A': a_type.classifier}))
+        assert_that(classifiers, equal_to({'A': a_type.classifier}))
