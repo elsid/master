@@ -244,6 +244,29 @@ class FillClassifiers(TestCaseWithParser):
             'float': float_type.classifier,
         }))
 
+    def test_fill_one_class_with_local_class_should_succeed(self):
+        tree = self.parse('''
+            class A {
+                void f() {
+                    class B extends A {
+                        void g();
+                    }
+                }
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, empty())
+        void_type = Type(PrimitiveType('void'))
+        assert_that(classifiers, equal_to({
+            'A': Class('A', [], [
+                Operation(void_type, 'f', Visibility.private)]),
+            'B': Class('B', [], [
+                Operation(void_type, 'g', Visibility.private)]),
+            'void': void_type.classifier,
+        }))
+
     def test_fill_one_class_with_two_same_operations_should_return_error(self):
         tree = self.parse('''
             class A {

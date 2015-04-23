@@ -107,9 +107,14 @@ class FormalParameterType(object):
         return get_classifier_name(self.parameter.type)
 
 
+class ClassifiersChainLink(object):
+    def __init__(self, classifier):
+        self.classifier = classifier
+        self.operation = None
+
+
 class ClassifiersMembersFactory(Visitor):
     __field = None
-    __operation = None
 
     def __init__(self, classifiers):
         super(ClassifiersMembersFactory, self).__init__()
@@ -166,34 +171,39 @@ class ClassifiersMembersFactory(Visitor):
             return True
 
     def visit_MethodDeclaration(self, declaration):
+        if self.__current_operation():
+            return False
         if has_duplications(declaration.modifiers):
             self.errors.append(MethodModifiersDuplication(
                 self.__current_classifier(), declaration))
             return False
-        self.__operation = Operation(
+        self.__set_operation(Operation(
             name=declaration.name,
             visibility=get_visibility(declaration),
             result=self.__get_classifier_type(MethodReturnType(declaration)),
             parameters=[],
             is_static='static' in declaration.modifiers,
-        )
+        ))
         return True
 
     def leave_MethodDeclaration(self, declaration):
-        if self.__operation in self.__current_classifier().operations:
-            self.errors.append(MethodRedeclaration(
-                self.__operation, self.__current_classifier(), declaration))
+        operation = self.__current_operation()
+        classifier = self.__current_classifier()
+        if operation in classifier.operations:
+            self.errors.append(MethodRedeclaration(operation, classifier,
+                                                   declaration))
         else:
-            self.__current_classifier().operations.append(self.__operation)
-        self.__operation = None
+            classifier.operations.append(operation)
+        self.__reset_operation()
 
     def visit_FormalParameter(self, declaration):
         if has_duplications(declaration.modifiers):
             self.errors.append(FormalParameterModifiersDuplication(
                 self.__current_classifier(), declaration))
             return False
-        if self.__operation:
-            self.__operation.parameters.append(Parameter(
+        operation = self.__current_operation()
+        if operation:
+            operation.parameters.append(Parameter(
                 type=self.__get_classifier_type(
                     FormalParameterType(declaration)),
                 name=declaration.variable.name,
@@ -218,14 +228,26 @@ class ClassifiersMembersFactory(Visitor):
             return False
         self.__visited_classifiers.add(declaration.name)
         classifier = self.classifiers[declaration.name]
-        self.__classifiers_chain.append(classifier)
+        self.__classifiers_chain.append(ClassifiersChainLink(classifier))
         return True
 
     def __leave_classifier(self, _):
         self.__classifiers_chain.pop()
 
-    def __current_classifier(self):
+    def __last_link(self):
         return self.__classifiers_chain[-1]
+
+    def __current_classifier(self):
+        return self.__last_link().classifier
+
+    def __current_operation(self):
+        return self.__last_link().operation
+
+    def __set_operation(self, operation):
+        self.__last_link().operation = operation
+
+    def __reset_operation(self):
+        self.__set_operation(None)
 
 
 def fill_classifiers(tree, classifiers):
