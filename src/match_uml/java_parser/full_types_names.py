@@ -55,6 +55,7 @@ class SetFullTypesNames(Visitor):
         for primitive in PRIMITIVE_TYPES:
             self.visible_classifiers[primitive] = classifiers[primitive]
         self.__classifiers_chain = []
+        self.__imports = set()
 
     def visit_PackageDeclaration(self, declaration):
         self.__package = get_name_value(declaration.name)
@@ -62,7 +63,9 @@ class SetFullTypesNames(Visitor):
         return True
 
     def visit_ImportDeclaration(self, declaration):
-        self.__add_visible_from(get_name_value(declaration.name))
+        name = get_name_value(declaration.name)
+        self.__imports.add(name)
+        self.__add_visible_from(name)
         return True
 
     def visit_ClassDeclaration(self, declaration):
@@ -112,27 +115,49 @@ class SetFullTypesNames(Visitor):
 
     def __replace_name(self, declaration):
         type_name = get_name_value(declaration.name)
-        classifiers_names = set(self.__find_classifiers_names(type_name))
+        classifiers_names = tuple(self.__find_classifiers_names(type_name))
         if not classifiers_names:
             self.__add_error_type_not_found(declaration)
         elif len(classifiers_names) > 1:
             self.__add_error_ambiguous_type_name(declaration, classifiers_names)
         else:
-            set_declaration_name(declaration, tuple(classifiers_names)[0])
+            set_declaration_name(declaration, classifiers_names[0])
 
     def __find_classifiers_names(self, type_name):
         package = self.__package
-        if package and package + '.' + type_name in self.visible_classifiers:
-            yield package + '.' + type_name
-            return
 
-        def is_type_name(name):
-            return (name == type_name or name.endswith('.' + type_name) or
-                    name.endswith('$' + type_name))
+        def is_context_type_name(classifier):
+            return classifier == type_name
 
-        for name in self.visible_classifiers.iterkeys():
-            if is_type_name(name):
-                yield name
+        def is_this_package_type_name(classifier):
+            return package and classifier == package + '.' + type_name
+
+        def is_imported_type_name(classifier):
+            return (is_package_type_name(classifier)
+                    and classifier in self.__imports)
+
+        def is_package_type_name(classifier):
+            return classifier.endswith('.' + type_name)
+
+        def is_sub_type_name(classifier):
+            return classifier.endswith('$' + type_name)
+
+        is_type_name_list = (
+            is_context_type_name,
+            is_this_package_type_name,
+            is_imported_type_name,
+            is_package_type_name,
+            is_sub_type_name,
+        )
+        result = set()
+        for is_type_name in is_type_name_list:
+            for name in self.visible_classifiers.iterkeys():
+                if name not in result:
+                    if is_type_name(name):
+                        result.add(name)
+                        yield name
+            if result:
+                return
 
     def __add_error_type_not_found(self, declaration):
         classifier = self.__current_classifier()
