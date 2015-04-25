@@ -128,55 +128,43 @@ def match_one_target(target_graph, pattern_components):
             yield v
 
 
-def match(target_graph, pattern_graph):
+def match_many(more_components, less_components, match_one_in_many):
     from graph_matcher.graph import Graph
+    less_n = len(less_components)
+
+    def match_combination(more_components_combination):
+        for more_component in more_components_combination:
+            more_graph = Graph(nodes=more_component)
+            for p in permutations(less_components, less_n):
+                for v in match_one_in_many(more_graph, p):
+                    yield v
+
+    more_combinations = combinations(more_components, less_n)
+    for more_combination in more_combinations:
+        variants = generate_merged_variants(match_combination(more_combination))
+        for variant in variants:
+            yield variant
+
+
+def match(target_graph, pattern_graph):
     target_components = tuple(target_graph.get_connected_components())
     pattern_components = tuple(pattern_graph.get_connected_components())
     target_n = len(target_components)
     pattern_n = len(pattern_components)
     if target_n <= 1:
         if pattern_n <= 1:
-            for v in match_one(target_graph, pattern_graph):
-                yield v
+            return match_one(target_graph, pattern_graph)
         else:
-            for v in match_one_target(target_graph, pattern_components):
-                yield v
+            return match_one_target(target_graph, pattern_components)
     else:
         if pattern_n <= 1:
-            for v in match_one_pattern(pattern_graph, target_components):
-                yield v
+            return match_one_pattern(pattern_graph, target_components)
+        elif pattern_n <= target_n:
+            return match_many(target_components, pattern_components,
+                              match_one_target)
         else:
-            if pattern_n < target_n:
-
-                def match_combination(target_components):
-                    for target_component in target_components:
-                        target_graph = Graph(nodes=target_component)
-                        for pp in permutations(pattern_components, pattern_n):
-                            for v in match_one_target(target_graph, pp):
-                                yield v
-
-                target_combinations = combinations(target_components, pattern_n)
-                for target_combination in target_combinations:
-                    variants = generate_merged_variants(match_combination(
-                        target_combination))
-                    for v in variants:
-                        yield v
-            else:
-
-                def match_combination(pattern_components):
-                    for pattern_component in pattern_components:
-                        pattern_graph = Graph(nodes=pattern_component)
-                        for tp in permutations(target_components, target_n):
-                            for v in match_one_pattern(pattern_graph, tp):
-                                yield v
-
-                pattern_combinations = combinations(pattern_components,
-                                                    target_n)
-                for pattern_combination in pattern_combinations:
-                    variants = generate_merged_variants(match_combination(
-                        pattern_combination))
-                    for v in variants:
-                        yield v
+            return match_many(pattern_components, target_components,
+                              match_one_pattern)
 
 
 def generate_merged_variants(variants):
