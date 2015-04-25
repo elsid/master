@@ -248,3 +248,17 @@ class MatchDiagram(TestCase):
         ])
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))
+
+
+class ReprDiagram(TestCase):
+    def test_repr_empty_should_succeed(self):
+        assert_that(repr(Diagram()), equal_to(''))
+
+    def test_repr_decorator_empty_should_succeed(self):
+        assert_that(repr(Decorator().diagram()), equal_to(
+            'generalizations\n'
+            '  ConcreteComponent --> Component\n'
+            '  Decorator --> Component\n'
+            '  ConcreteDecorator --> Decorator\n'
+            'associations\n'
+            '  Decorator_end --- Decorator::component'))
