@@ -235,8 +235,9 @@ class ClassifiersMembersFactory(Visitor):
         self.__classifiers_chain.append(ClassifiersChainLink(classifier))
         return True
 
-    def __leave_classifier(self, _):
-        self.__classifiers_chain.pop()
+    def __leave_classifier(self, declaration):
+        if declaration.name == self.__current_classifier().name:
+            self.__classifiers_chain.pop()
 
     def __last_link(self):
         return self.__classifiers_chain[-1]

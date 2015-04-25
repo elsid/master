@@ -4,7 +4,7 @@ from unittest import TestCase
 from hamcrest import assert_that, equal_to, calling, raises, empty
 from plyj.model import (
     FieldDeclaration, MethodDeclaration, Name as PlyjName, Type as PlyjType,
-    VariableDeclarator, Variable)
+    VariableDeclarator, Variable, ClassDeclaration)
 from uml_matcher import (
     Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType)
 from java_parser.classifiers import make_classifiers
@@ -12,7 +12,7 @@ from java_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
     get_type_name, get_classifier_name, VariableType, fill_classifiers,)
 from java_parser.test.classifiers import TestCaseWithParser
-from java_parser.errors import PlyjNameTypeError
+from java_parser.errors import PlyjNameTypeError, ClassRedeclaration
 
 
 class GetVisibility(TestCase):
@@ -322,3 +322,20 @@ class FillClassifiers(TestCaseWithParser):
             ]),
             'void': VOID_TYPE.classifier,
         }))
+
+    def test_fill_two_same_sub_classes_should_return_error(self):
+        tree = self.parse('''
+            class Class {
+                class SubClass {}
+                class SubClass {}
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, equal_to(
+            [ClassRedeclaration(ClassDeclaration('SubClass', []))]))
+        _, errors = fill_classifiers(tree, classifiers)
+        assert_that(classifiers, equal_to({
+            'Class': Class('Class'),
+            'SubClass': Class('SubClass'),
+        }))
+        assert_that(errors, empty())
