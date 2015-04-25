@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from plyj.model import Visitor, Name as PlyjName, Type as PlyjType
+from uml_matcher import PrimitiveType
 from java_parser.full_classifiers_names import get_name_value
 from java_parser.external_classifiers import FORCE_IMPORT
 from java_parser.classifiers_members import PRIMITIVE_TYPES
@@ -53,7 +54,9 @@ class SetFullTypesNames(Visitor):
                 if classifier.name.startswith(force_import):
                     self.visible_classifiers[classifier.name] = classifier
         for primitive in PRIMITIVE_TYPES:
-            self.visible_classifiers[primitive] = classifiers[primitive]
+            if primitive not in self.classifiers:
+                self.classifiers[primitive] = PrimitiveType(primitive)
+            self.visible_classifiers[primitive] = self.classifiers[primitive]
         self.__classifiers_chain = []
         self.__imports = set()
 

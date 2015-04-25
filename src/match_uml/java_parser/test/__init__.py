@@ -9,3 +9,4 @@ from java_parser.test.classifiers_members import (
 from java_parser.test.generalizations import MakeGeneralizations
 from java_parser.test.associations import MakeAssociation, MakeAssociations
 from java_parser.test.diagram import MakeDiagram
+from java_parser.test.full_types_names import SetFullTypeNames
