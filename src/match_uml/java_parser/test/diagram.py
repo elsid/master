@@ -4,180 +4,171 @@ from hamcrest import assert_that, equal_to, empty
 from uml_matcher import (
     Diagram, Operation, Type, PrimitiveType, Aggregation, Interface, Class,
     Property, Generalization, BinaryAssociation)
-from uml_matcher.test.diagram import Factory
+from patterns import cached_method
 from java_parser.diagram import make_diagram
 from java_parser.test.classifiers import TestCaseWithParser
 
 
-class DecoratorDiagramFactory(Factory):
-    def __init__(self):
-        void = Type(PrimitiveType('void'))
+class Decorator(object):
+    VOID = Type(PrimitiveType('void'))
 
-        def make_component(_):
-            return Interface('Component', [], [Operation(void, 'operation')])
+    @cached_method
+    def component(self):
+        return Interface('Component', [], [Operation(self.VOID, 'operation')])
 
-        def make_concrete_component(_):
-            return Class('ConcreteComponent', [],
-                         [Operation(void, 'operation')])
+    @cached_method
+    def concrete_component(self):
+        return Class('ConcreteComponent', [],
+                     [Operation(self.VOID, 'operation')])
 
-        def make_decorator_component(this):
-            return Property(Type(this.component()), 'component')
+    @cached_method
+    def decorator_component(self):
+        return Property(Type(self.component()), 'component')
 
-        def make_decorator(this):
-            return Interface('Decorator',
-                             [this.decorator_component()],
-                             [Operation(void, 'operation')])
+    @cached_method
+    def decorator(self):
+        return Interface('Decorator', [self.decorator_component()],
+                         [Operation(self.VOID, 'operation')])
 
-        def make_concrete_decorator(_):
-            return Class('ConcreteDecorator', [],
-                         [Operation(void, 'operation')])
+    @cached_method
+    def concrete_decorator(self):
+        return Class('ConcreteDecorator', [],
+                     [Operation(self.VOID, 'operation')])
 
-        def make_decorator_end(this):
-            return Property(Type(this.decorator()), 'Decorator_end',
-                            aggregation=Aggregation.none)
+    @cached_method
+    def decorator_end(self):
+        return Property(Type(self.decorator()), 'Decorator_end',
+                        aggregation=Aggregation.none)
 
-        def make_diagram(_):
-            G = Generalization
-            A = BinaryAssociation
-            return Diagram(
-                generalizations=[
-                    G(derived=self.concrete_component(), base=self.component()),
-                    G(derived=self.decorator(), base=self.component()),
-                    G(derived=self.concrete_decorator(), base=self.decorator()),
-                ],
-                associations=[
-                    A({self.decorator_component(), self.decorator_end()}),
-                ],
-            )
-
-        super(DecoratorDiagramFactory, self).__init__([
-            make_component,
-            make_concrete_component,
-            make_decorator_component,
-            make_decorator,
-            make_concrete_decorator,
-            make_decorator_end,
-            make_diagram,
-        ])
+    @cached_method
+    def diagram(self):
+        G = Generalization
+        A = BinaryAssociation
+        return Diagram(
+            generalizations=[
+                G(derived=self.concrete_component(), base=self.component()),
+                G(derived=self.decorator(), base=self.component()),
+                G(derived=self.concrete_decorator(), base=self.decorator()),
+            ],
+            associations=[
+                A({self.decorator_component(), self.decorator_end()}),
+            ],
+        )
 
 
-class BurgersDiagramFactory(Factory):
-    def __init__(self):
-        int_type = Type(PrimitiveType('int'))
+class Burgers(object):
+    INT_TYPE = Type(PrimitiveType('int'))
 
-        def make_cutlet(_):
-            return Class('Cutlet', [], [Operation(int_type, 'price')])
+    @cached_method
+    def cutlet(self):
+        return Class('Cutlet', [], [Operation(self.INT_TYPE, 'price')])
 
-        def make_cutlet_type(this):
-            return Type(this.cutlet())
+    @cached_method
+    def cutlet_type(self):
+        return Type(self.cutlet())
 
-        def make_cheese(_):
-            return Class('Cheese', [], [Operation(int_type, 'price')])
+    @cached_method
+    def cheese(self):
+        return Class('Cheese', [], [Operation(self.INT_TYPE, 'price')])
 
-        def make_cheese_type(this):
-            return Type(this.cheese())
+    @cached_method
+    def cheese_type(self):
+        return Type(self.cheese())
 
-        def make_burger(_):
-            return Class('Burger', [], [Operation(int_type, 'price')])
+    @cached_method
+    def burger(self):
+        return Class('Burger', [], [Operation(self.INT_TYPE, 'price')])
 
-        def make_burger_type(this):
-            return Type(this.burger())
+    @cached_method
+    def burger_type(self):
+        return Type(self.burger())
 
-        def make_hamburger_cutlet(this):
-            return Property(this.cutlet_type(), 'cutlet')
+    @cached_method
+    def hamburger_cutlet(self):
+        return Property(self.cutlet_type(), 'cutlet')
 
-        def make_hamburger(this):
-            return Class('Hamburger', [this.hamburger_cutlet()],
-                         [Operation(int_type, 'price')])
+    @cached_method
+    def hamburger(self):
+        return Class('Hamburger', [self.hamburger_cutlet()],
+                     [Operation(self.INT_TYPE, 'price')])
 
-        def make_hamburger_type(this):
-            return Type(this.hamburger())
+    @cached_method
+    def hamburger_type(self):
+        return Type(self.hamburger())
 
-        def make_cheeseburger_cutlet(this):
-            return Property(this.cutlet_type(), 'cutlet')
+    @cached_method
+    def cheeseburger_cutlet(self):
+        return Property(self.cutlet_type(), 'cutlet')
 
-        def make_cheeseburger_cheese(this):
-            return Property(this.cheese_type(), 'cheese')
+    @cached_method
+    def cheeseburger_cheese(self):
+        return Property(self.cheese_type(), 'cheese')
 
-        def make_cheeseburger(this):
-            return Class(
-                'Cheeseburger',
-                [this.cheeseburger_cutlet(), this.cheeseburger_cheese()],
-                [Operation(int_type, 'price')])
+    @cached_method
+    def cheeseburger(self):
+        return Class(
+            'Cheeseburger',
+            [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
+            [Operation(self.INT_TYPE, 'price')])
 
-        def make_cheeseburger_type(this):
-            return Type(this.cheeseburger())
+    @cached_method
+    def cheeseburger_type(self):
+        return Type(self.cheeseburger())
 
-        def make_burger_with_burger(this):
-            return Property(this.burger_type(), 'burger')
+    @cached_method
+    def burger_with_burger(self):
+        return Property(self.burger_type(), 'burger')
 
-        def make_burger_with(this):
-            return Class('BurgerWith', [this.burger_with_burger()],
-                         [Operation(int_type, 'price')])
+    @cached_method
+    def burger_with(self):
+        return Class('BurgerWith', [self.burger_with_burger()],
+                     [Operation(self.INT_TYPE, 'price')])
 
-        def make_burger_with_type(this):
-            return Type(this.burger_with())
+    @cached_method
+    def burger_with_type(self):
+        return Type(self.burger_with())
 
-        def make_burger_with_end(this):
-            return Property(this.burger_with_type(), 'BurgerWith_end')
+    @cached_method
+    def burger_with_end(self):
+        return Property(self.burger_with_type(), 'BurgerWith_end')
 
-        def make_hamburger_end(this):
-            return Property(this.hamburger_type(), 'Hamburger_end')
+    @cached_method
+    def hamburger_end(self):
+        return Property(self.hamburger_type(), 'Hamburger_end')
 
-        def make_cheeseburger_end(this):
-            return Property(this.cheeseburger_type(), 'Cheeseburger_end')
+    @cached_method
+    def cheeseburger_end(self):
+        return Property(self.cheeseburger_type(), 'Cheeseburger_end')
 
-        def make_diagram(this):
-            G = Generalization
-            A = BinaryAssociation
-            return Diagram(
-                generalizations=[
-                    G(derived=this.cutlet(), base=this.burger_with()),
-                    G(derived=this.cheese(), base=this.burger_with()),
-                    G(derived=this.burger_with(), base=this.burger()),
-                    G(derived=this.hamburger(), base=this.burger()),
-                    G(derived=this.cheeseburger(), base=this.burger()),
-                ],
-                associations=[
-                    A({this.burger_with_burger(), this.burger_with_end()}),
-                    A({this.hamburger_cutlet(), this.hamburger_end()}),
-                    A({this.cheeseburger_cutlet(), this.cheeseburger_end()}),
-                    A({this.cheeseburger_cheese(), this.cheeseburger_end()}),
-                ],
-            )
-
-        super(BurgersDiagramFactory, self).__init__([
-            make_cutlet,
-            make_cutlet_type,
-            make_cheese,
-            make_cheese_type,
-            make_burger,
-            make_burger_type,
-            make_hamburger_cutlet,
-            make_hamburger,
-            make_hamburger_type,
-            make_cheeseburger_cutlet,
-            make_cheeseburger_cheese,
-            make_cheeseburger,
-            make_cheeseburger_type,
-            make_burger_with_burger,
-            make_burger_with,
-            make_burger_with_type,
-            make_burger_with_end,
-            make_hamburger_end,
-            make_cheeseburger_end,
-            make_diagram,
-        ])
+    @cached_method
+    def diagram(self):
+        G = Generalization
+        A = BinaryAssociation
+        return Diagram(
+            generalizations=[
+                G(derived=self.cutlet(), base=self.burger_with()),
+                G(derived=self.cheese(), base=self.burger_with()),
+                G(derived=self.burger_with(), base=self.burger()),
+                G(derived=self.hamburger(), base=self.burger()),
+                G(derived=self.cheeseburger(), base=self.burger()),
+            ],
+            associations=[
+                A({self.burger_with_burger(), self.burger_with_end()}),
+                A({self.hamburger_cutlet(), self.hamburger_end()}),
+                A({self.cheeseburger_cutlet(), self.cheeseburger_end()}),
+                A({self.cheeseburger_cheese(), self.cheeseburger_end()}),
+            ],
+        )
 
 
 class MakeDiagram(TestCaseWithParser):
-    def test_make_from_empty_should_succeed(self):
+    def test_from_empty_should_succeed(self):
         tree = self.parse('')
         diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
         assert_that(diagram, equal_to(Diagram()))
 
-    def test_make_decorator_from_text_should_succeed(self):
+    def test_decorator_from_text_should_succeed(self):
         tree = self.parse('''
             interface Component {
                 public void operation();
@@ -195,9 +186,9 @@ class MakeDiagram(TestCaseWithParser):
         ''')
         diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
-        assert_that(diagram, equal_to(DecoratorDiagramFactory().diagram()))
+        assert_that(diagram, equal_to(Decorator().diagram()))
 
-    def test_make_from_text_should_succeed(self):
+    def test_from_text_should_succeed(self):
         tree = self.parse('''
             class Burger {
                 public int price() {}
@@ -224,4 +215,4 @@ class MakeDiagram(TestCaseWithParser):
         ''')
         diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
-        assert_that(diagram, equal_to(BurgersDiagramFactory().diagram()))
+        assert_that(diagram, equal_to(Burgers().diagram()))
