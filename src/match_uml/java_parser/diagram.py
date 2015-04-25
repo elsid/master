@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from os.path import isdir, isfile
 from plyj.parser import Parser
 from uml_matcher import Diagram, PrimitiveType
 from java_parser import (
@@ -8,6 +9,8 @@ from java_parser import (
     make_associations)
 from java_parser.external_classifiers import find_files
 from java_parser.classifiers_members import PRIMITIVE_TYPES
+from java_parser.errors import (
+    InvalidDirPath, InvalidFilePath, InvalidExternalPath)
 
 
 def find_java_files(path):
@@ -30,6 +33,9 @@ class DiagramFactory(object):
 
     def __init__(self, dirs=None, files=None, trees=None,
                  external_path_list=None):
+        assert_dirs(dirs)
+        assert_files(files)
+        assert_external_path_list(external_path_list)
         self.dirs = list(dirs) if dirs else []
         self.files = list(files) if files else []
         self.trees = list(trees) if trees else []
@@ -98,6 +104,27 @@ class DiagramFactory(object):
 
     def __make_associations(self):
         self.associations = make_associations(self.types)
+
+
+def assert_dirs(dirs):
+    if dirs:
+        for path in dirs:
+            if not isdir(path):
+                raise InvalidDirPath(path)
+
+
+def assert_files(files):
+    if files:
+        for path in files:
+            if not isfile(path):
+                raise InvalidFilePath(path)
+
+
+def assert_external_path_list(external_path_list):
+    if external_path_list:
+        for path in external_path_list:
+            if not isdir(path) and not isfile(path):
+                raise InvalidExternalPath(path)
 
 
 def make_diagram(dirs=None, files=None, trees=None, external_path_list=None):
