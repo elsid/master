@@ -54,14 +54,6 @@ def init_equivalent(target, pattern):
     return target.equiv_pattern(pattern)
 
 
-def remove_duplicates(values):
-    result = []
-    for value in values:
-        if value not in result:
-            result.append(value)
-    return result
-
-
 def match_one(target_graph, pattern_graph):
     def init_generator():
         return generate_equivalent_node_pair(
