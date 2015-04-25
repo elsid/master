@@ -112,3 +112,29 @@ class Match(TestCase):
         second = Graph({('a', 'b'), ('b', 'c'), ('c', 'a')})
         variants = replace_node_by_obj(match(first, second))
         assert_that(variants, empty())
+
+    def test_match_with_many_components_and_special_equiv_should_succeed(self):
+        class Node(object):
+            def __init__(self, value, equiv=None):
+                self.value = value
+                self.equiv = equiv or frozenset()
+
+            def equiv_pattern(self, other):
+                return other.value in self.equiv
+
+            def __repr__(self):
+                return repr(self.value)
+
+            def __eq__(self, other):
+                return (id(self) == id(other)
+                        or (self.value == other.value if hasattr(other, 'value')
+                            else self.value == other))
+
+        first = Graph({(Node(1, {'a'}), Node(2, {'b'})), (Node(3), Node(4))})
+        second = Graph({(Node('a', {1}), Node('b', {2})), Node('c'), Node('d')})
+        first_variants = replace_node_by_obj(match(first, second))
+        assert_that(len(first_variants), equal_to(1))
+        assert_that(first_variants[0], contains_inanyorder((1, 'a'), (2, 'b')))
+        second_variants = replace_node_by_obj(match(second, first))
+        assert_that(len(second_variants), equal_to(1))
+        assert_that(second_variants[0], contains_inanyorder(('a', 1), ('b', 2)))

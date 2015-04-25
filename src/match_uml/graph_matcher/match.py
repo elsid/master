@@ -132,9 +132,26 @@ def match_many(more_components, less_components, match_one_in_many):
                     yield v
 
     more_combinations = combinations(more_components, less_n)
-    for more_combination in more_combinations:
-        variants = generate_merged_variants(match_combination(more_combination))
-        for variant in variants:
+    result = []
+
+    def generate_merged_variants(variants):
+        variants = tuple(variants)
+        for n in xrange(len(variants), 0, -1):
+            local_result = []
+            for variants_combination in combinations(variants, n):
+                union = unite_variants(variants_combination)
+                if union:
+                    union = sorted(union)
+                    if union not in result and union not in local_result:
+                        local_result.append(union)
+                        yield union
+            if local_result:
+                result.extend(local_result)
+                return
+
+    for combination in (match_combination(x) for x in more_combinations):
+        merged_variants = generate_merged_variants(combination)
+        for variant in merged_variants:
             yield variant
 
 
@@ -157,21 +174,6 @@ def match(target_graph, pattern_graph):
         else:
             return match_many(pattern_components, target_components,
                               match_one_pattern)
-
-
-def generate_merged_variants(variants):
-    variants = tuple(variants)
-    for n in xrange(len(variants), 0, -1):
-        result = []
-        for combination in combinations(variants, n):
-            union = unite_variants(combination)
-            if union:
-                union = sorted(union)
-                if union not in result:
-                    result.append(union)
-                    yield union
-        if result:
-            return
 
 
 def unite_variants(variants):
