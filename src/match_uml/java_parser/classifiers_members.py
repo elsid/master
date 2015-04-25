@@ -189,6 +189,8 @@ class ClassifiersMembersFactory(Visitor):
 
     def leave_MethodDeclaration(self, declaration):
         operation = self.__current_operation()
+        if declaration.name != operation.name:
+            return
         classifier = self.__current_classifier()
         if operation in classifier.operations:
             self.errors.append(MethodRedeclaration(operation, classifier,

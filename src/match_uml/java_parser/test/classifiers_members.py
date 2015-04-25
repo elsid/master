@@ -299,3 +299,26 @@ class FillClassifiers(TestCaseWithParser):
         a_type = Type(Class('A'))
         a_type.classifier.properties = [Property(a_type, 'a')]
         assert_that(classifiers, equal_to({'A': a_type.classifier}))
+
+    def test_fill_class_with_overriding_method_in_object_should_succeed(self):
+        tree = self.parse('''
+            class A {
+                void g();
+                void f() {
+                    new A() {
+                        public void h();
+                    };
+                }
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        assert_that(errors, empty())
+        types, errors = fill_classifiers(tree, classifiers)
+        assert_that(errors, empty())
+        assert_that(classifiers, equal_to({
+            'A': Class('A', [], [
+                Operation(VOID_TYPE, 'f', Visibility.private),
+                Operation(VOID_TYPE, 'g', Visibility.private),
+            ]),
+            'void': VOID_TYPE.classifier,
+        }))
