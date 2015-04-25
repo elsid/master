@@ -2,8 +2,8 @@
 
 from hamcrest import assert_that, equal_to, empty
 from uml_matcher import (
-    Diagram, Operation, Type, PrimitiveType, Aggregation, Interface, Class,
-    Property, Generalization, BinaryAssociation)
+    Diagram, Operation, Type, PrimitiveType, Interface, Class, Property,
+    Generalization, BinaryAssociation, Visibility)
 from patterns import cached_method
 from java_parser.diagram import make_diagram
 from java_parser.test.classifiers import TestCaseWithParser
@@ -14,31 +14,40 @@ class Decorator(object):
 
     @cached_method
     def component(self):
-        return Interface('Component', [], [Operation(self.VOID, 'operation')])
+        return Interface('Component', [], [
+            Operation(self.VOID, 'operation', Visibility.public,
+                      is_static=False)
+        ])
 
     @cached_method
     def concrete_component(self):
-        return Class('ConcreteComponent', [],
-                     [Operation(self.VOID, 'operation')])
+        return Class('ConcreteComponent', [], [
+            Operation(self.VOID, 'operation', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def decorator_component(self):
-        return Property(Type(self.component()), 'component')
+        return Property(Type(self.component()), 'component', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def decorator(self):
-        return Interface('Decorator', [self.decorator_component()],
-                         [Operation(self.VOID, 'operation')])
+        return Interface('Decorator', [self.decorator_component()], [
+            Operation(self.VOID, 'operation', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def concrete_decorator(self):
-        return Class('ConcreteDecorator', [],
-                     [Operation(self.VOID, 'operation')])
+        return Class('ConcreteDecorator', [], [
+            Operation(self.VOID, 'operation', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def decorator_end(self):
-        return Property(Type(self.decorator()), 'Decorator_end',
-                        aggregation=Aggregation.none)
+        return Property(Type(self.decorator()), 'Decorator_end')
 
     @cached_method
     def diagram(self):
@@ -61,7 +70,10 @@ class Burgers(object):
 
     @cached_method
     def cutlet(self):
-        return Class('Cutlet', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Cutlet', [], [
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def cutlet_type(self):
@@ -69,7 +81,10 @@ class Burgers(object):
 
     @cached_method
     def cheese(self):
-        return Class('Cheese', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Cheese', [], [
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def cheese_type(self):
@@ -77,7 +92,10 @@ class Burgers(object):
 
     @cached_method
     def burger(self):
-        return Class('Burger', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Burger', [], [
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False)
+        ])
 
     @cached_method
     def burger_type(self):
@@ -85,12 +103,15 @@ class Burgers(object):
 
     @cached_method
     def hamburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet')
+        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def hamburger(self):
-        return Class('Hamburger', [self.hamburger_cutlet()],
-                     [Operation(self.INT_TYPE, 'price')])
+        return Class('Hamburger', [self.hamburger_cutlet()], [
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def hamburger_type(self):
@@ -98,18 +119,21 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet')
+        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def cheeseburger_cheese(self):
-        return Property(self.cheese_type(), 'cheese')
+        return Property(self.cheese_type(), 'cheese', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def cheeseburger(self):
         return Class(
             'Cheeseburger',
             [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
-            [Operation(self.INT_TYPE, 'price')])
+            [Operation(self.INT_TYPE, 'price', Visibility.public,
+                       is_static=False)])
 
     @cached_method
     def cheeseburger_type(self):
@@ -117,12 +141,15 @@ class Burgers(object):
 
     @cached_method
     def burger_with_burger(self):
-        return Property(self.burger_type(), 'burger')
+        return Property(self.burger_type(), 'burger', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def burger_with(self):
-        return Class('BurgerWith', [self.burger_with_burger()],
-                     [Operation(self.INT_TYPE, 'price')])
+        return Class('BurgerWith', [self.burger_with_burger()], [
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def burger_with_type(self):

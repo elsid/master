@@ -10,11 +10,11 @@ from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 class Operation(NamedElement):
     def __init__(self, result,
                  name='anonymous',
-                 visibility=Visibility.public,
+                 visibility=None,
                  parameters=tuple(),
-                 is_leaf=False,
-                 is_query=False,
-                 is_static=False):
+                 is_leaf=None,
+                 is_query=None,
+                 is_static=None):
         super(Operation, self).__init__(name)
         self.visibility = visibility
         self.result = result
@@ -47,7 +47,7 @@ class Operation(NamedElement):
         return ('{visibility}{name}({parameters}){result}{is_leaf}{is_query}'
                 '{is_static}'
                 .format(
-                    visibility=self.visibility,
+                    visibility=self.visibility if self.visibility else '',
                     name=self.name,
                     result=': ' + repr(self.result) if self.result else '',
                     parameters=', '.join(map(str, self.parameters)),

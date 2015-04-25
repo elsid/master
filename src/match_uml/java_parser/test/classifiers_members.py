@@ -179,7 +179,9 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [Property(INT_TYPE, 'a')]),
+            'A': Class('A', [
+                Property(INT_TYPE, 'a', Visibility.public, is_static=False)
+            ]),
             'int': INT_TYPE.classifier,
         }))
 
@@ -197,7 +199,9 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of variable "a" in class "A"'))
         assert_that(classifiers, equal_to({
-            'A': Class('A', [Property(INT_TYPE, 'a')]),
+            'A': Class('A', [
+                Property(INT_TYPE, 'a', Visibility.public, is_static=False),
+            ]),
             'int': INT_TYPE.classifier,
         }))
 
@@ -214,7 +218,8 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')])]),
+                          [Parameter(INT_TYPE, 'x')], is_static=False),
+            ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,
         }))
@@ -233,9 +238,9 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')]),
+                          [Parameter(INT_TYPE, 'x')], is_static=False),
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(FLOAT_TYPE, 'x')]),
+                          [Parameter(FLOAT_TYPE, 'x')], is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,
@@ -258,9 +263,11 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(VOID_TYPE, 'f', Visibility.private)]),
+                Operation(VOID_TYPE, 'f', Visibility.private, is_static=False),
+            ]),
             'B': Class('B', [], [
-                Operation(VOID_TYPE, 'g', Visibility.private)]),
+                Operation(VOID_TYPE, 'g', Visibility.private, is_static=False),
+            ]),
             'void': VOID_TYPE.classifier,
         }))
 
@@ -280,7 +287,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')]),
+                          [Parameter(INT_TYPE, 'x')], is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,
@@ -297,7 +304,9 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         a_type = Type(Class('A'))
-        a_type.classifier.properties = [Property(a_type, 'a')]
+        a_type.classifier.properties = [
+            Property(a_type, 'a', Visibility.public, is_static=False),
+        ]
         assert_that(classifiers, equal_to({'A': a_type.classifier}))
 
     def test_fill_class_with_overriding_method_in_object_should_succeed(self):
@@ -317,8 +326,8 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', [], [
-                Operation(VOID_TYPE, 'f', Visibility.private),
-                Operation(VOID_TYPE, 'g', Visibility.private),
+                Operation(VOID_TYPE, 'f', Visibility.private, is_static=False),
+                Operation(VOID_TYPE, 'g', Visibility.private, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
         }))

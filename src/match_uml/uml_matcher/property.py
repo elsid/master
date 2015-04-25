@@ -11,14 +11,14 @@ from uml_matcher.cached_eq import cached_eq
 class Property(NamedElement):
     def __init__(self, type,
                  name='anonymous',
-                 visibility=Visibility.public,
-                 aggregation=Aggregation.none,
-                 is_derived=False,
-                 is_derived_union=False,
-                 is_id=False,
-                 is_leaf=False,
-                 is_read_only=False,
-                 is_static=False,
+                 visibility=None,
+                 aggregation=None,
+                 is_derived=None,
+                 is_derived_union=None,
+                 is_id=None,
+                 is_leaf=None,
+                 is_read_only=None,
+                 is_static=None,
                  subsetted_properties=tuple(),
                  owner=None):
         super(Property, self).__init__(name)
@@ -76,7 +76,7 @@ class Property(NamedElement):
 
     def __repr__(self):
         return ('{visibility}{owner}{name}'.format(
-            visibility=self.visibility,
+            visibility=self.visibility if self.visibility else '',
             name=self.name,
             owner='' if self.owner is None else '%s::' % self.owner,
         ))
