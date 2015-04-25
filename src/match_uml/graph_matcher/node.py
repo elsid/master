@@ -11,7 +11,7 @@ class Node(object):
         self.connected_to = set(connected_to).difference({self})
         self.connected_from = set(connected_from).difference({self})
         self.self_connection = self in connected_to and self in connected_from
-        if 'equiv_pattern' in dir(self.obj):
+        if hasattr(self.obj, 'equiv_pattern'):
             self.obj_equivalent_pattern = self.obj.equiv_pattern
 
     def neighbors(self):
