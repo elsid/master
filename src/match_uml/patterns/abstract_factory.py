@@ -29,7 +29,7 @@ class AbstractFactory(object):
 
     @cached_method
     def product(self):
-        Operation(self.abstract_product_type(), 'product')
+        return Operation(self.abstract_product_type(), 'product')
 
     @cached_method
     def diagram(self):
