@@ -2,7 +2,6 @@
 
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.classifier import Classifier
-Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 from uml_matcher.data_type import DataType
 from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
 from uml_matcher.direction import Direction
@@ -16,3 +15,4 @@ from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.visibility import Visibility
+Class = __import__('uml_matcher.class', fromlist=['Class']).Class

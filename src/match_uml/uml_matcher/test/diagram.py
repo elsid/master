@@ -4,7 +4,6 @@ from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from graph_matcher import Equivalent
 from patterns import Decorator as DecoratorPattern, cached_method
-Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 from uml_matcher.operation import Operation
 from uml_matcher.property import Property
 from uml_matcher.type import Type
@@ -12,6 +11,7 @@ from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
 from uml_matcher.match import MatchResult, MatchVariant
+Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 
 
 class Decorator(DecoratorPattern):

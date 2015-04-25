@@ -3,10 +3,10 @@
 from unittest import TestCase
 from hamcrest import assert_that, calling, raises, equal_to
 from uml_matcher.type import Type, repr_multiplicity
-Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
+Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 
 
 class ReprMultiplicity(TestCase):
