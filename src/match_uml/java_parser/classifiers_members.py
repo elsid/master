@@ -165,7 +165,6 @@ class ClassifiersMembersFactory(Visitor):
                     self.__field, declaration.variable)),
                 name=declaration.variable.name,
                 visibility=get_visibility(self.__field),
-                is_read_only='final' in self.__field.modifiers,
                 is_static='static' in self.__field.modifiers,
                 owner=classifier,
             ))
