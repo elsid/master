@@ -173,7 +173,7 @@ class MethodModifiersDuplication(MemberModifiersDuplication):
 
 
 class FormalParameterModifiersDuplication(MemberModifiersDuplication):
-    def __init__(self, classifier, method, declaration):
+    def __init__(self, method, classifier, declaration):
         super(FormalParameterModifiersDuplication, self).__init__(
             classifier, declaration)
         self.method = method

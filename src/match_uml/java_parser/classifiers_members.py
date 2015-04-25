@@ -200,7 +200,8 @@ class ClassifiersMembersFactory(Visitor):
     def visit_FormalParameter(self, declaration):
         if has_duplications(declaration.modifiers):
             self.errors.append(FormalParameterModifiersDuplication(
-                self.__current_classifier(), declaration))
+                self.__current_operation(), self.__current_classifier(),
+                declaration))
             return False
         operation = self.__current_operation()
         if operation:
