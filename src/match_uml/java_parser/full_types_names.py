@@ -125,9 +125,11 @@ class SetFullTypesNames(Visitor):
         if package and package + '.' + type_name in self.visible_classifiers:
             yield package + '.' + type_name
             return
+
         def is_type_name(name):
             return (name == type_name or name.endswith('.' + type_name) or
                     name.endswith('$' + type_name))
+
         for name in self.visible_classifiers.iterkeys():
             if is_type_name(name):
                 yield name
