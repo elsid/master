@@ -369,3 +369,26 @@ class FillClassifiers(TestCaseWithParser):
             'void': VOID_TYPE.classifier,
         }))
         assert_that(errors, empty())
+
+    def test_fill_class_with_field_instance_creation_item_should_succeed(self):
+        tree = self.parse('''
+            class Class {
+                Class value = new Class() {
+                    @Override
+                    public void f() {};
+                };
+                public abstract void f();
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        _, errors = fill_classifiers(tree, classifiers)
+        class_type = Type(Class('Class', [], [
+            Operation(VOID_TYPE, 'f', Visibility.public, is_static=False),
+        ]))
+        class_type.classifier.properties.append(
+            Property(class_type, 'value', Visibility.private, is_static=False))
+        assert_that(classifiers, equal_to({
+            'Class': class_type.classifier,
+            'void': VOID_TYPE.classifier,
+        }))
+        assert_that(errors, empty())
