@@ -6,7 +6,7 @@ from uml_matcher import Diagram
 from java_parser import (
     set_full_classifiers_names, make_classifiers, make_external_classifiers,
     make_generalizations, set_full_types_names, fill_classifiers,
-    make_associations)
+    make_associations, make_dependencies)
 from java_parser.external_classifiers import find_files
 
 from java_parser.errors import (
@@ -25,6 +25,7 @@ class DiagramFactory(object):
     generalizations = tuple()
     types = None
     associations = tuple()
+    dependencies = tuple()
 
     def __init__(self, dirs=None, files=None, trees=None,
                  external_path_list=None):
@@ -49,7 +50,9 @@ class DiagramFactory(object):
         self.__make_generalizations()
         self.__fill_classifiers()
         self.__make_associations()
-        return Diagram(self.generalizations, self.associations)
+        self.__make_dependencies()
+        return Diagram(self.generalizations, self.associations,
+                       self.dependencies)
 
     def __find_files(self):
         for dir_path in self.dirs:
@@ -101,6 +104,11 @@ class DiagramFactory(object):
 
     def __make_associations(self):
         self.associations = make_associations(self.types)
+
+    def __make_dependencies(self):
+        self.dependencies = []
+        for tree in self.trees:
+            self.dependencies += make_dependencies(tree, self.types)
 
 
 def assert_dirs(dirs):

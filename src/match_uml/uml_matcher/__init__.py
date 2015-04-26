@@ -3,7 +3,8 @@
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.classifier import Classifier
 from uml_matcher.data_type import DataType
-from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
+from uml_matcher.diagram import (
+    Diagram, Generalization, BinaryAssociation, Dependency)
 from uml_matcher.direction import Direction
 from uml_matcher.enumeration import Enumeration
 from uml_matcher.interface import Interface

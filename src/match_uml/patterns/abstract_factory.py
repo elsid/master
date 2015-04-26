@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from uml_matcher import (
-    Class, Type, Operation, Generalization, Diagram, Interface, Visibility)
+    Class, Type, Operation, Generalization, Diagram, Interface, Visibility,
+    Dependency)
 
 from patterns.cached_method import cached_method
 
@@ -33,6 +34,10 @@ class AbstractFactory(object):
                          Visibility.public)
 
     @cached_method
+    def client(self):
+        return Class('Client')
+
+    @cached_method
     def diagram(self):
         return Diagram(
             generalizations=[
@@ -40,6 +45,12 @@ class AbstractFactory(object):
                                derived=self.concrete_factory()),
                 Generalization(base=self.abstract_product(),
                                derived=self.concrete_product()),
+            ],
+            dependencies=[
+                Dependency(client=self.client(),
+                           supplier=self.abstract_factory()),
+                Dependency(client=self.client(),
+                           supplier=self.abstract_product()),
             ],
         )
 

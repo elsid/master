@@ -6,12 +6,18 @@ from graph_matcher import Graph, replace_node_by_obj
 
 class Generalizations(tuple):
     def has_correspondence_with_associations(self, associations):
-        gt_classifiers = (x.target for x in self)
-        at_classifiers = (x.target.type.classifier for x in associations)
-        gp_classifiers = (x.pattern for x in self)
-        ap_classifiers = (x.pattern.type.classifier for x in associations)
-        return (frozenset(gt_classifiers) >= frozenset(at_classifiers)
-                and frozenset(gp_classifiers) >= frozenset(ap_classifiers))
+        return has_correspondence_with_associations(self, associations)
+
+    def has_correspondence_with_dependencies(self, dependencies):
+        return has_correspondence(self, dependencies)
+
+
+class Dependencies(tuple):
+    def has_correspondence_with_associations(self, associations):
+        return has_correspondence_with_associations(self, associations)
+
+    def has_correspondence_with_generalizations(self, generalizations):
+        return has_correspondence(self, generalizations)
 
 
 class Associations(tuple):
@@ -21,14 +27,18 @@ class Associations(tuple):
 class MatchVariant(object):
     def __init__(self,
                  generalizations=tuple(),
+                 dependencies=tuple(),
                  associations=tuple(),
                  current_attr=None):
         self.generalizations = Generalizations(generalizations)
+        self.dependencies = Dependencies(dependencies)
         self.associations = Associations(associations)
         if current_attr:
             self.current_attr = current_attr
         elif self.generalizations:
             self.current_attr = 'generalizations'
+        elif self.dependencies:
+            self.current_attr = 'dependencies'
         elif self.associations:
             self.current_attr = 'associations'
         else:
@@ -43,6 +53,8 @@ class MatchVariant(object):
         def get_func():
             if isinstance(minor_variant.current, Generalizations):
                 return self.current.has_correspondence_with_generalizations
+            elif isinstance(minor_variant.current, Dependencies):
+                return self.current.has_correspondence_with_dependencies
             elif isinstance(minor_variant.current, Associations):
                 return self.current.has_correspondence_with_associations
 
@@ -61,7 +73,8 @@ class MatchVariant(object):
         return (id(self) == id(other)
                 or isinstance(other, MatchVariant)
                 and eq_ignore_order(self.generalizations, other.generalizations)
-                and eq_ignore_order(self.associations, other.associations))
+                and eq_ignore_order(self.associations, other.associations)
+                and eq_ignore_order(self.dependencies, other.dependencies))
 
     def __repr__(self):
         def gen():
@@ -74,6 +87,11 @@ class MatchVariant(object):
             if not self.associations:
                 yield '  nothing'
             for x in self.associations:
+                yield '  %s === %s' % (x.target, x.pattern)
+            yield 'dependencies'
+            if not self.dependencies:
+                yield '  nothing'
+            for x in self.dependencies:
                 yield '  %s === %s' % (x.target, x.pattern)
         return '\n'.join(gen())
 
@@ -119,7 +137,8 @@ def eq_ignore_order(first, second):
 def match(target, pattern):
     pipeline = (
         match_generalizations,
-        match_associations
+        match_dependencies,
+        match_associations,
     )
 
     def process(combined_variants, func):
@@ -135,10 +154,12 @@ def match(target, pattern):
 def match_generalizations(target, pattern):
     target_graph = Graph(
         list(target.generalizations)
-        + list(associations_classifiers(target.associations)))
+        + list(associations_classifiers(target.associations))
+        + list(dependencies_classifiers(target.dependencies)))
     pattern_graph = Graph(
         list(pattern.generalizations)
-        + list(associations_classifiers(pattern.associations)))
+        + list(associations_classifiers(pattern.associations))
+        + list(dependencies_classifiers(pattern.dependencies)))
     return [MatchVariant(generalizations=x)
             for x in replace_node_by_obj(target_graph.match(pattern_graph))]
 
@@ -149,10 +170,23 @@ def associations_classifiers(associations):
             yield end.type.classifier
 
 
+def dependencies_classifiers(dependencies):
+    for dependency in dependencies:
+        yield dependency.client
+        yield dependency.supplier
+
+
 def match_associations(target, pattern):
     target_graph = Graph(target.associations)
     pattern_graph = Graph(pattern.associations)
     return [MatchVariant(associations=x)
+            for x in replace_node_by_obj(target_graph.match(pattern_graph))]
+
+
+def match_dependencies(target, pattern):
+    target_graph = Graph(target.dependencies)
+    pattern_graph = Graph(pattern.dependencies)
+    return [MatchVariant(dependencies=x)
             for x in replace_node_by_obj(target_graph.match(pattern_graph))]
 
 
@@ -171,3 +205,22 @@ def combine_one(major_variants, minor_variant):
     for major_variant in major_variants:
         if major_variant.has_correspondence(minor_variant):
             yield major_variant.new(minor_variant)
+
+
+def has_correspondence_with_associations(generalizations_or_dependencies,
+                                         associations):
+    t_classifiers = (x.target for x in generalizations_or_dependencies)
+    at_classifiers = (x.target.type.classifier for x in associations)
+    p_classifiers = (x.pattern for x in generalizations_or_dependencies)
+    ap_classifiers = (x.pattern.type.classifier for x in associations)
+    return (frozenset(t_classifiers) >= frozenset(at_classifiers)
+            and frozenset(p_classifiers) >= frozenset(ap_classifiers))
+
+
+def has_correspondence(major, minor):
+    maj_t_classifiers = (x.target for x in major)
+    min_t_classifiers = (x.target for x in minor)
+    maj_p_classifiers = (x.pattern for x in major)
+    min_p_classifiers = (x.pattern for x in minor)
+    return (frozenset(maj_t_classifiers) >= frozenset(min_t_classifiers)
+            and frozenset(maj_p_classifiers) >= frozenset(min_p_classifiers))

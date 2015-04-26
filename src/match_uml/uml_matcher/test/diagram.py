@@ -3,7 +3,11 @@
 from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from graph_matcher import Equivalent
-from patterns import Decorator as DecoratorPattern, cached_method
+from patterns import (
+    AbstractFactory as AbstractFactoryPattern,
+    Decorator as DecoratorPattern,
+    cached_method,
+)
 from uml_matcher.operation import Operation
 from uml_matcher.property import Property
 from uml_matcher.type import Type
@@ -13,6 +17,32 @@ from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
 from uml_matcher.match import MatchResult, MatchVariant
 from uml_matcher.visibility import Visibility
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
+
+
+class AbstractFactory(AbstractFactoryPattern):
+    def match_result(self, other):
+        return MatchResult([
+            MatchVariant(
+                generalizations=(
+                    Equivalent(target=self.client(), pattern=other.client()),
+                    Equivalent(target=self.abstract_factory(),
+                               pattern=other.abstract_factory()),
+                    Equivalent(target=self.concrete_factory(),
+                               pattern=other.concrete_factory()),
+                    Equivalent(target=self.abstract_product(),
+                               pattern=other.abstract_product()),
+                    Equivalent(target=self.concrete_product(),
+                               pattern=other.concrete_product()),
+                ),
+                dependencies=(
+                    Equivalent(target=self.client(), pattern=other.client()),
+                    Equivalent(target=self.abstract_factory(),
+                               pattern=other.abstract_factory()),
+                    Equivalent(target=self.abstract_product(),
+                               pattern=other.abstract_product()),
+                ),
+            )
+        ])
 
 
 class Decorator(DecoratorPattern):
@@ -153,6 +183,13 @@ class MatchDiagram(TestCase):
     def test_match_empty_should_has_empty_match_result(self):
         assert_that(Diagram().match(Diagram()), equal_to(MatchResult()))
 
+    def test_match_abstract_factory_patterns(self):
+        target = AbstractFactory()
+        pattern = AbstractFactory()
+        expected_match_result = target.match_result(pattern)
+        match_result = target.diagram().match(pattern.diagram())
+        assert_that(match_result, equal_to(expected_match_result))
+
     def test_match_decorator_patterns(self):
         target = Decorator()
         pattern = Decorator()
@@ -258,11 +295,20 @@ class ReprDiagram(TestCase):
     def test_repr_empty_should_succeed(self):
         assert_that(repr(Diagram()), equal_to(''))
 
+    def test_repr_abstract_factory_empty_should_succeed(self):
+        assert_that(repr(AbstractFactory().diagram()), equal_to(
+            'generalizations\n'
+            '  ConcreteFactory ----> AbstractFactory\n'
+            '  ConcreteProduct ----> AbstractProduct\n'
+            'dependencies\n'
+            '  Client - - > AbstractFactory\n'
+            '  Client - - > AbstractProduct'))
+
     def test_repr_decorator_empty_should_succeed(self):
         assert_that(repr(Decorator().diagram()), equal_to(
             'generalizations\n'
-            '  ConcreteComponent --> Component\n'
-            '  Decorator --> Component\n'
-            '  ConcreteDecorator --> Decorator\n'
+            '  ConcreteComponent ----> Component\n'
+            '  Decorator ----> Component\n'
+            '  ConcreteDecorator ----> Decorator\n'
             'associations\n'
-            '  Decorator_end --- Decorator::component'))
+            '  Decorator_end ----- Decorator::component'))
