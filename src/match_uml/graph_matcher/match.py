@@ -125,11 +125,14 @@ def match_many(more_components, less_components, match_one_in_many):
     less_n = len(less_components)
 
     def match_combination(more_components_combination):
+        local_result = []
         for more_component in more_components_combination:
             more_graph = Graph(nodes=more_component)
             for p in permutations(less_components, less_n):
                 for v in match_one_in_many(more_graph, p):
-                    yield v
+                    if v not in local_result:
+                        local_result.append(v)
+                        yield v
 
     more_combinations = combinations(more_components, less_n)
     result = []
