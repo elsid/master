@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from uml_matcher import (
-    Class, Type, Operation, Generalization, Diagram, Interface)
+    Class, Type, Operation, Generalization, Diagram, Interface, Visibility)
 
 from patterns.cached_method import cached_method
 
@@ -29,7 +29,8 @@ class AbstractFactory(object):
 
     @cached_method
     def product(self):
-        return Operation(self.abstract_product_type(), 'product')
+        return Operation(self.abstract_product_type(), 'product',
+                         Visibility.public)
 
     @cached_method
     def diagram(self):

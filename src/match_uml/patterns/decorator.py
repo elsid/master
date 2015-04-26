@@ -2,7 +2,7 @@
 
 from uml_matcher import (
     Class, Type, Operation, Generalization, Diagram, Interface, Property,
-    Aggregation, BinaryAssociation)
+    BinaryAssociation, Visibility)
 
 from patterns.cached_method import cached_method
 
@@ -10,11 +10,13 @@ from patterns.cached_method import cached_method
 class Decorator(object):
     @cached_method
     def component(self):
-        return Interface('Component', [], [Operation(None, 'operation')])
+        return Interface('Component', [],
+                         [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
     def concrete_component(self):
-        return Class('ConcreteComponent', [], [Operation(None, 'operation')])
+        return Class('ConcreteComponent', [],
+                     [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
     def decorator_component(self):
@@ -23,16 +25,16 @@ class Decorator(object):
     @cached_method
     def decorator(self):
         return Interface('Decorator', [self.decorator_component()],
-                         [Operation(None, 'operation')])
+                         [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
     def concrete_decorator(self):
-        return Class('ConcreteDecorator', [], [Operation(None, 'operation')])
+        return Class('ConcreteDecorator', [],
+                     [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
     def decorator_end(self):
-        return Property(Type(self.decorator()), 'Decorator_end',
-                        aggregation=Aggregation.shared)
+        return Property(Type(self.decorator()), 'Decorator_end')
 
     @cached_method
     def diagram(self):

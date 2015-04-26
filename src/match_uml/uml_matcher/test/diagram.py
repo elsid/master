@@ -11,6 +11,7 @@ from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
 from uml_matcher.match import MatchResult, MatchVariant
+from uml_matcher.visibility import Visibility
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 
 
@@ -42,7 +43,8 @@ class Target(object):
 
     @cached_method
     def cutlet(self):
-        return Class('Cutlet', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Cutlet', [],
+                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def cutlet_type(self):
@@ -50,7 +52,8 @@ class Target(object):
 
     @cached_method
     def cheese(self):
-        return Class('Cheese', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Cheese', [],
+                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def cheese_type(self):
@@ -58,7 +61,8 @@ class Target(object):
 
     @cached_method
     def burger(self):
-        return Class('Burger', [], [Operation(self.INT_TYPE, 'price')])
+        return Class('Burger', [],
+                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def burger_type(self):
@@ -71,7 +75,7 @@ class Target(object):
     @cached_method
     def hamburger(self):
         return Class('Hamburger', [self.hamburger_cutlet()],
-                     [Operation(self.INT_TYPE, 'price')])
+                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def hamburger_type(self):
@@ -90,7 +94,7 @@ class Target(object):
         return Class(
             'Cheeseburger',
             [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
-            [Operation(self.INT_TYPE, 'price')])
+            [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def cheeseburger_type(self):
@@ -103,7 +107,7 @@ class Target(object):
     @cached_method
     def burger_with(self):
         return Class('BurgerWith', [self.burger_with_burger()],
-                     [Operation(self.INT_TYPE, 'price')])
+                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
 
     @cached_method
     def burger_with_type(self):
