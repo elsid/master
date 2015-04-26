@@ -213,6 +213,9 @@ class ClassifiersMembersFactory(Visitor):
             ))
             return True
 
+    def visit_EnumConstant(self, _):
+        return False
+
     def __get_classifier_type(self, declaration_type):
         classifier_name = declaration_type.classifier_name()
         if classifier_name not in self.classifiers:

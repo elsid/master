@@ -6,7 +6,8 @@ from plyj.model import (
     FieldDeclaration, MethodDeclaration, Name as PlyjName, Type as PlyjType,
     VariableDeclarator, Variable, ClassDeclaration)
 from uml_matcher import (
-    Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType)
+    Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType,
+    Enumeration)
 from java_parser.classifiers import make_classifiers
 from java_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
@@ -346,5 +347,25 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'Class': Class('Class'),
             'SubClass': Class('SubClass'),
+        }))
+        assert_that(errors, empty())
+
+    def test_fill_enum_with_overriding_in_item_should_succeed(self):
+        tree = self.parse('''
+            enum Enum {
+                Item {
+                    @Override
+                    public void f() {}
+                };
+                public abstract void f();
+            }
+        ''')
+        classifiers, errors = make_classifiers(tree)
+        _, errors = fill_classifiers(tree, classifiers)
+        assert_that(classifiers, equal_to({
+            'Enum': Enumeration('Enum', [], [
+                Operation(VOID_TYPE, 'f', Visibility.public, is_static=False),
+            ]),
+            'void': VOID_TYPE.classifier,
         }))
         assert_that(errors, empty())
