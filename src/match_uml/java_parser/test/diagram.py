@@ -1,11 +1,13 @@
 # coding: utf-8
 
+from os.path import dirname, join
 from hamcrest import assert_that, equal_to, empty
 from uml_matcher import (
     Diagram, Operation, Type, PrimitiveType, Interface, Class, Property,
     Generalization, BinaryAssociation, Visibility)
 from patterns import cached_method
 from java_parser.diagram import make_diagram
+from java_parser.errors import SyntaxError
 from java_parser.test.classifiers import TestCaseWithParser
 
 
@@ -193,6 +195,13 @@ class MakeDiagram(TestCaseWithParser):
         tree = self.parse('')
         diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
+        assert_that(diagram, equal_to(Diagram()))
+
+    def test_parse_with_syntax_errors_should_return_errors(self):
+        file_path = join(dirname(__file__), 'java/syntax_errors.java')
+        diagram, errors = make_diagram(files=[file_path])
+        assert_that(errors, equal_to([
+            SyntaxError(file_path, "LexToken(NUM,'42',2,21)")]))
         assert_that(diagram, equal_to(Diagram()))
 
     def test_decorator_from_text_should_succeed(self):

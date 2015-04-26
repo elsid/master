@@ -10,16 +10,11 @@ from java_parser import (
 from java_parser.external_classifiers import find_files
 
 from java_parser.errors import (
-    InvalidDirPath, InvalidFilePath, InvalidExternalPath)
+    InvalidDirPath, InvalidFilePath, InvalidExternalPath, SyntaxError)
 
 
 def find_java_files(path):
     return (f for f in find_files(path) if f.endswith('.java'))
-
-
-def parse_java_file(file_path):
-    parser = Parser()
-    return parser.parse_file(file_path)
 
 
 class DiagramFactory(object):
@@ -60,8 +55,15 @@ class DiagramFactory(object):
         for dir_path in self.dirs:
             self.files += list(find_java_files(dir_path))
 
+    def __parse_file(self, file_path):
+        parser = Parser()
+        tree = parser.parse_file(file_path)
+        self.errors += [SyntaxError(file_path, e) for e in parser.errors()]
+        return tree
+
     def __parse_files(self):
-        self.trees += [parse_java_file(path) for path in self.files]
+        parse = self.__parse_file
+        self.trees += [t for t in (parse(f) for f in self.files) if t]
 
     def __set_full_classifiers_names(self):
         for tree in self.trees:

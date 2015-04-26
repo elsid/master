@@ -22,7 +22,24 @@ class PlyjNameTypeError(Exception):
 
 
 class Error(object):
-    pass
+    def __repr__(self):
+        return '{name}(\'{message}\')'.format(name=self.__class__.__name__,
+                                            message=str(self))
+
+
+class SyntaxError(Error):
+    def __init__(self, file_path, message):
+        super(SyntaxError, self).__init__()
+        self.file_path = file_path
+        self.message = message
+
+    def __str__(self):
+        return 'error: {m} in file "{f}"'.format(m=self.message,
+                                                 f=self.file_path)
+
+    def __eq__(self, other):
+        return (self.file_path == other.file_path
+                and self.message == other.message)
 
 
 class Redeclaration(Error):
