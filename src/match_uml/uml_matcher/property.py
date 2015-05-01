@@ -32,6 +32,7 @@ class Property(NamedElement):
         self.subsetted_properties = subsetted_properties
         self.owner = owner
 
+    @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Property)
                 and eq_pattern(self.visibility, pattern.visibility)

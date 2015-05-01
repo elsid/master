@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
-from uml_matcher.visibility import Visibility
 from uml_matcher.has_equivalents import has_equivalents
 from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
@@ -23,6 +23,7 @@ class Operation(NamedElement):
         self.is_query = is_query
         self.is_static = is_static
 
+    @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Operation)
                 and eq_pattern(self.visibility, pattern.visibility)
@@ -32,6 +33,7 @@ class Operation(NamedElement):
                 and eq_pattern(self.is_query, pattern.is_query)
                 and eq_pattern(self.is_static, pattern.is_static))
 
+    @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Operation, self).__eq__(other)

@@ -1,9 +1,9 @@
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
 from uml_matcher.direction import Direction
 from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
-from graph_matcher import cached_eq
 
 
 class Parameter(NamedElement):
@@ -12,6 +12,7 @@ class Parameter(NamedElement):
         self.type = type
         self.direction = direction
 
+    @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Parameter)
                 and (sub_equiv_pattern(self.type, pattern.type))

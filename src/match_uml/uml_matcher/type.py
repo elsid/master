@@ -50,6 +50,7 @@ class Type(object):
         self.is_ordered = is_ordered
         self.is_unique = is_unique
 
+    @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Type)
                 and equiv_pattern(self.classifier, pattern.classifier)
