@@ -20,7 +20,7 @@ class MakeGraph(TestCase):
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1]'))
 
-    def test_make_with_one_edge_should_succeed(self):
+    def test_make_with_one_arc_should_succeed(self):
         graph = Graph({(1, 2)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to(      '[1] -> 2' '\n'
@@ -31,14 +31,14 @@ class MakeGraph(TestCase):
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1*]'))
 
-    def test_make_one_node_and_one_edge_should_succeed(self):
+    def test_make_one_node_and_one_arc_should_succeed(self):
         graph = Graph({1, (2, 3)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2, 3}))
         assert_that(repr(graph), equal_to(     '[1]'      '\n'
                                                '[2] -> 3' '\n'
                                           '2 -> [3]'))
 
-    def test_make_one_node_and_one_edge_with_duplication_should_succeed(self):
+    def test_make_one_node_and_one_arc_with_duplication_should_succeed(self):
         graph = Graph({1, (1, 2)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to(     '[1] -> 2' '\n'

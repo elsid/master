@@ -4,7 +4,7 @@ from graph_matcher.node import Node
 from graph_matcher.match import match
 
 
-def generate_nodes(nodes_or_edges):
+def generate_nodes(nodes_or_arcs):
     nodes_dict = {}
 
     def get_node(node):
@@ -20,7 +20,7 @@ def generate_nodes(nodes_or_edges):
                 nodes_dict[id(node)] = Node(node)
             return nodes_dict[id(node)]
 
-    def make_edge(src_node, dst_node):
+    def make_arc(src_node, dst_node):
         src_node = get_node(src_node)
         dst_node = get_node(dst_node)
         if src_node == dst_node:
@@ -30,22 +30,22 @@ def generate_nodes(nodes_or_edges):
             dst_node.connected_from.add(src_node)
 
     nodes = set()
-    for node_or_edge in nodes_or_edges:
-        edge = node_or_edge
-        if isinstance(edge, (tuple, set, frozenset)) and len(edge) == 2:
-            src, dst = edge
-            if isinstance(edge, (set, frozenset)):
-                make_edge(dst, src)
-            make_edge(src, dst)
+    for node_or_arc in nodes_or_arcs:
+        arc = node_or_arc
+        if isinstance(arc, (tuple, set, frozenset)) and len(arc) == 2:
+            src, dst = arc
+            if isinstance(arc, (set, frozenset)):
+                make_arc(dst, src)
+            make_arc(src, dst)
         else:
-            nodes.add(get_node(node_or_edge))
+            nodes.add(get_node(node_or_arc))
     nodes |= set(nodes_dict.values())
     return nodes
 
 
 class Graph(object):
-    def __init__(self, nodes_or_edges=tuple(), nodes=None):
-        self.nodes = nodes or generate_nodes(nodes_or_edges)
+    def __init__(self, nodes_or_arcs=tuple(), nodes=None):
+        self.nodes = nodes or generate_nodes(nodes_or_arcs)
 
     def match(self, pattern):
         return match(self, pattern)
