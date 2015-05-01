@@ -107,27 +107,26 @@ def match_one(target_graph, pattern_graph):
 
 
 def match_one_pattern(pattern_graph, target_components):
-    from graph_matcher.graph import Graph
+    graph_type = type(pattern_graph)
     for component in target_components:
-        for v in match_one(Graph(nodes=component), pattern_graph):
+        for v in match_one(graph_type(nodes=component), pattern_graph):
             yield v
 
 
 def match_one_target(target_graph, pattern_components):
-    from graph_matcher.graph import Graph
+    graph_type = type(target_graph)
     for component in pattern_components:
-        for v in match_one(target_graph, Graph(nodes=component)):
+        for v in match_one(target_graph, graph_type(nodes=component)):
             yield v
 
 
-def match_many(more_components, less_components, match_one_in_many):
-    from graph_matcher.graph import Graph
+def match_many(more_components, less_components, match_one_in_many, graph_type):
     less_n = len(less_components)
 
     def match_combination(more_components_combination):
         local_result = []
         for more_component in more_components_combination:
-            more_graph = Graph(nodes=more_component)
+            more_graph = graph_type(nodes=more_component)
             for p in permutations(less_components, less_n):
                 for v in match_one_in_many(more_graph, p):
                     if v not in local_result:
@@ -159,6 +158,8 @@ def match_many(more_components, less_components, match_one_in_many):
 
 
 def match(target_graph, pattern_graph):
+    assert type(target_graph) == type(pattern_graph)
+    graph_type = type(target_graph)
     target_components = tuple(target_graph.get_connected_components())
     pattern_components = tuple(pattern_graph.get_connected_components())
     target_n = len(target_components)
@@ -173,10 +174,10 @@ def match(target_graph, pattern_graph):
             return match_one_pattern(pattern_graph, target_components)
         elif pattern_n <= target_n:
             return match_many(target_components, pattern_components,
-                              match_one_target)
+                              match_one_target, graph_type)
         else:
             return match_many(pattern_components, target_components,
-                              match_one_pattern)
+                              match_one_pattern, graph_type)
 
 
 def unite_variants(variants):
