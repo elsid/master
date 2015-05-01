@@ -14,18 +14,26 @@ class Decorator(object):
                          [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
+    def component_type(self):
+        return Type(self.component())
+
+    @cached_method
     def concrete_component(self):
         return Class('ConcreteComponent', [],
                      [Operation(None, 'operation', Visibility.public)])
 
     @cached_method
     def decorator_component(self):
-        return Property(Type(self.component()), 'component')
+        return Property(self.component_type(), 'component')
 
     @cached_method
     def decorator(self):
         return Interface('Decorator', [self.decorator_component()],
                          [Operation(None, 'operation', Visibility.public)])
+
+    @cached_method
+    def decorator_type(self):
+        return Type(self.decorator())
 
     @cached_method
     def concrete_decorator(self):
@@ -34,20 +42,22 @@ class Decorator(object):
 
     @cached_method
     def decorator_end(self):
-        return Property(Type(self.decorator()), 'Decorator_end')
+        return Property(self.decorator_type(), 'Decorator_end')
 
     @cached_method
     def diagram(self):
-        G = Generalization
-        A = BinaryAssociation
         return Diagram(
             generalizations=[
-                G(derived=self.concrete_component(), base=self.component()),
-                G(derived=self.decorator(), base=self.component()),
-                G(derived=self.concrete_decorator(), base=self.decorator()),
+                Generalization(derived=self.concrete_component(),
+                               base=self.component()),
+                Generalization(derived=self.decorator(),
+                               base=self.component()),
+                Generalization(derived=self.concrete_decorator(),
+                               base=self.decorator()),
             ],
             associations=[
-                A({self.decorator_component(), self.decorator_end()}),
+                BinaryAssociation({self.decorator_component(),
+                                   self.decorator_end()}),
             ],
         )
 
