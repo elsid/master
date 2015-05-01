@@ -1,7 +1,7 @@
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from uml_matcher.classifier import Classifier
-from uml_matcher.cached_eq import cached_eq
 
 
 class DataType(Classifier):

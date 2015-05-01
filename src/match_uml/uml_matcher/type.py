@@ -1,10 +1,10 @@
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
 from uml_matcher.eq_pattern import eq_pattern, equiv_pattern
-from uml_matcher.cached_eq import cached_eq
 
 
 def repr_multiplicity(lower, upper):

@@ -1,9 +1,9 @@
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
 from uml_matcher.match import eq_ignore_order
-from uml_matcher.cached_eq import cached_eq
 
 
 class Classifier(NamedElement):

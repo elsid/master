@@ -3,7 +3,7 @@
 from uml_matcher.named_element import NamedElement
 from uml_matcher.direction import Direction
 from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
-from uml_matcher.cached_eq import cached_eq
+from graph_matcher import cached_eq
 
 
 class Parameter(NamedElement):
