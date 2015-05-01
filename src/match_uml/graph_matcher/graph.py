@@ -4,7 +4,7 @@ from graph_matcher.node import Node
 from graph_matcher.match import match
 
 
-def generate_nodes(nodes_or_arcs):
+def generate_nodes(nodes_and_arcs):
     nodes_dict = {}
 
     def get_node(node):
@@ -30,7 +30,7 @@ def generate_nodes(nodes_or_arcs):
             dst_node.connected_from.add(src_node)
 
     nodes = set()
-    for node_or_arc in nodes_or_arcs:
+    for node_or_arc in nodes_and_arcs:
         arc = node_or_arc
         if isinstance(arc, (tuple, set, frozenset)) and len(arc) == 2:
             src, dst = arc
