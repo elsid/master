@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from collections import deque
+from graph_matcher.cached_eq import cached_eq
 
 
 class Node(object):
@@ -23,6 +24,7 @@ class Node(object):
     def count_connected_to(self):
         return len(self.connected_to)
 
+    @cached_eq
     def equiv_pattern(self, pattern):
         return (self.count_connected_from() >= pattern.count_connected_from()
                 and self.count_connected_to() >= pattern.count_connected_to()
