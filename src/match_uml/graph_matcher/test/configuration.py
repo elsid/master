@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher.configuration import Configuration
 from graph_matcher.node import Node
@@ -26,3 +26,5 @@ class MakeConfiguration(TestCase):
         assert_that(conf.at_end(), equal_to(True))
         assert_that(repr(conf), equal_to("('target', 'pattern')"))
 
+if __name__ == '__main__':
+    main()

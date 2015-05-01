@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from itertools import permutations
 from uml_matcher.match import eq_ignore_order
@@ -32,3 +32,6 @@ class EqIgnoreOrder(TestCase):
     def test_compare_twice_nested_tuples_equal_should_be_equal(self):
         assert_that(eq_ignore_order([[(1, 2), (2, 3)], [(3, 4), (4, 5)]],
                     [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]), equal_to(True))
+
+if __name__ == '__main__':
+    main()

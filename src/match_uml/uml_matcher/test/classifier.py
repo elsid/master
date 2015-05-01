@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from uml_matcher.classifier import Classifier
 from uml_matcher.property import Property
@@ -27,3 +27,6 @@ class MakeClassifier(TestCase):
         a2.properties = [Property(Type(a2), 'a')]
         assert_that(a1, equal_to(a2))
         assert_that(a1.equiv_pattern(a2), equal_to(True))
+
+if __name__ == '__main__':
+    main()

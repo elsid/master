@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, calling, raises, empty
 from plyj.model import (
     FieldDeclaration, MethodDeclaration, Name as PlyjName, Type as PlyjType,
@@ -392,3 +392,6 @@ class FillClassifiers(TestCaseWithParser):
             'void': VOID_TYPE.classifier,
         }))
         assert_that(errors, empty())
+
+if __name__ == '__main__':
+    main()

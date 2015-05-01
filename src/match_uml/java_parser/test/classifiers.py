@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, empty
 from plyj.parser import Parser
 from plyj.model import ClassDeclaration, InterfaceDeclaration
@@ -87,3 +87,6 @@ class MakeClassifiers(TestCaseWithParser):
             {'Interface': Interface('Interface')}))
         assert_that(errors, equal_to(
             [InterfaceRedeclaration(InterfaceDeclaration('Interface', []))]))
+
+if __name__ == '__main__':
+    main()

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
+from unittest import main
 from uml_matcher import Class, Interface
 from uml_matcher.diagram import Generalization
 from java_parser.classifiers import make_classifiers
@@ -73,3 +74,6 @@ class MakeGeneralizations(TestCaseWithParser):
             G(derived=Class('Realization'), base=Interface('InterfaceA')),
             G(derived=Class('Realization'), base=Interface('InterfaceB')),
         ))
+
+if __name__ == '__main__':
+    main()

@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from hamcrest import assert_that, empty, contains_inanyorder
+from unittest import main
 from uml_matcher import Dependency
 from java_parser.classifiers import make_classifiers
 from java_parser.full_classifiers_names import set_full_classifiers_names
@@ -45,3 +46,6 @@ class MakeDependencies(TestCaseWithParser):
             Dependency(client=classifiers['x.Client'],
                        supplier=classifiers['x.AnotherImplementation']),
         ))
+
+if __name__ == '__main__':
+    main()

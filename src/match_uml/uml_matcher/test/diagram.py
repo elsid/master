@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher import Equivalent
 from patterns import (
@@ -312,3 +312,6 @@ class ReprDiagram(TestCase):
             '  ConcreteDecorator ----> Decorator\n'
             'associations\n'
             '  Decorator_end ----- Decorator::component'))
+
+if __name__ == '__main__':
+    main()

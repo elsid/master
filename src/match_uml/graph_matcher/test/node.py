@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from unittest import TestCase
-from hamcrest import assert_that, equal_to, empty
+from unittest import TestCase, main
+from hamcrest import assert_that, equal_to
 from graph_matcher.node import Node
 from graph_matcher.graph import Graph
 
@@ -101,4 +101,5 @@ class NodeGetConnectedComponent(TestCase):
         assert_that(nodes[3].get_connected_component(), {nodes[3], nodes[4]})
         assert_that(nodes[4].get_connected_component(), {nodes[3], nodes[4]})
 
-
+if __name__ == '__main__':
+    main()

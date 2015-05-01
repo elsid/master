@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, contains_inanyorder
 from uml_matcher import Class, Type, Property, Interface, BinaryAssociation
 from java_parser.associations import make_association, make_associations
@@ -34,3 +34,6 @@ class MakeAssociations(TestCase):
             BinaryAssociation({property_b_of_a, Property(type_a, 'A_end')}),
             BinaryAssociation({property_a_of_b, Property(type_b, 'B_end')}),
         ))
+
+if __name__ == '__main__':
+    main()

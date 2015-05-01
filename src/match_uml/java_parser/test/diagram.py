@@ -2,6 +2,7 @@
 
 from os.path import dirname, join
 from hamcrest import assert_that, equal_to, empty
+from unittest import main
 from uml_matcher import (
     Diagram, Operation, Type, PrimitiveType, Interface, Class, Property,
     Generalization, BinaryAssociation, Visibility)
@@ -252,3 +253,6 @@ class MakeDiagram(TestCaseWithParser):
         diagram, errors = make_diagram(trees=[tree])
         assert_that(errors, empty())
         assert_that(diagram, equal_to(Burgers().diagram()))
+
+if __name__ == '__main__':
+    main()

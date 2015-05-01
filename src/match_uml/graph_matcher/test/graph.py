@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from unittest import TestCase
+from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from graph_matcher.graph import Graph
 
@@ -80,3 +80,6 @@ class GraphGetConnectedComponents(TestCase):
     def test_two_components_should_succeed(self):
         assert_that(get_connected_components(Graph({(1, 2), (3, 4)})),
                     contains_inanyorder({1, 2}, {3, 4}))
+
+if __name__ == '__main__':
+    main()
