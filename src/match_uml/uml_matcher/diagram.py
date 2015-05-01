@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from collections import namedtuple
-from uml_matcher.match import match, eq_ignore_order
+from uml_matcher.match import match, eq_ignore_order, make_graph
 
 
 class Generalization(namedtuple('Generalization', ('derived', 'base'))):
@@ -39,6 +39,9 @@ class Diagram(object):
 
     def match(self, pattern):
         return match(self, pattern)
+
+    def graph(self):
+        return make_graph(self)
 
     def __eq__(self, other):
         return (id(self) == id(other)

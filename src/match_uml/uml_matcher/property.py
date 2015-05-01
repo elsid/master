@@ -2,7 +2,7 @@
 
 from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
-from uml_matcher.eq_pattern import eq_pattern, equiv_pattern, sub_equiv_pattern
+from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 from uml_matcher.has_equivalents import has_equivalents
 
 
@@ -49,8 +49,7 @@ class Property(NamedElement):
 
     @cached_eq
     def equiv_pattern(self, pattern):
-        return (self.sub_equiv_pattern(pattern)
-                and equiv_pattern(self.owner, pattern.owner))
+        return self.sub_equiv_pattern(pattern)
 
     def sub_eq(self, other):
         return (id(self) == id(other)

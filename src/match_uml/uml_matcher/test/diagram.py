@@ -13,7 +13,8 @@ from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
-from uml_matcher.diagram import Diagram, Generalization, BinaryAssociation
+from uml_matcher.diagram import (
+    Diagram, Generalization, BinaryAssociation, Dependency)
 from uml_matcher.match import MatchResult, MatchVariant
 from uml_matcher.visibility import Visibility
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
@@ -22,49 +23,37 @@ Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 class AbstractFactory(AbstractFactoryPattern):
     def match_result(self, other):
         return MatchResult([
-            MatchVariant(
-                generalizations=(
-                    Equivalent(target=self.client(), pattern=other.client()),
-                    Equivalent(target=self.abstract_factory(),
-                               pattern=other.abstract_factory()),
-                    Equivalent(target=self.concrete_factory(),
-                               pattern=other.concrete_factory()),
-                    Equivalent(target=self.abstract_product(),
-                               pattern=other.abstract_product()),
-                    Equivalent(target=self.concrete_product(),
-                               pattern=other.concrete_product()),
-                ),
-                dependencies=(
-                    Equivalent(target=self.client(), pattern=other.client()),
-                    Equivalent(target=self.abstract_factory(),
-                               pattern=other.abstract_factory()),
-                    Equivalent(target=self.abstract_product(),
-                               pattern=other.abstract_product()),
-                ),
-            )
+            MatchVariant([
+                Equivalent(target=self.client(), pattern=other.client()),
+                Equivalent(target=self.abstract_factory(),
+                           pattern=other.abstract_factory()),
+                Equivalent(target=self.concrete_factory(),
+                           pattern=other.concrete_factory()),
+                Equivalent(target=self.abstract_product(),
+                           pattern=other.abstract_product()),
+                Equivalent(target=self.concrete_product(),
+                           pattern=other.concrete_product()),
+            ])
         ])
 
 
 class Decorator(DecoratorPattern):
     def match_result(self, other):
-        E = Equivalent
         return MatchResult([
-            MatchVariant(
-                generalizations=(
-                    E(target=self.component(), pattern=other.component()),
-                    E(target=self.concrete_component(),
-                      pattern=other.concrete_component()),
-                    E(target=self.decorator(), pattern=other.decorator()),
-                    E(target=self.concrete_decorator(),
-                      pattern=other.concrete_decorator()),
-                ),
-                associations=(
-                    E(target=self.decorator_component(),
-                      pattern=other.decorator_component()),
-                    E(target=self.decorator_end(),
-                      pattern=other.decorator_end()),
-                ),
-            )
+            MatchVariant([
+                Equivalent(target=self.component(),
+                           pattern=other.component()),
+                Equivalent(target=self.concrete_component(),
+                           pattern=other.concrete_component()),
+                Equivalent(target=self.decorator(),
+                           pattern=other.decorator()),
+                Equivalent(target=self.concrete_decorator(),
+                           pattern=other.concrete_decorator()),
+                Equivalent(target=self.decorator_component(),
+                           pattern=other.decorator_component()),
+                Equivalent(target=self.decorator_end(),
+                           pattern=other.decorator_end()),
+            ])
         ])
 
 
@@ -181,6 +170,61 @@ class Burgers(object):
         )
 
 
+class BukkitExample(object):
+    VOID_TYPE = Type(PrimitiveType('void'))
+
+    @cached_method
+    def command(self):
+        return Class('Command', operations=[
+            Operation(self.VOID_TYPE, 'product', Visibility.public)
+        ])
+
+    @cached_method
+    def command_sender(self):
+        return Class('CommandSender')
+
+    @cached_method
+    def console_command_sender(self):
+        return Class('ConsoleCommandSender')
+
+    @cached_method
+    def formatted_command_alias(self):
+        return Class('FormattedCommandAlias', operations=[
+            Operation(self.VOID_TYPE, 'product', Visibility.public)
+        ])
+
+    @cached_method
+    def plugin_command(self):
+        return Class('PluginCommand', operations=[
+            Operation(self.VOID_TYPE, 'product', Visibility.public)
+        ])
+
+    @cached_method
+    def tab_completer(self):
+        return Class('TabCompleter')
+
+    @cached_method
+    def diagram(self):
+        return Diagram(
+            generalizations=[
+                Generalization(derived=self.console_command_sender(),
+                               base=self.command_sender()),
+                Generalization(derived=self.formatted_command_alias(),
+                               base=self.command()),
+                Generalization(derived=self.plugin_command(),
+                               base=self.command()),
+            ],
+            dependencies=[
+                Dependency(client=self.tab_completer(),
+                           supplier=self.command_sender()),
+                Dependency(client=self.tab_completer(),
+                           supplier=self.command()),
+                Dependency(client=self.formatted_command_alias(),
+                           supplier=self.command_sender()),
+            ],
+        )
+
+
 class MatchDiagram(TestCase):
     def test_match_empty_should_has_empty_match_result(self):
         assert_that(Diagram().match(Diagram()), equal_to(MatchResult()))
@@ -202,92 +246,61 @@ class MatchDiagram(TestCase):
     def test_match_decorator_pattern_in_burgers(self):
         t = Burgers()
         p = Decorator()
-        E = Equivalent
         expected_match_result = MatchResult([
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cheese(), p.concrete_decorator()),
-                    E(t.cheeseburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.burger_with_end(), p.decorator_end()),
-                    E(t.burger_with_burger(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cheese(), p.concrete_decorator()),
-                    E(t.hamburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.burger_with_end(), p.decorator_end()),
-                    E(t.burger_with_burger(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.cheeseburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.burger_with_end(), p.decorator_end()),
-                    E(t.burger_with_burger(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.hamburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.burger_with_end(), p.decorator_end()),
-                    E(t.burger_with_burger(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cheese(), p.concrete_decorator()),
-                    E(t.cheeseburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.cheeseburger_end(), p.decorator_end()),
-                    E(t.cheeseburger_cheese(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.cheeseburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.cheeseburger_end(), p.decorator_end()),
-                    E(t.cheeseburger_cutlet(), p.decorator_component()),
-                ]
-            ),
-            MatchVariant(
-                generalizations=[
-                    E(t.burger(), p.component()),
-                    E(t.burger_with(), p.decorator()),
-                    E(t.cutlet(), p.concrete_decorator()),
-                    E(t.hamburger(), p.concrete_component()),
-                ],
-                associations=[
-                    E(t.hamburger_end(), p.decorator_end()),
-                    E(t.hamburger_cutlet(), p.decorator_component()),
-                ]
-            ),
+            MatchVariant([
+                Equivalent(t.burger(), p.component()),
+                Equivalent(t.burger_with(), p.decorator()),
+                Equivalent(t.cheese(), p.concrete_decorator()),
+                Equivalent(t.cheeseburger(), p.concrete_component()),
+                Equivalent(t.burger_with_end(), p.decorator_end()),
+                Equivalent(t.burger_with_burger(), p.decorator_component()),
+            ]),
+            MatchVariant([
+                Equivalent(t.burger(), p.component()),
+                Equivalent(t.burger_with(), p.decorator()),
+                Equivalent(t.cheese(), p.concrete_decorator()),
+                Equivalent(t.hamburger(), p.concrete_component()),
+                Equivalent(t.burger_with_end(), p.decorator_end()),
+                Equivalent(t.burger_with_burger(), p.decorator_component()),
+            ]),
+            MatchVariant([
+                Equivalent(t.burger(), p.component()),
+                Equivalent(t.burger_with(), p.decorator()),
+                Equivalent(t.cutlet(), p.concrete_decorator()),
+                Equivalent(t.cheeseburger(), p.concrete_component()),
+                Equivalent(t.burger_with_end(), p.decorator_end()),
+                Equivalent(t.burger_with_burger(), p.decorator_component()),
+            ]),
+            MatchVariant([
+                Equivalent(t.burger(), p.component()),
+                Equivalent(t.burger_with(), p.decorator()),
+                Equivalent(t.cutlet(), p.concrete_decorator()),
+                Equivalent(t.hamburger(), p.concrete_component()),
+                Equivalent(t.burger_with_end(), p.decorator_end()),
+                Equivalent(t.burger_with_burger(), p.decorator_component()),
+            ]),
+        ])
+        match_result = t.diagram().match(p.diagram())
+        assert_that(match_result, equal_to(expected_match_result))
+
+    def test_match_abstract_factory_pattern_in_bukkit_example(self):
+        t = BukkitExample()
+        p = AbstractFactory()
+        expected_match_result = MatchResult([
+            MatchVariant([
+                Equivalent(t.command(), p.abstract_factory()),
+                Equivalent(t.command_sender(), p.abstract_product()),
+                Equivalent(t.console_command_sender(), p.concrete_product()),
+                Equivalent(t.plugin_command(), p.concrete_factory()),
+                Equivalent(t.tab_completer(), p.client()),
+            ]),
+            MatchVariant([
+                Equivalent(t.command(), p.abstract_factory()),
+                Equivalent(t.command_sender(), p.abstract_product()),
+                Equivalent(t.console_command_sender(), p.concrete_product()),
+                Equivalent(t.formatted_command_alias(), p.concrete_factory()),
+                Equivalent(t.tab_completer(), p.client()),
+            ]),
         ])
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))
