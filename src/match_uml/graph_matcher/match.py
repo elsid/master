@@ -1,11 +1,29 @@
 # coding: utf-8
 
-from collections import defaultdict, deque, Counter, namedtuple
+from collections import defaultdict, deque, namedtuple
+from enum import Enum
 from itertools import tee, combinations, permutations
 from graph_matcher.configuration import Configuration
 
 
 Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
+
+
+class EndType(Enum):
+    incoming = 1
+    outgoing = 2
+
+    def __str__(self):
+        if self == EndType.incoming:
+            return 'incoming'
+        elif self == EndType.outgoing:
+            return 'outgoing'
+
+    def __repr__(self):
+        if self == EndType.incoming:
+            return 'EndType.incoming'
+        elif self == EndType.outgoing:
+            return 'EndType.outgoing'
 
 
 def replace_node_by_obj(variants):
@@ -71,22 +89,19 @@ def match_one(target_graph, pattern_graph):
                     yield sorted(Equivalent(t, p) for t, p in conf.visited)
             continue
 
-        def neighbor_equivalent(target_node, pattern_node):
-            return ((target_node, pattern_node) in conf.visited
-                    or init_equivalent(target_node, pattern_node))
-
         def current_equivalent(target_node, pattern_node):
-            if not init_equivalent(target_node, pattern_node):
+            if not target_node.equiv_pattern(pattern_node):
                 return False
-            target_equivalents = Counter()
-            for target_neighbor in target_node.neighbors():
-                for pattern_neighbor in pattern_node.neighbors():
-                    if neighbor_equivalent(target_neighbor, pattern_neighbor):
-                        target_equivalents[target_neighbor] += 1
-            for target_neighbor in target_node.neighbors():
-                if target_equivalents[target_neighbor] == 0:
-                    return False
-            return True
+
+            def connections(neighbor, visited):
+                for color, connection in visited.connections.iteritems():
+                    if neighbor in connection.incoming:
+                        yield (color, EndType.incoming)
+                    if neighbor in connection.outgoing:
+                        yield (color, EndType.outgoing)
+
+            return (frozenset(connections(pattern_node, conf.pattern()))
+                    <= frozenset(connections(target_node, conf.target())))
 
         variants_generator = make_equivalent_node_pairs_generator(
             conf.target().neighbors(), conf.pattern().neighbors(),

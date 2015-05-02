@@ -7,6 +7,7 @@ from itertools import permutations
 from hamcrest import assert_that, equal_to, contains_inanyorder, empty
 from graph_matcher.match import Equivalent, match, replace_node_by_obj
 from graph_matcher.graph import Graph
+from graph_matcher.test.arc_types import Red, Blue
 
 
 def to_list(value):
@@ -146,6 +147,54 @@ class Match(TestCase):
         second_variants = to_list(replace_node_by_obj(match(second, first)))
         assert_that(len(second_variants), equal_to(1))
         assert_that(second_variants[0], contains_inanyorder(('a', 1), ('b', 2)))
+
+    def test_bug(self):
+        target = Graph({
+            Red('TabCompleter', 'CommandSender'),
+            Red('TabCompleter', 'Command'),
+            Red('FormattedCommandAlias', 'CommandSender'),
+            Blue('PluginCommand', 'Command'),
+            Blue('ConsoleCommandSender', 'CommandSender'),
+            Blue('FormattedCommandAlias', 'Command'),
+        })
+        pattern = Graph({
+            Red('Client', 'AbstractFactory'),
+            Red('Client', 'AbstractProduct'),
+            Blue('ConcreteFactory', 'AbstractFactory'),
+            Blue('ConcreteProduct', 'AbstractProduct'),
+        })
+        variants = to_list(replace_node_by_obj(match(target, pattern)))
+        assert_that(variants, contains_inanyorder(
+            [
+                ('Command', 'AbstractProduct'),
+                ('CommandSender', 'AbstractFactory'),
+                ('ConsoleCommandSender', 'ConcreteFactory'),
+                ('FormattedCommandAlias', 'ConcreteProduct'),
+                ('TabCompleter', 'Client'),
+            ],
+            [
+                ('Command', 'AbstractProduct'),
+                ('CommandSender', 'AbstractFactory'),
+                ('ConsoleCommandSender', 'ConcreteFactory'),
+                ('PluginCommand', 'ConcreteProduct'),
+                ('TabCompleter', 'Client'),
+            ],
+            [
+                ('Command', 'AbstractFactory'),
+                ('CommandSender', 'AbstractProduct'),
+                ('ConsoleCommandSender', 'ConcreteProduct'),
+                ('FormattedCommandAlias', 'ConcreteFactory'),
+                ('TabCompleter', 'Client'),
+            ],
+            [
+                ('Command', 'AbstractFactory'),
+                ('CommandSender', 'AbstractProduct'),
+                ('ConsoleCommandSender', 'ConcreteProduct'),
+                ('PluginCommand', 'ConcreteFactory'),
+                ('TabCompleter', 'Client'),
+            ],
+        ))
+
 
 if __name__ == '__main__':
     main()
