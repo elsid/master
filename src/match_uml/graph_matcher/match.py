@@ -9,8 +9,8 @@ Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
 
 
 def replace_node_by_obj(variants):
-    return [[Equivalent(x.target.obj, x.pattern.obj) for x in variant]
-            for variant in variants]
+    return ((Equivalent(x.target.obj, x.pattern.obj) for x in variant)
+            for variant in variants)
 
 
 def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
