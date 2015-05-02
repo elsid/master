@@ -16,7 +16,7 @@ def main():
     print '\npattern\n'
     print pattern
     print '\nmatch\n'
-    print target.match(pattern)
+    print target.match(pattern, args.limit)
 
 
 def parse_args():
@@ -29,6 +29,7 @@ def parse_args():
                         default=False)
     parser.add_argument('-j', '--java_pattern', action='store_true',
                         default=False)
+    parser.add_argument('-l', '--limit', type=int, default=None)
     return parser.parse_args()
 
 

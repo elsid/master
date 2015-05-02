@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from collections import namedtuple
+from itertools import islice
 from graph_matcher import Graph, replace_node_by_obj
 
 
@@ -85,6 +86,8 @@ def make_graph(diagram):
                  + list(make_ownerships(diagram.associations)))
 
 
-def match(target, pattern):
-    result = make_graph(target).match(make_graph(pattern))
-    return MatchResult([MatchVariant(x) for x in replace_node_by_obj(result)])
+def match(target, pattern, limit=None):
+    target_graph = make_graph(target)
+    pattern_graph = make_graph(pattern)
+    result = replace_node_by_obj(target_graph.match(pattern_graph))
+    return MatchResult(MatchVariant(x) for x in islice(result, limit))

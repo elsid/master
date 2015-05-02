@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, any_of
 from graph_matcher import Equivalent
 from patterns import (
     AbstractFactory as AbstractFactoryPattern,
@@ -282,6 +282,54 @@ class MatchDiagram(TestCase):
         ])
         match_result = t.diagram().match(p.diagram())
         assert_that(match_result, equal_to(expected_match_result))
+
+    def test_match_decorator_pattern_in_burgers_limit_one(self):
+        t = Burgers()
+        p = Decorator()
+        expected_match_results = [
+            MatchResult([
+                MatchVariant([
+                    Equivalent(t.burger(), p.component()),
+                    Equivalent(t.burger_with(), p.decorator()),
+                    Equivalent(t.cheese(), p.concrete_decorator()),
+                    Equivalent(t.cheeseburger(), p.concrete_component()),
+                    Equivalent(t.burger_with_end(), p.decorator_end()),
+                    Equivalent(t.burger_with_burger(), p.decorator_component()),
+                ]),
+            ]),
+            MatchResult([
+                MatchVariant([
+                    Equivalent(t.burger(), p.component()),
+                    Equivalent(t.burger_with(), p.decorator()),
+                    Equivalent(t.cheese(), p.concrete_decorator()),
+                    Equivalent(t.hamburger(), p.concrete_component()),
+                    Equivalent(t.burger_with_end(), p.decorator_end()),
+                    Equivalent(t.burger_with_burger(), p.decorator_component()),
+                ]),
+            ]),
+            MatchResult([
+                MatchVariant([
+                    Equivalent(t.burger(), p.component()),
+                    Equivalent(t.burger_with(), p.decorator()),
+                    Equivalent(t.cutlet(), p.concrete_decorator()),
+                    Equivalent(t.cheeseburger(), p.concrete_component()),
+                    Equivalent(t.burger_with_end(), p.decorator_end()),
+                    Equivalent(t.burger_with_burger(), p.decorator_component()),
+                ]),
+            ]),
+            MatchResult([
+                MatchVariant([
+                    Equivalent(t.burger(), p.component()),
+                    Equivalent(t.burger_with(), p.decorator()),
+                    Equivalent(t.cutlet(), p.concrete_decorator()),
+                    Equivalent(t.hamburger(), p.concrete_component()),
+                    Equivalent(t.burger_with_end(), p.decorator_end()),
+                    Equivalent(t.burger_with_burger(), p.decorator_component()),
+                ]),
+            ]),
+        ]
+        match_result = t.diagram().match(p.diagram(), 1)
+        assert_that(match_result, any_of(*expected_match_results))
 
     def test_match_abstract_factory_pattern_in_bukkit_example(self):
         t = BukkitExample()

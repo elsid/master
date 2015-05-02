@@ -37,8 +37,8 @@ class Diagram(object):
         self.associations = associations
         self.dependencies = dependencies
 
-    def match(self, pattern):
-        return match(self, pattern)
+    def match(self, pattern, limit=None):
+        return match(self, pattern, limit)
 
     def graph(self):
         return make_graph(self)
