@@ -68,7 +68,7 @@ class Decorator(DecoratorPattern):
         ])
 
 
-class Target(object):
+class Burgers(object):
     INT_TYPE = Type(PrimitiveType('int'))
 
     @cached_method
@@ -199,8 +199,8 @@ class MatchDiagram(TestCase):
         match_result = target.diagram().match(pattern.diagram())
         assert_that(match_result, equal_to(expected_match_result))
 
-    def test_match_decorator_pattern_in_target(self):
-        t = Target()
+    def test_match_decorator_pattern_in_burgers(self):
+        t = Burgers()
         p = Decorator()
         E = Equivalent
         expected_match_result = MatchResult([
