@@ -10,7 +10,7 @@ from java_parser import (
 from java_parser.external_classifiers import find_files
 
 from java_parser.errors import (
-    InvalidDirPath, InvalidFilePath, InvalidExternalPath, SyntaxError)
+    InvalidDirPath, InvalidFilePath, InvalidExternalPath, PlyjSyntaxError)
 
 
 def find_java_files(path):
@@ -61,7 +61,7 @@ class DiagramFactory(object):
     def __parse_file(self, file_path):
         parser = Parser()
         tree = parser.parse_file(file_path)
-        self.errors += [SyntaxError(file_path, e) for e in parser.errors()]
+        self.errors += [PlyjSyntaxError(file_path, e) for e in parser.errors()]
         return tree
 
     def __parse_files(self):

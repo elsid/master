@@ -27,9 +27,9 @@ class Error(object):
                                               message=str(self))
 
 
-class SyntaxError(Error):
+class PlyjSyntaxError(Error):
     def __init__(self, file_path, message):
-        super(SyntaxError, self).__init__()
+        super(PlyjSyntaxError, self).__init__()
         self.file_path = file_path
         self.message = message
 
