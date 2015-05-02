@@ -24,7 +24,7 @@ class PlyjNameTypeError(Exception):
 class Error(object):
     def __repr__(self):
         return '{name}(\'{message}\')'.format(name=self.__class__.__name__,
-                                            message=str(self))
+                                              message=str(self))
 
 
 class SyntaxError(Error):

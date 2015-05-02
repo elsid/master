@@ -160,21 +160,23 @@ class Target(object):
 
     @cached_method
     def diagram(self):
-        G = Generalization
-        A = BinaryAssociation
         return Diagram(
             generalizations=[
-                G(derived=self.cutlet(), base=self.burger_with()),
-                G(derived=self.cheese(), base=self.burger_with()),
-                G(derived=self.burger_with(), base=self.burger()),
-                G(derived=self.hamburger(), base=self.burger()),
-                G(derived=self.cheeseburger(), base=self.burger()),
+                Generalization(derived=self.cutlet(), base=self.burger_with()),
+                Generalization(derived=self.cheese(), base=self.burger_with()),
+                Generalization(derived=self.burger_with(), base=self.burger()),
+                Generalization(derived=self.hamburger(), base=self.burger()),
+                Generalization(derived=self.cheeseburger(), base=self.burger()),
             ],
             associations=[
-                A({self.burger_with_burger(), self.burger_with_end()}),
-                A({self.hamburger_cutlet(), self.hamburger_end()}),
-                A({self.cheeseburger_cutlet(), self.cheeseburger_end()}),
-                A({self.cheeseburger_cheese(), self.cheeseburger_end()}),
+                BinaryAssociation({self.burger_with_burger(),
+                                   self.burger_with_end()}),
+                BinaryAssociation({self.hamburger_cutlet(),
+                                   self.hamburger_end()}),
+                BinaryAssociation({self.cheeseburger_cutlet(),
+                                   self.cheeseburger_end()}),
+                BinaryAssociation({self.cheeseburger_cheese(),
+                                   self.cheeseburger_end()}),
             ],
         )
 

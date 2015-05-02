@@ -21,14 +21,14 @@ def repr_multiplicity(lower, upper):
             return ''
 
 
-def assert_mult_type(value, Error):
+def assert_mult_type(value, make_error):
     if value is not None and not isinstance(value, int):
-        raise Error(value)
+        raise make_error(value)
 
 
-def assert_mult_value(value, Error):
+def assert_mult_value(value, make_error):
     if value is not None and value < 0:
-        raise Error(value)
+        raise make_error(value)
 
 
 class Type(object):
