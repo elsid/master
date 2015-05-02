@@ -2,7 +2,9 @@
 
 from collections import namedtuple
 from itertools import islice
-from graph_matcher import Graph, replace_node_by_obj
+from graph_matcher import Graph, Equivalent
+from graph_matcher.match import EndType
+from uml_matcher.errors import CheckVariantFailed
 
 
 class MatchVariant(object):
@@ -89,5 +91,51 @@ def make_graph(diagram):
 def match(target, pattern, limit=None):
     target_graph = make_graph(target)
     pattern_graph = make_graph(pattern)
-    result = replace_node_by_obj(target_graph.match(pattern_graph))
-    return MatchResult(MatchVariant(x) for x in islice(result, limit))
+    result = islice(target_graph.match(pattern_graph), limit)
+    return MatchResult(MatchVariant(check(x)) for x in result)
+
+
+Connection = namedtuple('Connection', ('color', 'end_type', 'node'))
+
+
+def check(equivalents):
+    equivalents = tuple(equivalents)
+    all_target_nodes = frozenset(x.target for x in equivalents)
+    used = set()
+
+    def has_pattern(connection_color, end_type, pattern_node):
+
+        def has_equivalent(target_nodes):
+            for target_node in target_nodes & all_target_nodes:
+                if Equivalent(target_node, pattern_node) in equivalents:
+                    return True
+
+        for tk, tv in equivalent.target.connections.iteritems():
+            if connection_color == tk:
+                if end_type == EndType.incoming:
+                    return has_equivalent(tv.incoming)
+                elif end_type == EndType.outgoing:
+                    return has_equivalent(tv.outgoing)
+
+    def check_pattern_nodes(connection_color, end_type, nodes):
+        for node in nodes:
+            connection = Connection(connection_color, end_type, node)
+            if connection not in used:
+                if has_pattern(*connection):
+                    used.add(connection)
+                else:
+                    e = Equivalent(equivalent.target.obj,
+                                   equivalent.pattern.obj)
+                    raise CheckVariantFailed(
+                        MatchVariant(replace_nodes_by_objs(equivalents)),
+                        e, connection)
+
+    for equivalent in equivalents:
+        for pk, pv in equivalent.pattern.connections.iteritems():
+            check_pattern_nodes(pk, EndType.incoming, pv.incoming)
+            check_pattern_nodes(pk, EndType.outgoing, pv.outgoing)
+    return replace_nodes_by_objs(equivalents)
+
+
+def replace_nodes_by_objs(equivalents):
+    return (Equivalent(x.target.obj, x.pattern.obj) for x in equivalents)
