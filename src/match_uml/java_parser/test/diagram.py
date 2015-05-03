@@ -60,9 +60,9 @@ class Decorator(object):
         A = BinaryAssociation
         return Diagram(
             generalizations=[
-                G(derived=self.concrete_component(), base=self.component()),
-                G(derived=self.decorator(), base=self.component()),
-                G(derived=self.concrete_decorator(), base=self.decorator()),
+                G(derived=self.concrete_component(), general=self.component()),
+                G(derived=self.decorator(), general=self.component()),
+                G(derived=self.concrete_decorator(), general=self.decorator()),
             ],
             associations=[
                 A({self.decorator_component(), self.decorator_end()}),
@@ -183,11 +183,11 @@ class Burgers(object):
         A = BinaryAssociation
         return Diagram(
             generalizations=[
-                G(derived=self.cutlet(), base=self.burger_with()),
-                G(derived=self.cheese(), base=self.burger_with()),
-                G(derived=self.burger_with(), base=self.burger()),
-                G(derived=self.hamburger(), base=self.burger()),
-                G(derived=self.cheeseburger(), base=self.burger()),
+                G(derived=self.cutlet(), general=self.burger_with()),
+                G(derived=self.cheese(), general=self.burger_with()),
+                G(derived=self.burger_with(), general=self.burger()),
+                G(derived=self.hamburger(), general=self.burger()),
+                G(derived=self.cheeseburger(), general=self.burger()),
             ],
             associations=[
                 A({self.burger_with_burger(), self.burger_with_end()}),

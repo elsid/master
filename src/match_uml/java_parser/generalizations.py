@@ -21,14 +21,14 @@ class GeneralizationsFactory(Visitor):
     def visit_EnumDeclaration(self, declaration):
         self.__make_generalizations(declaration, declaration.implements)
 
-    def __make_generalizations(self, declaration, base_declarations):
+    def __make_generalizations(self, declaration, general_declarations):
         derived = self.classifiers[declaration.name]
-        for base_declaration in base_declarations:
-            if base_declaration.name.value in self.classifiers:
-                base = self.classifiers[base_declaration.name.value]
-                self.generalizations.append(Generalization(derived, base))
-                if base not in derived.generals:
-                    derived.generals.append(base)
+        for general_declaration in general_declarations:
+            if general_declaration.name.value in self.classifiers:
+                general = self.classifiers[general_declaration.name.value]
+                self.generalizations.append(Generalization(derived, general))
+                if general not in derived.generals:
+                    derived.generals.append(general)
 
 
 def make_generalizations(tree, classifiers):

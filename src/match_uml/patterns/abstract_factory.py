@@ -41,9 +41,9 @@ class AbstractFactory(object):
     def diagram(self):
         return Diagram(
             generalizations=[
-                Generalization(base=self.abstract_factory(),
+                Generalization(general=self.abstract_factory(),
                                derived=self.concrete_factory()),
-                Generalization(base=self.abstract_product(),
+                Generalization(general=self.abstract_product(),
                                derived=self.concrete_product()),
             ],
             dependencies=[

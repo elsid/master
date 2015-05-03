@@ -38,10 +38,10 @@ class EqIgnoreOrder(TestCase):
                     [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]), equal_to(True))
 
 
-class BaseDerivedDiagram(object):
+class GeneralDerivedDiagram(object):
     @cached_method
-    def base(self):
-        return Class('Base')
+    def general(self):
+        return Class('General')
 
     @cached_method
     def derived(self):
@@ -50,7 +50,7 @@ class BaseDerivedDiagram(object):
     @cached_method
     def diagram(self):
         return Diagram(generalizations=[
-            Generalization(base=self.base(), derived=self.derived()),
+            Generalization(general=self.general(), derived=self.derived()),
         ])
 
 
@@ -59,23 +59,23 @@ class Check(TestCase):
         check(tuple())
 
     def test_check_diagram_with_one_generalization_should_succeed(self):
-        target = BaseDerivedDiagram().diagram().graph()
-        pattern = BaseDerivedDiagram().diagram().graph()
+        target = GeneralDerivedDiagram().diagram().graph()
+        pattern = GeneralDerivedDiagram().diagram().graph()
         check([
-            Equivalent(target.get_node_by_obj_attr_value('name', 'Base'),
-                       pattern.get_node_by_obj_attr_value('name', 'Base')),
+            Equivalent(target.get_node_by_obj_attr_value('name', 'General'),
+                       pattern.get_node_by_obj_attr_value('name', 'General')),
             Equivalent(target.get_node_by_obj_attr_value('name', 'Derived'),
                        pattern.get_node_by_obj_attr_value('name', 'Derived')),
         ])
 
     def test_check_diagram_with_one_generalization_should_return_error(self):
-        target = BaseDerivedDiagram().diagram().graph()
-        pattern = BaseDerivedDiagram().diagram().graph()
+        target = GeneralDerivedDiagram().diagram().graph()
+        pattern = GeneralDerivedDiagram().diagram().graph()
         check_ = (lambda: check([
-            Equivalent(target.get_node_by_obj_attr_value('name', 'Base'),
+            Equivalent(target.get_node_by_obj_attr_value('name', 'General'),
                        pattern.get_node_by_obj_attr_value('name', 'Derived')),
             Equivalent(target.get_node_by_obj_attr_value('name', 'Derived'),
-                       pattern.get_node_by_obj_attr_value('name', 'Base')),
+                       pattern.get_node_by_obj_attr_value('name', 'General')),
         ]))
         assert_that(calling(check_), raises(CheckVariantFailed))
         try:
@@ -83,8 +83,8 @@ class Check(TestCase):
         except CheckVariantFailed as error:
             assert_that(str(error), equal_to(
                 'check variant failed\n'
-                '  Base === Derived <<< Generalization (outgoing)\n'
-                '  Derived === Base'))
+                '  General === Derived <<< Generalization (outgoing)\n'
+                '  Derived === General'))
 
 if __name__ == '__main__':
     main()

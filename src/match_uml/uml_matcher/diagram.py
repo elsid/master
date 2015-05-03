@@ -4,9 +4,9 @@ from collections import namedtuple
 from uml_matcher.match import match, eq_ignore_order, make_graph
 
 
-class Generalization(namedtuple('Generalization', ('derived', 'base'))):
+class Generalization(namedtuple('Generalization', ('derived', 'general'))):
     def __repr__(self):
-        return '%s ----> %s' % (self.derived, self.base)
+        return '%s ----> %s' % (self.derived, self.general)
 
 
 class BinaryAssociation(frozenset):

@@ -45,7 +45,7 @@ class Bridge(object):
         return Diagram(
             generalizations=[
                 Generalization(derived=self.concrete_implementor(),
-                               base=self.implementor()),
+                               general=self.implementor()),
             ],
             associations=[
                 BinaryAssociation({self.abstraction_implementor(),

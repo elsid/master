@@ -162,11 +162,11 @@ class Burgers(object):
     def diagram(self):
         return Diagram(
             generalizations=[
-                Generalization(derived=self.cutlet(), base=self.burger_with()),
-                Generalization(derived=self.cheese(), base=self.burger_with()),
-                Generalization(derived=self.burger_with(), base=self.burger()),
-                Generalization(derived=self.hamburger(), base=self.burger()),
-                Generalization(derived=self.cheeseburger(), base=self.burger()),
+                Generalization(derived=self.cutlet(), general=self.burger_with()),
+                Generalization(derived=self.cheese(), general=self.burger_with()),
+                Generalization(derived=self.burger_with(), general=self.burger()),
+                Generalization(derived=self.hamburger(), general=self.burger()),
+                Generalization(derived=self.cheeseburger(), general=self.burger()),
             ],
             associations=[
                 BinaryAssociation({self.burger_with_burger(),
@@ -219,11 +219,11 @@ class BukkitExample(object):
         return Diagram(
             generalizations=[
                 Generalization(derived=self.console_command_sender(),
-                               base=self.command_sender()),
+                               general=self.command_sender()),
                 Generalization(derived=self.formatted_command_alias(),
-                               base=self.command()),
+                               general=self.command()),
                 Generalization(derived=self.plugin_command(),
-                               base=self.command()),
+                               general=self.command()),
             ],
             dependencies=[
                 Dependency(client=self.tab_completer(),

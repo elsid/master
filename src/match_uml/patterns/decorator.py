@@ -55,11 +55,11 @@ class Decorator(object):
         return Diagram(
             generalizations=[
                 Generalization(derived=self.concrete_component(),
-                               base=self.component()),
+                               general=self.component()),
                 Generalization(derived=self.decorator(),
-                               base=self.component()),
+                               general=self.component()),
                 Generalization(derived=self.concrete_decorator(),
-                               base=self.decorator()),
+                               general=self.decorator()),
             ],
             associations=[
                 BinaryAssociation({self.decorator_component(),
