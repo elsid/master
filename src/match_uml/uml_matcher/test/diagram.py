@@ -32,6 +32,10 @@ class AbstractFactory(AbstractFactoryPattern):
                            pattern=other.abstract_product()),
                 Equivalent(target=self.concrete_product(),
                            pattern=other.concrete_product()),
+                Equivalent(target=self.abstract_factory_create(),
+                           pattern=other.abstract_factory_create()),
+                Equivalent(target=self.concrete_factory_create(),
+                           pattern=other.concrete_factory_create()),
             ])
         ])
 
@@ -52,6 +56,14 @@ class Decorator(DecoratorPattern):
                            pattern=other.decorator_component()),
                 Equivalent(target=self.decorator_end(),
                            pattern=other.decorator_end()),
+                Equivalent(target=self.component_operation(),
+                           pattern=other.component_operation()),
+                Equivalent(target=self.decorator_operation(),
+                           pattern=other.decorator_operation()),
+                Equivalent(target=self.concrete_component_operation(),
+                           pattern=other.concrete_component_operation()),
+                Equivalent(target=self.concrete_component_operation(),
+                           pattern=other.concrete_component_operation()),
             ])
         ])
 
@@ -59,34 +71,42 @@ class Decorator(DecoratorPattern):
 class Burgers(object):
     INT_TYPE = Type(PrimitiveType('int'))
 
+    @staticmethod
+    def _price():
+        return Operation(Burgers.INT_TYPE, 'price', Visibility.public,
+                         is_static=False)
+
+    @cached_method
+    def cutlet_price(self):
+        return self._price()
+
     @cached_method
     def cutlet(self):
-        return Class('Cutlet', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('Cutlet', operations=[self.cutlet_price()])
 
     @cached_method
     def cutlet_type(self):
         return Type(self.cutlet())
 
     @cached_method
+    def cheese_price(self):
+        return self._price()
+
+    @cached_method
     def cheese(self):
-        return Class('Cheese', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('Cheese', operations=[self.cheese_price()])
 
     @cached_method
     def cheese_type(self):
         return Type(self.cheese())
 
     @cached_method
+    def burger_price(self):
+        return self._price()
+
+    @cached_method
     def burger(self):
-        return Class('Burger', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('Burger', operations=[self.burger_price()])
 
     @cached_method
     def burger_type(self):
@@ -98,13 +118,13 @@ class Burgers(object):
                         is_static=False)
 
     @cached_method
+    def hamburger_price(self):
+        return self._price()
+
+    @cached_method
     def hamburger(self):
-        return Class('Hamburger', properties=[
-            self.hamburger_cutlet()
-        ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('Hamburger', properties=[self.hamburger_cutlet()],
+                     operations=[self.hamburger_price()])
 
     @cached_method
     def hamburger_type(self):
@@ -121,14 +141,15 @@ class Burgers(object):
                         is_static=False)
 
     @cached_method
+    def cheeseburger_price(self):
+        return self._price()
+
+    @cached_method
     def cheeseburger(self):
         return Class('Cheeseburger', properties=[
             self.cheeseburger_cutlet(),
             self.cheeseburger_cheese(),
-        ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        ], operations=[self.cheeseburger_price()])
 
     @cached_method
     def cheeseburger_type(self):
@@ -140,13 +161,13 @@ class Burgers(object):
                         is_static=False)
 
     @cached_method
+    def burger_with_price(self):
+        return self._price()
+
+    @cached_method
     def burger_with(self):
-        return Class('BurgerWith', properties=[
-            self.burger_with_burger(),
-        ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('BurgerWith', properties=[self.burger_with_burger()],
+                     operations=[self.burger_with_price()])
 
     @cached_method
     def burger_with_type(self):
@@ -191,12 +212,18 @@ class Burgers(object):
 class BukkitExample(object):
     VOID_TYPE = Type(PrimitiveType('void'))
 
+    @staticmethod
+    def _create():
+        return Operation(BukkitExample.VOID_TYPE, 'create', Visibility.public,
+                         is_static=False)
+
+    @cached_method
+    def command_create(self):
+        return self._create()
+
     @cached_method
     def command(self):
-        return Class('Command', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public,
-                      is_static=False)
-        ])
+        return Class('Command', operations=[self.command_create()])
 
     @cached_method
     def command_sender(self):
@@ -207,18 +234,22 @@ class BukkitExample(object):
         return Class('ConsoleCommandSender')
 
     @cached_method
+    def formatted_command_alias_create(self):
+        return self._create()
+
+    @cached_method
     def formatted_command_alias(self):
         return Class('FormattedCommandAlias', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public,
-                      is_static=False)
+            self.formatted_command_alias_create()
         ])
 
     @cached_method
+    def plugin_command_create(self):
+        return self._create()
+
+    @cached_method
     def plugin_command(self):
-        return Class('PluginCommand', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public,
-                      is_static=False)
-        ])
+        return Class('PluginCommand', operations=[self.plugin_command_create()])
 
     @cached_method
     def tab_completer(self):
@@ -270,6 +301,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.cheeseburger(), p.concrete_component()),
                 Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
+                Equivalent(t.burger_price(), p.component_operation()),
+                Equivalent(t.burger_with_price(), p.decorator_operation()),
+                Equivalent(t.cheese_price(),
+                           p.concrete_decorator_operation()),
+                Equivalent(t.cheeseburger_price(),
+                           p.concrete_component_operation()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -278,6 +315,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.hamburger(), p.concrete_component()),
                 Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
+                Equivalent(t.burger_price(), p.component_operation()),
+                Equivalent(t.burger_with_price(), p.decorator_operation()),
+                Equivalent(t.cheese_price(),
+                           p.concrete_decorator_operation()),
+                Equivalent(t.hamburger_price(),
+                           p.concrete_component_operation()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -286,6 +329,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.cheeseburger(), p.concrete_component()),
                 Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
+                Equivalent(t.burger_price(), p.component_operation()),
+                Equivalent(t.burger_with_price(), p.decorator_operation()),
+                Equivalent(t.cutlet_price(),
+                           p.concrete_decorator_operation()),
+                Equivalent(t.cheeseburger_price(),
+                           p.concrete_component_operation()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -294,6 +343,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.hamburger(), p.concrete_component()),
                 Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
+                Equivalent(t.burger_price(), p.component_operation()),
+                Equivalent(t.burger_with_price(), p.decorator_operation()),
+                Equivalent(t.cutlet_price(),
+                           p.concrete_decorator_operation()),
+                Equivalent(t.hamburger_price(),
+                           p.concrete_component_operation()),
             ]),
         ])
         match_result = t.diagram().match(p.diagram())
@@ -311,6 +366,12 @@ class MatchDiagram(TestCase):
                     Equivalent(t.cheeseburger(), p.concrete_component()),
                     Equivalent(t.burger_with_end(), p.decorator_end()),
                     Equivalent(t.burger_with_burger(), p.decorator_component()),
+                    Equivalent(t.burger_price(), p.component_operation()),
+                    Equivalent(t.burger_with_price(), p.decorator_operation()),
+                    Equivalent(t.cheese_price(),
+                               p.concrete_decorator_operation()),
+                    Equivalent(t.cheeseburger_price(),
+                               p.concrete_component_operation()),
                 ]),
             ]),
             MatchResult([
@@ -321,6 +382,12 @@ class MatchDiagram(TestCase):
                     Equivalent(t.hamburger(), p.concrete_component()),
                     Equivalent(t.burger_with_end(), p.decorator_end()),
                     Equivalent(t.burger_with_burger(), p.decorator_component()),
+                    Equivalent(t.burger_price(), p.component_operation()),
+                    Equivalent(t.burger_with_price(), p.decorator_operation()),
+                    Equivalent(t.cheese_price(),
+                               p.concrete_decorator_operation()),
+                    Equivalent(t.hamburger_price(),
+                               p.concrete_component_operation()),
                 ]),
             ]),
             MatchResult([
@@ -331,6 +398,12 @@ class MatchDiagram(TestCase):
                     Equivalent(t.cheeseburger(), p.concrete_component()),
                     Equivalent(t.burger_with_end(), p.decorator_end()),
                     Equivalent(t.burger_with_burger(), p.decorator_component()),
+                    Equivalent(t.burger_price(), p.component_operation()),
+                    Equivalent(t.burger_with_price(), p.decorator_operation()),
+                    Equivalent(t.cutlet_price(),
+                               p.concrete_decorator_operation()),
+                    Equivalent(t.cheeseburger_price(),
+                               p.concrete_component_operation()),
                 ]),
             ]),
             MatchResult([
@@ -341,6 +414,12 @@ class MatchDiagram(TestCase):
                     Equivalent(t.hamburger(), p.concrete_component()),
                     Equivalent(t.burger_with_end(), p.decorator_end()),
                     Equivalent(t.burger_with_burger(), p.decorator_component()),
+                    Equivalent(t.burger_price(), p.component_operation()),
+                    Equivalent(t.burger_with_price(), p.decorator_operation()),
+                    Equivalent(t.cutlet_price(),
+                               p.concrete_decorator_operation()),
+                    Equivalent(t.hamburger_price(),
+                               p.concrete_component_operation()),
                 ]),
             ]),
         ]
@@ -357,6 +436,10 @@ class MatchDiagram(TestCase):
                 Equivalent(t.console_command_sender(), p.concrete_product()),
                 Equivalent(t.plugin_command(), p.concrete_factory()),
                 Equivalent(t.tab_completer(), p.client()),
+                Equivalent(t.command_create(),
+                           p.abstract_factory_create()),
+                Equivalent(t.plugin_command_create(),
+                           p.concrete_factory_create()),
             ]),
             MatchVariant([
                 Equivalent(t.command(), p.abstract_factory()),
@@ -364,6 +447,10 @@ class MatchDiagram(TestCase):
                 Equivalent(t.console_command_sender(), p.concrete_product()),
                 Equivalent(t.formatted_command_alias(), p.concrete_factory()),
                 Equivalent(t.tab_completer(), p.client()),
+                Equivalent(t.command_create(),
+                           p.abstract_factory_create()),
+                Equivalent(t.formatted_command_alias_create(),
+                           p.concrete_factory_create()),
             ]),
         ])
         match_result = t.diagram().match(p.diagram())

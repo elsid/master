@@ -74,6 +74,7 @@ def eq_ignore_order(first, second):
 Generalization = namedtuple('Generalization', ('derived', 'general'))
 Dependency = namedtuple('Dependency', ('client', 'supplier'))
 HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
+HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
 
 
 class BinaryAssociation(frozenset):
@@ -94,6 +95,8 @@ def make_graph(diagram):
                 yield HasProperty(classifier, property_)
                 for association in property_.associations:
                     yield BinaryAssociation({property_, association})
+            for operation in classifier.operations:
+                yield HasOperation(classifier, operation)
 
     return Graph(generate())
 

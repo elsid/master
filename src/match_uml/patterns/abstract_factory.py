@@ -8,11 +8,23 @@ from patterns.cached_method import cached_method
 class AbstractFactory(object):
     @cached_method
     def abstract_factory(self):
-        return Interface('AbstractFactory', operations=[self.product()])
+        return Interface('AbstractFactory', operations=[
+            self.abstract_factory_create()
+        ])
+
+    @cached_method
+    def abstract_factory_create(self):
+        return self._create()
 
     @cached_method
     def concrete_factory(self):
-        return Class('ConcreteFactory', operations=[self.product()])
+        return Class('ConcreteFactory', operations=[
+            self.concrete_factory_create()
+        ])
+
+    @cached_method
+    def concrete_factory_create(self):
+        return self._create()
 
     @cached_method
     def abstract_product(self):
@@ -26,9 +38,8 @@ class AbstractFactory(object):
     def concrete_product(self):
         return Class('ConcreteProduct')
 
-    @cached_method
-    def product(self):
-        return Operation(self.abstract_product_type(), 'product',
+    def _create(self):
+        return Operation(self.abstract_product_type(), 'create',
                          Visibility.public, is_static=False)
 
     @cached_method

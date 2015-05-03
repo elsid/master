@@ -9,9 +9,11 @@ from patterns.cached_method import cached_method
 class Decorator(object):
     @cached_method
     def component(self):
-        return Interface('Component', operations=[
-            Operation(None, 'operation', Visibility.public, is_static=False)
-        ])
+        return Interface('Component', operations=[self.component_operation()])
+
+    @cached_method
+    def component_operation(self):
+        return self._operation()
 
     @cached_method
     def component_type(self):
@@ -20,8 +22,12 @@ class Decorator(object):
     @cached_method
     def concrete_component(self):
         return Class('ConcreteComponent', operations=[
-            Operation(None, 'operation', Visibility.public, is_static=False),
+            self.concrete_component_operation()
         ])
+
+    @cached_method
+    def concrete_component_operation(self):
+        return self._operation()
 
     @cached_method
     def decorator_component(self):
@@ -29,11 +35,12 @@ class Decorator(object):
 
     @cached_method
     def decorator(self):
-        return Interface('Decorator', properties=[
-            self.decorator_component(),
-        ], operations=[
-            Operation(None, 'operation', Visibility.public, is_static=False),
-        ])
+        return Interface('Decorator', properties=[self.decorator_component()],
+                         operations=[self.decorator_operation()])
+
+    @cached_method
+    def decorator_operation(self):
+        return self._operation()
 
     @cached_method
     def decorator_type(self):
@@ -42,12 +49,20 @@ class Decorator(object):
     @cached_method
     def concrete_decorator(self):
         return Class('ConcreteDecorator', operations=[
-            Operation(None, 'operation', Visibility.public, is_static=False),
+            self.concrete_decorator_operation()
         ])
+
+    @cached_method
+    def concrete_decorator_operation(self):
+        return self._operation()
 
     @cached_method
     def decorator_end(self):
         return Property(self.decorator_type(), 'Decorator_end')
+
+    @staticmethod
+    def _operation():
+        return Operation(None, 'operation', Visibility.public, is_static=False)
 
     @cached_method
     def diagram(self):
