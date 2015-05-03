@@ -21,9 +21,10 @@ class MakeDependencies(TestCaseWithParser):
             interface Interface {}
             class Implementation implements Interface {}
             class AnotherImplementation implements Interface {}
+            class Parameter {}
             class Client {
                 Interface field = new Implementation();
-                void f() {
+                void f(Parameter p) {
                     Interface local = new AnotherImplementation();
                 }
             }
@@ -40,6 +41,7 @@ class MakeDependencies(TestCaseWithParser):
             classifiers['x.Interface'],
             classifiers['x.Implementation'],
             classifiers['x.AnotherImplementation'],
+            classifiers['x.Parameter']
         ))
 
 if __name__ == '__main__':
