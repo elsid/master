@@ -73,7 +73,7 @@ def eq_ignore_order(first, second):
 
 Generalization = namedtuple('Generalization', ('derived', 'general'))
 Dependency = namedtuple('Dependency', ('client', 'supplier'))
-Owns = namedtuple('Owns', ('classifier', 'property'))
+HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 
 
 class BinaryAssociation(frozenset):
@@ -91,7 +91,7 @@ def make_graph(diagram):
             for supplier in classifier.suppliers:
                 yield Dependency(client=classifier, supplier=supplier)
             for property_ in classifier.properties:
-                yield Owns(classifier, property_)
+                yield HasProperty(classifier, property_)
                 for association in property_.associations:
                     yield BinaryAssociation({property_, association})
 
