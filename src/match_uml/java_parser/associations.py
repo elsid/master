@@ -3,16 +3,14 @@
 from uml_matcher import Class, Interface, Property, BinaryAssociation
 
 
-def make_association(property_, types):
-    return BinaryAssociation({
-        property_,
-        Property(types[property_.owner.name], property_.owner.name + '_end')})
-
-
 def make_associations(types):
     associations = []
     for type_ in types.values():
         for property_ in type_.classifier.properties:
             if isinstance(property_.type.classifier, (Class, Interface)):
-                associations.append(make_association(property_, types))
+                end_type = types[property_.owner.name]
+                end = Property(end_type, property_.owner.name + '_end')
+                associations.append(BinaryAssociation({property_, end}))
+                property_.associations.append(end)
+                end.associations.append(property_)
     return associations

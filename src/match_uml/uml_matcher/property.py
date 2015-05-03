@@ -18,7 +18,8 @@ class Property(NamedElement):
                  is_read_only=None,
                  is_static=None,
                  subsetted_properties=tuple(),
-                 owner=None):
+                 owner=None,
+                 associations=None):
         super(Property, self).__init__(name)
         self.type = type
         self.visibility = visibility
@@ -31,6 +32,7 @@ class Property(NamedElement):
         self.is_static = is_static
         self.subsetted_properties = subsetted_properties
         self.owner = owner
+        self.associations = list(associations) if associations else []
 
     @cached_eq
     def sub_equiv_pattern(self, pattern):

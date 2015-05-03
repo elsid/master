@@ -1,22 +1,9 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to, contains_inanyorder
+from hamcrest import assert_that, contains_inanyorder
 from uml_matcher import Class, Type, Property, Interface, BinaryAssociation
-from java_parser.associations import make_association, make_associations
-
-
-class MakeAssociation(TestCase):
-    def test_make_should_succeed(self):
-        class_a = Class('A')
-        type_a = Type(class_a)
-        class_b = Class('B')
-        type_b = Type(class_b)
-        property_b = Property(type_b, 'b', owner=class_a)
-        assert_that(make_association(
-            property_b, {'A': type_a, 'B': type_b}),
-            equal_to(BinaryAssociation({property_b,
-                                        Property(type_a, 'A_end')})))
+from java_parser.associations import make_associations
 
 
 class MakeAssociations(TestCase):
