@@ -10,11 +10,11 @@ from patterns.cached_method import cached_method
 class AbstractFactory(object):
     @cached_method
     def abstract_factory(self):
-        return Interface('AbstractFactory', [], [self.product()])
+        return Interface('AbstractFactory', operations=[self.product()])
 
     @cached_method
     def concrete_factory(self):
-        return Class('ConcreteFactory', [], [self.product()])
+        return Class('ConcreteFactory', operations=[self.product()])
 
     @cached_method
     def abstract_product(self):

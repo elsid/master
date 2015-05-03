@@ -36,8 +36,9 @@ class Bridge(object):
 
     @cached_method
     def concrete_implementor(self):
-        return Class('ConcreteImplementor', [],
-                     [Operation(None, 'operation_impl', Visibility.public)])
+        return Class('ConcreteImplementor', operations=[
+            Operation(None, 'operation_impl', Visibility.public),
+        ])
 
     @cached_method
     def diagram(self):

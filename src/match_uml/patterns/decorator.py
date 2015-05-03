@@ -10,8 +10,9 @@ from patterns.cached_method import cached_method
 class Decorator(object):
     @cached_method
     def component(self):
-        return Interface('Component', [],
-                         [Operation(None, 'operation', Visibility.public)])
+        return Interface('Component', operations=[
+            Operation(None, 'operation', Visibility.public)
+        ])
 
     @cached_method
     def component_type(self):
@@ -19,8 +20,9 @@ class Decorator(object):
 
     @cached_method
     def concrete_component(self):
-        return Class('ConcreteComponent', [],
-                     [Operation(None, 'operation', Visibility.public)])
+        return Class('ConcreteComponent', operations=[
+            Operation(None, 'operation', Visibility.public),
+        ])
 
     @cached_method
     def decorator_component(self):
@@ -28,8 +30,11 @@ class Decorator(object):
 
     @cached_method
     def decorator(self):
-        return Interface('Decorator', [self.decorator_component()],
-                         [Operation(None, 'operation', Visibility.public)])
+        return Interface('Decorator', properties=[
+            self.decorator_component(),
+        ], operations=[
+            Operation(None, 'operation', Visibility.public),
+        ])
 
     @cached_method
     def decorator_type(self):
@@ -37,8 +42,9 @@ class Decorator(object):
 
     @cached_method
     def concrete_decorator(self):
-        return Class('ConcreteDecorator', [],
-                     [Operation(None, 'operation', Visibility.public)])
+        return Class('ConcreteDecorator', operations=[
+            Operation(None, 'operation', Visibility.public),
+        ])
 
     @cached_method
     def decorator_end(self):

@@ -17,8 +17,9 @@ class MakeClassifier(TestCase):
 
     def test_eq_with_property_should_succeed(self):
         assert_that(
-            Classifier('A', [Property(Type(Classifier('B')), 'b')]),
-            equal_to(Classifier('A', [Property(Type(Classifier('B')), 'b')])))
+            Classifier('A', properties=[Property(Type(Classifier('B')), 'b')]),
+            equal_to(Classifier('A', properties=[
+                Property(Type(Classifier('B')), 'b')])))
 
     def test_eq_two_recursive_should_succeed(self):
         a1 = Classifier('A')

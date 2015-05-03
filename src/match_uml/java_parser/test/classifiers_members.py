@@ -180,7 +180,7 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [
+            'A': Class('A', properties=[
                 Property(INT_TYPE, 'a', Visibility.public, is_static=False)
             ]),
             'int': INT_TYPE.classifier,
@@ -200,7 +200,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of variable "a" in class "A"'))
         assert_that(classifiers, equal_to({
-            'A': Class('A', [
+            'A': Class('A', properties=[
                 Property(INT_TYPE, 'a', Visibility.public, is_static=False),
             ]),
             'int': INT_TYPE.classifier,
@@ -217,7 +217,7 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [], [
+            'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
                           [Parameter(INT_TYPE, 'x')], is_static=False),
             ]),
@@ -237,7 +237,7 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [], [
+            'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
                           [Parameter(INT_TYPE, 'x')], is_static=False),
                 Operation(VOID_TYPE, 'f', Visibility.private,
@@ -263,10 +263,10 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [], [
+            'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private, is_static=False),
             ]),
-            'B': Class('B', [], [
+            'B': Class('B', operations=[
                 Operation(VOID_TYPE, 'g', Visibility.private, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
@@ -286,7 +286,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of method "-f(x: int): void" in class "A"'))
         assert_that(classifiers, equal_to({
-            'A': Class('A', [], [
+            'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
                           [Parameter(INT_TYPE, 'x')], is_static=False),
             ]),
@@ -326,7 +326,7 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
-            'A': Class('A', [], [
+            'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private, is_static=False),
                 Operation(VOID_TYPE, 'g', Visibility.private, is_static=False),
             ]),
@@ -363,7 +363,7 @@ class FillClassifiers(TestCaseWithParser):
         classifiers, errors = make_classifiers(tree)
         _, errors = fill_classifiers(tree, classifiers)
         assert_that(classifiers, equal_to({
-            'Enum': Enumeration('Enum', [], [
+            'Enum': Enumeration('Enum', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.public, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
@@ -382,7 +382,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         _, errors = fill_classifiers(tree, classifiers)
-        class_type = Type(Class('Class', [], [
+        class_type = Type(Class('Class', operations=[
             Operation(VOID_TYPE, 'f', Visibility.public, is_static=False),
         ]))
         class_type.classifier.properties.append(

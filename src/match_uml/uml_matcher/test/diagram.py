@@ -62,8 +62,9 @@ class Burgers(object):
 
     @cached_method
     def cutlet(self):
-        return Class('Cutlet', [],
-                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('Cutlet', operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def cutlet_type(self):
@@ -71,8 +72,9 @@ class Burgers(object):
 
     @cached_method
     def cheese(self):
-        return Class('Cheese', [],
-                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('Cheese', operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def cheese_type(self):
@@ -80,8 +82,9 @@ class Burgers(object):
 
     @cached_method
     def burger(self):
-        return Class('Burger', [],
-                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('Burger', operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def burger_type(self):
@@ -93,8 +96,11 @@ class Burgers(object):
 
     @cached_method
     def hamburger(self):
-        return Class('Hamburger', [self.hamburger_cutlet()],
-                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('Hamburger', properties=[
+            self.hamburger_cutlet()
+        ], operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def hamburger_type(self):
@@ -110,10 +116,12 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger(self):
-        return Class(
-            'Cheeseburger',
-            [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
-            [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('Cheeseburger', properties=[
+            self.cheeseburger_cutlet(),
+            self.cheeseburger_cheese(),
+        ], operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def cheeseburger_type(self):
@@ -125,8 +133,11 @@ class Burgers(object):
 
     @cached_method
     def burger_with(self):
-        return Class('BurgerWith', [self.burger_with_burger()],
-                     [Operation(self.INT_TYPE, 'price', Visibility.public)])
+        return Class('BurgerWith', properties=[
+            self.burger_with_burger(),
+        ], operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public),
+        ])
 
     @cached_method
     def burger_with_type(self):

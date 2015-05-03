@@ -213,10 +213,12 @@ class ClassifiersMembersFactory(Visitor):
             ))
             return True
 
-    def visit_EnumConstant(self, _):
+    @staticmethod
+    def visit_EnumConstant(_):
         return False
 
-    def visit_InstanceCreation(self, _):
+    @staticmethod
+    def visit_InstanceCreation(_):
         return False
 
     def __get_classifier_type(self, declaration_type):

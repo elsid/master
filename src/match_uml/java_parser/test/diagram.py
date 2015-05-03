@@ -17,14 +17,14 @@ class Decorator(object):
 
     @cached_method
     def component(self):
-        return Interface('Component', [], [
+        return Interface('Component', operations=[
             Operation(self.VOID, 'operation', Visibility.public,
                       is_static=False)
         ])
 
     @cached_method
     def concrete_component(self):
-        return Class('ConcreteComponent', [], [
+        return Class('ConcreteComponent', operations=[
             Operation(self.VOID, 'operation', Visibility.public,
                       is_static=False),
         ])
@@ -36,14 +36,16 @@ class Decorator(object):
 
     @cached_method
     def decorator(self):
-        return Interface('Decorator', [self.decorator_component()], [
+        return Interface('Decorator', properties=[
+            self.decorator_component(),
+        ], operations=[
             Operation(self.VOID, 'operation', Visibility.public,
                       is_static=False),
         ])
 
     @cached_method
     def concrete_decorator(self):
-        return Class('ConcreteDecorator', [], [
+        return Class('ConcreteDecorator', operations=[
             Operation(self.VOID, 'operation', Visibility.public,
                       is_static=False),
         ])
@@ -73,7 +75,7 @@ class Burgers(object):
 
     @cached_method
     def cutlet(self):
-        return Class('Cutlet', [], [
+        return Class('Cutlet', operations=[
             Operation(self.INT_TYPE, 'price', Visibility.public,
                       is_static=False),
         ])
@@ -84,7 +86,7 @@ class Burgers(object):
 
     @cached_method
     def cheese(self):
-        return Class('Cheese', [], [
+        return Class('Cheese', operations=[
             Operation(self.INT_TYPE, 'price', Visibility.public,
                       is_static=False),
         ])
@@ -95,7 +97,7 @@ class Burgers(object):
 
     @cached_method
     def burger(self):
-        return Class('Burger', [], [
+        return Class('Burger', operations=[
             Operation(self.INT_TYPE, 'price', Visibility.public,
                       is_static=False)
         ])
@@ -111,7 +113,8 @@ class Burgers(object):
 
     @cached_method
     def hamburger(self):
-        return Class('Hamburger', [self.hamburger_cutlet()], [
+        return Class('Hamburger', properties=[self.hamburger_cutlet()],
+                     operations=[
             Operation(self.INT_TYPE, 'price', Visibility.public,
                       is_static=False),
         ])
@@ -132,11 +135,13 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger(self):
-        return Class(
-            'Cheeseburger',
-            [self.cheeseburger_cutlet(), self.cheeseburger_cheese()],
-            [Operation(self.INT_TYPE, 'price', Visibility.public,
-                       is_static=False)])
+        return Class('Cheeseburger', properties=[
+            self.cheeseburger_cutlet(),
+            self.cheeseburger_cheese(),
+        ], operations=[
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
+        ])
 
     @cached_method
     def cheeseburger_type(self):
@@ -149,7 +154,9 @@ class Burgers(object):
 
     @cached_method
     def burger_with(self):
-        return Class('BurgerWith', [self.burger_with_burger()], [
+        return Class('BurgerWith', properties=[
+            self.burger_with_burger(),
+        ], operations=[
             Operation(self.INT_TYPE, 'price', Visibility.public,
                       is_static=False),
         ])
