@@ -3,14 +3,35 @@
 from uml_matcher import Class, Interface, Property, BinaryAssociation
 
 
+class MakeAssociations(object):
+    def __init__(self, types):
+        self.types = types
+        self.__ends = {}
+
+    def product(self):
+
+        def generate():
+            for type_ in self.types.values():
+                for property_ in type_.classifier.properties:
+                    property_classifier = property_.type.classifier
+                    if isinstance(property_classifier, (Class, Interface)):
+                        end = self.__get_end(property_.owner.name)
+                        property_.associations.append(end)
+                        end.associations.append(property_)
+                        yield BinaryAssociation({property_, end})
+
+        return list(generate())
+
+    def __get_end(self, classifier_name):
+        end_name = classifier_name + '_end'
+        if end_name in self.__ends:
+            return self.__ends[end_name]
+        end_type = self.types[classifier_name]
+        end = Property(end_type, end_name)
+        self.__ends[end_name] = end
+        return end
+
+
 def make_associations(types):
-    associations = []
-    for type_ in types.values():
-        for property_ in type_.classifier.properties:
-            if isinstance(property_.type.classifier, (Class, Interface)):
-                end_type = types[property_.owner.name]
-                end = Property(end_type, property_.owner.name + '_end')
-                associations.append(BinaryAssociation({property_, end}))
-                property_.associations.append(end)
-                end.associations.append(property_)
-    return associations
+    factory = MakeAssociations(types)
+    return factory.product()
