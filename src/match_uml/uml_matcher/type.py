@@ -76,7 +76,7 @@ class Type(object):
                 and self.is_ordered == other.is_ordered
                 and self.is_unique == other.is_unique)
 
-    def __repr__(self):
+    def __str__(self):
         return '{classifier}{multiplicity}'.format(
-            classifier=repr(self.classifier),
+            classifier=str(self.classifier),
             multiplicity=repr_multiplicity(self.mult_lower, self.mult_upper))

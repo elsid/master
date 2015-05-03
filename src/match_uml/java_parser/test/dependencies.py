@@ -2,7 +2,6 @@
 
 from hamcrest import assert_that, empty, contains_inanyorder
 from unittest import main
-from uml_matcher import Dependency
 from java_parser.classifiers import make_classifiers
 from java_parser.full_classifiers_names import set_full_classifiers_names
 from java_parser.full_types_names import set_full_types_names
@@ -14,8 +13,7 @@ from java_parser.test.classifiers import TestCaseWithParser
 class MakeDependencies(TestCaseWithParser):
     def test_make_from_empty_should_succeed(self):
         tree = self.parse('')
-        dependencies = make_dependencies(tree, [])
-        assert_that(dependencies, empty())
+        make_dependencies(tree, [])
 
     def test_make_from_type_method_should_succeed(self):
         tree = self.parse('''
@@ -37,14 +35,11 @@ class MakeDependencies(TestCaseWithParser):
         assert_that(errors, empty())
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
-        dependencies = make_dependencies(tree, types)
-        assert_that(dependencies, contains_inanyorder(
-            Dependency(client=classifiers['x.Client'],
-                       supplier=classifiers['x.Interface']),
-            Dependency(client=classifiers['x.Client'],
-                       supplier=classifiers['x.Implementation']),
-            Dependency(client=classifiers['x.Client'],
-                       supplier=classifiers['x.AnotherImplementation']),
+        make_dependencies(tree, types)
+        assert_that(classifiers['x.Client'].suppliers, contains_inanyorder(
+            classifiers['x.Interface'],
+            classifiers['x.Implementation'],
+            classifiers['x.AnotherImplementation'],
         ))
 
 if __name__ == '__main__':

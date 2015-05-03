@@ -30,8 +30,8 @@ class MakeType(TestCase):
     def test_eq_should_succeed(self):
         assert_that(Type(Class()), equal_to(Type(Class())))
 
-    def test_repr_should_succeed(self):
-        assert_that(repr(Type(Class())), equal_to('anonymous'))
+    def test_str_should_succeed(self):
+        assert_that(str(Type(Class())), equal_to('anonymous'))
 
     def test_make_with_wrong_lower_should_throw_exception(self):
         assert_that(calling(lambda: Type(None, mult_lower='')),

@@ -5,7 +5,7 @@ from hamcrest import assert_that, equal_to, calling, raises
 from itertools import permutations
 from graph_matcher import Equivalent
 from patterns.cached_method import cached_method
-from uml_matcher import Class, Diagram, Generalization
+from uml_matcher import Class, Diagram
 from uml_matcher.errors import CheckVariantFailed
 from uml_matcher.match import eq_ignore_order, check
 
@@ -45,13 +45,11 @@ class GeneralDerivedDiagram(object):
 
     @cached_method
     def derived(self):
-        return Class('Derived')
+        return Class('Derived', generals=[self.general()])
 
     @cached_method
     def diagram(self):
-        return Diagram(generalizations=[
-            Generalization(general=self.general(), derived=self.derived()),
-        ])
+        return Diagram([self.general(), self.derived()])
 
 
 class Check(TestCase):

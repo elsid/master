@@ -13,8 +13,7 @@ from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.aggregation import Aggregation
-from uml_matcher.diagram import (
-    Diagram, Generalization, BinaryAssociation, Dependency)
+from uml_matcher.diagram import Diagram
 from uml_matcher.match import MatchResult, MatchVariant
 from uml_matcher.visibility import Visibility
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
@@ -63,7 +62,8 @@ class Burgers(object):
     @cached_method
     def cutlet(self):
         return Class('Cutlet', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -73,7 +73,8 @@ class Burgers(object):
     @cached_method
     def cheese(self):
         return Class('Cheese', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -83,7 +84,8 @@ class Burgers(object):
     @cached_method
     def burger(self):
         return Class('Burger', operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -92,14 +94,16 @@ class Burgers(object):
 
     @cached_method
     def hamburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet')
+        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def hamburger(self):
         return Class('Hamburger', properties=[
             self.hamburger_cutlet()
         ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -108,11 +112,13 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet')
+        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def cheeseburger_cheese(self):
-        return Property(self.cheese_type(), 'cheese')
+        return Property(self.cheese_type(), 'cheese', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def cheeseburger(self):
@@ -120,7 +126,8 @@ class Burgers(object):
             self.cheeseburger_cutlet(),
             self.cheeseburger_cheese(),
         ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -129,14 +136,16 @@ class Burgers(object):
 
     @cached_method
     def burger_with_burger(self):
-        return Property(self.burger_type(), 'burger')
+        return Property(self.burger_type(), 'burger', Visibility.public,
+                        is_static=False)
 
     @cached_method
     def burger_with(self):
         return Class('BurgerWith', properties=[
             self.burger_with_burger(),
         ], operations=[
-            Operation(self.INT_TYPE, 'price', Visibility.public),
+            Operation(self.INT_TYPE, 'price', Visibility.public,
+                      is_static=False),
         ])
 
     @cached_method
@@ -160,25 +169,23 @@ class Burgers(object):
 
     @cached_method
     def diagram(self):
-        return Diagram(
-            generalizations=[
-                Generalization(derived=self.cutlet(), general=self.burger_with()),
-                Generalization(derived=self.cheese(), general=self.burger_with()),
-                Generalization(derived=self.burger_with(), general=self.burger()),
-                Generalization(derived=self.hamburger(), general=self.burger()),
-                Generalization(derived=self.cheeseburger(), general=self.burger()),
-            ],
-            associations=[
-                BinaryAssociation({self.burger_with_burger(),
-                                   self.burger_with_end()}),
-                BinaryAssociation({self.hamburger_cutlet(),
-                                   self.hamburger_end()}),
-                BinaryAssociation({self.cheeseburger_cutlet(),
-                                   self.cheeseburger_end()}),
-                BinaryAssociation({self.cheeseburger_cheese(),
-                                   self.cheeseburger_end()}),
-            ],
-        )
+        self.hamburger_cutlet().associations = [self.hamburger_end()]
+        self.cheeseburger_cheese().associations = [self.cheeseburger_end()]
+        self.cheeseburger_cutlet().associations = [self.cheeseburger_end()]
+        self.burger_with_burger().associations = [self.burger_with_end()]
+        self.cutlet().generals = [self.burger_with()]
+        self.cheese().generals = [self.burger_with()]
+        self.cheeseburger().generals = [self.burger()]
+        self.hamburger().generals = [self.burger()]
+        self.burger_with().generals = [self.burger()]
+        return Diagram([
+            self.burger(),
+            self.burger_with(),
+            self.hamburger(),
+            self.cheeseburger(),
+            self.cutlet(),
+            self.cheese(),
+        ])
 
 
 class BukkitExample(object):
@@ -187,7 +194,8 @@ class BukkitExample(object):
     @cached_method
     def command(self):
         return Class('Command', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public)
+            Operation(self.VOID_TYPE, 'product', Visibility.public,
+                      is_static=False)
         ])
 
     @cached_method
@@ -201,13 +209,15 @@ class BukkitExample(object):
     @cached_method
     def formatted_command_alias(self):
         return Class('FormattedCommandAlias', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public)
+            Operation(self.VOID_TYPE, 'product', Visibility.public,
+                      is_static=False)
         ])
 
     @cached_method
     def plugin_command(self):
         return Class('PluginCommand', operations=[
-            Operation(self.VOID_TYPE, 'product', Visibility.public)
+            Operation(self.VOID_TYPE, 'product', Visibility.public,
+                      is_static=False)
         ])
 
     @cached_method
@@ -216,24 +226,19 @@ class BukkitExample(object):
 
     @cached_method
     def diagram(self):
-        return Diagram(
-            generalizations=[
-                Generalization(derived=self.console_command_sender(),
-                               general=self.command_sender()),
-                Generalization(derived=self.formatted_command_alias(),
-                               general=self.command()),
-                Generalization(derived=self.plugin_command(),
-                               general=self.command()),
-            ],
-            dependencies=[
-                Dependency(client=self.tab_completer(),
-                           supplier=self.command_sender()),
-                Dependency(client=self.tab_completer(),
-                           supplier=self.command()),
-                Dependency(client=self.formatted_command_alias(),
-                           supplier=self.command_sender()),
-            ],
-        )
+        self.console_command_sender().generals = [self.command_sender()]
+        self.formatted_command_alias().generals = [self.command()]
+        self.formatted_command_alias().suppliers = [self.command_sender()]
+        self.plugin_command().generals = [self.command()]
+        self.tab_completer().suppliers = [self.command_sender(), self.command()]
+        return Diagram([
+            self.console_command_sender(),
+            self.plugin_command(),
+            self.formatted_command_alias(),
+            self.command(),
+            self.command_sender(),
+            self.tab_completer(),
+        ])
 
 
 class MatchDiagram(TestCase):
@@ -367,25 +372,18 @@ class MatchDiagram(TestCase):
 
 class ReprDiagram(TestCase):
     def test_repr_empty_should_succeed(self):
-        assert_that(repr(Diagram()), equal_to(''))
+        assert_that(repr(Diagram()), equal_to('Diagram()'))
 
     def test_repr_abstract_factory_empty_should_succeed(self):
         assert_that(repr(AbstractFactory().diagram()), equal_to(
-            'generalizations\n'
-            '  ConcreteFactory ----> AbstractFactory\n'
-            '  ConcreteProduct ----> AbstractProduct\n'
-            'dependencies\n'
-            '  Client - - > AbstractFactory\n'
-            '  Client - - > AbstractProduct'))
+            "Diagram((Class('Client'), Interface('AbstractFactory'), "
+            "Interface('AbstractProduct'), Class('ConcreteFactory'), "
+            "Class('ConcreteProduct')))"))
 
     def test_repr_decorator_empty_should_succeed(self):
         assert_that(repr(Decorator().diagram()), equal_to(
-            'generalizations\n'
-            '  ConcreteComponent ----> Component\n'
-            '  Decorator ----> Component\n'
-            '  ConcreteDecorator ----> Decorator\n'
-            'associations\n'
-            '  Decorator_end ----- Decorator::component'))
+            "Diagram((Interface('Component'), Class('ConcreteComponent'), "
+            "Interface('Decorator'), Class('ConcreteDecorator')))"))
 
 if __name__ == '__main__':
     main()

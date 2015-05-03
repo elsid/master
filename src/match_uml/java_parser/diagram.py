@@ -22,10 +22,7 @@ class DiagramFactory(object):
     files = None
     trees = None
     classifiers = None
-    generalizations = tuple()
     types = None
-    associations = tuple()
-    dependencies = tuple()
 
     def __init__(self, dirs=None, files=None, trees=None,
                  external_path_list=None):
@@ -51,8 +48,7 @@ class DiagramFactory(object):
         self.__fill_classifiers()
         self.__make_associations()
         self.__make_dependencies()
-        return Diagram(self.generalizations, self.associations,
-                       self.dependencies)
+        return Diagram(t.classifier for t in self.types.itervalues())
 
     def __find_files(self):
         for dir_path in self.dirs:
@@ -87,9 +83,8 @@ class DiagramFactory(object):
             self.errors += cur_errors
 
     def __make_generalizations(self):
-        self.generalizations = []
         for tree in self.trees:
-            self.generalizations += make_generalizations(tree, self.classifiers)
+            make_generalizations(tree, self.classifiers)
 
     def __set_full_types_names(self):
         for tree in self.trees:
@@ -103,12 +98,11 @@ class DiagramFactory(object):
             self.errors += cur_errors
 
     def __make_associations(self):
-        self.associations = make_associations(self.types)
+        make_associations(self.types)
 
     def __make_dependencies(self):
-        self.dependencies = []
         for tree in self.trees:
-            self.dependencies += make_dependencies(tree, self.types)
+            make_dependencies(tree, self.types)
 
 
 def assert_dirs(dirs):

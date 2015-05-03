@@ -45,13 +45,13 @@ class Operation(NamedElement):
                 and self.is_query == other.is_query
                 and self.is_static == other.is_static)
 
-    def __repr__(self):
+    def __str__(self):
         return ('{visibility}{name}({parameters}){result}{is_leaf}{is_query}'
                 '{is_static}'
                 .format(
                     visibility=self.visibility if self.visibility else '',
                     name=self.name,
-                    result=': ' + repr(self.result) if self.result else '',
+                    result=': ' + str(self.result) if self.result else '',
                     parameters=', '.join(map(str, self.parameters)),
                     is_leaf=' leaf' if self.is_leaf else '',
                     is_query=' query' if self.is_query else '',

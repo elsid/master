@@ -71,21 +71,31 @@ def eq_ignore_order(first, second):
     return True
 
 
+Generalization = namedtuple('Generalization', ('derived', 'general'))
+Dependency = namedtuple('Dependency', ('client', 'supplier'))
 Owns = namedtuple('Owns', ('classifier', 'property'))
 
 
-def make_ownerships(associations):
-    for association in associations:
-        for end in association:
-            if end.owner:
-                yield Owns(end.owner, end)
+class BinaryAssociation(frozenset):
+    def __init__(self, ends):
+        assert len(ends) == 2
+        super(BinaryAssociation, self).__init__(ends)
 
 
 def make_graph(diagram):
-    return Graph(list(diagram.generalizations)
-                 + list(diagram.dependencies)
-                 + list(diagram.associations)
-                 + list(make_ownerships(diagram.associations)))
+
+    def generate():
+        for classifier in diagram.classifiers:
+            for general in classifier.generals:
+                yield Generalization(derived=classifier, general=general)
+            for supplier in classifier.suppliers:
+                yield Dependency(client=classifier, supplier=supplier)
+            for property_ in classifier.properties:
+                yield Owns(classifier, property_)
+                for association in property_.associations:
+                    yield BinaryAssociation({property_, association})
+
+    return Graph(generate())
 
 
 def match(target, pattern, limit=None):

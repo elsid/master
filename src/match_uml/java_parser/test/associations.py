@@ -1,8 +1,8 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, contains_inanyorder
-from uml_matcher import Class, Type, Property, Interface, BinaryAssociation
+from hamcrest import assert_that, equal_to
+from uml_matcher import Class, Type, Property, Interface
 from java_parser.associations import make_associations
 
 
@@ -16,11 +16,14 @@ class MakeAssociations(TestCase):
         property_a_of_b = Property(type_a, 'a', owner=interface_b)
         class_a.properties.append(property_a_of_b)
         interface_b.properties.append(property_b_of_a)
-        associations = make_associations({'A': type_a, 'B': type_b})
-        assert_that(associations, contains_inanyorder(
-            BinaryAssociation({property_b_of_a, Property(type_a, 'A_end')}),
-            BinaryAssociation({property_a_of_b, Property(type_b, 'B_end')}),
-        ))
+        make_associations({'A': type_a, 'B': type_b})
+        assert_that(property_b_of_a.associations, equal_to([
+            Property(type_a, 'A_end')
+        ]))
+        assert_that(property_a_of_b.associations, equal_to([
+            Property(type_b, 'B_end')
+        ]))
+
 
 if __name__ == '__main__':
     main()

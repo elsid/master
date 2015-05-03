@@ -1,14 +1,12 @@
 # coding: utf-8
 
 from plyj.model import Visitor
-from uml_matcher import Generalization
 
 
 class GeneralizationsFactory(Visitor):
     def __init__(self, classifiers):
         super(GeneralizationsFactory, self).__init__()
         self.classifiers = classifiers
-        self.generalizations = []
 
     def visit_ClassDeclaration(self, declaration):
         if declaration.extends:
@@ -26,7 +24,6 @@ class GeneralizationsFactory(Visitor):
         for general_declaration in general_declarations:
             if general_declaration.name.value in self.classifiers:
                 general = self.classifiers[general_declaration.name.value]
-                self.generalizations.append(Generalization(derived, general))
                 if general not in derived.generals:
                     derived.generals.append(general)
 
@@ -34,4 +31,3 @@ class GeneralizationsFactory(Visitor):
 def make_generalizations(tree, classifiers):
     factory = GeneralizationsFactory(classifiers)
     tree.accept(factory)
-    return factory.generalizations

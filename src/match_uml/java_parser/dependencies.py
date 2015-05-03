@@ -3,7 +3,6 @@
 from plyj.model import (
     Visitor, MethodDeclaration, ClassDeclaration, InterfaceDeclaration,
     EnumDeclaration, InstanceCreation)
-from uml_matcher import Dependency
 from java_parser.full_classifiers_names import get_name_value
 
 
@@ -11,7 +10,6 @@ class DependenciesFactory(Visitor):
     def __init__(self, types):
         super(DependenciesFactory, self).__init__()
         self.types = types
-        self.dependencies = []
         self.__chain = []
 
     def visit_Type(self, declaration):
@@ -22,9 +20,6 @@ class DependenciesFactory(Visitor):
             return
         client = self.__current_classifier()
         supplier = self.types[type_name].classifier
-        dependency = Dependency(client, supplier)
-        if dependency not in self.dependencies:
-            self.dependencies.append(dependency)
         if supplier not in client.suppliers:
             client.suppliers.append(supplier)
 
@@ -85,4 +80,3 @@ class DependenciesFactory(Visitor):
 def make_dependencies(tree, types):
     factory = DependenciesFactory(types)
     tree.accept(factory)
-    return factory.dependencies

@@ -5,8 +5,11 @@ class NamedElement(object):
     def __init__(self, name):
         self.name = name
 
+    def __str__(self):
+        return str(self.name) if self.name else ''
+
     def __repr__(self):
-        return self.name
+        return '%s(%s)' % (self.__class__.__name__, repr(self.name))
 
     def __eq__(self, other):
         return (id(self) == id(other)

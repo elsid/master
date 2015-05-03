@@ -1,8 +1,7 @@
 # coding: utf-8
 
 from uml_matcher import (
-    Class, Type, Operation, Generalization, Diagram, Interface, Property,
-    BinaryAssociation, Visibility)
+    Class, Type, Operation, Diagram, Interface, Property, Visibility)
 
 from patterns.cached_method import cached_method
 
@@ -11,7 +10,7 @@ class Decorator(object):
     @cached_method
     def component(self):
         return Interface('Component', operations=[
-            Operation(None, 'operation', Visibility.public)
+            Operation(None, 'operation', Visibility.public, is_static=False)
         ])
 
     @cached_method
@@ -21,19 +20,19 @@ class Decorator(object):
     @cached_method
     def concrete_component(self):
         return Class('ConcreteComponent', operations=[
-            Operation(None, 'operation', Visibility.public),
+            Operation(None, 'operation', Visibility.public, is_static=False),
         ])
 
     @cached_method
     def decorator_component(self):
-        return Property(self.component_type(), 'component')
+        return Property(self.component_type(), 'component', is_static=False)
 
     @cached_method
     def decorator(self):
         return Interface('Decorator', properties=[
             self.decorator_component(),
         ], operations=[
-            Operation(None, 'operation', Visibility.public),
+            Operation(None, 'operation', Visibility.public, is_static=False),
         ])
 
     @cached_method
@@ -43,7 +42,7 @@ class Decorator(object):
     @cached_method
     def concrete_decorator(self):
         return Class('ConcreteDecorator', operations=[
-            Operation(None, 'operation', Visibility.public),
+            Operation(None, 'operation', Visibility.public, is_static=False),
         ])
 
     @cached_method
@@ -52,20 +51,16 @@ class Decorator(object):
 
     @cached_method
     def diagram(self):
-        return Diagram(
-            generalizations=[
-                Generalization(derived=self.concrete_component(),
-                               general=self.component()),
-                Generalization(derived=self.decorator(),
-                               general=self.component()),
-                Generalization(derived=self.concrete_decorator(),
-                               general=self.decorator()),
-            ],
-            associations=[
-                BinaryAssociation({self.decorator_component(),
-                                   self.decorator_end()}),
-            ],
-        )
+        self.concrete_component().generals = [self.component()]
+        self.decorator().generals = [self.component()]
+        self.concrete_decorator().generals = [self.decorator()]
+        self.decorator_component().associations = [self.decorator_end()]
+        return Diagram([
+            self.component(),
+            self.concrete_component(),
+            self.decorator(),
+            self.concrete_decorator(),
+        ])
 
 
 if __name__ == '__main__':

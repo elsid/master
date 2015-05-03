@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from uml_matcher import Class, Interface, Property, BinaryAssociation
+from uml_matcher import Class, Interface, Property
 
 
 class MakeAssociations(object):
@@ -8,19 +8,14 @@ class MakeAssociations(object):
         self.types = types
         self.__ends = {}
 
-    def product(self):
-
-        def generate():
-            for type_ in self.types.values():
-                for property_ in type_.classifier.properties:
-                    property_classifier = property_.type.classifier
-                    if isinstance(property_classifier, (Class, Interface)):
-                        end = self.__get_end(property_.owner.name)
-                        property_.associations.append(end)
-                        end.associations.append(property_)
-                        yield BinaryAssociation({property_, end})
-
-        return list(generate())
+    def generate(self):
+        for type_ in self.types.values():
+            for property_ in type_.classifier.properties:
+                property_classifier = property_.type.classifier
+                if isinstance(property_classifier, (Class, Interface)):
+                    end = self.__get_end(property_.owner.name)
+                    property_.associations.append(end)
+                    end.associations.append(property_)
 
     def __get_end(self, classifier_name):
         end_name = classifier_name + '_end'
@@ -34,4 +29,4 @@ class MakeAssociations(object):
 
 def make_associations(types):
     factory = MakeAssociations(types)
-    return factory.product()
+    factory.generate()
