@@ -9,8 +9,8 @@ from uml_matcher.match import eq_ignore_order
 class Classifier(NamedElement):
     def __init__(self, name='anonymous', properties=None, operations=None):
         super(Classifier, self).__init__(name)
-        self.properties = properties or []
-        self.operations = operations or []
+        self.properties = list(properties) if properties else []
+        self.operations = list(operations) if operations else []
         for property_ in self.properties:
             property_.owner = self
 
