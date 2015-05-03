@@ -25,9 +25,10 @@ class GeneralizationsFactory(Visitor):
         derived = self.classifiers[declaration.name]
         for base_declaration in base_declarations:
             if base_declaration.name.value in self.classifiers:
-                self.generalizations.append(Generalization(
-                    derived=derived,
-                    base=self.classifiers[base_declaration.name.value]))
+                base = self.classifiers[base_declaration.name.value]
+                self.generalizations.append(Generalization(derived, base))
+                if base not in derived.generals:
+                    derived.generals.append(base)
 
 
 def make_generalizations(tree, classifiers):

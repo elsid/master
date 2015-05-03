@@ -7,10 +7,12 @@ from uml_matcher.match import eq_ignore_order
 
 
 class Classifier(NamedElement):
-    def __init__(self, name='anonymous', properties=None, operations=None):
+    def __init__(self, name='anonymous', properties=None,
+                 operations=None, generals=None):
         super(Classifier, self).__init__(name)
         self.properties = list(properties) if properties else []
         self.operations = list(operations) if operations else []
+        self.generals = list(generals) if generals else []
         for property_ in self.properties:
             property_.owner = self
 
