@@ -20,11 +20,13 @@ class DependenciesFactory(Visitor):
         type_name = get_name_value(declaration.name)
         if type_name not in self.types:
             return
+        client = self.__current_classifier()
         supplier = self.types[type_name].classifier
-        dependency = Dependency(client=self.__current_classifier(),
-                                supplier=supplier)
+        dependency = Dependency(client, supplier)
         if dependency not in self.dependencies:
             self.dependencies.append(dependency)
+        if supplier not in client.suppliers:
+            client.suppliers.append(supplier)
 
     def visit_ClassDeclaration(self, declaration):
         return self.__visit_classifier(declaration)
