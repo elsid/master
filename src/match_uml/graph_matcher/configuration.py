@@ -11,25 +11,27 @@ class Configuration(object):
     def __init__(self, target_node, pattern_node):
         e = Equivalent(target_node, pattern_node)
         self.selected = [e]
-        self.current = 0
         self.visited = {e}
+        self.__current_index = 0
+
+    def current(self):
+        return self.selected[self.__current_index]
 
     def target(self):
-        return self.selected[self.current].target
+        return self.current().target
 
     def pattern(self):
-        return self.selected[self.current].pattern
+        return self.current().pattern
 
     def visited_targets(self):
-        return frozenset(target for target, _ in self.visited)
+        return frozenset(x.target for x in self.visited)
 
     def visited_patterns(self):
-        return frozenset(pattern for _, pattern in self.visited)
+        return frozenset(x.pattern for x in self.visited)
 
     def copy(self):
         other = copy(self)
         other.selected = copy(self.selected)
-        other.current = self.current
         other.visited = copy(self.visited)
         return other
 
@@ -37,25 +39,29 @@ class Configuration(object):
         self.selected.extend(pairs)
 
     def filter(self, pairs):
-        return list(set(pairs).difference(set(self.selected)))
+        return list(frozenset(pairs) - frozenset(self.selected))
 
     def step(self):
         visited_targets = self.visited_targets()
         visited_patterns = self.visited_patterns()
+
+        def is_current_unvisited():
+            return (self.target() not in visited_targets
+                    and self.pattern() not in visited_patterns)
+
         while True:
-            self.current += 1
-            if self.current >= len(self.selected):
+            self.__current_index += 1
+            if self.at_end():
                 return
-            if (self.target() not in visited_targets
-                    and self.pattern() not in visited_patterns):
-                self.visited.add(Equivalent(self.target(), self.pattern()))
+            if is_current_unvisited():
+                self.visited.add(self.current())
                 return
 
     def at_end(self):
-        return self.current == len(self.selected)
+        return self.__current_index >= len(self.selected)
 
     def priority(self):
-        result = len(self.selected) - self.current
+        result = len(self.selected) - self.__current_index
         if not self.at_end():
             result += len(self.target().neighbors())
         return result
@@ -64,11 +70,11 @@ class Configuration(object):
 
         def generate():
             for i, e in enumerate(self.selected):
-                if i == self.current:
+                if i == self.__current_index:
                     yield '[%s === %s]' % e
                 elif e in self.visited:
                     yield '{%s === %s}' % e
-                elif i > self.current:
+                elif i > self.__current_index:
                     yield '%s === %s' % e
                 else:
                     yield '(%s === %s)' % e
@@ -78,4 +84,4 @@ class Configuration(object):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, Configuration)
-                and set(self.selected) == set(other.selected))
+                and frozenset(self.selected) == frozenset(other.selected))

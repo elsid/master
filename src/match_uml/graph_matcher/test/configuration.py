@@ -12,7 +12,6 @@ class MakeConfiguration(TestCase):
         pattern = Node('pattern')
         conf = Configuration(target, pattern)
         assert_that(conf.selected, equal_to([(target, pattern)]))
-        assert_that(conf.current, equal_to(0))
         assert_that(conf.visited, equal_to(set(conf.selected)))
         assert_that(conf.target(), equal_to(target))
         assert_that(conf.pattern(), equal_to(pattern))
