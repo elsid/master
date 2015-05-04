@@ -148,52 +148,31 @@ class Match(TestCase):
         assert_that(len(second_variants), equal_to(1))
         assert_that(second_variants[0], contains_inanyorder(('a', 1), ('b', 2)))
 
-    def test_bug(self):
+    def test_check_current_equivalence_before_add_to_visited(self):
         target = Graph({
-            Red('TabCompleter', 'CommandSender'),
-            Red('TabCompleter', 'Command'),
-            Red('FormattedCommandAlias', 'CommandSender'),
-            Blue('PluginCommand', 'Command'),
-            Blue('ConsoleCommandSender', 'CommandSender'),
-            Blue('FormattedCommandAlias', 'Command'),
+            ('FormattedCommandAlias', 'Command'),
+            ('Command', 'Command::create'),
+            ('FormattedCommandAlias', 'FormattedCommandAlias::create'),
+            ('PluginCommand', 'PluginCommand::create'),
+            ('Command::create', 'Type(CommandSender)'),
+            ('FormattedCommandAlias::create', 'Type(CommandSender)'),
+            ('PluginCommand::create', 'Type(CommandSender)'),
         })
         pattern = Graph({
-            Red('Client', 'AbstractFactory'),
-            Red('Client', 'AbstractProduct'),
-            Blue('ConcreteFactory', 'AbstractFactory'),
-            Blue('ConcreteProduct', 'AbstractProduct'),
+            ('ConcreteFactory', 'AbstractFactory'),
+            ('AbstractFactory', 'AbstractFactory::create'),
+            ('ConcreteFactory', 'ConcreteFactory::create'),
+            ('AbstractFactory::create', 'Type(AbstractProduct)'),
+            ('ConcreteFactory::create', 'Type(AbstractProduct)'),
         })
         variants = to_list(replace_node_by_obj(match(target, pattern)))
-        assert_that(variants, contains_inanyorder(
-            [
-                ('Command', 'AbstractProduct'),
-                ('CommandSender', 'AbstractFactory'),
-                ('ConsoleCommandSender', 'ConcreteFactory'),
-                ('FormattedCommandAlias', 'ConcreteProduct'),
-                ('TabCompleter', 'Client'),
-            ],
-            [
-                ('Command', 'AbstractProduct'),
-                ('CommandSender', 'AbstractFactory'),
-                ('ConsoleCommandSender', 'ConcreteFactory'),
-                ('PluginCommand', 'ConcreteProduct'),
-                ('TabCompleter', 'Client'),
-            ],
-            [
-                ('Command', 'AbstractFactory'),
-                ('CommandSender', 'AbstractProduct'),
-                ('ConsoleCommandSender', 'ConcreteProduct'),
-                ('FormattedCommandAlias', 'ConcreteFactory'),
-                ('TabCompleter', 'Client'),
-            ],
-            [
-                ('Command', 'AbstractFactory'),
-                ('CommandSender', 'AbstractProduct'),
-                ('ConsoleCommandSender', 'ConcreteProduct'),
-                ('PluginCommand', 'ConcreteFactory'),
-                ('TabCompleter', 'Client'),
-            ],
-        ))
+        assert_that(variants, equal_to([[
+            ('Command', 'AbstractFactory'),
+            ('Command::create', 'AbstractFactory::create'),
+            ('FormattedCommandAlias', 'ConcreteFactory'),
+            ('FormattedCommandAlias::create', 'ConcreteFactory::create'),
+            ('Type(CommandSender)', 'Type(AbstractProduct)'),
+        ]]))
 
 
 if __name__ == '__main__':

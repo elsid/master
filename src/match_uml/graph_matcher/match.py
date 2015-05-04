@@ -1,26 +1,8 @@
 # coding: utf-8
 
 from collections import defaultdict, deque
-from enum import Enum
 from itertools import tee, combinations, permutations
-from graph_matcher.configuration import Configuration, Equivalent
-
-
-class EndType(Enum):
-    incoming = 1
-    outgoing = 2
-
-    def __str__(self):
-        if self == EndType.incoming:
-            return 'incoming'
-        elif self == EndType.outgoing:
-            return 'outgoing'
-
-    def __repr__(self):
-        if self == EndType.incoming:
-            return 'EndType.incoming'
-        elif self == EndType.outgoing:
-            return 'EndType.outgoing'
+from graph_matcher.configuration import Configuration, Equivalent, EndType
 
 
 def replace_node_by_obj(variants):
@@ -28,18 +10,16 @@ def replace_node_by_obj(variants):
             for variant in variants)
 
 
-def generate_equivalent_node_pair(target_nodes, pattern_nodes, equivalent):
-    for target_node in target_nodes:
-        for pattern_node in pattern_nodes:
-            if equivalent(target_node, pattern_node):
-                yield target_node, pattern_node
+def generate_equivalent_node_pair(target_nodes, pattern_nodes):
+    for target in target_nodes:
+        for pattern in pattern_nodes:
+            if target.equiv_pattern(pattern):
+                yield target, pattern
 
 
-def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
-                                         equivalent):
+def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes):
     def generate_pairs():
-        return generate_equivalent_node_pair(target_nodes, pattern_nodes,
-                                             equivalent)
+        return generate_equivalent_node_pair(target_nodes, pattern_nodes)
 
     def generate():
         pattern_dict = defaultdict(set)
@@ -65,14 +45,10 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
     return generate
 
 
-def init_equivalent(target, pattern):
-    return target.equiv_pattern(pattern)
-
-
 def match_one(target_graph, pattern_graph):
     def init_generator():
-        return generate_equivalent_node_pair(
-            target_graph.nodes, pattern_graph.nodes, init_equivalent)
+        return generate_equivalent_node_pair(target_graph.nodes,
+                                             pattern_graph.nodes)
 
     variants = deque(Configuration(target_node, pattern_node)
                      for target_node, pattern_node in init_generator())
@@ -86,23 +62,8 @@ def match_one(target_graph, pattern_graph):
                     yield sorted(conf.visited)
             continue
 
-        def current_equivalent(target_node, pattern_node):
-            if not target_node.equiv_pattern(pattern_node):
-                return False
-
-            def connections(neighbor, visited):
-                for color, connection in visited.connections.iteritems():
-                    if neighbor in connection.incoming:
-                        yield (color, EndType.incoming)
-                    if neighbor in connection.outgoing:
-                        yield (color, EndType.outgoing)
-
-            return (frozenset(connections(pattern_node, conf.pattern()))
-                    <= frozenset(connections(target_node, conf.target())))
-
         variants_generator = make_equivalent_node_pairs_generator(
-            conf.target().neighbors(), conf.pattern().neighbors(),
-            current_equivalent)
+            conf.target().neighbors(), conf.pattern().neighbors())
         repush = True
         for pairs in variants_generator():
             pairs = conf.filter(pairs)

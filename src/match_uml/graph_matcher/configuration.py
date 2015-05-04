@@ -2,9 +2,27 @@
 
 from copy import copy
 from collections import namedtuple
+from enum import Enum
 
 
 Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
+
+
+class EndType(Enum):
+    incoming = 1
+    outgoing = 2
+
+    def __str__(self):
+        if self == EndType.incoming:
+            return 'incoming'
+        elif self == EndType.outgoing:
+            return 'outgoing'
+
+    def __repr__(self):
+        if self == EndType.incoming:
+            return 'EndType.incoming'
+        elif self == EndType.outgoing:
+            return 'EndType.outgoing'
 
 
 class Configuration(object):
@@ -49,11 +67,30 @@ class Configuration(object):
             return (self.target() not in visited_targets
                     and self.pattern() not in visited_patterns)
 
+        def is_current_valid():
+            target, pattern = self.current()
+
+            def connections(neighbor, visited):
+                for color, connection in visited.connections.iteritems():
+                    if neighbor in connection.incoming:
+                        yield (color, EndType.incoming)
+                    if neighbor in connection.outgoing:
+                        yield (color, EndType.outgoing)
+
+            def is_valid(e):
+                return (frozenset(connections(pattern, e.pattern))
+                        <= frozenset(connections(target, e.target)))
+
+            for x in self.visited:
+                if not is_valid(x):
+                    return False
+            return True
+
         while True:
             self.__current_index += 1
             if self.at_end():
                 return
-            if is_current_unvisited():
+            if is_current_unvisited() and is_current_valid():
                 self.visited.add(self.current())
                 return
 
