@@ -84,9 +84,10 @@ class Check(TestCase):
             check_()
         except CheckVariantFailed as error:
             assert_that(str(error), equal_to(
-                'check variant failed\n'
-                '  General === Derived <<< Generalization (outgoing)\n'
-                '  Derived === General'))
+                "check variant failed\n"
+                "  Class('General') === Class('Derived') "
+                "<<< Generalization (outgoing)\n"
+                "  Class('Derived') === Class('General')"))
 
 if __name__ == '__main__':
     main()

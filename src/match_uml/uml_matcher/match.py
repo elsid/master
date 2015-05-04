@@ -17,7 +17,7 @@ class MatchVariant(object):
                 and eq_ignore_order(self.equivalents, other.equivalents))
 
     def __repr__(self):
-        return '\n'.join('%s === %s' % (x.target, x.pattern)
+        return '\n'.join('%s === %s' % (repr(x.target), repr(x.pattern))
                          for x in self.equivalents)
 
     def __len__(self):
