@@ -76,6 +76,7 @@ Dependency = namedtuple('Dependency', ('client', 'supplier'))
 HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
 PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
+OperationResult = namedtuple('OperationResult', ('operation', 'type'))
 
 
 class BinaryAssociation(frozenset):
@@ -100,6 +101,8 @@ def make_graph(diagram):
                     yield PropertyIs(association, association.type)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
+                if operation.result:
+                    yield OperationResult(operation, operation.result)
 
     return Graph(generate())
 

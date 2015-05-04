@@ -36,6 +36,8 @@ class AbstractFactory(AbstractFactoryPattern):
                            pattern=other.abstract_factory_create()),
                 Equivalent(target=self.concrete_factory_create(),
                            pattern=other.concrete_factory_create()),
+                Equivalent(target=self.abstract_product_type(),
+                           pattern=other.abstract_product_type()),
             ])
         ])
 
@@ -214,12 +216,9 @@ class Burgers(object):
 
 
 class BukkitExample(object):
-    VOID_TYPE = Type(PrimitiveType('void'))
-
-    @staticmethod
-    def _create():
-        return Operation(BukkitExample.VOID_TYPE, 'create', Visibility.public,
-                         is_static=False)
+    def _create(self):
+        return Operation(self.command_sender_type(), 'create',
+                         Visibility.public, is_static=False)
 
     @cached_method
     def command_create(self):
@@ -232,6 +231,10 @@ class BukkitExample(object):
     @cached_method
     def command_sender(self):
         return Class('CommandSender')
+
+    @cached_method
+    def command_sender_type(self):
+        return Type(self.command_sender())
 
     @cached_method
     def console_command_sender(self):
@@ -460,6 +463,7 @@ class MatchDiagram(TestCase):
                            p.abstract_factory_create()),
                 Equivalent(t.plugin_command_create(),
                            p.concrete_factory_create()),
+                Equivalent(t.command_sender_type(), p.abstract_product_type())
             ]),
             MatchVariant([
                 Equivalent(t.command(), p.abstract_factory()),
@@ -471,6 +475,7 @@ class MatchDiagram(TestCase):
                            p.abstract_factory_create()),
                 Equivalent(t.formatted_command_alias_create(),
                            p.concrete_factory_create()),
+                Equivalent(t.command_sender_type(), p.abstract_product_type())
             ]),
         ])
         match_result = t.diagram().match(p.diagram())
