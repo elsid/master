@@ -84,3 +84,6 @@ class Type(object):
         return '{classifier}{multiplicity}'.format(
             classifier=str(self.classifier),
             multiplicity=repr_multiplicity(self.mult_lower, self.mult_upper))
+
+    def __repr__(self):
+        return 'Type(%s)' % repr(self.classifier)
