@@ -29,5 +29,6 @@ class Parameter(NamedElement):
     def __str__(self):
         return '{direction}{name}{type}'.format(
             name=self.name,
-            type=': %s' % self.type if self.type else '',
-            direction='%s ' % self.direction if str(self.direction) else '')
+            type=': %s' % self.type.name if self.type else '',
+            direction='%s ' % self.direction if str(self.direction) else '',
+        )

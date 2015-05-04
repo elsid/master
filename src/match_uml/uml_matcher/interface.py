@@ -10,3 +10,6 @@ class Interface(Classifier):
         return (id(self) == id(other)
                 or super(Interface, self).__eq__(other)
                 and isinstance(other, Interface))
+
+    def __str__(self):
+        return 'interface %s' % self.name

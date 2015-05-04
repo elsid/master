@@ -5,7 +5,12 @@ from collections import namedtuple
 from enum import Enum
 
 
-Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
+class Equivalent(namedtuple('Equivalent', ('target', 'pattern'))):
+    def __str__(self):
+        return '%s === %s' % (self.target, self.pattern)
+
+    def __repr__(self):
+        return 'Equivalent(%s, %s)' % (repr(self.target), repr(self.pattern))
 
 
 class EndType(Enum):

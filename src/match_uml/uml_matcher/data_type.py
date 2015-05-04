@@ -10,3 +10,6 @@ class DataType(Classifier):
         return (id(self) == id(other)
                 or super(DataType, self).__eq__(other)
                 and isinstance(other, DataType))
+
+    def __str__(self):
+        return 'data type %s' % self.name

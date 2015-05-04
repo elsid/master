@@ -7,7 +7,7 @@ from graph_matcher import Equivalent
 from patterns.cached_method import cached_method
 from uml_matcher import Class, Diagram
 from uml_matcher.errors import CheckVariantFailed
-from uml_matcher.match import eq_ignore_order, check
+from uml_matcher.match import eq_ignore_order, check, MatchVariant, MatchResult
 
 
 class EqIgnoreOrder(TestCase):
@@ -88,6 +88,67 @@ class Check(TestCase):
                 "  Class('General') === Class('Derived') "
                 "<<< Generalization (outgoing)\n"
                 "  Class('Derived') === Class('General')"))
+
+
+class MakeMatchVariant(TestCase):
+    def test_make_empty_should_succeed(self):
+        match_variant = MatchVariant()
+        assert_that(str(match_variant), equal_to(''))
+        assert_that(repr(match_variant), equal_to('MatchVariant()'))
+        assert_that(len(match_variant), equal_to(0))
+
+    def test_make_not_empty_should_succeed(self):
+        match_variant = MatchVariant([
+            Equivalent(Class('A'), Class('B')),
+            Equivalent(Class('C'), Class('D')),
+        ])
+        assert_that(str(match_variant), equal_to(
+            'class A === class B\n'
+            'class C === class D'
+        ))
+        assert_that(repr(match_variant), equal_to(
+            "MatchVariant([\n"
+            "Equivalent(Class('A'), Class('B')),\n"
+            "Equivalent(Class('C'), Class('D'))\n"
+            "])"
+        ))
+        assert_that(len(match_variant), equal_to(2))
+
+
+class MakeMatchResult(TestCase):
+    def test_make_empty_should_succeed(self):
+        match_result = MatchResult()
+        assert_that(str(match_result), equal_to(''))
+        assert_that(repr(match_result), equal_to('MatchResult()'))
+        assert_that(len(match_result), equal_to(0))
+
+    def test_make_not_empty_should_succeed(self):
+        match_result = MatchResult([
+            MatchVariant([Equivalent(Class('A'), Class('B'))]),
+            MatchVariant([
+                Equivalent(Class('C'), Class('D')),
+                Equivalent(Class('E'), Class('F')),
+            ]),
+        ])
+        assert_that(str(match_result), equal_to(
+            'class A === class B\n'
+            '\n'
+            'class C === class D\n'
+            'class E === class F'
+        ))
+        assert_that(repr(match_result), equal_to(
+            "MatchResult([\n"
+            "MatchVariant([\n"
+            "Equivalent(Class('A'), Class('B'))\n"
+            "]),\n"
+            "MatchVariant([\n"
+            "Equivalent(Class('C'), Class('D')),\n"
+            "Equivalent(Class('E'), Class('F'))\n"
+            "])\n"
+            "])"
+        ))
+        assert_that(len(match_result), equal_to(2))
+
 
 if __name__ == '__main__':
     main()

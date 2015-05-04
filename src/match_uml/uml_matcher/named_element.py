@@ -6,7 +6,7 @@ class NamedElement(object):
         self.name = name
 
     def __str__(self):
-        return str(self.name) if self.name else ''
+        return 'named element %s' % self.name
 
     def __repr__(self):
         return '%s(%s)' % (self.__class__.__name__, repr(self.name))

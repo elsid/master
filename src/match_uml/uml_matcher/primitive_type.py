@@ -10,3 +10,6 @@ class PrimitiveType(Classifier):
         return (id(self) == id(other)
                 or super(PrimitiveType, self).__eq__(other)
                 and isinstance(other, PrimitiveType))
+
+    def __str__(self):
+        return 'primitive type %s' % self.name

@@ -10,3 +10,6 @@ class Class(Classifier):
         return (id(self) == id(other)
                 or super(Class, self).__eq__(other)
                 and isinstance(other, Class))
+
+    def __str__(self):
+        return 'class %s' % self.name

@@ -6,4 +6,11 @@ from uml_matcher.test.has_equivalents import HasEquivalents
 from uml_matcher.test.classifier import MakeClassifier
 from uml_matcher.test.operation import MakeOperation
 from uml_matcher.test.diagram import MatchDiagram, ReprDiagram
-from uml_matcher.test.match import EqIgnoreOrder, Check
+from uml_matcher.test.match import (
+    EqIgnoreOrder, Check, MakeMatchVariant, MakeMatchResult)
+from uml_matcher.test.property import MakeProperty
+from uml_matcher.test.data_type import MakeDataType
+from uml_matcher.test.interface import MakeInterface
+from uml_matcher.test.parameter import MakeParameter
+MakeClass = __import__('uml_matcher.test.class',
+                       fromlist=['MakeClass']).MakeClass

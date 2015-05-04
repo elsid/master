@@ -9,16 +9,19 @@ from uml_matcher.errors import CheckVariantFailed
 
 class MatchVariant(object):
     def __init__(self, equivalents=None):
-        self.equivalents = (tuple(equivalents) if equivalents else tuple())
+        self.equivalents = tuple(equivalents) if equivalents else tuple()
 
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, MatchVariant)
                 and eq_ignore_order(self.equivalents, other.equivalents))
 
+    def __str__(self):
+        return '\n'.join(map(str, self.equivalents))
+
     def __repr__(self):
-        return '\n'.join('%s === %s' % (repr(x.target), repr(x.pattern))
-                         for x in self.equivalents)
+        e = ',\n'.join(map(repr, self.equivalents))
+        return 'MatchVariant(%s)' % ('[\n%s\n]' % e if e else '')
 
     def __len__(self):
         return len(self.equivalents)
@@ -36,8 +39,12 @@ class MatchResult(object):
                 or isinstance(other, MatchResult)
                 and eq_ignore_order(self.variants, other.variants))
 
+    def __str__(self):
+        return '\n\n'.join(map(str, self.variants))
+
     def __repr__(self):
-        return '\n'.join('%s\n' % repr(x) for x in self.variants)
+        v = ',\n'.join(map(repr, self.variants))
+        return 'MatchResult(%s)' % ('[\n%s\n]' % v if v else '')
 
     def __len__(self):
         return len(self.variants)

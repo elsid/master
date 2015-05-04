@@ -81,7 +81,7 @@ class Type(object):
                 and self.is_unique == other.is_unique)
 
     def __str__(self):
-        return '{classifier}{multiplicity}'.format(
+        return 'type of {classifier}{multiplicity}'.format(
             classifier=str(self.classifier),
             multiplicity=repr_multiplicity(self.mult_lower, self.mult_upper))
 

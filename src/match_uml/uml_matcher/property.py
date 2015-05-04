@@ -74,12 +74,13 @@ class Property(NamedElement):
                 and self.sub_eq(other)
                 and self.type == other.type)
 
-    def __repr__(self):
-        return ('{visibility}{owner}{name}'.format(
+    def __str__(self):
+        return '{visibility}{owner}{name}{type}'.format(
             visibility=self.visibility if self.visibility else '',
             name=self.name,
-            owner='' if self.owner is None else '%s::' % self.owner,
-        ))
+            owner='%s::' % self.owner.name if self.owner else '',
+            type=': %s' % self.type.name if self.type else '',
+        )
 
     def __hash__(self):
         return id(self)

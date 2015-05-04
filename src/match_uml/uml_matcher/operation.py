@@ -48,13 +48,15 @@ class Operation(NamedElement):
                 and self.is_static == other.is_static)
 
     def __str__(self):
-        return ('{visibility}{name}({parameters}){result}{is_leaf}{is_query}'
-                '{is_static}'
+        return ('{visibility}{owner}{name}({parameters}){result}'
+                '{is_leaf}{is_query}{is_static}'
                 .format(
                     visibility=self.visibility if self.visibility else '',
                     name=self.name,
-                    result=': ' + str(self.result) if self.result else '',
+                    result=': %s' % self.result.name if self.result else '',
                     parameters=', '.join(map(str, self.parameters)),
                     is_leaf=' leaf' if self.is_leaf else '',
                     is_query=' query' if self.is_query else '',
-                    is_static=' static' if self.is_static else ''))
+                    is_static=' static' if self.is_static else '',
+                    owner='%s::' % self.owner.name if self.owner else '',
+                ))
