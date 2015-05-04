@@ -1,19 +1,24 @@
 # coding: utf-8
 
 from copy import copy
+from collections import namedtuple
+
+
+Equivalent = namedtuple('Equivalent', ('target', 'pattern'))
 
 
 class Configuration(object):
     def __init__(self, target_node, pattern_node):
-        self.selected = [(target_node, pattern_node)]
+        e = Equivalent(target_node, pattern_node)
+        self.selected = [e]
         self.current = 0
-        self.visited = set(self.selected)
+        self.visited = {e}
 
     def target(self):
-        return self.selected[self.current][0]
+        return self.selected[self.current].target
 
     def pattern(self):
-        return self.selected[self.current][1]
+        return self.selected[self.current].pattern
 
     def visited_targets(self):
         return frozenset(target for target, _ in self.visited)
@@ -43,7 +48,7 @@ class Configuration(object):
                 return
             if (self.target() not in visited_targets
                     and self.pattern() not in visited_patterns):
-                self.visited.add((self.target(), self.pattern()))
+                self.visited.add(Equivalent(self.target(), self.pattern()))
                 return
 
     def at_end(self):
