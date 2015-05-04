@@ -54,27 +54,31 @@ class GeneralDerivedDiagram(object):
 
 class Check(TestCase):
     def test_check_empty_should_succeed(self):
-        check(tuple())
+        assert_that(check(tuple()), equal_to(True))
 
     def test_check_diagram_with_one_generalization_should_succeed(self):
         target = GeneralDerivedDiagram().diagram().graph()
         pattern = GeneralDerivedDiagram().diagram().graph()
-        check([
+        assert_that(check([
             Equivalent(target.get_node_by_obj_attr_value('name', 'General'),
                        pattern.get_node_by_obj_attr_value('name', 'General')),
             Equivalent(target.get_node_by_obj_attr_value('name', 'Derived'),
                        pattern.get_node_by_obj_attr_value('name', 'Derived')),
-        ])
+        ]), equal_to(True))
 
     def test_check_diagram_with_one_generalization_should_return_error(self):
-        target = GeneralDerivedDiagram().diagram().graph()
-        pattern = GeneralDerivedDiagram().diagram().graph()
-        check_ = (lambda: check([
-            Equivalent(target.get_node_by_obj_attr_value('name', 'General'),
-                       pattern.get_node_by_obj_attr_value('name', 'Derived')),
-            Equivalent(target.get_node_by_obj_attr_value('name', 'Derived'),
-                       pattern.get_node_by_obj_attr_value('name', 'General')),
-        ]))
+        t = GeneralDerivedDiagram().diagram().graph()
+        p = GeneralDerivedDiagram().diagram().graph()
+
+        def check_(raise_if_false=True):
+            return check([
+                Equivalent(t.get_node_by_obj_attr_value('name', 'General'),
+                           p.get_node_by_obj_attr_value('name', 'Derived')),
+                Equivalent(t.get_node_by_obj_attr_value('name', 'Derived'),
+                           p.get_node_by_obj_attr_value('name', 'General')),
+            ], raise_if_false)
+
+        assert_that(check_(False), equal_to(False))
         assert_that(calling(check_), raises(CheckVariantFailed))
         try:
             check_()

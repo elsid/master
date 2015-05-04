@@ -108,13 +108,14 @@ def match(target, pattern, limit=None):
     target_graph = make_graph(target)
     pattern_graph = make_graph(pattern)
     result = islice(target_graph.match(pattern_graph), limit)
-    return MatchResult(MatchVariant(check(x)) for x in result)
+    return MatchResult(MatchVariant(replace_nodes_by_objs(x))
+                       for x in result if check(x))
 
 
 Connection = namedtuple('Connection', ('color', 'end_type', 'node'))
 
 
-def check(equivalents):
+def check(equivalents, raise_if_false=True):
     equivalents = tuple(equivalents)
     all_target_nodes = frozenset(x.target for x in equivalents)
     used = set()
@@ -140,17 +141,23 @@ def check(equivalents):
                 if has_pattern(*connection):
                     used.add(connection)
                 else:
-                    e = Equivalent(equivalent.target.obj,
-                                   equivalent.pattern.obj)
-                    raise CheckVariantFailed(
-                        MatchVariant(replace_nodes_by_objs(equivalents)),
-                        e, connection)
+                    if raise_if_false:
+                        e = Equivalent(equivalent.target.obj,
+                                       equivalent.pattern.obj)
+                        raise CheckVariantFailed(
+                            MatchVariant(replace_nodes_by_objs(equivalents)),
+                            e, connection)
+                    else:
+                        return False
+        return True
 
     for equivalent in equivalents:
         for pk, pv in equivalent.pattern.connections.iteritems():
-            check_pattern_nodes(pk, EndType.incoming, pv.incoming)
-            check_pattern_nodes(pk, EndType.outgoing, pv.outgoing)
-    return replace_nodes_by_objs(equivalents)
+            if not check_pattern_nodes(pk, EndType.incoming, pv.incoming):
+                return False
+            if not check_pattern_nodes(pk, EndType.outgoing, pv.outgoing):
+                return False
+    return True
 
 
 def replace_nodes_by_objs(equivalents):
