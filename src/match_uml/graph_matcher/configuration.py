@@ -60,11 +60,20 @@ class Configuration(object):
             result += len(self.target().neighbors())
         return result
 
-    def __repr__(self):
-        return ', '.join(
-            ('%s' if i != self.current else '[%s]')
-            % str((str(p[0]), str(p[1]))) for (i, p)
-            in enumerate(self.selected))
+    def __str__(self):
+
+        def generate():
+            for i, e in enumerate(self.selected):
+                if i == self.current:
+                    yield '[%s === %s]' % e
+                elif e in self.visited:
+                    yield '{%s === %s}' % e
+                elif i > self.current:
+                    yield '%s === %s' % e
+                else:
+                    yield '(%s === %s)' % e
+
+        return ', '.join(generate())
 
     def __eq__(self, other):
         return (id(self) == id(other)
