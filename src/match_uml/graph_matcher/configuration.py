@@ -16,10 +16,10 @@ class Configuration(object):
         return self.selected[self.current][1]
 
     def visited_targets(self):
-        return set([target for target, _ in self.visited])
+        return frozenset(target for target, _ in self.visited)
 
     def visited_patterns(self):
-        return set([pattern for _, pattern in self.visited])
+        return frozenset(pattern for _, pattern in self.visited)
 
     def copy(self):
         other = copy(self)
