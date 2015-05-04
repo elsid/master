@@ -50,7 +50,7 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes,
             try:
                 pattern = next(pattern_iter)
                 not_used_targets = list(pattern_dict[pattern].difference(
-                    set((target for target, _ in chain))))
+                    {x.target for x in chain}))
                 pattern_iters = tee(pattern_iter, len(not_used_targets))
                 for index, target in enumerate(not_used_targets):
                     new_chain = list(chain) + [Equivalent(target, pattern)]
