@@ -14,7 +14,8 @@ class Operation(NamedElement):
                  parameters=tuple(),
                  is_leaf=None,
                  is_query=None,
-                 is_static=None):
+                 is_static=None,
+                 owner=None):
         super(Operation, self).__init__(name)
         self.visibility = visibility
         self.result = result
@@ -22,6 +23,7 @@ class Operation(NamedElement):
         self.is_leaf = is_leaf
         self.is_query = is_query
         self.is_static = is_static
+        self.owner = owner
 
     @cached_eq
     def sub_equiv_pattern(self, pattern):

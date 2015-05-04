@@ -16,6 +16,8 @@ class Classifier(NamedElement):
         self.suppliers = list(suppliers) if suppliers else []
         for property_ in self.properties:
             property_.owner = self
+        for operation in self.operations:
+            operation.owner = self
 
     def has_property(self, name):
         return name in set(property_.name for property_ in self.properties)
