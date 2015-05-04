@@ -75,6 +75,7 @@ Generalization = namedtuple('Generalization', ('derived', 'general'))
 Dependency = namedtuple('Dependency', ('client', 'supplier'))
 HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
+PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
 
 
 class BinaryAssociation(frozenset):
@@ -93,8 +94,10 @@ def make_graph(diagram):
                 yield Dependency(client=classifier, supplier=supplier)
             for property_ in classifier.properties:
                 yield HasProperty(classifier, property_)
+                yield PropertyIs(property_, property_.type)
                 for association in property_.associations:
                     yield BinaryAssociation({property_, association})
+                    yield PropertyIs(association, association.type)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
 

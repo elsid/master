@@ -66,6 +66,10 @@ class Type(object):
                      or (self.mult_upper is not None
                          and self.mult_upper <= pattern.mult_upper)))
 
+    @property
+    def name(self):
+        return self.classifier.name
+
     @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)

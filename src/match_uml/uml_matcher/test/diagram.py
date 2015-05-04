@@ -64,6 +64,10 @@ class Decorator(DecoratorPattern):
                            pattern=other.concrete_component_operation()),
                 Equivalent(target=self.concrete_component_operation(),
                            pattern=other.concrete_component_operation()),
+                Equivalent(target=self.component_type(),
+                           pattern=other.component_type()),
+                Equivalent(target=self.decorator_type(),
+                           pattern=other.decorator_type()),
             ])
         ])
 
@@ -307,6 +311,8 @@ class MatchDiagram(TestCase):
                            p.concrete_decorator_operation()),
                 Equivalent(t.cheeseburger_price(),
                            p.concrete_component_operation()),
+                Equivalent(t.burger_type(), p.component_type()),
+                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -321,6 +327,8 @@ class MatchDiagram(TestCase):
                            p.concrete_decorator_operation()),
                 Equivalent(t.hamburger_price(),
                            p.concrete_component_operation()),
+                Equivalent(t.burger_type(), p.component_type()),
+                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -335,6 +343,8 @@ class MatchDiagram(TestCase):
                            p.concrete_decorator_operation()),
                 Equivalent(t.cheeseburger_price(),
                            p.concrete_component_operation()),
+                Equivalent(t.burger_type(), p.component_type()),
+                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
@@ -349,6 +359,8 @@ class MatchDiagram(TestCase):
                            p.concrete_decorator_operation()),
                 Equivalent(t.hamburger_price(),
                            p.concrete_component_operation()),
+                Equivalent(t.burger_type(), p.component_type()),
+                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
         ])
         match_result = t.diagram().match(p.diagram())
@@ -372,6 +384,8 @@ class MatchDiagram(TestCase):
                                p.concrete_decorator_operation()),
                     Equivalent(t.cheeseburger_price(),
                                p.concrete_component_operation()),
+                    Equivalent(t.burger_type(), p.component_type()),
+                    Equivalent(t.burger_with_type(), p.decorator_type()),
                 ]),
             ]),
             MatchResult([
@@ -388,6 +402,8 @@ class MatchDiagram(TestCase):
                                p.concrete_decorator_operation()),
                     Equivalent(t.hamburger_price(),
                                p.concrete_component_operation()),
+                    Equivalent(t.burger_type(), p.component_type()),
+                    Equivalent(t.burger_with_type(), p.decorator_type()),
                 ]),
             ]),
             MatchResult([
@@ -404,6 +420,8 @@ class MatchDiagram(TestCase):
                                p.concrete_decorator_operation()),
                     Equivalent(t.cheeseburger_price(),
                                p.concrete_component_operation()),
+                    Equivalent(t.burger_type(), p.component_type()),
+                    Equivalent(t.burger_with_type(), p.decorator_type()),
                 ]),
             ]),
             MatchResult([
@@ -420,6 +438,8 @@ class MatchDiagram(TestCase):
                                p.concrete_decorator_operation()),
                     Equivalent(t.hamburger_price(),
                                p.concrete_component_operation()),
+                    Equivalent(t.burger_type(), p.component_type()),
+                    Equivalent(t.burger_with_type(), p.decorator_type()),
                 ]),
             ]),
         ]
