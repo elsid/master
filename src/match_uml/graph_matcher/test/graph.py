@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to, empty, contains_inanyorder
+from hamcrest import assert_that, equal_to, empty
 from graph_matcher.graph import Graph
 from graph_matcher.test.arc_types import Red, Blue
 
@@ -77,7 +77,7 @@ class GraphGetConnectedComponents(TestCase):
 
     def test_two_not_connected_should_succeed(self):
         assert_that(get_connected_components(Graph({1, 2})),
-                    contains_inanyorder({1}, {2}))
+                    equal_to([{1}, {2}]))
 
     def test_two_connected_should_succeed(self):
         assert_that(get_connected_components(Graph([(1, 2)])),
@@ -101,7 +101,7 @@ class GraphGetConnectedComponents(TestCase):
 
     def test_two_components_should_succeed(self):
         assert_that(get_connected_components(Graph({(1, 2), (3, 4)})),
-                    contains_inanyorder({1, 2}, {3, 4}))
+                    equal_to([{1, 2}, {3, 4}]))
 
 
 if __name__ == '__main__':

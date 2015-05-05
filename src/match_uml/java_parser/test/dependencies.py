@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from hamcrest import assert_that, empty, contains_inanyorder
+from hamcrest import assert_that, empty, equal_to
 from unittest import main
 from java_parser.classifiers import make_classifiers
 from java_parser.full_classifiers_names import set_full_classifiers_names
@@ -37,12 +37,12 @@ class MakeDependencies(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         make_dependencies(tree, types)
-        assert_that(classifiers['x.Client'].suppliers, contains_inanyorder(
-            classifiers['x.Interface'],
+        assert_that(classifiers['x.Client'].suppliers, equal_to([
             classifiers['x.Implementation'],
+            classifiers['x.Parameter'],
+            classifiers['x.Interface'],
             classifiers['x.AnotherImplementation'],
-            classifiers['x.Parameter']
-        ))
+        ]))
 
 if __name__ == '__main__':
     main()

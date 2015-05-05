@@ -11,8 +11,8 @@ def replace_node_by_obj(variants):
 
 
 def generate_equivalent_node_pair(target_nodes, pattern_nodes):
-    for target in target_nodes:
-        for pattern in pattern_nodes:
+    for target in sorted(target_nodes):
+        for pattern in sorted(pattern_nodes):
             if target.equiv_pattern(pattern):
                 yield target, pattern
 

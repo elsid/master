@@ -4,10 +4,9 @@
 from types import GeneratorType
 from unittest import TestCase, main
 from itertools import permutations
-from hamcrest import assert_that, equal_to, contains_inanyorder, empty
+from hamcrest import assert_that, equal_to, empty
 from graph_matcher.match import Equivalent, match, replace_node_by_obj
 from graph_matcher.graph import Graph
-from graph_matcher.test.arc_types import Red, Blue
 
 
 def to_list(value):
@@ -35,47 +34,43 @@ class Match(TestCase):
         first = Graph({1})
         second = Graph({'a', 'b'})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(first_variants, contains_inanyorder(
-            [(1, 'a')], [(1, 'b')]
-        ))
+        assert_that(first_variants, equal_to([[(1, 'a')], [(1, 'b')]]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
-        assert_that(second_variants, contains_inanyorder(
-            [('a', 1)], [('b', 1)]
-        ))
+        assert_that(second_variants, equal_to([[('a', 1)], [('b', 1)]]))
 
     def test_match_with_two_components_should_succeed(self):
         first = Graph({1, 2})
         second = Graph({'a', 'b'})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(first_variants, contains_inanyorder(
+        assert_that(first_variants, equal_to([
             [(1, 'a'), (2, 'b')], [(1, 'b'), (2, 'a')]
-        ))
+        ]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
-        assert_that(second_variants, contains_inanyorder(
+        assert_that(second_variants, equal_to([
             [('a', 1), ('b', 2)], [('a', 2), ('b', 1)]
-        ))
+        ]))
 
     def test_match_with_two_and_three_components_should_succeed(self):
         first = Graph({1, 2})
         second = Graph({'a', 'b', 'c'})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(first_variants, contains_inanyorder(
-            [(1, 'c'), (2, 'b')], [(1, 'b'), (2, 'c')], [(1, 'c'), (2, 'a')],
-            [(1, 'a'), (2, 'c')], [(1, 'b'), (2, 'a')], [(1, 'a'), (2, 'b')],
-        ))
+        assert_that(first_variants, equal_to([
+            [(1, 'a'), (2, 'c')], [(1, 'c'), (2, 'a')], [(1, 'a'), (2, 'b')],
+            [(1, 'b'), (2, 'a')], [(1, 'c'), (2, 'b')], [(1, 'b'), (2, 'c')],
+        ]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
-        assert_that(second_variants, contains_inanyorder(
-            [('b', 2), ('c', 1)], [('b', 1), ('c', 2)], [('a', 2), ('c', 1)],
-            [('a', 1), ('c', 2)], [('a', 2), ('b', 1)], [('a', 1), ('b', 2)],
-        ))
+        assert_that(second_variants, equal_to([
+            [('a', 1), ('c', 2)], [('a', 2), ('c', 1)], [('a', 1), ('b', 2)],
+            [('a', 2), ('b', 1)], [('b', 2), ('c', 1)], [('b', 1), ('c', 2)],
+        ]))
 
     def test_match_with_one_arc_should_succeed(self):
         first = Graph({(1, 2)})
         second = Graph({('a', 'b')})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(first_variants, contains_inanyorder([(1, 'a'), (2, 'b')]))
+        assert_that(first_variants, equal_to([[(1, 'a'), (2, 'b')]]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
-        assert_that(second_variants, contains_inanyorder([('a', 1), ('b', 2)]))
+        assert_that(second_variants, equal_to([[('a', 1), ('b', 2)]]))
 
     def test_match_with_self_connected_nodes_should_succeed(self):
         first = Graph({(1, 1)})
@@ -89,32 +84,32 @@ class Match(TestCase):
         first = Graph([(p[0], p[1]) for p in permutations((1, 2, 3, 4))])
         second = Graph([(p[0], p[1]) for p in permutations('abcd')])
         variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(variants, contains_inanyorder(
-            [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')],
-            [(1, 'a'), (2, 'b'), (3, 'd'), (4, 'c')],
-            [(1, 'a'), (2, 'c'), (3, 'b'), (4, 'd')],
-            [(1, 'a'), (2, 'c'), (3, 'd'), (4, 'b')],
-            [(1, 'a'), (2, 'd'), (3, 'b'), (4, 'c')],
-            [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b')],
-            [(1, 'b'), (2, 'a'), (3, 'c'), (4, 'd')],
-            [(1, 'b'), (2, 'a'), (3, 'd'), (4, 'c')],
-            [(1, 'b'), (2, 'c'), (3, 'a'), (4, 'd')],
-            [(1, 'b'), (2, 'c'), (3, 'd'), (4, 'a')],
-            [(1, 'b'), (2, 'd'), (3, 'a'), (4, 'c')],
-            [(1, 'b'), (2, 'd'), (3, 'c'), (4, 'a')],
-            [(1, 'c'), (2, 'a'), (3, 'b'), (4, 'd')],
-            [(1, 'c'), (2, 'a'), (3, 'd'), (4, 'b')],
+        assert_that(variants, equal_to([
             [(1, 'c'), (2, 'b'), (3, 'a'), (4, 'd')],
-            [(1, 'c'), (2, 'b'), (3, 'd'), (4, 'a')],
-            [(1, 'c'), (2, 'd'), (3, 'a'), (4, 'b')],
-            [(1, 'c'), (2, 'd'), (3, 'b'), (4, 'a')],
-            [(1, 'd'), (2, 'a'), (3, 'b'), (4, 'c')],
-            [(1, 'd'), (2, 'a'), (3, 'c'), (4, 'b')],
+            [(1, 'b'), (2, 'c'), (3, 'a'), (4, 'd')],
+            [(1, 'c'), (2, 'a'), (3, 'b'), (4, 'd')],
+            [(1, 'b'), (2, 'a'), (3, 'c'), (4, 'd')],
+            [(1, 'a'), (2, 'c'), (3, 'b'), (4, 'd')],
+            [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')],
             [(1, 'd'), (2, 'b'), (3, 'a'), (4, 'c')],
-            [(1, 'd'), (2, 'b'), (3, 'c'), (4, 'a')],
+            [(1, 'b'), (2, 'd'), (3, 'a'), (4, 'c')],
+            [(1, 'd'), (2, 'a'), (3, 'b'), (4, 'c')],
+            [(1, 'b'), (2, 'a'), (3, 'd'), (4, 'c')],
+            [(1, 'a'), (2, 'd'), (3, 'b'), (4, 'c')],
+            [(1, 'a'), (2, 'b'), (3, 'd'), (4, 'c')],
             [(1, 'd'), (2, 'c'), (3, 'a'), (4, 'b')],
+            [(1, 'c'), (2, 'd'), (3, 'a'), (4, 'b')],
+            [(1, 'd'), (2, 'a'), (3, 'c'), (4, 'b')],
+            [(1, 'c'), (2, 'a'), (3, 'd'), (4, 'b')],
+            [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b')],
+            [(1, 'a'), (2, 'c'), (3, 'd'), (4, 'b')],
             [(1, 'd'), (2, 'c'), (3, 'b'), (4, 'a')],
-        ))
+            [(1, 'c'), (2, 'd'), (3, 'b'), (4, 'a')],
+            [(1, 'd'), (2, 'b'), (3, 'c'), (4, 'a')],
+            [(1, 'c'), (2, 'b'), (3, 'd'), (4, 'a')],
+            [(1, 'b'), (2, 'd'), (3, 'c'), (4, 'a')],
+            [(1, 'b'), (2, 'c'), (3, 'd'), (4, 'a')],
+        ]))
 
     def test_match_different_graphs_should_succeed(self):
         first = Graph({(1, 2), (2, 3), (3, 4)})
@@ -139,14 +134,20 @@ class Match(TestCase):
                         or (self.value == other.value if hasattr(other, 'value')
                             else self.value == other))
 
+            def __hash__(self):
+                return hash(self.value)
+
+            def __lt__(self, other):
+                return hash(self) < hash(other)
+
         first = Graph({(Node(1, {'a'}), Node(2, {'b'})), (Node(3), Node(4))})
         second = Graph({(Node('a', {1}), Node('b', {2})), Node('c'), Node('d')})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
         assert_that(len(first_variants), equal_to(1))
-        assert_that(first_variants[0], contains_inanyorder((1, 'a'), (2, 'b')))
+        assert_that(first_variants[0], equal_to([(1, 'a'), (2, 'b')]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
         assert_that(len(second_variants), equal_to(1))
-        assert_that(second_variants[0], contains_inanyorder(('a', 1), ('b', 2)))
+        assert_that(second_variants[0], equal_to([('a', 1), ('b', 2)]))
 
     def test_check_current_equivalence_before_add_to_visited(self):
         target = Graph({

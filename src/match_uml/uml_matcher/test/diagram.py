@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to, any_of
+from hamcrest import assert_that, equal_to
 from graph_matcher import Equivalent
 from patterns import (
     AbstractFactory as AbstractFactoryPattern,
@@ -372,82 +372,26 @@ class MatchDiagram(TestCase):
     def test_match_decorator_pattern_in_burgers_limit_one(self):
         t = Burgers()
         p = Decorator()
-        expected_match_results = [
-            MatchResult([
-                MatchVariant([
-                    Equivalent(t.burger(), p.component()),
-                    Equivalent(t.burger_with(), p.decorator()),
-                    Equivalent(t.cheese(), p.concrete_decorator()),
-                    Equivalent(t.cheeseburger(), p.concrete_component()),
-                    Equivalent(t.burger_with_end(), p.decorator_end()),
-                    Equivalent(t.burger_with_burger(), p.decorator_component()),
-                    Equivalent(t.burger_price(), p.component_operation()),
-                    Equivalent(t.burger_with_price(), p.decorator_operation()),
-                    Equivalent(t.cheese_price(),
-                               p.concrete_decorator_operation()),
-                    Equivalent(t.cheeseburger_price(),
-                               p.concrete_component_operation()),
-                    Equivalent(t.burger_type(), p.component_type()),
-                    Equivalent(t.burger_with_type(), p.decorator_type()),
-                ]),
+        expected_match_result = MatchResult([
+            MatchVariant([
+                Equivalent(t.burger(), p.component()),
+                Equivalent(t.burger_with(), p.decorator()),
+                Equivalent(t.cheese(), p.concrete_decorator()),
+                Equivalent(t.hamburger(), p.concrete_component()),
+                Equivalent(t.burger_with_end(), p.decorator_end()),
+                Equivalent(t.burger_with_burger(), p.decorator_component()),
+                Equivalent(t.burger_price(), p.component_operation()),
+                Equivalent(t.burger_with_price(), p.decorator_operation()),
+                Equivalent(t.cheese_price(),
+                           p.concrete_decorator_operation()),
+                Equivalent(t.hamburger_price(),
+                           p.concrete_component_operation()),
+                Equivalent(t.burger_type(), p.component_type()),
+                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
-            MatchResult([
-                MatchVariant([
-                    Equivalent(t.burger(), p.component()),
-                    Equivalent(t.burger_with(), p.decorator()),
-                    Equivalent(t.cheese(), p.concrete_decorator()),
-                    Equivalent(t.hamburger(), p.concrete_component()),
-                    Equivalent(t.burger_with_end(), p.decorator_end()),
-                    Equivalent(t.burger_with_burger(), p.decorator_component()),
-                    Equivalent(t.burger_price(), p.component_operation()),
-                    Equivalent(t.burger_with_price(), p.decorator_operation()),
-                    Equivalent(t.cheese_price(),
-                               p.concrete_decorator_operation()),
-                    Equivalent(t.hamburger_price(),
-                               p.concrete_component_operation()),
-                    Equivalent(t.burger_type(), p.component_type()),
-                    Equivalent(t.burger_with_type(), p.decorator_type()),
-                ]),
-            ]),
-            MatchResult([
-                MatchVariant([
-                    Equivalent(t.burger(), p.component()),
-                    Equivalent(t.burger_with(), p.decorator()),
-                    Equivalent(t.cutlet(), p.concrete_decorator()),
-                    Equivalent(t.cheeseburger(), p.concrete_component()),
-                    Equivalent(t.burger_with_end(), p.decorator_end()),
-                    Equivalent(t.burger_with_burger(), p.decorator_component()),
-                    Equivalent(t.burger_price(), p.component_operation()),
-                    Equivalent(t.burger_with_price(), p.decorator_operation()),
-                    Equivalent(t.cutlet_price(),
-                               p.concrete_decorator_operation()),
-                    Equivalent(t.cheeseburger_price(),
-                               p.concrete_component_operation()),
-                    Equivalent(t.burger_type(), p.component_type()),
-                    Equivalent(t.burger_with_type(), p.decorator_type()),
-                ]),
-            ]),
-            MatchResult([
-                MatchVariant([
-                    Equivalent(t.burger(), p.component()),
-                    Equivalent(t.burger_with(), p.decorator()),
-                    Equivalent(t.cutlet(), p.concrete_decorator()),
-                    Equivalent(t.hamburger(), p.concrete_component()),
-                    Equivalent(t.burger_with_end(), p.decorator_end()),
-                    Equivalent(t.burger_with_burger(), p.decorator_component()),
-                    Equivalent(t.burger_price(), p.component_operation()),
-                    Equivalent(t.burger_with_price(), p.decorator_operation()),
-                    Equivalent(t.cutlet_price(),
-                               p.concrete_decorator_operation()),
-                    Equivalent(t.hamburger_price(),
-                               p.concrete_component_operation()),
-                    Equivalent(t.burger_type(), p.component_type()),
-                    Equivalent(t.burger_with_type(), p.decorator_type()),
-                ]),
-            ]),
-        ]
+        ])
         match_result = t.diagram().match(p.diagram(), 1)
-        assert_that(match_result, any_of(*expected_match_results))
+        assert_that(match_result, equal_to(expected_match_result))
 
     def test_match_abstract_factory_pattern_in_bukkit_example(self):
         t = BukkitExample()
