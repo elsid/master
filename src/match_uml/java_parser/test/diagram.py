@@ -5,9 +5,9 @@ from hamcrest import assert_that, equal_to, empty
 from unittest import main
 from uml_matcher import (
     Diagram, Operation, Type, PrimitiveType, Interface, Class, Property,
-    Visibility)
+    Visibility, cached_method)
 from uml_matcher.test.diagram import Burgers as BaseBurgers
-from patterns import cached_method, Decorator as BaseDecorator
+from patterns import Decorator as BaseDecorator
 from java_parser.diagram import make_diagram
 from java_parser.errors import PlyjSyntaxError
 from java_parser.test.classifiers import TestCaseWithParser

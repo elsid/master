@@ -1,8 +1,7 @@
 # coding: utf-8
 
-from uml_matcher import Class, Type, Operation, Diagram, Interface, Visibility
-
-from patterns.cached_method import cached_method
+from uml_matcher import (
+    Class, Type, Operation, Diagram, Interface, Visibility, cached_method)
 
 
 class AbstractFactory(object):

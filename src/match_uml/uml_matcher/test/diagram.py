@@ -6,7 +6,6 @@ from graph_matcher import Equivalent
 from patterns import (
     AbstractFactory as AbstractFactoryPattern,
     Decorator as DecoratorPattern,
-    cached_method,
 )
 from uml_matcher.operation import Operation
 from uml_matcher.property import Property
@@ -16,6 +15,7 @@ from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import Diagram
 from uml_matcher.match import MatchResult, MatchVariant
 from uml_matcher.visibility import Visibility
+from uml_matcher.cached_method import cached_method
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
 
 

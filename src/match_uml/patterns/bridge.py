@@ -1,9 +1,8 @@
 # coding: utf-8
 
 from uml_matcher import (
-    Class, Type, Operation, Diagram, Interface, Property, Visibility)
-
-from patterns.cached_method import cached_method
+    Class, Type, Operation, Diagram, Interface, Property, Visibility,
+    cached_method)
 
 
 class Bridge(object):

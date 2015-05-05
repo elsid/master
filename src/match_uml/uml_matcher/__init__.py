@@ -15,4 +15,5 @@ from uml_matcher.primitive_type import PrimitiveType
 from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.visibility import Visibility
+from uml_matcher.cached_method import cached_method
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
