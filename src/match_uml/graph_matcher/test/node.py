@@ -17,7 +17,7 @@ class MakeNode(TestCase):
         assert_that(node.equiv_pattern(node), equal_to(True))
         assert_that(repr(node), equal_to('[node]'))
         assert_that(str(node), equal_to(str('node')))
-        assert_that(hash(node), equal_to(id('node')))
+        assert_that(hash(node), equal_to(hash('node')))
         assert_that(node < node, equal_to(False))
 
 

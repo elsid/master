@@ -97,7 +97,7 @@ class Node(object):
         return str(self.obj)
 
     def __hash__(self):
-        return id(self.obj)
+        return hash(self.obj)
 
     def __lt__(self, other):
         return self.obj < other.obj

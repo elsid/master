@@ -14,16 +14,15 @@ def generate_nodes(nodes_and_arcs):
 
     def get_node(node):
         if isinstance(node, Node):
-            nodes_dict[id(node)] = node
+            if node.obj in nodes_dict:
+                return nodes_dict[node.obj]
+            else:
+                nodes_dict[node.obj] = node
             return node
-        elif isinstance(node, (str, int, float)):
+        else:
             if node not in nodes_dict:
                 nodes_dict[node] = Node(node)
             return nodes_dict[node]
-        else:
-            if id(node) not in nodes_dict:
-                nodes_dict[id(node)] = Node(node)
-            return nodes_dict[id(node)]
 
     def make_arc(src_node, dst_node, arc_type):
         color = get_color(arc_type)
