@@ -1,8 +1,11 @@
 # coding: utf-8
 
+from uml_matcher.element import Element
 
-class NamedElement(object):
+
+class NamedElement(Element):
     def __init__(self, name):
+        super(NamedElement, self).__init__()
         self.name = name
 
     def __str__(self):
@@ -15,6 +18,3 @@ class NamedElement(object):
         return (id(self) == id(other)
                 or isinstance(other, NamedElement)
                 and self.name == other.name)
-
-    def __lt__(self, other):
-        return self.name < other.name

@@ -81,6 +81,3 @@ class Property(NamedElement):
             owner='%s::' % self.owner.name if self.owner else '',
             type=': %s' % self.type.name if self.type else '',
         )
-
-    def __hash__(self):
-        return id(self)

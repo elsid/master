@@ -5,6 +5,7 @@ from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
 from uml_matcher.eq_pattern import eq_pattern, equiv_pattern
+from uml_matcher.element import Element
 
 
 def repr_multiplicity(lower, upper):
@@ -31,12 +32,13 @@ def assert_mult_value(value, make_error):
         raise make_error(value)
 
 
-class Type(object):
+class Type(Element):
     def __init__(self, classifier,
                  mult_lower=1,
                  mult_upper=1,
                  is_ordered=False,
                  is_unique=True):
+        super(Type, self).__init__()
         assert_mult_type(mult_lower, MultLowerTypeError)
         assert_mult_value(mult_lower, NegativeMultLower)
         assert_mult_type(mult_upper, MultUpperTypeError)
