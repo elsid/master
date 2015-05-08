@@ -6,7 +6,7 @@ from uml_matcher import Diagram
 from java_parser import (
     set_full_classifiers_names, make_classifiers, make_external_classifiers,
     make_generalizations, set_full_types_names, fill_classifiers,
-    make_associations, make_dependencies)
+    make_dependencies)
 from java_parser.external_classifiers import find_files
 
 from java_parser.errors import (
@@ -46,7 +46,6 @@ class DiagramFactory(object):
         self.__set_full_types_names()
         self.__make_generalizations()
         self.__fill_classifiers()
-        self.__make_associations()
         self.__make_dependencies()
         return Diagram(t.classifier for t in self.types.itervalues())
 
@@ -96,9 +95,6 @@ class DiagramFactory(object):
             cur_types, cur_errors = fill_classifiers(tree, self.classifiers)
             self.types.update(cur_types)
             self.errors += cur_errors
-
-    def __make_associations(self):
-        make_associations(self.types)
 
     def __make_dependencies(self):
         for tree in self.trees:

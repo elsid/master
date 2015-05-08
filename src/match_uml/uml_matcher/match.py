@@ -86,12 +86,6 @@ PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
 
 
-class BinaryAssociation(frozenset):
-    def __init__(self, ends):
-        assert len(ends) == 2
-        super(BinaryAssociation, self).__init__(ends)
-
-
 def make_graph(diagram):
 
     def generate():
@@ -103,9 +97,6 @@ def make_graph(diagram):
             for property_ in classifier.properties:
                 yield HasProperty(classifier, property_)
                 yield PropertyIs(property_, property_.type)
-                for association in property_.associations:
-                    yield BinaryAssociation({property_, association})
-                    yield PropertyIs(association, association.type)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
                 if operation.result:

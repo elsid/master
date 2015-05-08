@@ -55,10 +55,6 @@ class Decorator(object):
     def concrete_decorator_operation(self):
         return self._operation()
 
-    @cached_method
-    def decorator_end(self):
-        return Property(self.decorator_type(), 'Decorator_end')
-
     @staticmethod
     def _operation():
         return Operation(None, 'operation', Visibility.public, is_static=False)
@@ -68,7 +64,6 @@ class Decorator(object):
         self.concrete_component().generals = [self.component()]
         self.decorator().generals = [self.component()]
         self.concrete_decorator().generals = [self.decorator()]
-        self.decorator_component().associations = [self.decorator_end()]
         return Diagram([
             self.component(),
             self.concrete_component(),

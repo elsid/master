@@ -11,7 +11,6 @@ from uml_matcher.operation import Operation
 from uml_matcher.property import Property
 from uml_matcher.type import Type
 from uml_matcher.primitive_type import PrimitiveType
-from uml_matcher.aggregation import Aggregation
 from uml_matcher.diagram import Diagram
 from uml_matcher.match import MatchResult, MatchVariant
 from uml_matcher.visibility import Visibility
@@ -56,8 +55,6 @@ class Decorator(DecoratorPattern):
                            pattern=other.concrete_decorator()),
                 Equivalent(target=self.decorator_component(),
                            pattern=other.decorator_component()),
-                Equivalent(target=self.decorator_end(),
-                           pattern=other.decorator_end()),
                 Equivalent(target=self.component_operation(),
                            pattern=other.component_operation()),
                 Equivalent(target=self.decorator_operation(),
@@ -68,8 +65,6 @@ class Decorator(DecoratorPattern):
                            pattern=other.concrete_component_operation()),
                 Equivalent(target=self.component_type(),
                            pattern=other.component_type()),
-                Equivalent(target=self.decorator_type(),
-                           pattern=other.decorator_type()),
             ])
         ])
 
@@ -180,26 +175,7 @@ class Burgers(object):
         return Type(self.burger_with())
 
     @cached_method
-    def burger_with_end(self):
-        return Property(self.burger_with_type(), 'BurgerWith_end',
-                        aggregation=Aggregation.shared)
-
-    @cached_method
-    def hamburger_end(self):
-        return Property(self.hamburger_type(), 'Hamburger_end',
-                        aggregation=Aggregation.shared)
-
-    @cached_method
-    def cheeseburger_end(self):
-        return Property(self.cheeseburger_type(), 'Cheeseburger_end',
-                        aggregation=Aggregation.shared)
-
-    @cached_method
     def diagram(self):
-        self.hamburger_cutlet().associations = [self.hamburger_end()]
-        self.cheeseburger_cheese().associations = [self.cheeseburger_end()]
-        self.cheeseburger_cutlet().associations = [self.cheeseburger_end()]
-        self.burger_with_burger().associations = [self.burger_with_end()]
         self.cutlet().generals = [self.burger_with()]
         self.cheese().generals = [self.burger_with()]
         self.cheeseburger().generals = [self.burger()]
@@ -306,7 +282,6 @@ class MatchDiagram(TestCase):
                 Equivalent(t.burger_with(), p.decorator()),
                 Equivalent(t.cheese(), p.concrete_decorator()),
                 Equivalent(t.cheeseburger(), p.concrete_component()),
-                Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
                 Equivalent(t.burger_price(), p.component_operation()),
                 Equivalent(t.burger_with_price(), p.decorator_operation()),
@@ -315,14 +290,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.cheeseburger_price(),
                            p.concrete_component_operation()),
                 Equivalent(t.burger_type(), p.component_type()),
-                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
                 Equivalent(t.burger_with(), p.decorator()),
                 Equivalent(t.cheese(), p.concrete_decorator()),
                 Equivalent(t.hamburger(), p.concrete_component()),
-                Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
                 Equivalent(t.burger_price(), p.component_operation()),
                 Equivalent(t.burger_with_price(), p.decorator_operation()),
@@ -331,14 +304,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.hamburger_price(),
                            p.concrete_component_operation()),
                 Equivalent(t.burger_type(), p.component_type()),
-                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
                 Equivalent(t.burger_with(), p.decorator()),
                 Equivalent(t.cutlet(), p.concrete_decorator()),
                 Equivalent(t.cheeseburger(), p.concrete_component()),
-                Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
                 Equivalent(t.burger_price(), p.component_operation()),
                 Equivalent(t.burger_with_price(), p.decorator_operation()),
@@ -347,14 +318,12 @@ class MatchDiagram(TestCase):
                 Equivalent(t.cheeseburger_price(),
                            p.concrete_component_operation()),
                 Equivalent(t.burger_type(), p.component_type()),
-                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
             MatchVariant([
                 Equivalent(t.burger(), p.component()),
                 Equivalent(t.burger_with(), p.decorator()),
                 Equivalent(t.cutlet(), p.concrete_decorator()),
                 Equivalent(t.hamburger(), p.concrete_component()),
-                Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
                 Equivalent(t.burger_price(), p.component_operation()),
                 Equivalent(t.burger_with_price(), p.decorator_operation()),
@@ -363,7 +332,6 @@ class MatchDiagram(TestCase):
                 Equivalent(t.hamburger_price(),
                            p.concrete_component_operation()),
                 Equivalent(t.burger_type(), p.component_type()),
-                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
         ])
         match_result = t.diagram().match(p.diagram())
@@ -378,7 +346,6 @@ class MatchDiagram(TestCase):
                 Equivalent(t.burger_with(), p.decorator()),
                 Equivalent(t.cheese(), p.concrete_decorator()),
                 Equivalent(t.hamburger(), p.concrete_component()),
-                Equivalent(t.burger_with_end(), p.decorator_end()),
                 Equivalent(t.burger_with_burger(), p.decorator_component()),
                 Equivalent(t.burger_price(), p.component_operation()),
                 Equivalent(t.burger_with_price(), p.decorator_operation()),
@@ -387,7 +354,6 @@ class MatchDiagram(TestCase):
                 Equivalent(t.hamburger_price(),
                            p.concrete_component_operation()),
                 Equivalent(t.burger_type(), p.component_type()),
-                Equivalent(t.burger_with_type(), p.decorator_type()),
             ]),
         ])
         match_result = t.diagram().match(p.diagram(), 1)

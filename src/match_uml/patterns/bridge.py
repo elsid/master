@@ -24,10 +24,6 @@ class Bridge(object):
         return Property(self.implementor_type(), 'implementor', is_static=False)
 
     @cached_method
-    def abstraction_end(self):
-        return Property(self.abstraction_type(), 'Abstraction_end')
-
-    @cached_method
     def implementor(self):
         return Interface('Implementor', operations=[
             Operation(None, 'operation_impl', Visibility.public,
@@ -48,7 +44,6 @@ class Bridge(object):
     @cached_method
     def diagram(self):
         self.concrete_implementor().generals = [self.implementor()]
-        self.abstraction_implementor().associations = [self.abstraction_end()]
         return Diagram([
             self.abstraction(),
             self.implementor(),
