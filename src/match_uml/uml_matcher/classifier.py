@@ -37,3 +37,6 @@ class Classifier(NamedElement):
                 and isinstance(other, Classifier)
                 and eq_ignore_order(self.properties, other.properties)
                 and eq_ignore_order(self.operations, other.operations))
+
+    def __str__(self):
+        return 'classifier %s' % self.name
