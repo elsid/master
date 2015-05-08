@@ -3,12 +3,14 @@
 from patterns.abstract_factory import AbstractFactory
 from patterns.bridge import Bridge
 from patterns.decorator import Decorator
+from patterns.memento import Memento
 
 
 PATTERNS = (
     AbstractFactory,
     Bridge,
     Decorator,
+    Memento,
 )
 
 
