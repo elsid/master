@@ -8,12 +8,8 @@ from uml_matcher import (
 class Bridge(object):
     @cached_method
     def abstraction(self):
-        return Class('Abstraction', properties=[
-            self.abstraction_implementor()
-        ], operations=[
-            Operation(None, 'operation_impl', Visibility.public,
-                      is_static=False)
-        ])
+        return Class('Abstraction', properties=[self.abstraction_implementor()],
+                     operations=[self.abstraction_operation()])
 
     @cached_method
     def abstraction_type(self):
@@ -25,10 +21,8 @@ class Bridge(object):
 
     @cached_method
     def implementor(self):
-        return Interface('Implementor', operations=[
-            Operation(None, 'operation_impl', Visibility.public,
-                      is_static=False)
-        ])
+        return Interface('Implementor',
+                         operations=[self.implementor_operation_impl()])
 
     @cached_method
     def implementor_type(self):
@@ -36,10 +30,23 @@ class Bridge(object):
 
     @cached_method
     def concrete_implementor(self):
-        return Class('ConcreteImplementor', operations=[
-            Operation(None, 'operation_impl', Visibility.public,
-                      is_static=False),
-        ])
+        return Class('ConcreteImplementor',
+                     operations=[self.concrete_implementor_operation_impl()])
+
+    @cached_method
+    def abstraction_operation(self):
+        return Operation(None, 'operation', Visibility.public,
+                         is_static=False)
+
+    @cached_method
+    def implementor_operation_impl(self):
+        return Operation(None, 'operation_impl', Visibility.public,
+                         is_static=False)
+
+    @cached_method
+    def concrete_implementor_operation_impl(self):
+        return Operation(None, 'operation_impl', Visibility.public,
+                         is_static=False)
 
     @cached_method
     def diagram(self):
