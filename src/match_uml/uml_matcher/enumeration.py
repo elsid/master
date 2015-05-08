@@ -10,3 +10,6 @@ class Enumeration(Classifier):
         return (id(self) == id(other)
                 or super(Enumeration, self).__eq__(other)
                 and isinstance(other, Enumeration))
+
+    def __str__(self):
+        return 'enumeration %s' % self.name
