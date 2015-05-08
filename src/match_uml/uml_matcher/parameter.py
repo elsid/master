@@ -7,7 +7,7 @@ from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Parameter(NamedElement):
-    def __init__(self, type, name='anonymous', direction=Direction.in_):
+    def __init__(self, type, name='anonymous', direction=None):
         super(Parameter, self).__init__(name)
         self.type = type
         self.direction = direction
@@ -30,5 +30,5 @@ class Parameter(NamedElement):
         return '{direction}{name}{type}'.format(
             name=self.name,
             type=': %s' % self.type.name if self.type else '',
-            direction='%s ' % self.direction if str(self.direction) else '',
+            direction='%s ' % self.direction if self.direction else '',
         )

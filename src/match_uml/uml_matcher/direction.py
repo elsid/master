@@ -10,7 +10,7 @@ class Direction(Enum):
 
     def __str__(self):
         if self == Direction.in_:
-            return ''
+            return 'in'
         elif self == Direction.out:
             return 'out'
         elif self == Direction.inout:

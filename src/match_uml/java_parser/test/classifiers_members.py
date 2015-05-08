@@ -7,7 +7,7 @@ from plyj.model import (
     VariableDeclarator, Variable, ClassDeclaration)
 from uml_matcher import (
     Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType,
-    Enumeration)
+    Enumeration, Direction)
 from java_parser.classifiers import make_classifiers
 from java_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
@@ -219,7 +219,8 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')], is_static=False),
+                          [Parameter(INT_TYPE, 'x', Direction.in_)],
+                          is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,
@@ -239,9 +240,11 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')], is_static=False),
+                          [Parameter(INT_TYPE, 'x', Direction.in_)],
+                          is_static=False),
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(FLOAT_TYPE, 'x')], is_static=False),
+                          [Parameter(FLOAT_TYPE, 'x', Direction.in_)],
+                          is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,
@@ -284,11 +287,12 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
-            'error: redeclaration of method "-f(x: int): void" in class "A"'))
+            'error: redeclaration of method "-f(in x: int): void" in class "A"'))
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation(VOID_TYPE, 'f', Visibility.private,
-                          [Parameter(INT_TYPE, 'x')], is_static=False),
+                          [Parameter(INT_TYPE, 'x', Direction.in_)],
+                          is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
             'int': INT_TYPE.classifier,

@@ -3,7 +3,8 @@
 from plyj.model import Visitor, Type as PlyjType
 
 from uml_matcher import (
-    Property, Operation, DataType, Visibility, Type, Parameter, PrimitiveType)
+    Property, Operation, DataType, Visibility, Type, Parameter, PrimitiveType,
+    Direction)
 from java_parser.full_classifiers_names import get_name_value
 from java_parser.errors import (
     MethodRedeclaration, VariableRedeclaration, FieldModifiersDuplication,
@@ -210,6 +211,7 @@ class ClassifiersMembersFactory(Visitor):
                 type=self.__get_classifier_type(
                     FormalParameterType(declaration)),
                 name=declaration.variable.name,
+                direction=Direction.in_,
             ))
             return True
 
