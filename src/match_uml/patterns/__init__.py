@@ -2,6 +2,7 @@
 
 from patterns.abstract_factory import AbstractFactory
 from patterns.bridge import Bridge
+from patterns.chain_of_responsibility import ChainOfResponsibility
 from patterns.decorator import Decorator
 from patterns.memento import Memento
 
@@ -9,6 +10,7 @@ from patterns.memento import Memento
 PATTERNS = (
     AbstractFactory,
     Bridge,
+    ChainOfResponsibility,
     Decorator,
     Memento,
 )
