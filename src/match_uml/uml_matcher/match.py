@@ -84,6 +84,7 @@ HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
 PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
+TypeIs = namedtuple('TypeIs', ('classifier', 'type'))
 
 
 def make_graph(diagram):
@@ -97,10 +98,12 @@ def make_graph(diagram):
             for property_ in classifier.properties:
                 yield HasProperty(classifier, property_)
                 yield PropertyIs(property_, property_.type)
+                yield TypeIs(property_.type, property_.type.classifier)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
                 if operation.result:
                     yield OperationResult(operation, operation.result)
+                    yield TypeIs(operation.result, operation.result.classifier)
 
     return Graph(generate())
 
