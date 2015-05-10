@@ -7,7 +7,7 @@ from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Parameter(NamedElement):
-    def __init__(self, type, name=None, direction=None):
+    def __init__(self, type=None, name=None, direction=None):
         super(Parameter, self).__init__(name)
         self.type = type
         self.direction = direction
