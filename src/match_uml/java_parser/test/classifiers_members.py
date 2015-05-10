@@ -145,7 +145,7 @@ class MakeVariableType(TestCase):
         variable_decl = VariableDeclarator(Variable(''))
         field = FieldDeclaration('int', [variable_decl])
         variable_type = VariableType(field, variable_decl.variable)
-        assert_that(variable_type.type(None), equal_to(Type(None)))
+        assert_that(variable_type.type(None), equal_to(Type()))
         assert_that(variable_type.type_name(), equal_to('int'))
         assert_that(variable_type.classifier_name(), equal_to('int'))
 

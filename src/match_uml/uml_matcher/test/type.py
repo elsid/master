@@ -37,19 +37,19 @@ class MakeType(TestCase):
         assert_that(str(Type(Class('A'))), equal_to('type of class A'))
 
     def test_make_with_wrong_lower_should_throw_exception(self):
-        assert_that(calling(lambda: Type(None, mult_lower='')),
+        assert_that(calling(lambda: Type(mult_lower='')),
                     raises(MultLowerTypeError))
-        assert_that(calling(lambda: Type(None, mult_lower=-1)),
+        assert_that(calling(lambda: Type(mult_lower=-1)),
                     raises(NegativeMultLower))
 
     def test_make_with_wrong_upper_should_throw_exception(self):
-        assert_that(calling(lambda: Type(None, mult_upper='')),
+        assert_that(calling(lambda: Type(mult_upper='')),
                     raises(MultUpperTypeError))
-        assert_that(calling(lambda: Type(None, mult_upper=-1)),
+        assert_that(calling(lambda: Type(mult_upper=-1)),
                     raises(NegativeMultUpper))
 
     def test_make_with_wrong_range_should_throw_exception(self):
-        assert_that(calling(lambda: Type(None, mult_lower=1, mult_upper=0)),
+        assert_that(calling(lambda: Type(mult_lower=1, mult_upper=0)),
                     raises(MultRangeError))
 
 if __name__ == '__main__':

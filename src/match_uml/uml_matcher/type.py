@@ -33,7 +33,8 @@ def assert_mult_value(value, make_error):
 
 
 class Type(Element):
-    def __init__(self, classifier,
+    def __init__(self,
+                 classifier=None,
                  mult_lower=1,
                  mult_upper=1,
                  is_ordered=False,
