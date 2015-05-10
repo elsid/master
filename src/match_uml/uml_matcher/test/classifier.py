@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from uml_matcher.classifier import Classifier
@@ -29,6 +30,31 @@ class MakeClassifier(TestCase):
         a2.properties = [Property(Type(a2), 'a')]
         assert_that(a1, equal_to(a2))
         assert_that(a1.equiv_pattern(a2), equal_to(True))
+
+    def test_dump_and_load_yaml_classifier_with_name_should_succeed(self):
+        data = "!Classifier {name: a}\n"
+        classifier = Classifier('a')
+        assert_that(yaml.dump(classifier), equal_to(data))
+        assert_that(yaml.load(data), equal_to(classifier))
+
+    def test_dump_and_load_yaml_classifier_with_property_should_succeed(self):
+        classifier = Classifier('a', properties=[Property(name='a')])
+        data = (
+            "!Classifier\n"
+            "name: a\n"
+            "properties:\n"
+            "- !Property {name: a}\n"
+        )
+        assert_that(yaml.dump(classifier), equal_to(data))
+        assert_that(yaml.load(data), equal_to(classifier))
+
+    def test_dump_and_load_yaml_recursive_classifier_should_succeed(self):
+        classifier = Classifier('a')
+        classifier.suppliers = [classifier]
+        data = "&id001 !Classifier\nname: a\nsuppliers:\n- *id001\n"
+        assert_that(yaml.dump(classifier), equal_to(data))
+        assert_that(yaml.load(data), equal_to(classifier))
+
 
 if __name__ == '__main__':
     main()

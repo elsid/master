@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
@@ -60,3 +61,35 @@ class Classifier(NamedElement):
 
     def __str__(self):
         return 'classifier %s' % self.name
+
+    def update(self, **kwargs):
+        if 'name' in kwargs:
+            self.name = kwargs['name']
+        if 'properties' in kwargs:
+            self.properties = kwargs['properties']
+        if 'operations' in kwargs:
+            self.operations = kwargs['operations']
+        if 'generals' in kwargs:
+            self.generals = kwargs['generals']
+        if 'suppliers' in kwargs:
+            self.suppliers = kwargs['suppliers']
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return Classifier._yaml_representer(
+            dumper, value,
+            properties=value.properties or None,
+            operations=value.operations or None,
+            generals=value.generals or None,
+            suppliers=value.suppliers or None,
+        )
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        result = Classifier()
+        yield result
+        result.update(**loader.construct_mapping(node, True))
+
+
+yaml.add_representer(Classifier, Classifier.yaml_representer)
+yaml.add_constructor('!Classifier', Classifier.yaml_constructor)
