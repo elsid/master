@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from unittest import TestCase, main
 from hamcrest import assert_that, calling, raises, equal_to, starts_with
 from uml_matcher.type import Type, repr_multiplicity
@@ -51,6 +52,13 @@ class MakeType(TestCase):
     def test_make_with_wrong_range_should_throw_exception(self):
         assert_that(calling(lambda: Type(mult_lower=1, mult_upper=0)),
                     raises(MultRangeError))
+
+    def test_dump_and_load_yaml_should_succeed(self):
+        obj = Type()
+        data = "!Type {}\n"
+        assert_that(yaml.dump(obj, default_flow_style=False), equal_to(data))
+        assert_that(yaml.load(data), equal_to(obj))
+
 
 if __name__ == '__main__':
     main()

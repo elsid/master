@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from graph_matcher import cached_eq
 from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
@@ -90,3 +91,22 @@ class Type(Element):
 
     def __repr__(self):
         return 'Type(%s)' % repr(self.classifier)
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return Type._yaml_representer(
+            dumper, value,
+            classifier=value.classifier,
+            mult_lower=value.mult_lower if value.mult_lower != 1 else None,
+            mult_upper=value.mult_upper if value.mult_upper != 1 else None,
+            is_ordered=value.is_ordered,
+            is_unique=value.is_unique,
+        )
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        return Type(**loader.construct_mapping(node))
+
+
+yaml.add_representer(Type, Type.yaml_representer)
+yaml.add_constructor('!Type', Type.yaml_constructor)
