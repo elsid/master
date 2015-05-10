@@ -18,7 +18,7 @@ class Property(NamedElement):
                  is_leaf=None,
                  is_read_only=None,
                  is_static=None,
-                 subsetted_properties=tuple(),
+                 subsetted_properties=None,
                  owner=None):
         super(Property, self).__init__(name)
         self.type = type
@@ -30,7 +30,8 @@ class Property(NamedElement):
         self.is_leaf = is_leaf
         self.is_read_only = is_read_only
         self.is_static = is_static
-        self.subsetted_properties = subsetted_properties
+        self.subsetted_properties = (list(subsetted_properties)
+                                     if subsetted_properties else list())
         self.owner = owner
 
     @cached_eq
