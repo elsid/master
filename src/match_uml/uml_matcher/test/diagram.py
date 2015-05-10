@@ -1,11 +1,14 @@
 # coding: utf-8
 
+import yaml
+from os.path import dirname, join
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher import Equivalent
 from patterns import (
     AbstractFactory as AbstractFactoryPattern,
     Decorator as DecoratorPattern,
+    Memento as MementoPattern,
 )
 from uml_matcher.operation import Operation
 from uml_matcher.property import Property
@@ -406,6 +409,59 @@ class ReprDiagram(TestCase):
         assert_that(repr(Decorator().diagram()), equal_to(
             "Diagram((Interface('Component'), Class('ConcreteComponent'), "
             "Interface('Decorator'), Class('ConcreteDecorator')))"))
+
+
+class YamlDiagram(TestCase):
+    def test_yaml_dump(self):
+        assert_that(yaml.dump(Diagram()), equal_to("!Diagram []\n"))
+
+    def test_yaml_load(self):
+        assert_that(yaml.load("!Diagram []\n"), equal_to(Diagram()))
+
+    def test_yaml_dump_abstract_factory_pattern(self):
+        diagram = AbstractFactoryPattern().diagram()
+        file_path = join(dirname(__file__), 'data/abstract_factory.yaml')
+        assert_that(yaml.dump(diagram, default_flow_style=False),
+                    equal_to(open(file_path).read()))
+
+    def test_yaml_load_abstract_factory_pattern(self):
+        diagram = AbstractFactoryPattern().diagram()
+        file_path = join(dirname(__file__), 'data/abstract_factory.yaml')
+        assert_that(yaml.load(open(file_path)), equal_to(diagram))
+
+    def test_yaml_dump_decorator_pattern(self):
+        diagram = DecoratorPattern().diagram()
+        file_path = join(dirname(__file__), 'data/decorator.yaml')
+        assert_that(yaml.dump(diagram, default_flow_style=False),
+                    equal_to(open(file_path).read()))
+
+    def test_yaml_load_decorator_pattern(self):
+        diagram = DecoratorPattern().diagram()
+        file_path = join(dirname(__file__), 'data/decorator.yaml')
+        assert_that(yaml.load(open(file_path)), equal_to(diagram))
+
+    def test_yaml_dump_memento_pattern(self):
+        diagram = MementoPattern().diagram()
+        file_path = join(dirname(__file__), 'data/memento.yaml')
+        assert_that(yaml.dump(diagram, default_flow_style=False),
+                    equal_to(open(file_path).read()))
+
+    def test_yaml_load_memento_pattern(self):
+        diagram = MementoPattern().diagram()
+        file_path = join(dirname(__file__), 'data/memento.yaml')
+        assert_that(yaml.load(open(file_path)), equal_to(diagram))
+
+    def test_yaml_dump_burgers(self):
+        diagram = Burgers().diagram()
+        file_path = join(dirname(__file__), 'data/burgers.yaml')
+        assert_that(yaml.dump(diagram, default_flow_style=False),
+                    equal_to(open(file_path).read()))
+
+    def test_yaml_load_burgers(self):
+        diagram = Burgers().diagram()
+        file_path = join(dirname(__file__), 'data/burgers.yaml')
+        assert_that(yaml.load(open(file_path)), equal_to(diagram))
+
 
 if __name__ == '__main__':
     main()

@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from uml_matcher.match import match, eq_ignore_order, make_graph
 from uml_matcher.classifier import Classifier
 
@@ -33,3 +34,15 @@ class Diagram(object):
     def __repr__(self):
         return 'Diagram(%s)' % (repr(self.classifiers)
                                 if self.classifiers else '')
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return dumper.represent_sequence('!Diagram', value.classifiers)
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        return Diagram(loader.construct_sequence(node))
+
+
+yaml.add_representer(Diagram, Diagram.yaml_representer)
+yaml.add_constructor('!Diagram', Diagram.yaml_constructor)

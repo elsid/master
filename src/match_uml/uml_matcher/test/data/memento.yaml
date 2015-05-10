@@ -1,0 +1,30 @@
+!Diagram
+- !Class
+  name: Caretaker
+  properties:
+  - !Property
+    is_static: false
+    name: memento
+    type: &id002 !Type
+      classifier: &id001 !Class
+        name: Memento
+    visibility: &id003 !Visibility 'public'
+- *id001
+- !Class
+  name: Originator
+  operations:
+  - !Operation
+    is_static: false
+    name: set_memento
+    parameters:
+    - !Parameter
+      direction: !Direction 'in'
+      name: memento
+      type: *id002
+    visibility: *id003
+  - !Operation
+    is_static: false
+    name: create_memento
+    visibility: *id003
+  suppliers:
+  - *id001
