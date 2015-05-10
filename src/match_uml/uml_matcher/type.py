@@ -37,8 +37,8 @@ class Type(Element):
                  classifier=None,
                  mult_lower=1,
                  mult_upper=1,
-                 is_ordered=False,
-                 is_unique=True):
+                 is_ordered=None,
+                 is_unique=None):
         super(Type, self).__init__()
         assert_mult_type(mult_lower, MultLowerTypeError)
         assert_mult_value(mult_lower, NegativeMultLower)
