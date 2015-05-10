@@ -4,6 +4,9 @@ from enum import Enum
 
 
 class Aggregation(Enum):
-    none = 1
-    shared = 2
-    composite = 3
+    none = 'none'
+    shared = 'shared'
+    composite = 'composite'
+
+    def __str__(self):
+        return self.value
