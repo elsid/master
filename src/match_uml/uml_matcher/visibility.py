@@ -4,9 +4,9 @@ from enum import Enum
 
 
 class Visibility(Enum):
-    public = 1
-    protected = 2
-    private = 3
+    public = 'public'
+    protected = 'protected'
+    private = 'private'
 
     def __str__(self):
         if self == Visibility.public:
