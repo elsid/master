@@ -15,5 +15,6 @@ from uml_matcher.test.parameter import MakeParameter
 from uml_matcher.test.aggregation import MakeAggregation
 from uml_matcher.test.primitive_type import MakePrimitiveType
 from uml_matcher.test.enumeration import MakeEnumeration
+from uml_matcher.test.visibility import MakeVisibility
 MakeClass = __import__('uml_matcher.test.class',
                        fromlist=['MakeClass']).MakeClass
