@@ -24,3 +24,8 @@ class NamedElement(Element):
         return (id(self) == id(other)
                 or isinstance(other, NamedElement)
                 and self.name == other.name)
+
+    @staticmethod
+    def _yaml_representer(dumper, value, **kwargs):
+        return Element._yaml_representer(dumper, value, name=str(value.name),
+                                         **kwargs)

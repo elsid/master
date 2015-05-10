@@ -32,3 +32,19 @@ class Parameter(NamedElement):
             type=': %s' % self.type.name if self.type else '',
             direction='%s ' % self.direction if self.direction else '',
         )
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return Parameter._yaml_representer(
+            dumper, value,
+            type=value.type,
+            direction=value.direction,
+        )
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        return Parameter(**loader.construct_mapping(node))
+
+
+yaml.add_representer(Parameter, Parameter.yaml_representer)
+yaml.add_constructor('!Parameter', Parameter.yaml_constructor)
