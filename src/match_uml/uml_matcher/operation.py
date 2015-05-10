@@ -8,7 +8,8 @@ from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Operation(NamedElement):
-    def __init__(self, result,
+    def __init__(self,
+                 result=None,
                  name=None,
                  visibility=None,
                  parameters=tuple(),
