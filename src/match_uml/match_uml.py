@@ -3,6 +3,7 @@
 
 from argparse import ArgumentParser
 from copy import deepcopy
+from sys import stderr
 from java_parser import make_diagram
 from patterns import make_pattern
 
@@ -54,9 +55,9 @@ def load_diagram(source, external_path_list):
     diagram, errors = make_diagram(dirs=[source],
                                    external_path_list=external_path_list)
     if errors:
-        print '\n%s errors:\n' % source
+        print >> stderr, '\n%s errors:\n' % source
     for error in errors:
-        print str(error)
+        print >> stderr, str(error)
     return diagram
 
 
