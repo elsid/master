@@ -7,7 +7,8 @@ from uml_matcher.has_equivalents import has_equivalents
 
 
 class Property(NamedElement):
-    def __init__(self, type,
+    def __init__(self,
+                 type=None,
                  name=None,
                  visibility=None,
                  aggregation=None,
