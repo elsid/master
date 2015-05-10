@@ -13,5 +13,6 @@ from uml_matcher.test.data_type import MakeDataType
 from uml_matcher.test.interface import MakeInterface
 from uml_matcher.test.parameter import MakeParameter
 from uml_matcher.test.aggregation import MakeAggregation
+from uml_matcher.test.primitive_type import MakePrimitiveType
 MakeClass = __import__('uml_matcher.test.class',
                        fromlist=['MakeClass']).MakeClass
