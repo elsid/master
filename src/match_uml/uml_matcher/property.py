@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import yaml
 from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
 from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
@@ -81,3 +82,26 @@ class Property(NamedElement):
             owner='%s::' % self.owner.name if self.owner else '',
             type=': %s' % self.type.name if self.type else '',
         )
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return Property._yaml_representer(
+            dumper, value,
+            type=value.type,
+            visibility=value.visibility,
+            aggregation=value.aggregation,
+            is_derived=value.is_derived,
+            is_derived_union=value.is_derived_union,
+            is_id=value.is_id,
+            is_leaf=value.is_leaf,
+            is_read_only=value.is_read_only,
+            is_static=value.is_static,
+            subsetted_properties=value.subsetted_properties or None,
+        )
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        return Property(**loader.construct_mapping(node, True))
+
+yaml.add_representer(Property, Property.yaml_representer)
+yaml.add_constructor('!Property', Property.yaml_constructor)
