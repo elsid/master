@@ -13,12 +13,7 @@ from patterns import make_pattern
 def main():
     args = parse_args()
     target = make_target_diagram(args)
-    print '\ntarget\n'
-    print target
     pattern = make_pattern_diagram(args, target)
-    print '\npattern\n'
-    print pattern
-    print '\nmatch\n'
     print target.match(pattern, args.limit)
 
 
