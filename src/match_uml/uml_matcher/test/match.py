@@ -4,10 +4,10 @@ from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, calling, raises
 from itertools import permutations
 from graph_matcher import Equivalent
-from patterns.cached_method import cached_method
 from uml_matcher import Class, Diagram
 from uml_matcher.errors import CheckVariantFailed
 from uml_matcher.match import eq_ignore_order, check, MatchVariant, MatchResult
+from uml_matcher.cached_method import cached_method
 
 
 class EqIgnoreOrder(TestCase):
