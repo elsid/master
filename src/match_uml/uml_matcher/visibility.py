@@ -10,7 +10,7 @@ class Visibility(Enum):
 
     def __str__(self):
         if self == Visibility.public:
-            return ''
+            return '+'
         elif self == Visibility.protected:
             return '#'
         elif self == Visibility.private:
