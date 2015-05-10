@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import yaml
 from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
 from uml_matcher.has_equivalents import has_equivalents
@@ -61,3 +62,23 @@ class Operation(NamedElement):
                     is_static=' static' if self.is_static else '',
                     owner='%s::' % self.owner.name if self.owner else '',
                 ))
+
+    @staticmethod
+    def yaml_representer(dumper, value):
+        return Operation._yaml_representer(
+            dumper, value,
+            result=value.result,
+            visibility=value.visibility,
+            parameters=value.parameters or None,
+            is_leaf=value.is_leaf,
+            is_query=value.is_query,
+            is_static=value.is_static,
+        )
+
+    @staticmethod
+    def yaml_constructor(loader, node):
+        return Operation(**loader.construct_mapping(node, True))
+
+
+yaml.add_representer(Operation, Operation.yaml_representer)
+yaml.add_constructor('!Operation', Operation.yaml_constructor)
