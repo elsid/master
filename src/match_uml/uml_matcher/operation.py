@@ -12,7 +12,7 @@ class Operation(NamedElement):
                  result=None,
                  name=None,
                  visibility=None,
-                 parameters=tuple(),
+                 parameters=None,
                  is_leaf=None,
                  is_query=None,
                  is_static=None,
@@ -20,7 +20,7 @@ class Operation(NamedElement):
         super(Operation, self).__init__(name)
         self.visibility = visibility
         self.result = result
-        self.parameters = parameters
+        self.parameters = list(parameters) if parameters else list()
         self.is_leaf = is_leaf
         self.is_query = is_query
         self.is_static = is_static
