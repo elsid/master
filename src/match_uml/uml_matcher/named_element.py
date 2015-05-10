@@ -4,9 +4,15 @@ from uml_matcher.element import Element
 
 
 class NamedElement(Element):
+    __next_number = 0
+
     def __init__(self, name):
         super(NamedElement, self).__init__()
-        self.name = name
+        if name:
+            self.name = name
+        else:
+            self.name = 'anonymous_%d' % NamedElement.__next_number
+            NamedElement.__next_number += 1
 
     def __str__(self):
         return 'named element %s' % self.name

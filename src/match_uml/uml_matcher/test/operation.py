@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, starts_with, ends_with
 from uml_matcher.operation import Operation
 from uml_matcher.type import Type
 Class = __import__('uml_matcher.class', fromlist=['Class']).Class
@@ -13,7 +13,8 @@ class MakeOperation(TestCase):
                     equal_to(True))
 
     def test_str_should_succeed(self):
-        assert_that(str(Operation(None)), equal_to('anonymous()'))
+        assert_that(str(Operation(None)),
+                    starts_with('anonymous_') and ends_with('()'))
         assert_that(str(Operation(Type(Class('A')), 'f', owner=Class('B'))),
                     equal_to('B::f(): A'))
 

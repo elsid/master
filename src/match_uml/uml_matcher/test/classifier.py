@@ -13,7 +13,8 @@ class MakeClassifier(TestCase):
                     equal_to(True))
 
     def test_eq_empty_should_succeed(self):
-        assert_that(Classifier(), equal_to(Classifier()))
+        assert_that(Classifier(), not equal_to(Classifier()))
+        assert_that(Classifier('A'), equal_to(Classifier('A')))
 
     def test_eq_with_property_should_succeed(self):
         assert_that(

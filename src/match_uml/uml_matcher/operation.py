@@ -9,7 +9,7 @@ from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 class Operation(NamedElement):
     def __init__(self, result,
-                 name='anonymous',
+                 name=None,
                  visibility=None,
                  parameters=tuple(),
                  is_leaf=None,

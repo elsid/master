@@ -7,7 +7,7 @@ from uml_matcher.match import eq_ignore_order
 
 
 class Classifier(NamedElement):
-    def __init__(self, name='anonymous', properties=None,
+    def __init__(self, name=None, properties=None,
                  operations=None, generals=None, suppliers=None):
         super(Classifier, self).__init__(name)
         self.__properties = list(properties) if properties else []

@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, calling, raises, equal_to
+from hamcrest import assert_that, calling, raises, equal_to, starts_with
 from uml_matcher.type import Type, repr_multiplicity
 from uml_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
@@ -28,10 +28,12 @@ class MakeType(TestCase):
                     equal_to(True))
 
     def test_eq_should_succeed(self):
-        assert_that(Type(Class()), equal_to(Type(Class())))
+        assert_that(Type(Class()), not equal_to(Type(Class())))
+        assert_that(Type(Class('A')), equal_to(Type(Class('A'))))
 
     def test_str_should_succeed(self):
-        assert_that(str(Type(Class())), equal_to('type of class anonymous'))
+        assert_that(str(Type(Class())),
+                    starts_with('type of class anonymous_'))
         assert_that(str(Type(Class('A'))), equal_to('type of class A'))
 
     def test_make_with_wrong_lower_should_throw_exception(self):

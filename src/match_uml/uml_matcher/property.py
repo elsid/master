@@ -8,7 +8,7 @@ from uml_matcher.has_equivalents import has_equivalents
 
 class Property(NamedElement):
     def __init__(self, type,
-                 name='anonymous',
+                 name=None,
                  visibility=None,
                  aggregation=None,
                  is_derived=None,

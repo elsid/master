@@ -1,13 +1,13 @@
 # coding: utf-8
 
+import yaml
 from graph_matcher import cached_eq
 from uml_matcher.named_element import NamedElement
-from uml_matcher.direction import Direction
 from uml_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
 
 
 class Parameter(NamedElement):
-    def __init__(self, type, name='anonymous', direction=None):
+    def __init__(self, type, name=None, direction=None):
         super(Parameter, self).__init__(name)
         self.type = type
         self.direction = direction
