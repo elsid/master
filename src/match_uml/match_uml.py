@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+import yaml
 from argparse import ArgumentParser
 from copy import deepcopy
 from sys import stderr
+from os.path import isfile
 from java_parser import make_diagram
 from patterns import make_pattern
 
@@ -28,7 +30,7 @@ def parse_args():
                         action='append', default=[])
     parser.add_argument('-b', '--builtin_target', action='store_true',
                         default=False)
-    parser.add_argument('-j', '--java_pattern', action='store_true',
+    parser.add_argument('-e', '--external_pattern', action='store_true',
                         default=False)
     parser.add_argument('-l', '--limit', type=int, default=None)
     return parser.parse_args()
@@ -42,16 +44,19 @@ def make_target_diagram(args):
 
 
 def make_pattern_diagram(args, target):
-    if args.target == args.pattern and args.builtin_target != args.java_pattern:
+    if (args.target == args.pattern
+            and args.builtin_target != args.external_pattern):
         return deepcopy(target)
     else:
-        if args.java_pattern:
+        if args.external_pattern:
             return load_diagram(args.pattern, args.external_path_list)
         else:
             return make_pattern(args.pattern)
 
 
 def load_diagram(source, external_path_list):
+    if isfile(source) and source.endswith('.yaml'):
+        return yaml.load(open(source))
     diagram, errors = make_diagram(dirs=[source],
                                    external_path_list=external_path_list)
     if errors:
