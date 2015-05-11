@@ -1,0 +1,41 @@
+!Model
+- &id001 !Interface
+  name: Component
+  operations:
+  - !Operation
+    is_static: false
+    name: operation
+    visibility: &id002 !Visibility 'public'
+- !Class
+  generals:
+  - *id001
+  name: ConcreteComponent
+  operations:
+  - !Operation
+    is_static: false
+    name: operation
+    visibility: *id002
+- &id003 !Interface
+  generals:
+  - *id001
+  name: Decorator
+  operations:
+  - !Operation
+    is_static: false
+    name: operation
+    visibility: *id002
+  properties:
+  - !Property
+    is_static: false
+    name: component
+    type: !Type
+      classifier: *id001
+- !Class
+  generals:
+  - *id003
+  name: ConcreteDecorator
+  operations:
+  - !Operation
+    is_static: false
+    name: operation
+    visibility: *id002

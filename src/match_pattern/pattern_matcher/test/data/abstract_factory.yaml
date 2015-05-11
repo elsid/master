@@ -1,0 +1,31 @@
+!Model
+- !Class
+  name: Client
+  suppliers:
+  - &id002 !Interface
+    name: AbstractFactory
+    operations:
+    - !Operation
+      is_static: false
+      name: create
+      result: &id003 !Type
+        classifier: &id001 !Interface
+          name: AbstractProduct
+      visibility: &id004 !Visibility 'public'
+  - *id001
+- *id002
+- *id001
+- !Class
+  generals:
+  - *id002
+  name: ConcreteFactory
+  operations:
+  - !Operation
+    is_static: false
+    name: create
+    result: *id003
+    visibility: *id004
+- !Class
+  generals:
+  - *id001
+  name: ConcreteProduct
