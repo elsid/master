@@ -23,8 +23,7 @@ class Visibility(Enum):
 
     @staticmethod
     def yaml_constructor(loader, node):
-        value = loader.construct_scalar(node)
-        return Visibility(value)
+        return Visibility(loader.construct_scalar(node).lower())
 
 
 yaml.add_representer(Visibility, Visibility.yaml_representer)

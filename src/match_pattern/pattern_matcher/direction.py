@@ -18,8 +18,7 @@ class Direction(Enum):
 
     @staticmethod
     def yaml_constructor(loader, node):
-        value = loader.construct_scalar(node)
-        return Direction(value)
+        return Direction(loader.construct_scalar(node).lower())
 
 
 yaml.add_representer(Direction, Direction.yaml_representer)

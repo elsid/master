@@ -18,8 +18,7 @@ class Aggregation(Enum):
 
     @staticmethod
     def yaml_constructor(loader, node):
-        value = loader.construct_scalar(node)
-        return Aggregation(value)
+        return Aggregation(loader.construct_scalar(node).lower())
 
 
 yaml.add_representer(Aggregation, Aggregation.yaml_representer)

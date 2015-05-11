@@ -27,6 +27,12 @@ class MakeVisibility(TestCase):
                     equal_to(Visibility.PROTECTED))
         assert_that(yaml.load("!Visibility 'private'\n"),
                     equal_to(Visibility.PRIVATE))
+        assert_that(yaml.load("!Visibility 'PUBLIC'\n"),
+                    equal_to(Visibility.PUBLIC))
+        assert_that(yaml.load("!Visibility 'PROTECTED'\n"),
+                    equal_to(Visibility.PROTECTED))
+        assert_that(yaml.load("!Visibility 'PRIVATE'\n"),
+                    equal_to(Visibility.PRIVATE))
 
 
 if __name__ == '__main__':
