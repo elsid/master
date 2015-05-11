@@ -14,20 +14,11 @@ class Equivalent(namedtuple('Equivalent', ('target', 'pattern'))):
 
 
 class EndType(Enum):
-    INCOMING = 1
-    OUTGOING = 2
+    INCOMING = 'incoming'
+    OUTGOING = 'outgoing'
 
     def __str__(self):
-        if self == EndType.INCOMING:
-            return 'incoming'
-        elif self == EndType.OUTGOING:
-            return 'outgoing'
-
-    def __repr__(self):
-        if self == EndType.INCOMING:
-            return 'EndType.incoming'
-        elif self == EndType.OUTGOING:
-            return 'EndType.outgoing'
+        return self.value
 
 
 class Configuration(object):
