@@ -85,6 +85,7 @@ HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
 PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
 TypeIs = namedtuple('TypeIs', ('classifier', 'type'))
+Invocation = namedtuple('Invocation', ('invoker', 'invoked'))
 
 
 def make_graph(model):
@@ -104,6 +105,8 @@ def make_graph(model):
                 if operation.result:
                     yield OperationResult(operation, operation.result)
                     yield TypeIs(operation.result, operation.result.classifier)
+                for invocation in operation.invocations:
+                    yield Invocation(operation, invocation)
 
     return Graph(generate())
 

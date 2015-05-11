@@ -17,6 +17,7 @@ class Operation(NamedElement):
                  is_leaf=None,
                  is_query=None,
                  is_static=None,
+                 invocations=None,
                  owner=None):
         super(Operation, self).__init__(name)
         self.visibility = visibility
@@ -25,6 +26,7 @@ class Operation(NamedElement):
         self.is_leaf = is_leaf
         self.is_query = is_query
         self.is_static = is_static
+        self.invocations = list(invocations) if invocations else list()
         self.owner = owner
 
     @cached_eq
@@ -73,6 +75,7 @@ class Operation(NamedElement):
             is_leaf=value.is_leaf,
             is_query=value.is_query,
             is_static=value.is_static,
+            invocations=value.invocations or None,
         )
 
     @staticmethod
