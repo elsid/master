@@ -5,9 +5,9 @@ from enum import Enum
 
 
 class Direction(Enum):
-    in_ = 'in'
-    out = 'out'
-    inout = 'inout'
+    IN = 'in'
+    OUT = 'out'
+    INOUT = 'inout'
 
     def __str__(self):
         return self.value

@@ -8,25 +8,25 @@ from pattern_matcher.aggregation import Aggregation
 
 class MakeAggregation(TestCase):
     def test_make(self):
-        assert_that(str(Aggregation.none), equal_to('none'))
-        assert_that(str(Aggregation.shared), equal_to('shared'))
-        assert_that(str(Aggregation.composite), equal_to('composite'))
+        assert_that(str(Aggregation.NONE), equal_to('none'))
+        assert_that(str(Aggregation.SHARED), equal_to('shared'))
+        assert_that(str(Aggregation.COMPOSITE), equal_to('composite'))
 
     def test_yaml_dump(self):
-        assert_that(yaml.dump(Aggregation.none),
+        assert_that(yaml.dump(Aggregation.NONE),
                     equal_to("!Aggregation 'none'\n"))
-        assert_that(yaml.dump(Aggregation.shared),
+        assert_that(yaml.dump(Aggregation.SHARED),
                     equal_to("!Aggregation 'shared'\n"))
-        assert_that(yaml.dump(Aggregation.composite),
+        assert_that(yaml.dump(Aggregation.COMPOSITE),
                     equal_to("!Aggregation 'composite'\n"))
 
     def test_yaml_load(self):
         assert_that(yaml.load("!Aggregation 'none'\n"),
-                    equal_to(Aggregation.none))
+                    equal_to(Aggregation.NONE))
         assert_that(yaml.load("!Aggregation 'shared'\n"),
-                    equal_to(Aggregation.shared))
+                    equal_to(Aggregation.SHARED))
         assert_that(yaml.load("!Aggregation 'composite'\n"),
-                    equal_to(Aggregation.composite))
+                    equal_to(Aggregation.COMPOSITE))
 
 
 if __name__ == '__main__':

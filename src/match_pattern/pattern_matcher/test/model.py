@@ -77,7 +77,7 @@ class Burgers(object):
 
     @staticmethod
     def _price():
-        return Operation(Burgers.INT_TYPE, 'price', Visibility.public,
+        return Operation(Burgers.INT_TYPE, 'price', Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method
@@ -118,7 +118,7 @@ class Burgers(object):
 
     @cached_method
     def hamburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+        return Property(self.cutlet_type(), 'cutlet', Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
@@ -136,12 +136,12 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet', Visibility.public,
+        return Property(self.cutlet_type(), 'cutlet', Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
     def cheeseburger_cheese(self):
-        return Property(self.cheese_type(), 'cheese', Visibility.public,
+        return Property(self.cheese_type(), 'cheese', Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
@@ -161,7 +161,7 @@ class Burgers(object):
 
     @cached_method
     def burger_with_burger(self):
-        return Property(self.burger_type(), 'burger', Visibility.public,
+        return Property(self.burger_type(), 'burger', Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
@@ -197,7 +197,7 @@ class Burgers(object):
 class BukkitExample(object):
     def _create(self):
         return Operation(self.command_sender_type(), 'create',
-                         Visibility.public, is_static=False)
+                         Visibility.PUBLIC, is_static=False)
 
     @cached_method
     def command_create(self):

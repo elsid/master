@@ -27,7 +27,7 @@ class MakeParameter(TestCase):
         assert_that(yaml.load(data), equal_to(obj))
 
     def test_dump_and_load_yaml_with_name_and_direction_should_succeed(self):
-        obj = Parameter(name='a', direction=Direction.in_)
+        obj = Parameter(name='a', direction=Direction.IN)
         data = "!Parameter {direction: !Direction 'in', name: a}\n"
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))

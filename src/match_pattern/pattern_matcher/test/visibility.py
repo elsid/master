@@ -8,25 +8,25 @@ from pattern_matcher.visibility import Visibility
 
 class MakeVisibility(TestCase):
     def test_make(self):
-        assert_that(str(Visibility.public), equal_to('+'))
-        assert_that(str(Visibility.protected), equal_to('#'))
-        assert_that(str(Visibility.private), equal_to('-'))
+        assert_that(str(Visibility.PUBLIC), equal_to('+'))
+        assert_that(str(Visibility.PROTECTED), equal_to('#'))
+        assert_that(str(Visibility.PRIVATE), equal_to('-'))
 
     def test_yaml_dump(self):
-        assert_that(yaml.dump(Visibility.public),
+        assert_that(yaml.dump(Visibility.PUBLIC),
                     equal_to("!Visibility 'public'\n"))
-        assert_that(yaml.dump(Visibility.protected),
+        assert_that(yaml.dump(Visibility.PROTECTED),
                     equal_to("!Visibility 'protected'\n"))
-        assert_that(yaml.dump(Visibility.private),
+        assert_that(yaml.dump(Visibility.PRIVATE),
                     equal_to("!Visibility 'private'\n"))
 
     def test_yaml_load(self):
         assert_that(yaml.load("!Visibility 'public'\n"),
-                    equal_to(Visibility.public))
+                    equal_to(Visibility.PUBLIC))
         assert_that(yaml.load("!Visibility 'protected'\n"),
-                    equal_to(Visibility.protected))
+                    equal_to(Visibility.PROTECTED))
         assert_that(yaml.load("!Visibility 'private'\n"),
-                    equal_to(Visibility.private))
+                    equal_to(Visibility.PRIVATE))
 
 
 if __name__ == '__main__':

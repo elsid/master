@@ -5,16 +5,16 @@ from enum import Enum
 
 
 class Visibility(Enum):
-    public = 'public'
-    protected = 'protected'
-    private = 'private'
+    PUBLIC = 'public'
+    PROTECTED = 'protected'
+    PRIVATE = 'private'
 
     def __str__(self):
-        if self == Visibility.public:
+        if self == Visibility.PUBLIC:
             return '+'
-        elif self == Visibility.protected:
+        elif self == Visibility.PROTECTED:
             return '#'
-        elif self == Visibility.private:
+        elif self == Visibility.PRIVATE:
             return '-'
 
     @staticmethod

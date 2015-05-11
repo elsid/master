@@ -23,18 +23,18 @@ class Memento(object):
 
     @cached_method
     def caretaker_memento(self):
-        return Property(self.memento_type(), 'memento', Visibility.public,
+        return Property(self.memento_type(), 'memento', Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
     def originator_set_memento(self):
-        return Operation(None, 'set_memento', Visibility.public, [
-            Parameter(self.memento_type(), 'memento', Direction.in_)
+        return Operation(None, 'set_memento', Visibility.PUBLIC, [
+            Parameter(self.memento_type(), 'memento', Direction.IN)
         ], is_static=False)
 
     @cached_method
     def originator_create_memento(self):
-        return Operation(None, 'create_memento', Visibility.public,
+        return Operation(None, 'create_memento', Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method

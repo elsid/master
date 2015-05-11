@@ -133,9 +133,9 @@ def check(equivalents, raise_if_false=True):
 
         for tk, tv in equivalent.target.connections.iteritems():
             if connection_color == tk:
-                if end_type == EndType.incoming:
+                if end_type == EndType.INCOMING:
                     return has_equivalent(tv.incoming)
-                elif end_type == EndType.outgoing:
+                elif end_type == EndType.OUTGOING:
                     return has_equivalent(tv.outgoing)
 
     def check_pattern_nodes(connection_color, end_type, nodes):
@@ -157,9 +157,9 @@ def check(equivalents, raise_if_false=True):
 
     for equivalent in equivalents:
         for pk, pv in equivalent.pattern.connections.iteritems():
-            if not check_pattern_nodes(pk, EndType.incoming, pv.incoming):
+            if not check_pattern_nodes(pk, EndType.INCOMING, pv.incoming):
                 return False
-            if not check_pattern_nodes(pk, EndType.outgoing, pv.outgoing):
+            if not check_pattern_nodes(pk, EndType.OUTGOING, pv.outgoing):
                 return False
     return True
 

@@ -18,11 +18,11 @@ PRIMITIVE_TYPES = frozenset(('void', 'byte', 'short', 'int', 'long', 'float',
 
 def get_visibility(declaration):
     if 'public' in declaration.modifiers:
-        return Visibility.public
+        return Visibility.PUBLIC
     elif 'protected' in declaration.modifiers:
-        return Visibility.protected
+        return Visibility.PROTECTED
     else:
-        return Visibility.private
+        return Visibility.PRIVATE
 
 
 def has_duplications(values):
@@ -211,7 +211,7 @@ class ClassifiersMembersFactory(Visitor):
                 type=self.__get_classifier_type(
                     FormalParameterType(declaration)),
                 name=declaration.variable.name,
-                direction=Direction.in_,
+                direction=Direction.IN,
             ))
             return True
 

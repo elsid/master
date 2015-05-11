@@ -37,7 +37,7 @@ class ChainOfResponsibility(object):
 
     @cached_method
     def handle_request(self):
-        return Operation(None, 'handle_request', Visibility.public,
+        return Operation(None, 'handle_request', Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method

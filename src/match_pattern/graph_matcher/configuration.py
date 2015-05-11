@@ -14,19 +14,19 @@ class Equivalent(namedtuple('Equivalent', ('target', 'pattern'))):
 
 
 class EndType(Enum):
-    incoming = 1
-    outgoing = 2
+    INCOMING = 1
+    OUTGOING = 2
 
     def __str__(self):
-        if self == EndType.incoming:
+        if self == EndType.INCOMING:
             return 'incoming'
-        elif self == EndType.outgoing:
+        elif self == EndType.OUTGOING:
             return 'outgoing'
 
     def __repr__(self):
-        if self == EndType.incoming:
+        if self == EndType.INCOMING:
             return 'EndType.incoming'
-        elif self == EndType.outgoing:
+        elif self == EndType.OUTGOING:
             return 'EndType.outgoing'
 
 
@@ -78,9 +78,9 @@ class Configuration(object):
             def connections(neighbor, visited):
                 for color, connection in visited.connections.iteritems():
                     if neighbor in connection.incoming:
-                        yield (color, EndType.incoming)
+                        yield (color, EndType.INCOMING)
                     if neighbor in connection.outgoing:
-                        yield (color, EndType.outgoing)
+                        yield (color, EndType.OUTGOING)
 
             def is_valid(e):
                 return (frozenset(connections(pattern, e.pattern))

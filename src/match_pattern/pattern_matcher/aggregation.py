@@ -5,9 +5,9 @@ from enum import Enum
 
 
 class Aggregation(Enum):
-    none = 'none'
-    shared = 'shared'
-    composite = 'composite'
+    NONE = 'none'
+    SHARED = 'shared'
+    COMPOSITE = 'composite'
 
     def __str__(self):
         return self.value

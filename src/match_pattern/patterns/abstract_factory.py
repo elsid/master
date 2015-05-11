@@ -39,7 +39,7 @@ class AbstractFactory(object):
 
     def _create(self):
         return Operation(self.abstract_product_type(), 'create',
-                         Visibility.public, is_static=False)
+                         Visibility.PUBLIC, is_static=False)
 
     @cached_method
     def client(self):
