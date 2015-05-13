@@ -15,12 +15,6 @@ class Interface(Classifier):
     def __str__(self):
         return 'interface %s' % self.name
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        result = Interface()
-        yield result
-        result.update(**loader.construct_mapping(node, True))
-
 
 yaml.add_representer(Interface, Interface.yaml_representer)
 yaml.add_constructor('!Interface', Interface.yaml_constructor)

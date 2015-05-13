@@ -78,10 +78,6 @@ class Operation(NamedElement):
             invocations=value.invocations or None,
         )
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        return Operation(**loader.construct_mapping(node, True))
-
 
 yaml.add_representer(Operation, Operation.yaml_representer)
 yaml.add_constructor('!Operation', Operation.yaml_constructor)

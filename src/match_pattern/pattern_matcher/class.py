@@ -15,12 +15,6 @@ class Class(Classifier):
     def __str__(self):
         return 'class %s' % self.name
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        result = Class()
-        yield result
-        result.update(**loader.construct_mapping(node, True))
-
 
 yaml.add_representer(Class, Class.yaml_representer)
 yaml.add_constructor('!Class', Class.yaml_constructor)

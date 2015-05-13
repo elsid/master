@@ -15,12 +15,6 @@ class Enumeration(Classifier):
     def __str__(self):
         return 'enumeration %s' % self.name
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        result = Enumeration()
-        yield result
-        result.update(**loader.construct_mapping(node, True))
-
 
 yaml.add_representer(Enumeration, Enumeration.yaml_representer)
 yaml.add_constructor('!Enumeration', Enumeration.yaml_constructor)

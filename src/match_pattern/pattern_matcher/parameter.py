@@ -41,10 +41,6 @@ class Parameter(NamedElement):
             direction=value.direction,
         )
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        return Parameter(**loader.construct_mapping(node))
-
 
 yaml.add_representer(Parameter, Parameter.yaml_representer)
 yaml.add_constructor('!Parameter', Parameter.yaml_constructor)

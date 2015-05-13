@@ -103,10 +103,6 @@ class Type(Element):
             is_unique=value.is_unique,
         )
 
-    @staticmethod
-    def yaml_constructor(loader, node):
-        return Type(**loader.construct_mapping(node))
-
 
 yaml.add_representer(Type, Type.yaml_representer)
 yaml.add_constructor('!Type', Type.yaml_constructor)

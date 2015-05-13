@@ -62,18 +62,6 @@ class Classifier(NamedElement):
     def __str__(self):
         return 'classifier %s' % self.name
 
-    def update(self, **kwargs):
-        if 'name' in kwargs:
-            self.name = kwargs['name']
-        if 'properties' in kwargs:
-            self.properties = kwargs['properties']
-        if 'operations' in kwargs:
-            self.operations = kwargs['operations']
-        if 'generals' in kwargs:
-            self.generals = kwargs['generals']
-        if 'suppliers' in kwargs:
-            self.suppliers = kwargs['suppliers']
-
     @staticmethod
     def yaml_representer(dumper, value):
         return Classifier._yaml_representer(
@@ -83,12 +71,6 @@ class Classifier(NamedElement):
             generals=value.generals or None,
             suppliers=value.suppliers or None,
         )
-
-    @staticmethod
-    def yaml_constructor(loader, node):
-        result = Classifier()
-        yield result
-        result.update(**loader.construct_mapping(node, True))
 
 
 yaml.add_representer(Classifier, Classifier.yaml_representer)
