@@ -244,17 +244,7 @@ class AmbiguousTypeName(TypeNameError):
         return '\n'.join('%s"%s"' % (4 * ' ', x) for x in self.candidates)
 
 
-class InvalidDirPath(Exception):
+class InvalidPath(Exception):
     def __init__(self, path):
-        super(InvalidDirPath, self).__init__('invalid dir path: "%s"' % path)
-
-
-class InvalidFilePath(Exception):
-    def __init__(self, path):
-        super(InvalidFilePath, self).__init__('invalid file path: "%s"' % path)
-
-
-class InvalidExternalPath(Exception):
-    def __init__(self, path):
-        super(InvalidExternalPath, self).__init__(
-            'invalid external path: "%s"' % path)
+        super(InvalidPath, self).__init__(
+            'invalid path: "%s"' % path)

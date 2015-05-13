@@ -9,8 +9,7 @@ from java_parser import (
     make_dependencies)
 from java_parser.external_classifiers import find_files
 
-from java_parser.errors import (
-    InvalidDirPath, InvalidFilePath, InvalidExternalPath, PlyjSyntaxError)
+from java_parser.errors import InvalidPath, PlyjSyntaxError
 
 
 def find_java_files(path):
@@ -19,18 +18,13 @@ def find_java_files(path):
 
 class ModelFactory(object):
     errors = None
-    files = None
     trees = None
     classifiers = None
     types = None
 
-    def __init__(self, dirs=None, files=None, trees=None,
-                 external_path_list=None):
-        assert_dirs(dirs)
-        assert_files(files)
-        assert_external_path_list(external_path_list)
-        self.dirs = list(dirs) if dirs else []
-        self.files = list(files) if files else []
+    def __init__(self, path_list=None, trees=None, external_path_list=None):
+        self.path_list = list(path_list) if path_list else []
+        self.files = []
         self.trees = list(trees) if trees else []
         self.external_path_list = (list(external_path_list)
                                    if external_path_list else [])
@@ -50,8 +44,13 @@ class ModelFactory(object):
         return Model(t.classifier for t in self.types.itervalues())
 
     def __find_files(self):
-        for dir_path in self.dirs:
-            self.files += list(find_java_files(dir_path))
+        for path in self.path_list:
+            if isdir(path):
+                self.files += list(find_java_files(path))
+            elif isfile(path):
+                self.files.append(path)
+            else:
+                raise InvalidPath(path)
 
     def __parse_file(self, file_path):
         parser = Parser()
@@ -101,28 +100,7 @@ class ModelFactory(object):
             make_dependencies(tree, self.types)
 
 
-def assert_dirs(dirs):
-    if dirs:
-        for path in dirs:
-            if not isdir(path):
-                raise InvalidDirPath(path)
-
-
-def assert_files(files):
-    if files:
-        for path in files:
-            if not isfile(path):
-                raise InvalidFilePath(path)
-
-
-def assert_external_path_list(external_path_list):
-    if external_path_list:
-        for path in external_path_list:
-            if not isdir(path) and not isfile(path):
-                raise InvalidExternalPath(path)
-
-
-def make_model(dirs=None, files=None, trees=None, external_path_list=None):
-    factory = ModelFactory(dirs, files, trees, external_path_list)
+def make_model(path_list=None, trees=None, external_path_list=None):
+    factory = ModelFactory(path_list, trees, external_path_list)
     model = factory.product()
     return model, factory.errors

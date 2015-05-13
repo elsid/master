@@ -30,3 +30,7 @@ def make_pattern(name):
     if name not in patterns:
         raise InvalidPatternName(name)
     return patterns[name]().create()
+
+
+def names():
+    return (pattern.__name__ for pattern in PATTERNS)

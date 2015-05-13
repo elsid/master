@@ -104,7 +104,7 @@ class MakeModel(TestCaseWithParser):
 
     def test_parse_with_syntax_errors_should_return_errors(self):
         file_path = join(dirname(__file__), 'java/syntax_errors.java')
-        model, errors = make_model(files=[file_path])
+        model, errors = make_model([file_path])
         assert_that(errors, equal_to([
             PlyjSyntaxError(file_path, "LexToken(NUM,'42',2,21)")]))
         assert_that(model, equal_to(Model()))
