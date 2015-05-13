@@ -47,8 +47,7 @@ class Property(NamedElement):
                 and eq_pattern(self.is_read_only, pattern.is_read_only)
                 and eq_pattern(self.is_static, pattern.is_static)
                 and has_equivalents(self.subsetted_properties,
-                                    pattern.subsetted_properties)
-                and sub_equiv_pattern(self.type, pattern.type))
+                                    pattern.subsetted_properties))
 
     @cached_eq
     def equiv_pattern(self, pattern):

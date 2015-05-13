@@ -3,7 +3,6 @@
 import yaml
 from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
-from pattern_matcher.has_equivalents import has_equivalents
 from pattern_matcher.match import eq_ignore_order
 
 
@@ -48,9 +47,7 @@ class Classifier(NamedElement):
 
     @cached_eq
     def equiv_pattern(self, pattern):
-        return (isinstance(pattern, Classifier)
-                and has_equivalents(self.__properties, pattern.__properties)
-                and has_equivalents(self.__operations, pattern.__operations))
+        return isinstance(pattern, Classifier)
 
     def __eq__(self, other):
         return (id(self) == id(other)

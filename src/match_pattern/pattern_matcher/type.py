@@ -5,7 +5,7 @@ from graph_matcher import cached_eq
 from pattern_matcher.errors import (
     MultLowerTypeError, MultUpperTypeError, NegativeMultLower,
     NegativeMultUpper, MultRangeError)
-from pattern_matcher.eq_pattern import eq_pattern, equiv_pattern
+from pattern_matcher.eq_pattern import eq_pattern
 from pattern_matcher.element import Element
 
 
@@ -57,7 +57,6 @@ class Type(Element):
     @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Type)
-                and equiv_pattern(self.classifier, pattern.classifier)
                 and self.equiv_pattern_mult_range(pattern)
                 and eq_pattern(self.is_ordered, pattern.is_ordered)
                 and eq_pattern(self.is_unique, pattern.is_unique))
