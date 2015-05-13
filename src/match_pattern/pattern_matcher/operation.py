@@ -18,6 +18,7 @@ class Operation(NamedElement):
                  is_query=None,
                  is_static=None,
                  invocations=None,
+                 overridden=None,
                  owner=None):
         super(Operation, self).__init__(name)
         self.visibility = visibility
@@ -27,6 +28,7 @@ class Operation(NamedElement):
         self.is_query = is_query
         self.is_static = is_static
         self.invocations = list(invocations) if invocations else list()
+        self.overridden = overridden
         self.owner = owner
 
     @cached_eq
@@ -76,6 +78,7 @@ class Operation(NamedElement):
             is_query=value.is_query,
             is_static=value.is_static,
             invocations=value.invocations or None,
+            overridden=value.overridden,
         )
 
 

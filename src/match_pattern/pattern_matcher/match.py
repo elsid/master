@@ -86,6 +86,7 @@ PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
 TypeIs = namedtuple('TypeIs', ('classifier', 'type'))
 Invocation = namedtuple('Invocation', ('invoker', 'invoked'))
+Overriding = namedtuple('Overriding', ('override', 'overridden'))
 
 
 def make_graph(model):
@@ -107,6 +108,8 @@ def make_graph(model):
                     yield TypeIs(operation.result, operation.result.classifier)
                 for invocation in operation.invocations:
                     yield Invocation(operation, invocation)
+                if operation.overridden:
+                    yield Overriding(operation, operation.overridden)
 
     return Graph(generate())
 
