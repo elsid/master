@@ -287,7 +287,8 @@ class FillClassifiers(TestCaseWithParser):
         types, errors = fill_classifiers(tree, classifiers)
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
-            'error: redeclaration of method "-f(in x: int): void" in class "A"')
+            'error: redeclaration of method "-A::f(in x: int): void" in class '
+            '"A"')
         )
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
@@ -390,8 +391,8 @@ class FillClassifiers(TestCaseWithParser):
         class_type = Type(Class('Class', operations=[
             Operation(VOID_TYPE, 'f', Visibility.PUBLIC, is_static=False),
         ]))
-        class_type.classifier.properties.append(
-            Property(class_type, 'value', Visibility.PRIVATE, is_static=False))
+        class_type.classifier.properties = [
+            Property(class_type, 'value', Visibility.PRIVATE, is_static=False)]
         assert_that(classifiers, equal_to({
             'Class': class_type.classifier,
             'void': VOID_TYPE.classifier,

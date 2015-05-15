@@ -174,9 +174,10 @@ class ClassifiersMembersFactory(Visitor):
     def visit_MethodDeclaration(self, declaration):
         if self.__current_operation():
             return False
+        classifier = self.__current_classifier()
         if has_duplications(declaration.modifiers):
-            self.errors.append(MethodModifiersDuplication(
-                self.__current_classifier(), declaration))
+            self.errors.append(MethodModifiersDuplication(classifier,
+                                                          declaration))
             return False
         self.__set_operation(Operation(
             name=declaration.name,
@@ -184,6 +185,7 @@ class ClassifiersMembersFactory(Visitor):
             result=self.__get_classifier_type(MethodReturnType(declaration)),
             parameters=[],
             is_static='static' in declaration.modifiers,
+            owner=classifier,
         ))
         return True
 
