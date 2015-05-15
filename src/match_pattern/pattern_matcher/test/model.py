@@ -242,7 +242,7 @@ class BukkitExample(object):
         return Class('TabCompleter')
 
     @cached_method
-    def model(self):
+    def create(self):
         self.console_command_sender().generals = [self.command_sender()]
         self.formatted_command_alias().generals = [self.command()]
         self.formatted_command_alias().suppliers = [self.command_sender()]
@@ -391,7 +391,7 @@ class MatchModel(TestCase):
                 Equivalent(t.command_sender_type(), p.abstract_product_type())
             ]),
         ])
-        match_result = t.model().match(p.create())
+        match_result = t.create().match(p.create())
         assert_that(match_result, equal_to(expected_match_result))
 
 
