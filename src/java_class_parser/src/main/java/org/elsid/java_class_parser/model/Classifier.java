@@ -28,10 +28,6 @@ public abstract class Classifier extends NamedElement {
         properties.add(property);
     }
 
-    public Collection<Operation> getOperations() {
-        return Collections.unmodifiableCollection(operations);
-    }
-
     public void addOperation(Method method, Operation operation) {
         operationsTable.put(method, operation);
         operations.add(operation);
@@ -52,10 +48,6 @@ public abstract class Classifier extends NamedElement {
 
     public Optional<Operation> getOverriddenOperation(Operation overriding) {
         return operations.stream().filter((operation) -> operation.equals(overriding)).findAny();
-    }
-
-    public Collection<Classifier> getGenerals() {
-        return generals;
     }
 
     public void addGeneral(Classifier general) {
