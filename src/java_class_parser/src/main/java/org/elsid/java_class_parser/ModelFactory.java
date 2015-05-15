@@ -4,11 +4,9 @@ import org.apache.bcel.classfile.JavaClass;
 import org.apache.bcel.classfile.Visitor;
 import org.elsid.java_class_parser.model.Classifier;
 import org.elsid.java_class_parser.model.Model;
-import org.elsid.java_class_parser.model.Operation;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Optional;
 
 class ModelFactory {
 
@@ -27,7 +25,6 @@ class ModelFactory {
         fillClassifiersMembers();
         makeDependencies();
         makeInvocations();
-        makeOverriding();
         return new Model(new ArrayList<>(classifiers.values()));
     }
 
@@ -70,22 +67,6 @@ class ModelFactory {
         Visitor factory = new InvocationsFactory(types);
         for (JavaClass javaClass : javaClasses) {
             javaClass.accept(factory);
-        }
-    }
-
-    void makeOverriding() {
-        for (Classifier classifier : classifiers.values()) {
-            classifier.getOperations().forEach(
-                (operation) -> {
-                    for (Classifier general : classifier.getGenerals()) {
-                        Optional<Operation> overridden = general.getOverriddenOperation(operation);
-                        if (overridden.isPresent()) {
-                            operation.setOverridden(overridden.get());
-                            return;
-                        }
-                    }
-                }
-            );
         }
     }
 

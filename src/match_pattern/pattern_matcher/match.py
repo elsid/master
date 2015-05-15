@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from collections import namedtuple
+from collections import namedtuple, deque
 from itertools import islice
 from graph_matcher import Graph, Equivalent
 from graph_matcher.match import EndType
@@ -108,10 +108,26 @@ def make_graph(model):
                     yield TypeIs(operation.result, operation.result.classifier)
                 for invocation in operation.invocations:
                     yield Invocation(operation, invocation)
-                if operation.overridden:
-                    yield Overriding(operation, operation.overridden)
+                overridden = find_overridden(operation)
+                if overridden:
+                    yield Overriding(operation, overridden)
 
     return Graph(generate())
+
+
+def find_overridden(operation):
+    visited = set()
+    generals = deque(operation.owner.generals)
+    while generals:
+        classifier = generals.popleft()
+        visited.add(classifier)
+        overridden = classifier.get_overridden_operation(operation)
+        if overridden:
+            return overridden
+        for general in classifier.generals:
+            if general not in visited:
+                visited.add(general)
+                generals.append(general)
 
 
 def match(target, pattern, limit=None):

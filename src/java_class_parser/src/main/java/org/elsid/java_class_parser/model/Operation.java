@@ -14,7 +14,6 @@ public class Operation extends NamedElement {
     private Type result;
     private Visibility visibility;
     private Boolean isStatic;
-    private Operation overridden;
 
     public Type getResult() {
         return result;
@@ -44,18 +43,6 @@ public class Operation extends NamedElement {
         invocations.add(invoked);
     }
 
-    public void setOverridden(Operation overridden) {
-        this.overridden = overridden;
-    }
-
-    public boolean equals(Object other) {
-        return super.equals(other)
-            && other instanceof Operation
-            && result == ((Operation) other).result
-            && visibility == ((Operation) other).visibility
-            && isStatic == ((Operation) other).isStatic
-            && parameters.equals(((Operation) other).parameters);
-    }
 
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
@@ -64,7 +51,6 @@ public class Operation extends NamedElement {
         result.put("parameters", parameters);
         result.put("is_static", isStatic);
         result.put("invocations", new ArrayList<>(invocations));
-        result.put("overridden", overridden);
         return result;
     }
 

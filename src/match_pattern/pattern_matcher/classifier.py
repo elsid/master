@@ -69,6 +69,11 @@ class Classifier(NamedElement):
             suppliers=value.suppliers or None,
         )
 
+    def get_overridden_operation(self, overriding):
+        for operation in self.operations:
+            if operation.is_overridden(overriding):
+                return operation
+
 
 yaml.add_representer(Classifier, Classifier.yaml_representer)
 yaml.add_constructor('!Classifier', Classifier.yaml_constructor)

@@ -2,6 +2,7 @@
 # coding: utf-8
 
 import yaml
+from itertools import izip
 from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
 from pattern_matcher.has_equivalents import has_equivalents
@@ -18,7 +19,6 @@ class Operation(NamedElement):
                  is_query=None,
                  is_static=None,
                  invocations=None,
-                 overridden=None,
                  owner=None):
         super(Operation, self).__init__(name)
         self.visibility = visibility
@@ -28,7 +28,6 @@ class Operation(NamedElement):
         self.is_query = is_query
         self.is_static = is_static
         self.invocations = list(invocations) if invocations else list()
-        self.overridden = overridden
         self.owner = owner
 
     @cached_eq
@@ -77,8 +76,22 @@ class Operation(NamedElement):
             is_query=value.is_query,
             is_static=value.is_static,
             invocations=value.invocations or None,
-            overridden=value.overridden,
         )
+
+    def is_overridden(self, operation):
+
+        def is_substitutable(parameters):
+            if len(self.parameters) != len(parameters):
+                return False
+            for p1, p2 in izip(self.parameters, parameters):
+                if p1.type != p2.type and p1.direction != p2.direction:
+                    return False
+            return True
+
+        return (isinstance(operation, Operation)
+                and self.name == operation.name
+                and self.result == operation.result
+                and is_substitutable(operation.parameters))
 
 
 yaml.add_representer(Operation, Operation.yaml_representer)

@@ -21,13 +21,6 @@ public abstract class NamedElement {
         this.name = name;
     }
 
-    public boolean equals(Object other) {
-        return other instanceof NamedElement
-            && (name == null
-                ? ((NamedElement) other).name == null
-                : name.equals(((NamedElement) other).name));
-    }
-
     Map<String, Object> toMap() {
         return new HashMap<String, Object>() {{
             put("name", name);

@@ -19,12 +19,6 @@ public class Parameter extends NamedElement {
         this.direction = direction;
     }
 
-    public boolean equals(Object other) {
-        return other instanceof Parameter
-            && type == ((Parameter) other).type
-            && direction == ((Parameter) other).direction;
-    }
-
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
         result.put("type", type);
