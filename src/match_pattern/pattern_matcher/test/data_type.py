@@ -17,7 +17,12 @@ class MakeDataType(TestCase):
     def test_dump_and_load_yaml_recursive_primitive_type_should_succeed(self):
         primitive_type = DataType('a')
         primitive_type.suppliers = [primitive_type]
-        data = "&id001 !DataType\nname: a\nsuppliers:\n- *id001\n"
+        data = (
+            "&id001 !DataType\n"
+            "name: a\n"
+            "suppliers:\n"
+            "- *id001\n"
+        )
         assert_that(yaml.dump(primitive_type), equal_to(data))
         assert_that(yaml.load(data), equal_to(primitive_type))
 

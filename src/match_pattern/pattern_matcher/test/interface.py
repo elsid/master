@@ -17,7 +17,12 @@ class MakeInterface(TestCase):
     def test_dump_and_load_yaml_recursive_interface_should_succeed(self):
         interface = Interface('a')
         interface.suppliers = [interface]
-        data = "&id001 !Interface\nname: a\nsuppliers:\n- *id001\n"
+        data = (
+            "&id001 !Interface\n"
+            "name: a\n"
+            "suppliers:\n"
+            "- *id001\n"
+        )
         assert_that(yaml.dump(interface), equal_to(data))
         assert_that(yaml.load(data), equal_to(interface))
 

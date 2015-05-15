@@ -37,7 +37,12 @@ class MakeClass(TestCase):
     def test_dump_and_load_yaml_recursive_clazz_should_succeed(self):
         clazz = Class('a')
         clazz.suppliers = [clazz]
-        data = "&id001 !Class\nname: a\nsuppliers:\n- *id001\n"
+        data = (
+            "&id001 !Class\n"
+            "name: a\n"
+            "suppliers:\n"
+            "- *id001\n"
+        )
         assert_that(yaml.dump(clazz), equal_to(data))
         assert_that(yaml.load(data), equal_to(clazz))
 

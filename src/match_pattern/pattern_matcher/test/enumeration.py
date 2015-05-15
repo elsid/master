@@ -37,7 +37,12 @@ class MakeEnumeration(TestCase):
     def test_dump_and_load_yaml_recursive_enumeration_should_succeed(self):
         enumeration = Enumeration('a')
         enumeration.suppliers = [enumeration]
-        data = "&id001 !Enumeration\nname: a\nsuppliers:\n- *id001\n"
+        data = (
+            "&id001 !Enumeration\n"
+            "name: a\n"
+            "suppliers:\n"
+            "- *id001\n"
+        )
         assert_that(yaml.dump(enumeration), equal_to(data))
         assert_that(yaml.load(data), equal_to(enumeration))
 

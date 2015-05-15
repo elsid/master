@@ -70,7 +70,12 @@ class MakeClassifier(TestCase):
     def test_dump_and_load_yaml_recursive_classifier_should_succeed(self):
         classifier = Classifier('a')
         classifier.suppliers = [classifier]
-        data = "&id001 !Classifier\nname: a\nsuppliers:\n- *id001\n"
+        data = (
+            "&id001 !Classifier\n"
+            "name: a\n"
+            "suppliers:\n"
+            "- *id001\n"
+        )
         assert_that(yaml.dump(classifier), equal_to(data))
         assert_that(yaml.load(data), equal_to(classifier))
 
