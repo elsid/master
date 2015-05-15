@@ -130,10 +130,11 @@ def find_overridden(operation):
                 generals.append(general)
 
 
-def match(target, pattern, limit=None):
+def match(target, pattern, limit=None, all_components=False):
     target_graph = make_graph(target)
     pattern_graph = make_graph(pattern)
-    result = islice(target_graph.match(pattern_graph), limit)
+    result = islice(target_graph.match(pattern_graph, not all_components),
+                    limit)
     return MatchResult(MatchVariant(replace_nodes_by_objs(x))
                        for x in result if check(x))
 

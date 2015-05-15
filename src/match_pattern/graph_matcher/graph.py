@@ -52,8 +52,8 @@ class Graph(object):
     def __init__(self, nodes_or_arcs=tuple(), nodes=None):
         self.nodes = nodes or generate_nodes(nodes_or_arcs)
 
-    def match(self, pattern):
-        return match(self, pattern)
+    def match(self, pattern, match_largest_target_component=False):
+        return match(self, pattern, match_largest_target_component)
 
     def get_connected_components(self):
         nodes_components = {}

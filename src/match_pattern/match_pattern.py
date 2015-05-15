@@ -13,7 +13,7 @@ def main():
     args = parse_args()
     target = load_model(args.path, args.external_path_list)
     pattern = make_pattern(args.pattern)
-    print target.match(pattern, args.limit)
+    print target.match(pattern, args.limit, args.all_components)
 
 
 def parse_args():
@@ -23,6 +23,8 @@ def parse_args():
     parser.add_argument('-p', '--path', dest='external_path_list',
                         action='append', default=[])
     parser.add_argument('-l', '--limit', type=int, default=None)
+    parser.add_argument('-a', '--all_components', action='store_true',
+                        default=False)
     return parser.parse_args()
 
 
