@@ -47,7 +47,7 @@ class Operation(NamedElement):
                 and isinstance(other, Operation)
                 and self.visibility == other.visibility
                 and self.result == other.result
-                and tuple(self.parameters) == tuple(other.parameters)
+                and self.parameters == other.parameters
                 and self.is_leaf == other.is_leaf
                 and self.is_query == other.is_query
                 and self.is_static == other.is_static)
