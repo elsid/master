@@ -26,11 +26,13 @@ public abstract class Classifier extends NamedElement {
 
     public void addProperty(Property property) {
         properties.add(property);
+        property.setOwner(this);
     }
 
     public void addOperation(Method method, Operation operation) {
         operationsTable.put(method, operation);
         operations.add(operation);
+        operation.setOwner(this);
     }
 
     public Operation getOperation(Method method) {

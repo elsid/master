@@ -7,6 +7,7 @@ public class Property extends NamedElement {
     private Type type;
     private Visibility visibility;
     private Boolean isStatic;
+    private Classifier owner;
 
     public void setType(Type type) {
         this.type = type;
@@ -20,11 +21,16 @@ public class Property extends NamedElement {
         this.isStatic = isStatic;
     }
 
+    public void setOwner(Classifier owner) {
+        this.owner = owner;
+    }
+
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
         result.put("type", type);
         result.put("visibility", visibility);
         result.put("is_static", isStatic);
+        result.put("owner", owner);
         return result;
     }
 

@@ -14,6 +14,7 @@ public class Operation extends NamedElement {
     private Type result;
     private Visibility visibility;
     private Boolean isStatic;
+    private Classifier owner;
 
     public Type getResult() {
         return result;
@@ -43,6 +44,9 @@ public class Operation extends NamedElement {
         invocations.add(invoked);
     }
 
+    public void setOwner(Classifier owner) {
+        this.owner = owner;
+    }
 
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
@@ -51,6 +55,7 @@ public class Operation extends NamedElement {
         result.put("parameters", parameters);
         result.put("is_static", isStatic);
         result.put("invocations", new ArrayList<>(invocations));
+        result.put("owner", owner);
         return result;
     }
 
