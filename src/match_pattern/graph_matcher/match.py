@@ -53,18 +53,20 @@ def match_one(target_graph, pattern_graph):
     variants = deque(Configuration(target_node, pattern_node)
                      for target_node, pattern_node in init_generator())
     result = []
-    while variants:
-        conf = variants.pop()
+    conf = None
+    while variants or conf is not None:
+        if conf is None:
+            conf = variants.pop()
         if conf.at_end():
             if conf.visited_patterns() == pattern_graph.nodes:
                 if conf.visited not in result:
                     result.append(conf.visited)
                     yield sorted(conf.visited)
+            conf = None
             continue
-
         variants_generator = make_equivalent_node_pairs_generator(
             conf.target().neighbors(), conf.pattern().neighbors())
-        repush = True
+        drop_conf = False
         for pairs in variants_generator():
             pairs = conf.filter(pairs)
             if pairs:
@@ -73,10 +75,11 @@ def match_one(target_graph, pattern_graph):
                 if set(new_conf.selected) not in result:
                     new_conf.step()
                     variants.append(new_conf)
-                    repush = False
-        if repush:
+                    drop_conf = True
+        if drop_conf:
+            conf = None
+        else:
             conf.step()
-            variants.append(conf)
 
 
 def match_one_pattern(pattern_graph, target_components):
