@@ -6,6 +6,7 @@ from hamcrest import assert_that, equal_to
 from pattern_matcher.classifier import Classifier
 from pattern_matcher.property import Property
 from pattern_matcher.type import Type
+from pattern_matcher.operation import Operation
 
 
 class MakeClassifier(TestCase):
@@ -40,13 +41,31 @@ class MakeClassifier(TestCase):
     def test_dump_and_load_yaml_classifier_with_property_should_succeed(self):
         classifier = Classifier('a', properties=[Property(name='a')])
         data = (
-            "!Classifier\n"
+            "&id001 !Classifier\n"
             "name: a\n"
             "properties:\n"
-            "- !Property {name: a}\n"
+            "- !Property\n"
+            "  name: a\n"
+            "  owner: *id001\n"
         )
         assert_that(yaml.dump(classifier), equal_to(data))
-        assert_that(yaml.load(data), equal_to(classifier))
+        loaded = yaml.load(data)
+        assert_that(loaded, equal_to(classifier))
+        assert_that(loaded.properties[0].owner, equal_to(loaded))
+
+    def test_dump_and_load_yaml_classifier_with_operation_should_succeed(self):
+        classifier = Classifier('A', operations=[Operation(name='f')])
+        data = (
+            "&id001 !Classifier\n"
+            "name: A\noperations:\n"
+            "- !Operation\n"
+            "  name: f\n"
+            "  owner: *id001\n"
+        )
+        assert_that(yaml.dump(classifier), equal_to(data))
+        loaded = yaml.load(data)
+        assert_that(loaded, equal_to(classifier))
+        assert_that(loaded.operations[0].owner, equal_to(loaded))
 
     def test_dump_and_load_yaml_recursive_classifier_should_succeed(self):
         classifier = Classifier('a')

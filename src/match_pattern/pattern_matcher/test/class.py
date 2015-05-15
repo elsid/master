@@ -24,10 +24,12 @@ class MakeClass(TestCase):
     def test_dump_and_load_yaml_clazz_with_property_should_succeed(self):
         clazz = Class('a', properties=[Property(name='a')])
         data = (
-            "!Class\n"
+            "&id001 !Class\n"
             "name: a\n"
             "properties:\n"
-            "- !Property {name: a}\n"
+            "- !Property\n"
+            "  name: a\n"
+            "  owner: *id001\n"
         )
         assert_that(yaml.dump(clazz), equal_to(data))
         assert_that(yaml.load(data), equal_to(clazz))

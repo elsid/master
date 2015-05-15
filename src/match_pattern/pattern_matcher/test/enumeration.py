@@ -24,10 +24,12 @@ class MakeEnumeration(TestCase):
     def test_dump_and_load_yaml_enumeration_with_property_should_succeed(self):
         enumeration = Enumeration('a', properties=[Property(name='a')])
         data = (
-            "!Enumeration\n"
+            "&id001 !Enumeration\n"
             "name: a\n"
             "properties:\n"
-            "- !Property {name: a}\n"
+            "- !Property\n"
+            "  name: a\n"
+            "  owner: *id001\n"
         )
         assert_that(yaml.dump(enumeration), equal_to(data))
         assert_that(yaml.load(data), equal_to(enumeration))

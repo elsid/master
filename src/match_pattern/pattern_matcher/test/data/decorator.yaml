@@ -5,8 +5,9 @@
   - !Operation
     is_static: false
     name: operation
-    visibility: &id002 !Visibility 'public'
-- !Class
+    owner: *id001
+    visibility: &id003 !Visibility 'public'
+- &id002 !Class
   generals:
   - *id001
   name: ConcreteComponent
@@ -14,8 +15,9 @@
   - !Operation
     is_static: false
     name: operation
-    visibility: *id002
-- &id003 !Interface
+    owner: *id002
+    visibility: *id003
+- &id004 !Interface
   generals:
   - *id001
   name: Decorator
@@ -23,19 +25,22 @@
   - !Operation
     is_static: false
     name: operation
-    visibility: *id002
+    owner: *id004
+    visibility: *id003
   properties:
   - !Property
     is_static: false
     name: component
+    owner: *id004
     type: !Type
       classifier: *id001
-- !Class
+- &id005 !Class
   generals:
-  - *id003
+  - *id004
   name: ConcreteDecorator
   operations:
   - !Operation
     is_static: false
     name: operation
-    visibility: *id002
+    owner: *id005
+    visibility: *id003

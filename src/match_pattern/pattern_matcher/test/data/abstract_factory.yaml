@@ -2,30 +2,32 @@
 - !Class
   name: Client
   suppliers:
-  - &id002 !Interface
+  - &id001 !Interface
     name: AbstractFactory
     operations:
     - !Operation
       is_static: false
       name: create
-      result: &id003 !Type
-        classifier: &id001 !Interface
+      owner: *id001
+      result: &id004 !Type
+        classifier: &id002 !Interface
           name: AbstractProduct
-      visibility: &id004 !Visibility 'public'
-  - *id001
-- *id002
-- *id001
-- !Class
-  generals:
+      visibility: &id005 !Visibility 'public'
   - *id002
+- *id001
+- *id002
+- &id003 !Class
+  generals:
+  - *id001
   name: ConcreteFactory
   operations:
   - !Operation
     is_static: false
     name: create
-    result: *id003
-    visibility: *id004
+    owner: *id003
+    result: *id004
+    visibility: *id005
 - !Class
   generals:
-  - *id001
+  - *id002
   name: ConcreteProduct

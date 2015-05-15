@@ -5,11 +5,12 @@
   - !Operation
     is_static: false
     name: price
-    result: &id002 !Type
+    owner: *id001
+    result: &id003 !Type
       classifier: !PrimitiveType
         name: int
-    visibility: &id003 !Visibility 'public'
-- &id004 !Class
+    visibility: &id004 !Visibility 'public'
+- &id002 !Class
   generals:
   - *id001
   name: BurgerWith
@@ -17,16 +18,18 @@
   - !Operation
     is_static: false
     name: price
-    result: *id002
-    visibility: *id003
+    owner: *id002
+    result: *id003
+    visibility: *id004
   properties:
   - !Property
     is_static: false
     name: burger
+    owner: *id002
     type: !Type
       classifier: *id001
-    visibility: *id003
-- !Class
+    visibility: *id004
+- &id005 !Class
   generals:
   - *id001
   name: Hamburger
@@ -34,25 +37,28 @@
   - !Operation
     is_static: false
     name: price
-    result: *id002
-    visibility: *id003
+    owner: *id005
+    result: *id003
+    visibility: *id004
   properties:
   - !Property
     is_static: false
     name: cutlet
-    type: &id005 !Type
+    owner: *id005
+    type: &id008 !Type
       classifier: &id006 !Class
         generals:
-        - *id004
+        - *id002
         name: Cutlet
         operations:
         - !Operation
           is_static: false
           name: price
-          result: *id002
-          visibility: *id003
-    visibility: *id003
-- !Class
+          owner: *id006
+          result: *id003
+          visibility: *id004
+    visibility: *id004
+- &id007 !Class
   generals:
   - *id001
   name: Cheeseburger
@@ -60,28 +66,32 @@
   - !Operation
     is_static: false
     name: price
-    result: *id002
-    visibility: *id003
+    owner: *id007
+    result: *id003
+    visibility: *id004
   properties:
   - !Property
     is_static: false
     name: cutlet
-    type: *id005
-    visibility: *id003
+    owner: *id007
+    type: *id008
+    visibility: *id004
   - !Property
     is_static: false
     name: cheese
+    owner: *id007
     type: !Type
-      classifier: &id007 !Class
+      classifier: &id009 !Class
         generals:
-        - *id004
+        - *id002
         name: Cheese
         operations:
         - !Operation
           is_static: false
           name: price
-          result: *id002
-          visibility: *id003
-    visibility: *id003
+          owner: *id009
+          result: *id003
+          visibility: *id004
+    visibility: *id004
 - *id006
-- *id007
+- *id009

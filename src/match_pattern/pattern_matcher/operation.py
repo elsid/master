@@ -76,6 +76,7 @@ class Operation(NamedElement):
             is_query=value.is_query,
             is_static=value.is_static,
             invocations=value.invocations or None,
+            owner=value.owner,
         )
 
     def is_overridden(self, operation):

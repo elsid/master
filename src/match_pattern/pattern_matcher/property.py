@@ -96,6 +96,7 @@ class Property(NamedElement):
             is_read_only=value.is_read_only,
             is_static=value.is_static,
             subsetted_properties=value.subsetted_properties or None,
+            owner=value.owner,
         )
 
 
