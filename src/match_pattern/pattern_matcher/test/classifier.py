@@ -77,7 +77,9 @@ class MakeClassifier(TestCase):
             "- *id001\n"
         )
         assert_that(yaml.dump(classifier), equal_to(data))
-        assert_that(yaml.load(data), equal_to(classifier))
+        loaded = yaml.load(data)
+        assert_that(loaded, equal_to(classifier))
+        assert_that(loaded.suppliers, equal_to([loaded]))
 
 
 if __name__ == '__main__':
