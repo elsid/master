@@ -1,6 +1,7 @@
 # coding: utf-8
 
 from patterns.abstract_factory import AbstractFactory
+from patterns.base_derived import BaseDerived
 from patterns.bridge import Bridge
 from patterns.chain_of_responsibility import ChainOfResponsibility
 from patterns.decorator import Decorator
@@ -10,6 +11,7 @@ from patterns.memento import Memento
 
 PATTERNS = (
     AbstractFactory,
+    BaseDerived,
     Bridge,
     ChainOfResponsibility,
     Decorator,
