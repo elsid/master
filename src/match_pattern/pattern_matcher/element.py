@@ -26,4 +26,4 @@ class Element(object):
     def yaml_constructor(cls, loader, node):
         result = cls()
         yield result
-        result.update(**loader.construct_mapping(node, False))
+        result.update(**loader.construct_mapping(node))
