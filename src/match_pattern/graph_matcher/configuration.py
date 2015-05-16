@@ -93,12 +93,6 @@ class Configuration(object):
     def at_end(self):
         return self.__current_index >= len(self.selected)
 
-    def priority(self):
-        result = len(self.selected) - self.__current_index
-        if not self.at_end():
-            result += len(self.target().neighbors())
-        return result
-
     def __str__(self):
 
         def generate():

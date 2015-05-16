@@ -38,7 +38,6 @@ class MakeConfiguration(TestCase):
         assert_that(conf.visited_targets(), equal_to({target}))
         assert_that(conf.copy(), equal_to(conf))
         assert_that(conf.at_end(), equal_to(False))
-        assert_that(conf.priority(), equal_to(1))
         assert_that(str(conf), equal_to("[target === pattern]"))
         assert_that(conf.step(), equal_to(None))
         assert_that(conf.at_end(), equal_to(True))
