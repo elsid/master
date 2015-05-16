@@ -26,10 +26,10 @@ class Configuration(object):
         e = Equivalent(target_node, pattern_node)
         self.selected = [e]
         self.visited = {e}
-        self.__current_index = 0
+        self.__current = 0
 
     def current(self):
-        return self.selected[self.__current_index]
+        return self.selected[self.__current]
 
     def target(self):
         return self.current().target
@@ -83,7 +83,7 @@ class Configuration(object):
             return True
 
         while True:
-            self.__current_index += 1
+            self.__current += 1
             if self.at_end():
                 return
             if is_current_unvisited() and is_current_valid():
@@ -91,17 +91,17 @@ class Configuration(object):
                 return
 
     def at_end(self):
-        return self.__current_index >= len(self.selected)
+        return self.__current >= len(self.selected)
 
     def __str__(self):
 
         def generate():
             for i, e in enumerate(self.selected):
-                if i == self.__current_index:
+                if i == self.__current:
                     yield '[%s === %s]' % e
                 elif e in self.visited:
                     yield '{%s === %s}' % e
-                elif i > self.__current_index:
+                elif i > self.__current:
                     yield '%s === %s' % e
                 else:
                     yield '(%s === %s)' % e
