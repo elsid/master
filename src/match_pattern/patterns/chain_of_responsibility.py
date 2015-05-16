@@ -45,6 +45,8 @@ class ChainOfResponsibility(object):
         self.client().suppliers = [self.handler()]
         self.concrete_handler().generals = [self.handler()]
         self.handler().properties = [self.handler_next()]
+        self.handler_handle_request().invocations = [
+            self.handler_handle_request()]
         return Model([
             self.client(),
             self.handler(),
