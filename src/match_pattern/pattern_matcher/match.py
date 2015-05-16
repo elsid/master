@@ -3,7 +3,7 @@
 from collections import namedtuple, deque
 from itertools import islice
 from graph_matcher import Graph, Equivalent
-from graph_matcher.match import EndType
+from graph_matcher.configuration import EndType
 from pattern_matcher.errors import CheckVariantFailed
 
 

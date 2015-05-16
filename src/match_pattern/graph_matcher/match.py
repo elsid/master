@@ -2,7 +2,7 @@
 
 from collections import defaultdict, deque
 from itertools import tee, combinations, permutations
-from graph_matcher.configuration import Configuration, Equivalent, EndType
+from graph_matcher.configuration import Configuration, Equivalent
 
 
 def replace_node_by_obj(variants):
