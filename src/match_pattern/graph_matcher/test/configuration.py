@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to
+from hamcrest import assert_that, equal_to, empty
 from graph_matcher.configuration import Configuration, Equivalent
 from graph_matcher.node import Node
 
@@ -31,11 +31,11 @@ class MakeConfiguration(TestCase):
         pattern = Node('pattern')
         conf = Configuration(target, pattern)
         assert_that(conf.selected, equal_to([(target, pattern)]))
-        assert_that(conf.visited, equal_to(set(conf.selected)))
+        assert_that(conf.checked, equal_to(set(conf.selected)))
         assert_that(conf.target(), equal_to(target))
         assert_that(conf.pattern(), equal_to(pattern))
-        assert_that(conf.visited_patterns(), equal_to({pattern}))
-        assert_that(conf.visited_targets(), equal_to({target}))
+        assert_that(conf.checked_patterns(), equal_to({pattern}))
+        assert_that(conf.checked_targets(), equal_to({target}))
         assert_that(conf.copy(), equal_to(conf))
         assert_that(conf.at_end(), equal_to(False))
         assert_that(str(conf), equal_to("[target === pattern]"))

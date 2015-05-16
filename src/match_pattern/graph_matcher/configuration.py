@@ -25,7 +25,7 @@ class Configuration(object):
     def __init__(self, target_node, pattern_node):
         e = Equivalent(target_node, pattern_node)
         self.selected = [e]
-        self.visited = {e}
+        self.checked = {e}
         self.__current = 0
 
     def current(self):
@@ -37,16 +37,16 @@ class Configuration(object):
     def pattern(self):
         return self.current().pattern
 
-    def visited_targets(self):
-        return frozenset(x.target for x in self.visited)
+    def checked_targets(self):
+        return frozenset(x.target for x in self.checked)
 
-    def visited_patterns(self):
-        return frozenset(x.pattern for x in self.visited)
+    def checked_patterns(self):
+        return frozenset(x.pattern for x in self.checked)
 
     def copy(self):
         other = copy(self)
         other.selected = copy(self.selected)
-        other.visited = copy(self.visited)
+        other.checked = copy(self.checked)
         return other
 
     def extend(self, pairs):
@@ -56,18 +56,18 @@ class Configuration(object):
         return frozenset(pairs) - frozenset(self.selected)
 
     def step(self):
-        visited_targets = self.visited_targets()
-        visited_patterns = self.visited_patterns()
+        checked_targets = self.checked_targets()
+        checked_patterns = self.checked_patterns()
 
-        def is_current_unvisited():
-            return (self.target() not in visited_targets
-                    and self.pattern() not in visited_patterns)
+        def is_current_unchecked():
+            return (self.target() not in checked_targets
+                    and self.pattern() not in checked_patterns)
 
         def is_current_valid():
             target, pattern = self.current()
 
-            def connections(neighbor, visited):
-                for color, connection in visited.connections.iteritems():
+            def connections(neighbor, checked):
+                for color, connection in checked.connections.iteritems():
                     if neighbor in connection.incoming:
                         yield (color, EndType.INCOMING)
                     if neighbor in connection.outgoing:
@@ -77,7 +77,7 @@ class Configuration(object):
                 return (frozenset(connections(pattern, e.pattern))
                         <= frozenset(connections(target, e.target)))
 
-            for x in self.visited:
+            for x in self.checked:
                 if not is_valid(x):
                     return False
             return True
@@ -86,8 +86,8 @@ class Configuration(object):
             self.__current += 1
             if self.at_end():
                 return
-            if is_current_unvisited() and is_current_valid():
-                self.visited.add(self.current())
+            if is_current_unchecked() and is_current_valid():
+                self.checked.add(self.current())
                 return
 
     def at_end(self):
@@ -99,7 +99,7 @@ class Configuration(object):
             for i, e in enumerate(self.selected):
                 if i == self.__current:
                     yield '[%s === %s]' % e
-                elif e in self.visited:
+                elif e in self.checked:
                     yield '{%s === %s}' % e
                 elif i > self.__current:
                     yield '%s === %s' % e

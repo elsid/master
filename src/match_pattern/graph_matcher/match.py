@@ -62,10 +62,10 @@ def match_one(target_graph, pattern_graph):
         if conf is None:
             conf = variants.pop()
         if conf.at_end():
-            if conf.visited_patterns() == pattern_graph.nodes:
-                if conf.visited not in result:
-                    result.append(conf.visited)
-                    yield sorted(conf.visited)
+            if conf.checked_patterns() == pattern_graph.nodes:
+                if conf.checked not in result:
+                    result.append(conf.checked)
+                    yield sorted(conf.checked)
             conf = None
             continue
         variants_generator = make_equivalent_node_pairs_generator(
