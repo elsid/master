@@ -65,6 +65,7 @@ class Decorator(object):
         self.concrete_component().generals = [self.component()]
         self.decorator().generals = [self.component()]
         self.concrete_decorator().generals = [self.decorator()]
+        self.decorator_operation().invocations = [self.component_operation()]
         return Model([
             self.component(),
             self.concrete_component(),

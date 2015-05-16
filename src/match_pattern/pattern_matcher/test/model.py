@@ -184,6 +184,7 @@ class Burgers(object):
         self.cheeseburger().generals = [self.burger()]
         self.hamburger().generals = [self.burger()]
         self.burger_with().generals = [self.burger()]
+        self.burger_with_price().invocations = [self.burger_price()]
         return Model([
             self.burger(),
             self.burger_with(),

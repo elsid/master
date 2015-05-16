@@ -2,34 +2,36 @@
 - &id001 !Class
   name: Burger
   operations:
-  - !Operation
+  - &id002 !Operation
     is_static: false
     name: price
     owner: *id001
-    result: &id003 !Type
+    result: &id004 !Type
       classifier: !PrimitiveType
         name: int
-    visibility: &id004 !Visibility 'public'
-- &id002 !Class
+    visibility: &id005 !Visibility 'public'
+- &id003 !Class
   generals:
   - *id001
   name: BurgerWith
   operations:
   - !Operation
+    invocations:
+    - *id002
     is_static: false
     name: price
-    owner: *id002
-    result: *id003
-    visibility: *id004
+    owner: *id003
+    result: *id004
+    visibility: *id005
   properties:
   - !Property
     is_static: false
     name: burger
-    owner: *id002
+    owner: *id003
     type: !Type
       classifier: *id001
-    visibility: *id004
-- &id005 !Class
+    visibility: *id005
+- &id006 !Class
   generals:
   - *id001
   name: Hamburger
@@ -37,28 +39,28 @@
   - !Operation
     is_static: false
     name: price
-    owner: *id005
-    result: *id003
-    visibility: *id004
+    owner: *id006
+    result: *id004
+    visibility: *id005
   properties:
   - !Property
     is_static: false
     name: cutlet
-    owner: *id005
-    type: &id008 !Type
-      classifier: &id006 !Class
+    owner: *id006
+    type: &id009 !Type
+      classifier: &id007 !Class
         generals:
-        - *id002
+        - *id003
         name: Cutlet
         operations:
         - !Operation
           is_static: false
           name: price
-          owner: *id006
-          result: *id003
-          visibility: *id004
-    visibility: *id004
-- &id007 !Class
+          owner: *id007
+          result: *id004
+          visibility: *id005
+    visibility: *id005
+- &id008 !Class
   generals:
   - *id001
   name: Cheeseburger
@@ -66,32 +68,32 @@
   - !Operation
     is_static: false
     name: price
-    owner: *id007
-    result: *id003
-    visibility: *id004
+    owner: *id008
+    result: *id004
+    visibility: *id005
   properties:
   - !Property
     is_static: false
     name: cutlet
-    owner: *id007
-    type: *id008
-    visibility: *id004
+    owner: *id008
+    type: *id009
+    visibility: *id005
   - !Property
     is_static: false
     name: cheese
-    owner: *id007
+    owner: *id008
     type: !Type
-      classifier: &id009 !Class
+      classifier: &id010 !Class
         generals:
-        - *id002
+        - *id003
         name: Cheese
         operations:
         - !Operation
           is_static: false
           name: price
-          owner: *id009
-          result: *id003
-          visibility: *id004
-    visibility: *id004
-- *id006
-- *id009
+          owner: *id010
+          result: *id004
+          visibility: *id005
+    visibility: *id005
+- *id007
+- *id010

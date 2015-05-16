@@ -2,7 +2,7 @@
 - &id001 !Interface
   name: Component
   operations:
-  - !Operation
+  - &id004 !Operation
     is_static: false
     name: operation
     owner: *id001
@@ -17,30 +17,32 @@
     name: operation
     owner: *id002
     visibility: *id003
-- &id004 !Interface
+- &id005 !Interface
   generals:
   - *id001
   name: Decorator
   operations:
   - !Operation
+    invocations:
+    - *id004
     is_static: false
     name: operation
-    owner: *id004
+    owner: *id005
     visibility: *id003
   properties:
   - !Property
     is_static: false
     name: component
-    owner: *id004
+    owner: *id005
     type: !Type
       classifier: *id001
-- &id005 !Class
+- &id006 !Class
   generals:
-  - *id004
+  - *id005
   name: ConcreteDecorator
   operations:
   - !Operation
     is_static: false
     name: operation
-    owner: *id005
+    owner: *id006
     visibility: *id003
