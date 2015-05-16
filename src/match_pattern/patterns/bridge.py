@@ -51,6 +51,8 @@ class Bridge(object):
     @cached_method
     def create(self):
         self.concrete_implementor().generals = [self.implementor()]
+        self.abstraction_operation().invocations = [
+            self.implementor_operation_impl()]
         return Model([
             self.abstraction(),
             self.implementor(),
