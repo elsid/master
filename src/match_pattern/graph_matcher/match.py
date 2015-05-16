@@ -39,8 +39,7 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes):
             except StopIteration:
                 yield chain
 
-        for chain in gen_recursive(iter(sorted(pattern_dict.keys())), list()):
-            yield chain
+        return gen_recursive(iter(sorted(pattern_dict.keys())), list())
 
     return generate
 
