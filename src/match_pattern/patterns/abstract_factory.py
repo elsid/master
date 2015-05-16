@@ -51,6 +51,7 @@ class AbstractFactory(object):
         self.concrete_product().generals = [self.abstract_product()]
         self.client().suppliers = [self.abstract_factory(),
                                    self.abstract_product()]
+        self.concrete_factory().suppliers = [self.concrete_product()]
         return Model([
             self.client(),
             self.abstract_factory(),

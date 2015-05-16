@@ -248,6 +248,9 @@ class BukkitExample(object):
         self.formatted_command_alias().suppliers = [self.command_sender()]
         self.plugin_command().generals = [self.command()]
         self.tab_completer().suppliers = [self.command_sender(), self.command()]
+        self.plugin_command().suppliers = [self.console_command_sender()]
+        self.formatted_command_alias().suppliers = [
+            self.console_command_sender()]
         return Model([
             self.console_command_sender(),
             self.plugin_command(),

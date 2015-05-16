@@ -27,7 +27,9 @@
     owner: *id003
     result: *id004
     visibility: *id005
-- !Class
-  generals:
-  - *id002
-  name: ConcreteProduct
+  suppliers:
+  - &id006 !Class
+    generals:
+    - *id002
+    name: ConcreteProduct
+- *id006
