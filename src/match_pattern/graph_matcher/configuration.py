@@ -24,18 +24,22 @@ class EndType(Enum):
 class Configuration(object):
     def __init__(self, target_node, pattern_node):
         e = Equivalent(target_node, pattern_node)
-        self.selected = [e]
+        self.__selected = [e]
         self.__checked = {e}
         self.__current = 0
 
     def current(self):
-        return self.selected[self.__current]
+        return self.__selected[self.__current]
 
     def target(self):
         return self.current().target
 
     def pattern(self):
         return self.current().pattern
+
+    @property
+    def selected(self):
+        return self.__selected
 
     @property
     def checked(self):
@@ -49,15 +53,15 @@ class Configuration(object):
 
     def copy(self):
         other = copy(self)
-        other.selected = copy(self.selected)
+        other.__selected = copy(self.__selected)
         other.__checked = copy(self.__checked)
         return other
 
     def extend(self, pairs):
-        self.selected.extend(pairs)
+        self.__selected.extend(pairs)
 
     def filter(self, pairs):
-        return frozenset(pairs) - frozenset(self.selected)
+        return frozenset(pairs) - frozenset(self.__selected)
 
     def step(self):
         checked_targets = self.checked_targets()
@@ -95,12 +99,12 @@ class Configuration(object):
                 return
 
     def at_end(self):
-        return self.__current >= len(self.selected)
+        return self.__current >= len(self.__selected)
 
     def __str__(self):
 
         def generate():
-            for i, e in enumerate(self.selected):
+            for i, e in enumerate(self.__selected):
                 if i == self.__current:
                     yield '[%s === %s]' % e
                 elif e in self.__checked:
@@ -115,4 +119,4 @@ class Configuration(object):
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, Configuration)
-                and frozenset(self.selected) == frozenset(other.selected))
+                and frozenset(self.__selected) == frozenset(other.selected))
