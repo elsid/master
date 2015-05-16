@@ -43,6 +43,10 @@ class ClassifiersMembersFactory extends EmptyVisitor {
     }
 
     public void visitMethod(Method obj) {
+        if (obj.getName().equals("<init>")) {
+            return;
+        }
+
         Operation operation = new Operation();
         operation.setName(obj.getName());
         operation.setResult(types.get(obj.getReturnType()));

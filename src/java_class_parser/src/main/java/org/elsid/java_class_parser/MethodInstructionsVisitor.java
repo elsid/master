@@ -32,6 +32,9 @@ abstract class MethodInstructionsVisitor extends EmptyVisitor {
     }
 
     public void visitMethod(Method obj) {
+        if (!needVisit(obj)) {
+            return;
+        }
         operation = classifier.getOperation(obj);
         MethodGen method = new MethodGen(obj, classifier.getName(), constants);
         InstructionList instructions = method.getInstructionList();
@@ -45,6 +48,10 @@ abstract class MethodInstructionsVisitor extends EmptyVisitor {
     }
 
     abstract protected Visitor createFactory();
+
+    protected boolean needVisit(Method method) {
+        return true;
+    }
 
     TypesMap getTypes() {
         return types;
