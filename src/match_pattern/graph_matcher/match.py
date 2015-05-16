@@ -21,20 +21,25 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes):
     def generate_pairs():
         return generate_equivalent_node_pair(target_nodes, pattern_nodes)
 
+    def make_pattern_dict():
+            result = defaultdict(set)
+            for target, pattern in generate_pairs():
+                result[pattern].add(target)
+            return result
+
+    pattern_dict = make_pattern_dict()
+
     def generate():
-        pattern_dict = defaultdict(set)
-        for target, pattern in generate_pairs():
-            pattern_dict[pattern].add(target)
 
         def gen_recursive(pattern_iter, chain):
             try:
                 pattern = next(pattern_iter)
                 not_used_targets = list(pattern_dict[pattern].difference(
                     {x.target for x in chain}))
-                pattern_iters = tee(pattern_iter, len(not_used_targets))
+                pattern_iter_list = tee(pattern_iter, len(not_used_targets))
                 for index, target in enumerate(not_used_targets):
                     new_chain = chain + [Equivalent(target, pattern)]
-                    for c in gen_recursive(pattern_iters[index], new_chain):
+                    for c in gen_recursive(pattern_iter_list[index], new_chain):
                         yield c
             except StopIteration:
                 yield chain
