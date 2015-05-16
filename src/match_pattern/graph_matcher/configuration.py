@@ -25,7 +25,7 @@ class Configuration(object):
     def __init__(self, target_node, pattern_node):
         e = Equivalent(target_node, pattern_node)
         self.selected = [e]
-        self.checked = {e}
+        self.__checked = {e}
         self.__current = 0
 
     def current(self):
@@ -37,16 +37,20 @@ class Configuration(object):
     def pattern(self):
         return self.current().pattern
 
+    @property
+    def checked(self):
+        return self.__checked
+
     def checked_targets(self):
-        return frozenset(x.target for x in self.checked)
+        return frozenset(x.target for x in self.__checked)
 
     def checked_patterns(self):
-        return frozenset(x.pattern for x in self.checked)
+        return frozenset(x.pattern for x in self.__checked)
 
     def copy(self):
         other = copy(self)
         other.selected = copy(self.selected)
-        other.checked = copy(self.checked)
+        other.__checked = copy(self.__checked)
         return other
 
     def extend(self, pairs):
@@ -77,7 +81,7 @@ class Configuration(object):
                 return (frozenset(connections(pattern, e.pattern))
                         <= frozenset(connections(target, e.target)))
 
-            for x in self.checked:
+            for x in self.__checked:
                 if not is_valid(x):
                     return False
             return True
@@ -87,7 +91,7 @@ class Configuration(object):
             if self.at_end():
                 return
             if is_current_unchecked() and is_current_valid():
-                self.checked.add(self.current())
+                self.__checked.add(self.current())
                 return
 
     def at_end(self):
@@ -99,7 +103,7 @@ class Configuration(object):
             for i, e in enumerate(self.selected):
                 if i == self.__current:
                     yield '[%s === %s]' % e
-                elif e in self.checked:
+                elif e in self.__checked:
                     yield '{%s === %s}' % e
                 elif i > self.__current:
                     yield '%s === %s' % e
