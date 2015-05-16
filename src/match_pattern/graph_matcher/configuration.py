@@ -53,7 +53,7 @@ class Configuration(object):
         self.selected.extend(pairs)
 
     def filter(self, pairs):
-        return list(frozenset(pairs) - frozenset(self.selected))
+        return frozenset(pairs) - frozenset(self.selected)
 
     def step(self):
         visited_targets = self.visited_targets()
