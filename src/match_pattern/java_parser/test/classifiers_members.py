@@ -218,7 +218,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE,
+                Operation('f', VOID_TYPE, Visibility.PRIVATE,
                           [Parameter(INT_TYPE, 'x', Direction.IN)],
                           is_static=False),
             ]),
@@ -239,10 +239,10 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE,
+                Operation('f', VOID_TYPE, Visibility.PRIVATE,
                           [Parameter(INT_TYPE, 'x', Direction.IN)],
                           is_static=False),
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE,
+                Operation('f', VOID_TYPE, Visibility.PRIVATE,
                           [Parameter(FLOAT_TYPE, 'x', Direction.IN)],
                           is_static=False),
             ]),
@@ -267,10 +267,10 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE, is_static=False),
+                Operation('f', VOID_TYPE, Visibility.PRIVATE, is_static=False),
             ]),
             'B': Class('B', operations=[
-                Operation(VOID_TYPE, 'g', Visibility.PRIVATE, is_static=False),
+                Operation('g', VOID_TYPE, Visibility.PRIVATE, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
         }))
@@ -292,7 +292,7 @@ class FillClassifiers(TestCaseWithParser):
         )
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE,
+                Operation('f', VOID_TYPE, Visibility.PRIVATE,
                           [Parameter(INT_TYPE, 'x', Direction.IN)],
                           is_static=False),
             ]),
@@ -333,8 +333,8 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PRIVATE, is_static=False),
-                Operation(VOID_TYPE, 'g', Visibility.PRIVATE, is_static=False),
+                Operation('f', VOID_TYPE, Visibility.PRIVATE, is_static=False),
+                Operation('g', VOID_TYPE, Visibility.PRIVATE, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
         }))
@@ -370,7 +370,7 @@ class FillClassifiers(TestCaseWithParser):
         _, errors = fill_classifiers(tree, classifiers)
         assert_that(classifiers, equal_to({
             'Enum': Enumeration('Enum', operations=[
-                Operation(VOID_TYPE, 'f', Visibility.PUBLIC, is_static=False),
+                Operation('f', VOID_TYPE, Visibility.PUBLIC, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
         }))
@@ -389,7 +389,7 @@ class FillClassifiers(TestCaseWithParser):
         classifiers, errors = make_classifiers(tree)
         _, errors = fill_classifiers(tree, classifiers)
         class_type = Type(Class('Class', operations=[
-            Operation(VOID_TYPE, 'f', Visibility.PUBLIC, is_static=False),
+            Operation('f', VOID_TYPE, Visibility.PUBLIC, is_static=False),
         ]))
         class_type.classifier.properties = [
             Property(class_type, 'value', Visibility.PRIVATE, is_static=False)]

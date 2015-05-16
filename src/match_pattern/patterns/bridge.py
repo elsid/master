@@ -35,17 +35,17 @@ class Bridge(object):
 
     @cached_method
     def abstraction_operation(self):
-        return Operation(None, 'operation', Visibility.PUBLIC,
+        return Operation('operation', visibility=Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method
     def implementor_operation_impl(self):
-        return Operation(None, 'operation_impl', Visibility.PUBLIC,
+        return Operation('operation_impl', visibility=Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method
     def concrete_implementor_operation_impl(self):
-        return Operation(None, 'operation_impl', Visibility.PUBLIC,
+        return Operation('operation_impl', visibility=Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method

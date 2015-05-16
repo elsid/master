@@ -19,7 +19,7 @@ class MethodOverriding(object):
 
     @cached_method
     def client_invoke_operation(self):
-        return Operation(None, 'invoke_operation',
+        return Operation('invoke_operation',
                          invocations=[self.interface_operation()])
 
     @cached_method
@@ -32,7 +32,7 @@ class MethodOverriding(object):
 
     @staticmethod
     def operation():
-        return Operation(None, 'operation')
+        return Operation('operation')
 
     @cached_method
     def create(self):

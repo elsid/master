@@ -57,7 +57,8 @@ class Decorator(object):
 
     @staticmethod
     def _operation():
-        return Operation(None, 'operation', Visibility.PUBLIC, is_static=False)
+        return Operation('operation', visibility=Visibility.PUBLIC,
+                         is_static=False)
 
     @cached_method
     def create(self):

@@ -11,8 +11,8 @@ from pattern_matcher.eq_pattern import eq_pattern
 
 class Operation(NamedElement):
     def __init__(self,
-                 result=None,
                  name=None,
+                 result=None,
                  visibility=None,
                  parameters=None,
                  is_leaf=None,
@@ -21,8 +21,8 @@ class Operation(NamedElement):
                  invocations=None,
                  owner=None):
         super(Operation, self).__init__(name)
-        self.visibility = visibility
         self.result = result
+        self.visibility = visibility
         self.parameters = list(parameters) if parameters else list()
         self.is_leaf = is_leaf
         self.is_query = is_query

@@ -50,14 +50,14 @@ class Decorator(BaseDecorator, PrimitiveTypes):
     @cached_method
     def component(self):
         return Interface('Component', operations=[
-            Operation(self.VOID, 'operation', Visibility.PUBLIC,
+            Operation('operation', self.VOID, Visibility.PUBLIC,
                       is_static=False)
         ])
 
     @cached_method
     def concrete_component(self):
         return Class('ConcreteComponent', operations=[
-            Operation(self.VOID, 'operation', Visibility.PUBLIC,
+            Operation('operation', self.VOID, Visibility.PUBLIC,
                       is_static=False),
         ])
 
@@ -71,14 +71,14 @@ class Decorator(BaseDecorator, PrimitiveTypes):
         return Interface('Decorator', properties=[
             self.decorator_component(),
         ], operations=[
-            Operation(self.VOID, 'operation', Visibility.PUBLIC,
+            Operation('operation', self.VOID, Visibility.PUBLIC,
                       is_static=False),
         ])
 
     @cached_method
     def concrete_decorator(self):
         return Class('ConcreteDecorator', operations=[
-            Operation(self.VOID, 'operation', Visibility.PUBLIC,
+            Operation('operation', self.VOID, Visibility.PUBLIC,
                       is_static=False),
         ])
 

@@ -16,18 +16,17 @@ class MakeOperation(TestCase):
     def test_str_should_succeed(self):
         assert_that(str(Operation()),
                     starts_with('anonymous_') and ends_with('()'))
-        assert_that(str(Operation(Type(Class('A')), 'f', owner=Class('B'))),
+        assert_that(str(Operation('f', Type(Class('A')), owner=Class('B'))),
                     equal_to('B::f(): A'))
 
     def test_dump_and_load_yaml_with_name_should_succeed(self):
-        obj = Operation(name='f')
+        obj = Operation('f')
         data = "!Operation {name: f}\n"
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))
 
     def test_dump_and_load_yaml_with_attrs_and_parameters_should_succeed(self):
-        obj = Operation(name='f', is_static=True,
-                        parameters=[Parameter(name='x')])
+        obj = Operation('f', is_static=True, parameters=[Parameter(name='x')])
         data = (
             "!Operation\n"
             "is_static: true\n"

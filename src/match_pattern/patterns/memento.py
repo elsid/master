@@ -28,13 +28,14 @@ class Memento(object):
 
     @cached_method
     def originator_set_memento(self):
-        return Operation(None, 'set_memento', Visibility.PUBLIC, [
-            Parameter(self.memento_type(), 'memento', Direction.IN)
-        ], is_static=False)
+        return Operation(
+            'set_memento', visibility=Visibility.PUBLIC, parameters=[
+                Parameter(self.memento_type(), 'memento', Direction.IN)
+            ], is_static=False)
 
     @cached_method
     def originator_create_memento(self):
-        return Operation(None, 'create_memento', Visibility.PUBLIC,
+        return Operation('create_memento', visibility=Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method

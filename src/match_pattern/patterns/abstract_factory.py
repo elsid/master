@@ -38,7 +38,7 @@ class AbstractFactory(object):
         return Class('ConcreteProduct')
 
     def _create(self):
-        return Operation(self.abstract_product_type(), 'create',
+        return Operation('create', self.abstract_product_type(),
                          Visibility.PUBLIC, is_static=False)
 
     @cached_method

@@ -77,7 +77,7 @@ class Burgers(object):
 
     @staticmethod
     def _price():
-        return Operation(Burgers.INT_TYPE, 'price', Visibility.PUBLIC,
+        return Operation('price', Burgers.INT_TYPE, Visibility.PUBLIC,
                          is_static=False)
 
     @cached_method
@@ -196,7 +196,7 @@ class Burgers(object):
 
 class BukkitExample(object):
     def _create(self):
-        return Operation(self.command_sender_type(), 'create',
+        return Operation('create', self.command_sender_type(),
                          Visibility.PUBLIC, is_static=False)
 
     @cached_method
