@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from collections import defaultdict, deque
+from collections import defaultdict
 from itertools import tee, combinations, permutations
 from graph_matcher.configuration import Configuration, Equivalent
 
@@ -10,16 +10,17 @@ def replace_node_by_obj(variants):
             for variant in variants)
 
 
-def generate_equivalent_node_pair(target_nodes, pattern_nodes):
+def generate_equivalent_node_pairs(target_nodes, pattern_nodes):
     for target in sorted(target_nodes):
         for pattern in sorted(pattern_nodes):
             if target.equiv_pattern(pattern):
                 yield target, pattern
 
 
-def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes):
+def generate_chains(target_nodes, pattern_nodes):
+
     def generate_pairs():
-        return generate_equivalent_node_pair(target_nodes, pattern_nodes)
+        return generate_equivalent_node_pairs(target_nodes, pattern_nodes)
 
     def make_pattern_dict():
             result = defaultdict(set)
@@ -29,61 +30,81 @@ def make_equivalent_node_pairs_generator(target_nodes, pattern_nodes):
 
     pattern_dict = make_pattern_dict()
 
-    def generate():
+    def generate(pattern_iter, chain):
+        try:
+            pattern = next(pattern_iter)
+            not_used_targets = list(pattern_dict[pattern]
+                                    - {x.target for x in chain})
+            pattern_iter_list = tee(pattern_iter, len(not_used_targets))
+            for index, target in enumerate(not_used_targets):
+                new_chain = chain + [Equivalent(target, pattern)]
+                for sub_chain in generate(pattern_iter_list[index], new_chain):
+                    yield sub_chain
+        except StopIteration:
+            yield chain
 
-        def gen_recursive(pattern_iter, chain):
+    return generate(iter(sorted(pattern_dict.keys())), list())
+
+
+class ConfigurationsGenerator(object):
+    def __init__(self, initial_variants):
+        self.__generators = [initial_variants]
+        self.__result = []
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        while self.__generators:
             try:
-                pattern = next(pattern_iter)
-                not_used_targets = list(pattern_dict[pattern].difference(
-                    {x.target for x in chain}))
-                pattern_iter_list = tee(pattern_iter, len(not_used_targets))
-                for index, target in enumerate(not_used_targets):
-                    new_chain = chain + [Equivalent(target, pattern)]
-                    for c in gen_recursive(pattern_iter_list[index], new_chain):
-                        yield c
+                return next(self.__generators[-1])
             except StopIteration:
-                yield chain
+                self.__generators.pop()
+        raise StopIteration
 
-        return gen_recursive(iter(sorted(pattern_dict.keys())), list())
+    def generate(self, configuration):
 
-    return generate
+        def generate():
+            new_configurations_generated = False
+            for chain in generate_chains(configuration.target().neighbors(),
+                                         configuration.pattern().neighbors()):
+                chain = configuration.filter(chain)
+                if chain:
+                    new_conf = configuration.clone(chain)
+                    if frozenset(new_conf.selected) not in self.__result:
+                        new_conf.advance()
+                        yield new_conf
+                        new_configurations_generated = True
+            if not new_configurations_generated:
+                yield configuration
+
+        self.__generators.append(generate())
+
+    def add_result(self, configuration):
+        if configuration.checked not in self.__result:
+            self.__result.append(configuration.checked)
+            return True
 
 
 def match_one(target_graph, pattern_graph):
-    def init_generator():
-        return generate_equivalent_node_pair(target_graph.nodes,
-                                             pattern_graph.nodes)
+    def generate_initial():
+        return generate_equivalent_node_pairs(target_graph.nodes,
+                                              pattern_graph.nodes)
 
-    variants = deque(Configuration(target_node, pattern_node)
-                     for target_node, pattern_node in init_generator())
-    result = []
-    conf = None
-    while variants or conf is not None:
-        if conf is None:
-            conf = variants.pop()
-        if conf.at_end():
-            if conf.checked_patterns() == pattern_graph.nodes:
-                if conf.checked not in result:
-                    result.append(conf.checked)
-                    yield sorted(conf.checked)
-            conf = None
-            continue
-        variants_generator = make_equivalent_node_pairs_generator(
-            conf.target().neighbors(), conf.pattern().neighbors())
-        drop_conf = False
-        for pairs in variants_generator():
-            pairs = conf.filter(pairs)
-            if pairs:
-                new_conf = conf.copy()
-                new_conf.extend(pairs)
-                if set(new_conf.selected) not in result:
-                    new_conf.step()
-                    variants.append(new_conf)
-                    drop_conf = True
-        if drop_conf:
-            conf = None
+    def generate_initial_configurations():
+        for t, p in generate_initial():
+            for chain in generate_chains(t.neighbors(), p.neighbors()):
+                yield Configuration(t, p, chain)
+
+    configurations = ConfigurationsGenerator(generate_initial_configurations())
+    for configuration in configurations:
+        configuration.advance()
+        if configuration.at_end():
+            if configuration.checked_patterns() == pattern_graph.nodes:
+                if configurations.add_result(configuration):
+                    yield sorted(configuration.checked)
         else:
-            conf.step()
+            configurations.generate(configuration)
 
 
 def match_one_pattern(pattern_graph, target_components):

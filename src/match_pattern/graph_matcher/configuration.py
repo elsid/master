@@ -22,9 +22,9 @@ class EndType(Enum):
 
 
 class Configuration(object):
-    def __init__(self, target_node, pattern_node):
+    def __init__(self, target_node, pattern_node, selected):
         e = Equivalent(target_node, pattern_node)
-        self.__selected = [e]
+        self.__selected = [e] + selected
         self.__checked = {e}
         self.__current = 0
 
@@ -51,19 +51,17 @@ class Configuration(object):
     def checked_patterns(self):
         return frozenset(x.pattern for x in self.__checked)
 
-    def copy(self):
+    def clone(self, additional_selected):
         other = copy(self)
         other.__selected = copy(self.__selected)
+        other.__selected.extend(additional_selected)
         other.__checked = copy(self.__checked)
         return other
-
-    def extend(self, pairs):
-        self.__selected.extend(pairs)
 
     def filter(self, pairs):
         return frozenset(pairs) - frozenset(self.__selected)
 
-    def step(self):
+    def advance(self):
         checked_targets = self.checked_targets()
         checked_patterns = self.checked_patterns()
 
