@@ -57,10 +57,11 @@ docs/_build/
 # PyBuilder
 target/
 
-# IDEA
-.idea
+# idea
+.idea/
+*.iml
 
-# Plyj
+# plyj
 lextab.py
 parser.out
 parsetab.py
