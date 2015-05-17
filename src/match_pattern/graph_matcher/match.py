@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from collections import defaultdict
-from itertools import tee, combinations, permutations
+from itertools import tee, combinations, permutations, izip
 from graph_matcher.configuration import Configuration, Equivalent
 
 
@@ -33,11 +33,11 @@ def generate_chains(target_nodes, pattern_nodes):
     def generate(pattern_iter, chain):
         try:
             pattern, targets = next(pattern_iter)
-            not_used_targets = list(targets - {x.target for x in chain})
+            not_used_targets = targets - {x.target for x in chain}
             pattern_iter_list = tee(pattern_iter, len(not_used_targets))
-            for index, target in enumerate(not_used_targets):
+            for new_iter, target in izip(pattern_iter_list, not_used_targets):
                 new_chain = chain + [Equivalent(target, pattern)]
-                for sub_chain in generate(pattern_iter_list[index], new_chain):
+                for sub_chain in generate(new_iter, new_chain):
                     yield sub_chain
         except StopIteration:
             yield chain
