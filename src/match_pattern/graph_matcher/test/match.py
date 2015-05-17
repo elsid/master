@@ -4,7 +4,7 @@
 from types import GeneratorType
 from unittest import TestCase, main
 from itertools import permutations
-from hamcrest import assert_that, equal_to, empty
+from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from graph_matcher.match import Equivalent, match, replace_node_by_obj
 from graph_matcher.graph import Graph
 
@@ -81,35 +81,18 @@ class Match(TestCase):
         assert_that(second_variants, equal_to([[('a', 1)]]))
 
     def test_match_complete_graphs_and_should_succeed(self):
-        first = Graph([(p[0], p[1]) for p in permutations((1, 2, 3, 4))])
-        second = Graph([(p[0], p[1]) for p in permutations('abcd')])
-        variants = to_list(replace_node_by_obj(match(first, second)))
-        assert_that(variants, equal_to([
-            [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')],
-            [(1, 'a'), (2, 'b'), (3, 'd'), (4, 'c')],
-            [(1, 'a'), (2, 'c'), (3, 'b'), (4, 'd')],
-            [(1, 'a'), (2, 'd'), (3, 'b'), (4, 'c')],
-            [(1, 'a'), (2, 'c'), (3, 'd'), (4, 'b')],
-            [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b')],
-            [(1, 'b'), (2, 'a'), (3, 'c'), (4, 'd')],
-            [(1, 'b'), (2, 'a'), (3, 'd'), (4, 'c')],
-            [(1, 'b'), (2, 'c'), (3, 'a'), (4, 'd')],
-            [(1, 'b'), (2, 'd'), (3, 'a'), (4, 'c')],
-            [(1, 'b'), (2, 'c'), (3, 'd'), (4, 'a')],
-            [(1, 'b'), (2, 'd'), (3, 'c'), (4, 'a')],
-            [(1, 'c'), (2, 'a'), (3, 'b'), (4, 'd')],
-            [(1, 'c'), (2, 'a'), (3, 'd'), (4, 'b')],
-            [(1, 'c'), (2, 'b'), (3, 'a'), (4, 'd')],
-            [(1, 'c'), (2, 'd'), (3, 'a'), (4, 'b')],
-            [(1, 'c'), (2, 'b'), (3, 'd'), (4, 'a')],
-            [(1, 'c'), (2, 'd'), (3, 'b'), (4, 'a')],
-            [(1, 'd'), (2, 'a'), (3, 'b'), (4, 'c')],
-            [(1, 'd'), (2, 'a'), (3, 'c'), (4, 'b')],
-            [(1, 'd'), (2, 'b'), (3, 'a'), (4, 'c')],
-            [(1, 'd'), (2, 'c'), (3, 'a'), (4, 'b')],
-            [(1, 'd'), (2, 'b'), (3, 'c'), (4, 'a')],
-            [(1, 'd'), (2, 'c'), (3, 'b'), (4, 'a')],
-        ]))
+        target_nodes = (1, 2, 3, 4)
+        pattern_nodes = ('a', 'b', 'c', 'd')
+        first = Graph((p[0], p[1]) for p in permutations(target_nodes))
+        second = Graph((p[0], p[1]) for p in permutations(pattern_nodes))
+        actual_variants = to_list(replace_node_by_obj(match(first, second)))
+
+        def generate_expected_variants():
+            for pattern in permutations(pattern_nodes, len(target_nodes)):
+                yield zip(target_nodes, pattern)
+
+        expected_variants = list(generate_expected_variants())
+        assert_that(actual_variants, contains_inanyorder(*expected_variants))
 
     def test_match_different_graphs_should_succeed(self):
         first = Graph({(1, 2), (2, 3), (3, 4)})
