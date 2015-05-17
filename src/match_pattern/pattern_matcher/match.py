@@ -61,16 +61,17 @@ def eq_ignore_order(first, second):
     used = set()
     if len(first) != len(second):
         return False
-    for x in first:
+    for first_value in first:
+
+        def can_be_used(index, value):
+            return (index not in used
+                    and (eq_ignore_order(first_value, value)
+                         if is_list(value) else first_value == value))
+
         found_eq = False
-
-        def can_be_used(i, y):
-            return (i not in used and (is_list(y) and eq_ignore_order(x, y) or
-                    not is_list(y) and x == y))
-
-        for i, y in enumerate(second):
-            if can_be_used(i, y):
-                used.add(i)
+        for second_index, second_value in enumerate(second):
+            if can_be_used(second_index, second_value):
+                used.add(second_index)
                 found_eq = True
                 break
         if not found_eq:

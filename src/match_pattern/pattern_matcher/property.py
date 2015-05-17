@@ -3,7 +3,7 @@
 import yaml
 from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
-from pattern_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
+from pattern_matcher.eq_pattern import eq_pattern
 from pattern_matcher.has_equivalents import has_equivalents
 
 

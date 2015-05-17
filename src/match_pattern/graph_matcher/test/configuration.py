@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to, empty
+from hamcrest import assert_that, equal_to
 from graph_matcher.configuration import Configuration, Equivalent
 from graph_matcher.node import Node
 

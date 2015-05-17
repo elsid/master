@@ -6,7 +6,8 @@ from itertools import permutations
 from graph_matcher import Equivalent
 from pattern_matcher import Class, Model
 from pattern_matcher.errors import CheckVariantFailed
-from pattern_matcher.match import eq_ignore_order, check, MatchVariant, MatchResult
+from pattern_matcher.match import (
+    eq_ignore_order, check, MatchVariant, MatchResult)
 from pattern_matcher.cached_method import cached_method
 
 
