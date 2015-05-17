@@ -125,7 +125,7 @@ class MemberRedeclaration(Redeclaration):
                     classifier='"%s"' % self.classifier.name))
 
     def _what(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
 
 class VariableRedeclaration(MemberRedeclaration):
@@ -166,7 +166,7 @@ class MemberModifiersDuplication(Error):
                     modifiers=', '.join(self.duplicated_modifiers)))
 
     def _prefix(self):
-        raise NotImplemented()
+        raise NotImplementedError()
 
 
 class FieldModifiersDuplication(MemberModifiersDuplication):

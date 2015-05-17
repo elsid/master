@@ -177,7 +177,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', properties=[
@@ -195,7 +195,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of variable "a" in class "A"'))
@@ -214,7 +214,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
@@ -235,7 +235,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
@@ -263,7 +263,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
@@ -284,7 +284,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(len(errors), equal_to(1))
         assert_that(str(errors[0]), equal_to(
             'error: redeclaration of method "-A::f(in x: int): void" in class '
@@ -308,7 +308,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         a_type = Type(Class('A'))
         a_type.classifier.properties = [
@@ -329,7 +329,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, empty())
-        types, errors = fill_classifiers(tree, classifiers)
+        _, errors = fill_classifiers(tree, classifiers)
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[

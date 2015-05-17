@@ -103,7 +103,7 @@ class ClassInfoCache(object):
                     yield class_info
 
     def __get_from_jar_files(self, import_name):
-        for jar_file_path, jar_file in self.__jar_files.iteritems():
+        for jar_file in self.__jar_files.itervalues():
             for class_info in jar_file.get(import_name):
                 yield class_info
 

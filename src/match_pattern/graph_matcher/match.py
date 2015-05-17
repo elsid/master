@@ -23,10 +23,10 @@ def generate_chains(target_nodes, pattern_nodes):
         return generate_equivalent_node_pairs(target_nodes, pattern_nodes)
 
     def make_pattern_dict():
-            result = defaultdict(set)
-            for target, pattern in generate_pairs():
-                result[pattern].add(target)
-            return result
+        result = defaultdict(set)
+        for target, pattern in generate_pairs():
+            result[pattern].add(target)
+        return result
 
     pattern_dict = make_pattern_dict()
 

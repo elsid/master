@@ -47,6 +47,7 @@ def load_model(path_list, external_path_list):
 
 class InvalidYamlFormat(Exception):
     def __init__(self, file_path):
+        super(InvalidYamlFormat, self).__init__()
         self.file_path = file_path
 
     def __str__(self):

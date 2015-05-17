@@ -58,7 +58,7 @@ class Operation(NamedElement):
                     visibility=self.visibility if self.visibility else '',
                     name=self.name,
                     result=': %s' % self.result.name if self.result else '',
-                    parameters=', '.join(map(str, self.parameters)),
+                    parameters=', '.join(str(x) for x in self.parameters),
                     is_leaf=' leaf' if self.is_leaf else '',
                     is_query=' query' if self.is_query else '',
                     is_static=' static' if self.is_static else '',

@@ -33,6 +33,7 @@ class MultRangeError(Exception):
 
 class CheckVariantFailed(Exception):
     def __init__(self, variant, equivalent, connection):
+        super(CheckVariantFailed, self).__init__()
         self.variant = variant
         self.equivalent = equivalent
         self.connection = connection

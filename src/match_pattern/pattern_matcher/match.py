@@ -17,10 +17,10 @@ class MatchVariant(object):
                 and eq_ignore_order(self.equivalents, other.equivalents))
 
     def __str__(self):
-        return '\n'.join(map(str, self.equivalents))
+        return '\n'.join(str(x) for x in self.equivalents)
 
     def __repr__(self):
-        e = ',\n'.join(map(repr, self.equivalents))
+        e = ',\n'.join(repr(x) for x in self.equivalents)
         return 'MatchVariant(%s)' % ('[\n%s\n]' % e if e else '')
 
     def __len__(self):
@@ -40,10 +40,10 @@ class MatchResult(object):
                 and eq_ignore_order(self.variants, other.variants))
 
     def __str__(self):
-        return '\n\n'.join(map(str, self.variants))
+        return '\n\n'.join(str(x) for x in self.variants)
 
     def __repr__(self):
-        v = ',\n'.join(map(repr, self.variants))
+        v = ',\n'.join(repr(x) for x in self.variants)
         return 'MatchResult(%s)' % ('[\n%s\n]' % v if v else '')
 
     def __len__(self):
@@ -61,20 +61,21 @@ def eq_ignore_order(first, second):
     used = set()
     if len(first) != len(second):
         return False
-    for first_value in first:
+
+    def find_eq(first_value):
 
         def can_be_used(index, value):
             return (index not in used
                     and (eq_ignore_order(first_value, value)
                          if is_list(value) else first_value == value))
 
-        found_eq = False
         for second_index, second_value in enumerate(second):
             if can_be_used(second_index, second_value):
                 used.add(second_index)
-                found_eq = True
-                break
-        if not found_eq:
+                return True
+
+    for x in first:
+        if not find_eq(x):
             return False
     return True
 
@@ -148,43 +149,49 @@ def check(equivalents, raise_if_false=True):
     all_target_nodes = frozenset(x.target for x in equivalents)
     used = set()
 
-    def has_pattern(connection_color, end_type, pattern_node):
+    def check_one(equivalent):
 
-        def has_equivalent(target_nodes):
-            for target_node in target_nodes & all_target_nodes:
-                if Equivalent(target_node, pattern_node) in equivalents:
-                    return True
+        def has_pattern(connection):
 
-        for tk, tv in equivalent.target.connections.iteritems():
-            if connection_color == tk:
-                if end_type == EndType.INCOMING:
-                    return has_equivalent(tv.incoming)
-                elif end_type == EndType.OUTGOING:
-                    return has_equivalent(tv.outgoing)
+            def has_equivalent(target_nodes):
+                for target_node in target_nodes & all_target_nodes:
+                    if Equivalent(target_node, connection.node) in equivalents:
+                        return True
 
-    def check_pattern_nodes(connection_color, end_type, nodes):
-        for node in nodes:
-            connection = Connection(connection_color, end_type, node)
-            if connection not in used:
-                if has_pattern(*connection):
-                    used.add(connection)
-                else:
-                    if raise_if_false:
-                        e = Equivalent(equivalent.target.obj,
-                                       equivalent.pattern.obj)
-                        raise CheckVariantFailed(
-                            MatchVariant(replace_nodes_by_objs(equivalents)),
-                            e, connection)
+            for tk, tv in equivalent.target.connections.iteritems():
+                if connection.color == tk:
+                    if connection.end_type == EndType.INCOMING:
+                        return has_equivalent(tv.incoming)
+                    elif connection.end_type == EndType.OUTGOING:
+                        return has_equivalent(tv.outgoing)
+
+        def check_pattern_nodes(connection_color, end_type, nodes):
+            for node in nodes:
+                connection = Connection(connection_color, end_type, node)
+                if connection not in used:
+                    if has_pattern(connection):
+                        used.add(connection)
                     else:
-                        return False
-        return True
+                        if raise_if_false:
+                            e = Equivalent(equivalent.target.obj,
+                                           equivalent.pattern.obj)
+                            raise CheckVariantFailed(
+                                MatchVariant(replace_nodes_by_objs(equivalents)),
+                                e, connection)
+                        else:
+                            return False
+            return True
 
-    for equivalent in equivalents:
         for pk, pv in equivalent.pattern.connections.iteritems():
             if not check_pattern_nodes(pk, EndType.INCOMING, pv.incoming):
                 return False
             if not check_pattern_nodes(pk, EndType.OUTGOING, pv.outgoing):
                 return False
+        return True
+
+    for x in equivalents:
+        if not check_one(x):
+            return False
     return True
 
 

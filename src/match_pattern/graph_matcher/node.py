@@ -29,7 +29,7 @@ class Node(object):
     def neighbors(self):
 
         def generate():
-            for k, v in self.connections.iteritems():
+            for v in self.connections.itervalues():
                 for node in v.incoming:
                     yield node
                 for node in v.outgoing:
