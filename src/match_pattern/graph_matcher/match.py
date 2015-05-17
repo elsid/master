@@ -32,9 +32,8 @@ def generate_chains(target_nodes, pattern_nodes):
 
     def generate(pattern_iter, chain):
         try:
-            pattern = next(pattern_iter)
-            not_used_targets = list(pattern_dict[pattern]
-                                    - {x.target for x in chain})
+            pattern, targets = next(pattern_iter)
+            not_used_targets = list(targets - {x.target for x in chain})
             pattern_iter_list = tee(pattern_iter, len(not_used_targets))
             for index, target in enumerate(not_used_targets):
                 new_chain = chain + [Equivalent(target, pattern)]
@@ -43,7 +42,7 @@ def generate_chains(target_nodes, pattern_nodes):
         except StopIteration:
             yield chain
 
-    return generate(iter(sorted(pattern_dict.keys())), list())
+    return generate(iter(sorted(pattern_dict.iteritems())), list())
 
 
 class ConfigurationsGenerator(object):
