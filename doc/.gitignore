@@ -126,4 +126,12 @@ sympy-plots-for-*.tex/
 *.sav
 
 # idea
-.idea
+.idea/
+
+# zargo
+*.zargo~
+
+# generated
+doc.pdf
+inc/graph.pdf
+inc/model.pdf

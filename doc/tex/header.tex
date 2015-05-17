@@ -1,0 +1,79 @@
+\sloppy
+
+% Настройки стиля ГОСТ 7-32
+% Для начала определяем, хотим мы или нет, чтобы рисунки и таблицы нумеровались в пределах раздела, или нам нужна сквозная нумерация.
+\EqInChapter % формулы будут нумероваться в пределах раздела
+\TableInChapter % таблицы будут нумероваться в пределах раздела
+\PicInChapter % рисунки будут нумероваться в пределах раздела
+
+% Добавляем гипертекстовое оглавление в PDF
+\usepackage[
+bookmarks=true, colorlinks=true, unicode=true,
+urlcolor=black,linkcolor=black, anchorcolor=black,
+citecolor=black, menucolor=black, filecolor=black,
+]{hyperref}
+
+\usepackage[english,russian]{babel}
+\usepackage[T2A,T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage{bbold}
+\usepackage{enumerate}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{lscape}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{pifont}
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{verbatim}
+\usepackage{xcolor,colortbl}
+
+\IfFileExists{cyrtimes.sty}
+    {
+        \usepackage{cyrtimespatched}
+    }
+    {
+        % А если Times нету, то будет CM...
+    }
+
+\usepackage{graphicx} % Пакет для включения рисунков
+
+\geometry{right=20mm}
+\geometry{left=30mm}
+
+\setlength\voffset{-1in}
+\setlength\hoffset{-1in}
+\setlength\topmargin{0.7874in}
+\setlength\oddsidemargin{0.7874in}
+\setlength\textheight{9.754932in}
+\setlength\textwidth{6.6932993in}
+\setlength\footskip{26.148pt}
+\setlength\headheight{0cm}
+\setlength\headsep{0cm}
+
+\lstset{
+  basicstyle=\ttfamily,
+  mathescape
+}
+
+\usetikzlibrary{arrows,positioning,shadows}
+
+\algnewcommand\algorithmicswitch{\textbf{switch}}
+\algdef{SE}[SWITCH]{Switch}{EndSwitch}[1]{\algorithmicswitch\ #1}{\algorithmicend\ \algorithmicswitch}%
+\algtext*{EndSwitch}%
+
+\algnewcommand\algorithmiccase{\textbf{case}}
+\algdef{SE}[CASE]{Case}{EndCase}[1]{\algorithmiccase\ #1\textbf{:}}{\algorithmicend\ \algorithmiccase}%
+\algtext*{EndCase}%
+
+\algnewcommand\algorithmicinput{\textbf{yield}}
+\algnewcommand\Yield{\item[\algorithmicyield]}
