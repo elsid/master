@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from collections import defaultdict
-from itertools import tee, combinations, permutations, izip
+from itertools import tee, combinations, permutations, izip, product
 from graph_matcher.configuration import Configuration, Equivalent
 
 
@@ -11,10 +11,9 @@ def replace_node_by_obj(variants):
 
 
 def generate_equivalent_node_pairs(target_nodes, pattern_nodes):
-    for target in sorted(target_nodes):
-        for pattern in sorted(pattern_nodes):
-            if target.equiv_pattern(pattern):
-                yield target, pattern
+    for target, pattern in product(sorted(target_nodes), sorted(pattern_nodes)):
+        if target.equiv_pattern(pattern):
+            yield target, pattern
 
 
 def generate_chains(target_nodes, pattern_nodes):
