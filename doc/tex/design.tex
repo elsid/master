@@ -263,13 +263,13 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
     \State $checked\_p \gets$ \Call{checked\_patterns}{$C$}
     \While{$true$}
         \State $current \gets current + 1$
-        \State $C_{new} \gets (selected, current, checked)$
+        \State $C_{next} \gets (selected, current, checked)$
         \If{$current > |selected|$}
-            \State \Return $C_{new}$
+            \State \Return $C_{next}$
         \EndIf
         \State $(target, pattern) \gets selected^{current}$
-        \If{$target \not\in checked\_t \And pattern \not\in checked\_p \And$ \Call{is\_valid}{$C_{new}$}}
-            \State \Return $C_{new}$
+        \If{$target \not\in checked\_t \And pattern \not\in checked\_p \And$ \Call{is\_valid}{$C_{next}$}}
+            \State \Return $(selected, current, checked \cup \{ selected^{current} \})$
         \EndIf
     \EndWhile
 \EndFunction
