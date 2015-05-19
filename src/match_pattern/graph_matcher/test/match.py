@@ -3,7 +3,7 @@
 
 from types import GeneratorType
 from unittest import TestCase, main
-from itertools import permutations
+from itertools import permutations, combinations, izip, product
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from graph_matcher.match import Equivalent, match, replace_node_by_obj
 from graph_matcher.graph import Graph
@@ -14,6 +14,41 @@ def to_list(value):
         return [to_list(x) for x in value]
     else:
         return value
+
+
+class Mask(object):
+    def __init__(self, values):
+        self.__values = values
+
+    def __iter__(self):
+        return iter(self.__values)
+
+    def __le__(self, other):
+        try:
+            return next(False for a, b in izip(self, other) if a > b)
+        except StopIteration:
+            return True
+
+
+def mask_filter(mask, values):
+    return (x for x, present in izip(values, mask) if present)
+
+
+def generate_graphs(nodes_count):
+    nodes = range(1, nodes_count + 1)
+    arcs = list(combinations(nodes, 2))
+
+    def make_graph(mask):
+        return Graph(frozenset(mask_filter(mask, arcs)))
+
+    for target_mask in product({True, False}, repeat=len(arcs)):
+        target = make_graph(target_mask)
+        for pattern_mask in product({True, False}, repeat=len(arcs)):
+            if Mask(pattern_mask) <= Mask(target_mask):
+                pattern = make_graph(pattern_mask)
+                for node in pattern.nodes:
+                    node.obj = chr(ord('a') + int(node.obj) - 1)
+                yield target, pattern
 
 
 class Match(TestCase):
@@ -157,6 +192,16 @@ class Match(TestCase):
             ('FormattedCommandAlias::create', 'ConcreteFactory::create'),
             ('Type(CommandSender)', 'Type(AbstractProduct)'),
         ]]))
+
+    def test_match_generated_graphs_should_succeed(self):
+        for nodes_count in xrange(2, 5):
+            for target, pattern in generate_graphs(nodes_count):
+                if target.nodes and pattern.nodes:
+                    target = Graph(nodes=target.largest_connected_component())
+                    pattern = Graph(nodes=pattern.largest_connected_component())
+                    for v in replace_node_by_obj(match(target, pattern)):
+                        assert_that({x.pattern for x in v},
+                                    equal_to({x.obj for x in pattern.nodes}))
 
 
 if __name__ == '__main__':
