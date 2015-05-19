@@ -72,3 +72,6 @@ class Graph(object):
     def __repr__(self):
         return '\n'.join(repr(node) for node in sorted(self.nodes)
                          if repr(node))
+
+    def largest_connected_component(self):
+        return max(self.get_connected_components(), key=len)
