@@ -217,10 +217,10 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \item $P_{incoming} = \{ c : ( v, pattern, c ) \in E_{pattern} \And v \in \textrm{CHECKED\_PATTERNS}(C) \} $.
 \end{itemize}
 
-\textbf{Определение}. ADD --- процедура, добавляющаяя конфигурацию в
+\textbf{Определение}. ADD --- процедура, добавляющаяя конфигурации в
 коллекцию конфигураций. Реализация зависит от типа коллекции.
 
-\textbf{Определение}. $\textrm{TAKE} : 2^C \to C$ --- извлекает из коллекции конфигураций
+\textbf{Определение}. TAKE --- извлекает из коллекции конфигураций
 очередную конфигурацию. Реализация зависит от типа коллекции.
 
 Коллекция конфигураций может быть стеком, очередью или другой структурой данных.
@@ -242,11 +242,8 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \begin{algorithmic}
 \Function{initial\_configurations}{$V_t$, $V_p$}
     \State $C \gets \varnothing$
-    \State $E \gets \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \And ( \forall i, j) ( v^i_p \ne v^j_p ) \And ( v^n_t \in V_t ) \And ( v^n_p \in V_p ) \}$
-    \ForAll{$( v_t, v_p ) \in E$}
-        \State $neighbors_t \gets$ \Call{neighbors}{$v_t$}
-        \State $neighbors_p \gets$ \Call{neighbors}{$v_p$}
-        \ForAll{$chain \in$ \Call{chains}{$neighbors_t$, $neighbors_p$} }
+    \ForAll{ $( v_t, v_p ) \in \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \And ( \forall i, j) ( v^i_p \ne v^j_p ) \And ( v^n_t \in V_t ) \And ( v^n_p \in V_p ) \}$}
+        \ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
             \State $C \gets C \ \cup \{$ \Call{make\_configuration}{$v_t$, $v_p$, $chain$} $\}$
         \EndFor
     \EndFor
@@ -255,6 +252,11 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \end{algorithmic}
 
 \textbf{Определение}. Алгоритм <<продвижения>> конфигурации.
+
+\textbf{Входные данные}: $C$ --- не конечная конфигурация
+
+\textbf{Результат}: $C$ --- конечная конфигурация или конфигурация с новым
+элементом в множестве $checked$
 
 \begin{algorithmic}
 \Function{advance}{$C$}
@@ -283,6 +285,19 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 
 \begin{algorithmic}
 \Function{derived\_configurations}{$C$}
+\State $result \gets \varnothing$
+\State $(selected, current, checked) \gets C$
+\State $(v_t, v_p) \gets selected^{current}$
+\ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
+    \State $addition \gets chain \setminus selected$
+    \If{ $addition \ne \varnothing$ }
+        \State $result \gets result \cup \{ $ \Call{advance}{ $(selected \cdot addition, current, checked)$ } $ \}$
+    \EndIf
+\EndFor
+\If{ $result = \varnothing$ }
+    \State $result \gets \{ C \}$
+\EndIf
+\State \Return $result$
 \EndFunction
 \end{algorithmic}
 
@@ -302,16 +317,14 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
     \State $result \gets \varnothing$
     \State $Configurations \gets$ \Call{initial\_configurations}{$G_{target}$, $G_{pattern}$}
     \While{$Configurations \ne \varnothing$}
-        \State $C \gets$ \Call{take}{$Configurations$}
+        \State $Configurations, C \gets$ \Call{take}{$Configurations$}
         \State $C \gets$ \Call{advance}{C}
         \If{$C$ --- конечная}
             \If{\Call{checked\_patterns}{$C$} $= V_{pattern}$}
                 \State $result \gets result \cup \{ checked_C$ \}
             \EndIf
         \Else
-            \ForAll{$C_{new} \in$ \Call{derived\_configurations}{$C$}}
-                \State \Call{add}{$Configurations$, $C_{new}$}
-            \EndFor
+            \State $Configurations \gets$ \Call{add}{$Configurations$, \Call{derived\_configurations}{$C$} }
         \EndIf
     \EndWhile
     \State \Return $result$
