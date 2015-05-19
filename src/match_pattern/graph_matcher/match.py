@@ -69,10 +69,9 @@ class ConfigurationsGenerator(object):
                 chain = configuration.filter(chain)
                 if chain:
                     new_conf = configuration.clone(chain)
-                    if frozenset(new_conf.selected) not in self.__result:
-                        new_conf.advance()
-                        yield new_conf
-                        new_configurations_generated = True
+                    new_conf.advance()
+                    yield new_conf
+                    new_configurations_generated = True
             if not new_configurations_generated:
                 yield configuration
 
