@@ -98,7 +98,8 @@ def match_one(target_graph, pattern_graph):
     for configuration in configurations:
         configuration.advance()
         if configuration.at_end():
-            if configuration.checked_patterns() == pattern_graph.nodes:
+            checked_patterns = configuration.checked_patterns()
+            if len(checked_patterns) == len(pattern_graph.nodes):
                 if configurations.add_result(configuration):
                     yield sorted(configuration.checked)
         else:
