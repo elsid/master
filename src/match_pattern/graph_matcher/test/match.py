@@ -129,7 +129,7 @@ class Match(TestCase):
         expected_variants = list(generate_expected_variants())
         assert_that(actual_variants, contains_inanyorder(*expected_variants))
 
-    def test_match_different_graphs_should_succeed(self):
+    def test_match_different_graphs_should_be_empty_result(self):
         first = Graph({(1, 2), (2, 3), (3, 4)})
         second = Graph({('a', 'b'), ('b', 'c'), ('c', 'a')})
         variants = to_list(replace_node_by_obj(match(first, second)))
