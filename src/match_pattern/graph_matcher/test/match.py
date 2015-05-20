@@ -203,6 +203,44 @@ class Match(TestCase):
                         assert_that({x.pattern for x in v},
                                     equal_to({x.obj for x in pattern.nodes}))
 
+    def test_match_chain_of_two_in_chain_of_three_should_succeed(self):
+        target = Graph({(1, 2), (2, 3)})
+        pattern = Graph({('a', 'b')})
+        variants = to_list(replace_node_by_obj(match(target, pattern)))
+        assert_that(variants, equal_to([
+            [(1, 'a'), (2, 'b')],
+            [(2, 'a'), (3, 'b')],
+        ]))
+
+    def test_match_two_components_in_one_should_succeed(self):
+        target = Graph({(1, 2), (2, 3), (3, 4)})
+        pattern = Graph({('a', 'b'), ('c', 'd')})
+        variants = to_list(replace_node_by_obj(match(target, pattern)))
+        assert_that(variants, equal_to([
+            [(1, 'a'), (2, 'b')],
+            [(2, 'a'), (3, 'b')],
+            [(3, 'a'), (4, 'b')],
+            [(1, 'c'), (2, 'd')],
+            [(2, 'c'), (3, 'd')],
+            [(3, 'c'), (4, 'd')],
+        ]))
+        # FIXME: must be
+        # assert_that(variants, equal_to([
+        #     [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd')],
+        #     [(2, 'a'), (3, 'b')],
+        #     [(1, 'c'), (2, 'd'), (3, 'a'), (4, 'b')],
+        #     [(2, 'c'), (3, 'd')],
+        # ]))
+
+    def test_match_one_component_in_two_should_succeed(self):
+        target = Graph({(1, 2), (3, 4)})
+        pattern = Graph({('a', 'b')})
+        variants = to_list(replace_node_by_obj(match(target, pattern)))
+        assert_that(variants, equal_to([
+            [(1, 'a'), (2, 'b')],
+            [(3, 'a'), (4, 'b')],
+        ]))
+
 
 if __name__ == '__main__':
     main()
