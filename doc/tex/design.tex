@@ -319,7 +319,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
     \While{$Configurations \ne \varnothing$}
         \State $Configurations, C \gets$ \Call{take}{$Configurations$}
         \State $C \gets$ \Call{advance}{C}
-        \If{$C$ --- конечная}
+        \If{$C$ --- конечная конфигурация}
             \If{\Call{checked\_patterns}{$C$} $= V_{pattern}$}
                 \State $result \gets result \cup \{ checked_C$ \}
             \EndIf
@@ -331,9 +331,13 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \EndFunction
 \end{algorithmic}
 
-Конфигурации не имеют связей, поэтому их проверка может выполняться параллельно.
+Конфигурации не связаны, поэтому их проверка может выполняться параллельно.
 В этом алгоритме тело цикла \textbf{while} может выполняться параллельно,
 для этого нужно обеспечить синхронизацию коллекции $Configurations$.
+
+В общем случае графы состоят из нескольких компонент связности.
+Чтобы выполнить поиск таких графов, можно выполнить поиск для отдельных компонент,
+а затем объеденить результаты.
 
 \section{Структура графа модели объектно-ориентированной программы}
 \section{Алгоритм поиска шаблона модели объектно-ориентированной программы}
