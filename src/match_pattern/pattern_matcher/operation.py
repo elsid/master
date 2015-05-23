@@ -23,12 +23,22 @@ class Operation(NamedElement):
         super(Operation, self).__init__(name)
         self.result = result
         self.visibility = visibility
-        self.parameters = list(parameters) if parameters else list()
+        self.__parameters = list(parameters) if parameters else list()
         self.is_leaf = is_leaf
         self.is_query = is_query
         self.is_static = is_static
         self.invocations = list(invocations) if invocations else list()
         self.owner = owner
+        self.__update_parameters()
+
+    @property
+    def parameters(self):
+        return self.__parameters
+
+    @parameters.setter
+    def parameters(self, value):
+        self.__parameters = value
+        self.__update_parameters()
 
     @cached_eq
     def sub_equiv_pattern(self, pattern):
@@ -52,13 +62,21 @@ class Operation(NamedElement):
                 and self.is_static == other.is_static)
 
     def __str__(self):
+
+        def str_param(value):
+            return '{direction}{name}{type}'.format(
+                name=value.name,
+                type=': %s' % value.type.name if value.type else '',
+                direction='%s ' % value.direction if value.direction else '',
+            )
+
         return ('{visibility}{owner}{name}({parameters}){result}'
                 '{is_leaf}{is_query}{is_static}'
                 .format(
                     visibility=self.visibility if self.visibility else '',
                     name=self.name,
                     result=': %s' % self.result.name if self.result else '',
-                    parameters=', '.join(str(x) for x in self.parameters),
+                    parameters=', '.join(str_param(x) for x in self.parameters),
                     is_leaf=' leaf' if self.is_leaf else '',
                     is_query=' query' if self.is_query else '',
                     is_static=' static' if self.is_static else '',
@@ -93,6 +111,11 @@ class Operation(NamedElement):
                 and self.name == operation.name
                 and self.result == operation.result
                 and is_substitutable(operation.parameters))
+
+    def __update_parameters(self):
+        for position, parameter in enumerate(self.__parameters):
+            parameter.position = position
+            parameter.owner = self
 
 
 yaml.add_representer(Operation, Operation.yaml_representer)

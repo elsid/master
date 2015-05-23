@@ -28,11 +28,14 @@ class MakeOperation(TestCase):
     def test_dump_and_load_yaml_with_attrs_and_parameters_should_succeed(self):
         obj = Operation('f', is_static=True, parameters=[Parameter(name='x')])
         data = (
-            "!Operation\n"
+            "&id001 !Operation\n"
             "is_static: true\n"
             "name: f\n"
             "parameters:\n"
-            "- !Parameter {name: x}\n"
+            "- !Parameter\n"
+            "  name: x\n"
+            "  owner: *id001\n"
+            "  position: 0\n"
         )
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))

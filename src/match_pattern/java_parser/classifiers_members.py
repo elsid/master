@@ -209,12 +209,12 @@ class ClassifiersMembersFactory(Visitor):
             return False
         operation = self.__current_operation()
         if operation:
-            operation.parameters.append(Parameter(
+            operation.parameters = operation.parameters + [Parameter(
                 type=self.__get_classifier_type(
                     FormalParameterType(declaration)),
                 name=declaration.variable.name,
                 direction=Direction.IN,
-            ))
+            )]
             return True
 
     @staticmethod

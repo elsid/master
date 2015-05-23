@@ -6,15 +6,15 @@
     is_static: false
     name: memento
     owner: *id001
-    type: &id004 !Type
+    type: &id005 !Type
       classifier: &id002 !Class
         name: Memento
-    visibility: &id005 !Visibility 'public'
+    visibility: &id006 !Visibility 'public'
 - *id002
 - &id003 !Class
   name: Originator
   operations:
-  - !Operation
+  - &id004 !Operation
     is_static: false
     name: set_memento
     owner: *id003
@@ -22,12 +22,14 @@
     - !Parameter
       direction: !Direction 'in'
       name: memento
-      type: *id004
-    visibility: *id005
+      owner: *id004
+      position: 0
+      type: *id005
+    visibility: *id006
   - !Operation
     is_static: false
     name: create_memento
     owner: *id003
-    visibility: *id005
+    visibility: *id006
   suppliers:
   - *id002
