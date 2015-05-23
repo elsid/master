@@ -84,7 +84,7 @@ Generalization = namedtuple('Generalization', ('derived', 'general'))
 Dependency = namedtuple('Dependency', ('client', 'supplier'))
 HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
-PropertyIs = namedtuple('PropertyIs', ('property', 'type'))
+PropertyType = namedtuple('PropertyType', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
 TypeIs = namedtuple('TypeIs', ('classifier', 'type'))
 Invocation = namedtuple('Invocation', ('invoker', 'invoked'))
@@ -103,7 +103,7 @@ def make_graph(model):
                 yield Dependency(client=classifier, supplier=supplier)
             for property_ in classifier.properties:
                 yield HasProperty(classifier, property_)
-                yield PropertyIs(property_, property_.type)
+                yield PropertyType(property_, property_.type)
                 yield TypeIs(property_.type, property_.type.classifier)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
