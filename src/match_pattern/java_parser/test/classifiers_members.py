@@ -219,7 +219,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation('f', VOID_TYPE, Visibility.PRIVATE,
-                          [Parameter(INT_TYPE, 'x', Direction.IN)],
+                          [Parameter('x', INT_TYPE, Direction.IN)],
                           is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
@@ -240,10 +240,10 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation('f', VOID_TYPE, Visibility.PRIVATE,
-                          [Parameter(INT_TYPE, 'x', Direction.IN)],
+                          [Parameter('x', INT_TYPE, Direction.IN)],
                           is_static=False),
                 Operation('f', VOID_TYPE, Visibility.PRIVATE,
-                          [Parameter(FLOAT_TYPE, 'x', Direction.IN)],
+                          [Parameter('x', FLOAT_TYPE, Direction.IN)],
                           is_static=False),
             ]),
             'void': VOID_TYPE.classifier,
@@ -293,7 +293,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to({
             'A': Class('A', operations=[
                 Operation('f', VOID_TYPE, Visibility.PRIVATE,
-                          [Parameter(INT_TYPE, 'x', Direction.IN)],
+                          [Parameter('x', INT_TYPE, Direction.IN)],
                           is_static=False),
             ]),
             'void': VOID_TYPE.classifier,

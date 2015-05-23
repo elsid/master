@@ -30,7 +30,7 @@ class Memento(object):
     def originator_set_memento(self):
         return Operation(
             'set_memento', visibility=Visibility.PUBLIC, parameters=[
-                Parameter(self.memento_type(), 'memento', Direction.IN)
+                Parameter('memento', self.memento_type(), Direction.IN)
             ], is_static=False)
 
     @cached_method
