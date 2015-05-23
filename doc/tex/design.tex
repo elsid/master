@@ -305,7 +305,8 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \EndFunction
 \end{algorithmic}
 
-\textbf{Определение}. Агоритм поиска изоморфного подграфа в графе с одной компонентой связности.
+\textbf{Определение}. Агоритм поиска изоморфного подграфа в графе с одной
+компонентой связности.
 
 \textbf{Входные данные}:
 \begin{itemize}
@@ -318,20 +319,20 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 
 \begin{algorithmic}
 \Function{match\_one}{$G_{target}$, $G_{pattern}$}
-    \State $result \gets \varnothing$
+    \State $isomorphisms \gets \varnothing$
     \State $Configurations \gets$ \Call{initial\_configurations}{$G_{target}$, $G_{pattern}$}
     \While{$Configurations \ne \varnothing$}
         \State $Configurations, C \gets$ \Call{take}{$Configurations$}
         \State $C \gets$ \Call{advance}{C}
         \If{$C$ --- конечная конфигурация}
             \If{\Call{checked\_patterns}{$C$} $= V_{pattern}$}
-                \State $result \gets result \cup \{ checked_C$ \}
+                \State $isomorphisms \gets isomorphisms \cup \{ checked_C$ \}
             \EndIf
         \Else
             \State $Configurations \gets$ \Call{add}{$Configurations$, \Call{derived\_configurations}{$C$} }
         \EndIf
     \EndWhile
-    \State \Return $result$
+    \State \Return $isomorphisms$
 \EndFunction
 \end{algorithmic}
 
