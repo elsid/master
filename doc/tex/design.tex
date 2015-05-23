@@ -194,9 +194,9 @@ $$\textrm{NEIGHBORS}(v_G) = \{ u : (u \ne v_G) \And ( ( \exists (u, v_G, color^i
 
 \textbf{Определение}. $\textrm{CHAINS} : 2^V \times 2^V \to 2^{Chain}$ --- множество последовательностей пар вершин, изоморфизм которых нужно поверить:
 %
-$$Chain = \{ ( v^n_{t}, v^n_{p} ) : ( v^n_{t} \cong v^n_{p} ) \And ( ( \forall i, j ) ( v^i_{t} \ne v^j_{t} \And v^i_{p} \ne v^j_{p} ) ) \}_{n = 1}^N$$
+$$Chain = \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \And ( ( \forall i, j ) ( v^i_t \ne v^j_t \And v^i_p \ne v^j_p ) ) \}_{n = 1}^N$$
 %
-$$\textrm{CHAINS}(V_t, V_p) = \{ Chain = \{ ( v^n_{t}, v^n_{p} ) \}_{n = 1}^N : ( v^n_{t} \in V_t ) \And ( v^n_{p} \in V_p ) \}$$
+$$\textrm{CHAINS}(V_t, V_p) = \{ Chain = \{ ( v^n_t, v^n_p ) \}_{n = 1}^N : ( v^n_t \in V_t ) \And ( v^n_p \in V_p ) \}$$
 
 \textbf{Определение}. $\textrm{CHECKED\_TARGETS} : C \to 2^V$ --- вершины целевого графа из множества проверенных пар конфигурации:
 %
@@ -236,8 +236,8 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 
 \textbf{Входные данные}:
 \begin{itemize}
-\item $V_{t}$ --- множество вершин целевого графа;
-\item $V_{p}$ --- множество вершин шаблона.
+\item $V_t$ --- множество вершин целевого графа;
+\item $V_p$ --- множество вершин шаблона.
 \end{itemize}
 
 \textbf{Результат}: $\{ C \}$ --- множество начальных конфигураций.
