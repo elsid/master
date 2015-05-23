@@ -139,10 +139,13 @@
 \item $Colors_G$ --- множество типов дуг графа $G$;
 \item $incoming^{color}_G$ --- множество входящих дуг типа $color$ вершины графа $G$;
 \item $outgoing^{color}_G$ --- множество исходящих дуг типа $color$ вершины графа $G$;
-\item $isEquivalent: Object \times Object \to \{ 0, 1 \}$ --- функция эквивалентности значений вершин;
 \item $object_G$ --- значение вершины графа $G$;
-\item $object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$.
 \end{itemize}
+
+\textbf{Определение}. $isEquivalent: Object \times Object \to \{ 0, 1 \}$ ---
+функция эквивалентности значений вершин.
+
+$$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$$
 
 \textbf{Определение}. Вершины эквивалентны, если:
 \begin{enumerate}
@@ -242,7 +245,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \begin{algorithmic}
 \Function{initial\_configurations}{$V_t$, $V_p$}
     \State $C \gets \varnothing$
-    \ForAll{ $( v_t, v_p ) \in \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \And ( \forall i, j) ( v^i_p \ne v^j_p ) \And ( v^n_t \in V_t ) \And ( v^n_p \in V_p ) \}$}
+    \ForAll{ $( v_t, v_p ) : ( v_t \cong v_p ) \And ( v_t \in V_t ) \And ( v_p \in V_p )$ }
         \ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
             \State $C \gets C \ \cup \{$ \Call{make\_configuration}{$v_t$, $v_p$, $chain$} $\}$
         \EndFor
