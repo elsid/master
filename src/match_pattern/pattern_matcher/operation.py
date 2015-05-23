@@ -5,7 +5,6 @@ import yaml
 from itertools import izip
 from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
-from pattern_matcher.has_equivalents import has_equivalents
 from pattern_matcher.eq_pattern import eq_pattern
 
 
@@ -44,7 +43,6 @@ class Operation(NamedElement):
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Operation)
                 and eq_pattern(self.visibility, pattern.visibility)
-                and has_equivalents(self.parameters, pattern.parameters)
                 and eq_pattern(self.is_leaf, pattern.is_leaf)
                 and eq_pattern(self.is_query, pattern.is_query)
                 and eq_pattern(self.is_static, pattern.is_static))

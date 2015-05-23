@@ -3,7 +3,7 @@
 import yaml
 from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
-from pattern_matcher.eq_pattern import eq_pattern, sub_equiv_pattern
+from pattern_matcher.eq_pattern import eq_pattern
 
 
 class Parameter(NamedElement):
@@ -18,7 +18,6 @@ class Parameter(NamedElement):
     @cached_eq
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Parameter)
-                and (sub_equiv_pattern(self.type, pattern.type))
                 and eq_pattern(self.direction, pattern.direction)
                 and eq_pattern(self.position, pattern.position))
 

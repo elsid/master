@@ -92,6 +92,20 @@ class Visitor(VisitorPattern):
                            pattern=other.element_accept()),
                 Equivalent(target=self.concrete_element_accept(),
                            pattern=other.concrete_element_accept()),
+                Equivalent(target=self.visitor_type(),
+                           pattern=other.visitor_type()),
+                Equivalent(target=self.concrete_element_type(),
+                           pattern=other.concrete_element_type()),
+                Equivalent(target=self.visitor_visit_concrete_element(),
+                           pattern=other.visitor_visit_concrete_element()),
+                Equivalent(
+                    target=self.concrete_visitor_visit_concrete_element(),
+                    pattern=other.concrete_visitor_visit_concrete_element(),
+                ),
+                Equivalent(target=self.element_accept_visitor(),
+                           pattern=other.element_accept_visitor()),
+                Equivalent(target=self.concrete_element_accept_visitor(),
+                           pattern=other.concrete_element_accept_visitor()),
             ])
         ])
 
