@@ -144,7 +144,7 @@
 
 \textbf{Определение}. $isEquivalent: Object \times Object \to \{ 0, 1 \}$ ---
 функция эквивалентности значений вершин.
-
+%
 $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$$
 
 \textbf{Определение}. Вершины эквивалентны, если:
@@ -156,10 +156,11 @@ $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$
 
 Введем обозначение графа.
 
-\textbf{Определение}. $G = ( V, E )$ --- граф с множество типов вершин, где
+\textbf{Определение}. $G = ( V, Color, E )$ --- граф с множество типов вершин, где
 \begin{itemize}
 \item $V = \{ v \}$ --- множество вершин;
-\item $E = \{ e = (u, v, c) :  u, v \in V \}$ --- множество цветных дуг.
+\item $Color = \{ color \}$ --- множество типов дуг;
+\item $E = \{ e = (u, v, color) :  u, v \in V \And c \in C \}$ --- множество дуг.
 \end{itemize}
 
 Последовательность конфигураций от начальной до конечной приводит к получению
@@ -342,6 +343,144 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 Чтобы выполнить поиск таких графов, можно выполнить поиск для отдельных компонент,
 а затем объеденить результаты.
 
-\section{Структура графа модели объектно-ориентированной программы}
+\section{Граф модели объектно-ориентированной программы}
+
+На основе модели нужно построить граф, где разные типы связей будут разными типами дуг.
+Введеем обозначения:
+\begin{itemize}
+\item $V_{Classifier} = \{ v_{Classifier} \}$ --- множество вершин, которые являются объектами класса \textbf{Classifier};
+\item $V_{Type} = \{ v_{Type} \}$ --- множество вершин, которые являются объектами класса \textbf{Type};
+\item $V_{Property} = \{ v_{Property} \}$ --- множество вершин, которые являются объектами класса \textbf{Property};
+\item $V_{Operation} = \{ v_{Operation} \}$ --- множество вершин, которые являются объектами класса \textbf{Operation};
+\item $V_{Parameter} = \{ v_{Parameter} \}$ --- множество вершин, которые являются объектами класса \textbf{Parameter}.
+\end{itemize}
+
+\textbf{Определение}. $Generalization$ --- тип дуги для связи <<обобщение>>
+%
+$$e_{Generalization} = (v_{derived}, v_{general}, Generalization) : v_{derived}, v_{general} \in V_{Classifier}$$
+
+\begin{itemize}
+\item $v_{general}$ --- базовый класс;
+\item $v_{derived}$ --- производный класс от $v_{general}$ класс.
+\end{itemize}
+
+\textbf{Определение}. $Dependency$ --- тип дуги для определения зависимости
+между классами
+%
+$$e_{Dependency} = (v_{client}, v_{supplier}, Dependency) : v_{client}, v_{supplier} \in V_{Classifier}$$
+
+\begin{itemize}
+\item $v_{supplier}$ --- используемый класс;
+\item $v_{client}$ --- использующий $v_{supplier}$ класс.
+\end{itemize}
+
+\textbf{Определение}. $HasProperty$ --- тип дуги для связи классов и их свойств
+%
+$$e_{HasProperty} = (v_{Classifier}, v_{Property}, HasProperty)$$
+
+\textbf{Определение}. $HasOperation$ --- тип дуги для связи классов и их операций
+%
+$$e_{HasOperation} = (v_{Classifier}, v_{Operation}, HasOperation)$$
+
+\textbf{Определение}. $PropertyType$ --- тип дуги для связи свойства и его типа
+%
+$$e_{PropertyType} = (v_{Property}, v_{Type}, PropertyType)$$
+
+\textbf{Определение}. $OperationResult$ --- тип дуги для связи операции и возвращаемого типа
+%
+$$e_{OperationResult} = (v_{Operation}, v_{Type}, OperationResult)$$
+
+\textbf{Определение}. $TypeClassifier$ --- тип дуги для связи типа и его класса
+%
+$$e_{TypeClassifier} = (v_{Type}, v_{Classifier}, TypeClassifier)$$
+
+\textbf{Определение}. $Invocation$ --- тип дуги для связи вызываемой и вызввающей операции
+%
+$$e_{Invocation} = (v_{invoker}, v_{invoked}, Invocation)$$
+%
+\begin{itemize}
+\item $v_{invoked}$ --- вызываемая операция;
+\item $v_{invoker}$ --- вызывающая $v_{invoked}$ операция.
+\end{itemize}
+
+\textbf{Определение}. $Overriding$ --- тип дуги для связи
+переопределяемой и переопределяющей операции в базовом и производном классах
+%
+$$e_{Overriding} = (v_{override}, v_{overridden}, Overriding)$$
+
+\begin{itemize}
+\item $v_{overridden}$ --- переопределяемая операция;
+\item $v_{override}$ --- преопределяющая $v_{overridden}$ операция;
+\end{itemize}
+
+\textbf{Определение}. $HasParameter$ --- тип дуги для связи операции и ё параметров
+%
+$$e_{HasParameter} = (v_{Operation}, v_{Parameter}, HasParameter)$$
+
+\textbf{Определение}. $ParmeterType$ --- тип дуги для связи параметра и его типа
+%
+$$e_{ParmeterType} = (v_{Parameter}, v_{Type}, ParmeterType)$$
+
+\textbf{Определение}. $isEquivalent: Classifier \times Classifier \to \{ 0, 1 \}$
+--- функция эквивалентности классов
+%
+$$isEquivalent(target, pattern) = 1$$
+
+\textbf{Определение}. $isEquivalent: Type \times Type \to \{ 0, 1 \}$
+--- функция эквивалентности типов
+%
+\begin{multline*}
+isEquivalent(target, pattern) = (lower_{target}, upper_{target}) \cong (lower_{pattern}, upper_{pattern}) \\
+\And isUnique_{target} \cong isUnique_{pattern} \And isOrdered_{target} \cong isOrdered_{pattern}
+\end{multline*}
+
+\textbf{Определение}. $isEquivalent: Property \times Property \to \{ 0, 1 \}$
+--- функция эквивалентности свойств
+%
+\begin{multline*}
+isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \\
+\And aggregation_{target} \cong aggregation_{pattern} \And isStatic_{target} \cong isStatic_{pattern}
+\end{multline*}
+
+\textbf{Определение}. $isEquivalent: Operation \times Operation \to \{ 0, 1 \}$
+--- функция эквивалентности операций
+%
+\begin{multline*}
+isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \\
+\And isStatic_{target} \cong isStatic_{pattern}
+\end{multline*}
+
+\textbf{Определение}. $isEquivalent: Parameter \times Parameter \to \{ 0, 1 \}$
+--- функция эквивалентности параметров
+%
+\begin{multline*}
+isEquivalent(target, pattern) = direction_{target} \cong direction_{pattern} \\
+\And position_{target} \cong position_{pattern}
+\end{multline*}
+
+Для любых других пар объектов $isEquivalent(target, pattern) = 0$.
+
+Значения атрибутов могут принимать значение $\varnothing$,
+если их значение не нужно определять или но неизвестно.
+
+\textbf{Определение}. Значения атрибутов эквивалентны
+$(x_{target} \cong x_{pattern})$, если выполняется одно из условий:
+\begin{itemize}
+\item $x_{pattern} = \varnothing$
+\item $x_{target} = x_{pattern}$
+\end{itemize}
+
+На основе всех определений вершин и дуг, определим граф.
+
+\textbf{Определение}. $G = (V, Color, E)$ --- граф модели объектно-ориентированной программы, где:
+\begin{itemize}
+\item $V = V_{Classifier} \cup V_{Type} \cup V_{Property} \cup V_{Operation} \cup V_{Parameter}$
+--- множество вершин
+\item $Color = \{ Generalization$, $Dependency$, $HasProperty$, $HasOperation$,
+$PropertyType$, $OperationResult$, $TypeClassifier$, $Invocation$, $Overriding$,
+$HasParameter$, $ParameterType \}$  --- множество вершин
+\item $E = \{ (u, v, c) : u, v \in V \And c \in Color \}$ --- множество дуг
+\end{itemize}
+
 \section{Алгоритм поиска шаблона модели объектно-ориентированной программы}
 \section{Алгоритм построения модели объектно-ориентированной программы на языке Java}
