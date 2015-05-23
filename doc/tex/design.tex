@@ -344,6 +344,36 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 Чтобы выполнить поиск таких графов, можно выполнить поиск для отдельных компонент,
 а затем объеденить результаты.
 
+В этой работе будем считать, что шаблон должен содержать только одну
+компоненту связности.
+
+\textbf{Определение}. $\textrm{COMPONENTS} : G \to 2^G$ --- множество компонент
+связности графа:
+
+$\textrm{COMPONENTS}(G) = \{ (V, Color, E) : V \subseteq V_G \And Color \subseteq Color_G \And E \subseteq E_G \And (\forall u, v \in V)(\exists \{ w_1 = u, \dots, w_n, \dots, w_N = v : (\forall w_n, n=\overline{2,N})(w_{n-1} \in \textrm{NEIGHBORS}(w_n)) \})$
+
+\textbf{Определение}. Агоритм поиска изоморфного подграфа в графе с множеством
+компонент связности.
+
+\textbf{Входные данные}:
+\begin{itemize}
+\item $G_{target}$ --- целевой граф;
+\item $G_{pattern}$ --- граф шаблона.
+\end{itemize}
+
+\textbf{Результат}: $\{ \{ ( v_{target}, v_{pattern} ) \} \}$ --- множество
+изоморфизмов.
+
+\begin{algorithmic}
+\Function{match\_graph}{$G_{target}$, $G_{pattern}$}
+    \State $isomorphisms \gets \varnothing$
+    \ForAll{ $component \in$ \Call{components}{$G_{target}$}}
+        \State $isomorphisms \gets isomorphisms \cup$ \Call{match\_graph}{component, $G_{pattern}$}
+    \EndFor
+    \State \Return $isomorphisms$
+\EndFunction
+\end{algorithmic}
+
 \section{Граф модели объектно-ориентированной программы}
 
 На основе модели нужно построить граф, где разные типы связей будут разными типами дуг.
@@ -483,5 +513,98 @@ $HasParameter$, $ParameterType \}$  --- множество вершин
 \item $E = \{ (u, v, c) : u, v \in V \And c \in Color \}$ --- множество дуг
 \end{itemize}
 
-\section{Алгоритм поиска шаблона модели объектно-ориентированной программы}
-\section{Алгоритм построения модели объектно-ориентированной программы на языке Java}
+\section{Алгоритм поиска шаблона в модели объектно-ориентированной программы}
+
+Основная идея алгоритма в том, что нужно построить графы для модели программы
+и шаблона и выполнить поиск изоморфных шаблону подграфов модели.
+Определим необходимые функции и используемые алгоритмы.
+
+\textbf{Определение}. $\textrm{DIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
+--- множество переопределяемых операций в заданных классах
+
+$\textrm{DIRECT}(op, classifiers) = \{ x : x = op \And (\exists g \in classifiers)(x \in g.operations) \}$
+
+\textbf{Определение}. $\textrm{INDIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
+--- множество переопределяемых операций в заданных классах и их базовых классах
+
+$\textrm{INDIRECT}(op, C) = \begin{cases}
+\varnothing \ \textrm{, если} \ C = \varnothing \\
+\textrm{DIRECT}(op, C) \ \textrm{, если} \ \textrm{DIRECT}(op, C) \ne \varnothing \\
+\textrm{INDIRECT}(op, \{ s : (\exists c \in C)(s \in c.generals) \})
+\end{cases}
+$
+
+\textbf{Определение}. $\textrm{OVERRIDDEN}: Operation \to 2^{Operation}$
+--- множество переопределяемых операций
+
+$\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.generals)$
+
+\textbf{Определение}. Алгоритм построения графа модели объектно-ориентированной программы.
+
+\textbf{Входные данные}: $model$ --- модель программы;
+
+\textbf{Результат}: $G$ --- граф модели программы.
+
+\begin{algorithmic}
+\Function{model\_graph}{$model$}
+    \State $E \gets \varnothing$
+    \ForAll{ $classifier \in model.classifiers$ }
+        \ForAll{ $general \in classifier.generals$ }
+            \State $E \gets E \cup \{ ( classifier, general, Generalization ) \}$
+        \EndFor
+        \ForAll{ $supplier \in classifier.suppliers$ }
+            \State $E \gets E \cup \{ ( classifier, supplier, Dependency ) \}$
+        \EndFor
+        \ForAll{ $property \in classifier.properties$ }
+            \State $E \gets E \cup \{ ( classifier, property, HasProperty ) \}$
+            \State $E \gets E \cup \{ ( property, property.type, PropertyType ) \}$
+            \State $E \gets E \cup \{ ( property.type, property.type.classifier, TypeClassifier ) \}$
+        \EndFor
+        \ForAll{ $operation \in classifier.operations$ }
+            \State $E \gets E \cup \{ ( classifier, operation, HasOperation ) \}$
+            \If{ $operation.result \ne \varnothing$ }
+                \State $E \gets E \cup \{ ( operation, operation.result, OperationResult ) \}$
+                \State $E \gets E \cup \{ ( operation.result, operation.result.classifier, TypeClassifier ) \}$
+            \EndIf
+            \ForAll{ $invoked \in operation.invocations$ }
+                \State $E \gets E \cup \{ ( operation, invoked, Invocation ) \}$
+            \EndFor
+            \State $overidden \gets$ \Call{overridden}{$operation$}
+            \If{ $overidden \ne \varnothing$ }
+                \State $E \gets E \cup \{ ( operation, x, Overriding ) : \{ x \} \subseteq overridden \}$
+            \EndIf
+            \ForAll{ $parameter \in operation.parameters$ }
+                \State $E \gets E \cup \{ ( operation, parameter, HasParameters ) \}$
+                \State $E \gets E \cup \{ ( parameter, parameter.type, ParameterType ) \}$
+                \State $E \gets E \cup \{ ( parameter.type, parameter.type.classifier, TypeClassifier ) \}$
+            \EndFor
+        \EndFor
+    \EndFor
+    \State $V \gets \varnothing$
+    \State $Color \gets \varnothing$
+    \ForAll{ $(u, v, color) \in E$ }
+        \State $V \gets V \cup \{ u, v \}$
+        \State $Color \gets Color \cup \{ color \}$
+    \EndFor
+    \State \Return $(V, Color, E)$
+\EndFunction
+\end{algorithmic}
+
+\textbf{Определение}. Алгоритм поиска шаблона в модели объектно-ориентированной программы.
+
+\textbf{Входные данные}:
+\begin{itemize}
+\item $model_{target}$ --- модель программы;
+\item $model_{pattern}$ --- модель шаблона.
+\end{itemize}
+
+\textbf{Результат}: $\{ \{ ( object_{target}, object_{pattern} ) \} \}$
+--- множество вариантов соответствий объектов модели программы шаблону.
+
+\begin{algorithmic}
+\Function{match\_model}{$model_{target}$, $model_{pattern}$}
+    \State $G_{target} \gets$ \Call{model\_graph}{$model_{target}$}
+    \State $G_{pattern} \gets$ \Call{model\_graph}{$model_{pattern}$}
+    \State \Return \Call{match\_graph}{component, $G_{pattern}$}
+\EndFunction
+\end{algorithmic}
