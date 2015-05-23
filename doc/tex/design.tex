@@ -19,25 +19,26 @@
 \end{figure}
 
 \begin{enumerate}
-\item \textbf{Aggregation} --- тип агрегации для свойства:
+\item \textbf{Aggregation} --- тип агрегации для свойства, допустимые значения:
     \begin{enumerate}
     \item \textbf{none} --- отсутствует;
     \item \textbf{shared} --- класс ссылается на объект;
     \item \textbf{composite} --- класс владеет объектом;
     \end{enumerate}
-\item \textbf{Direction} --- тип параметра метода:
+\item \textbf{Direction} --- тип параметра метода, допустимые значения:
     \begin{enumerate}
     \item \textbf{in} --- метод только читает значение параметра и может изменять его состояние;
     \item \textbf{out} --- метод только изменяет значение параметра;
     \item \textbf{inout} --- метод читает и изменяет значение параметра;
     \end{enumerate}
-\item \textbf{Visibility} --- доступность свойства или метода:
+\item \textbf{Visibility} --- доступность свойства или метода, допустимые значения:
     \begin{enumerate}
     \item \textbf{private} --- только из этого же класса;
     \item \textbf{protected} --- из этого класса и всех производных классов;
     \item \textbf{public} --- из любого места;
     \end{enumerate}
-\item \textbf{Classifier} --- любой класс, интерфейс или перечисление, например \textbf{class}, \textbf{interface}, \textbf{enum} в \textbf{Java}:
+\item \textbf{Classifier} --- любой класс, интерфейс или перечисление, например
+\textbf{class}, \textbf{interface}, \textbf{enum} в \textbf{Java}:
     \begin{enumerate}
     \item \textbf{name} --- имя, уникальное для модели;
     \item \textbf{poperty} --- свойства класса;
@@ -50,7 +51,6 @@
     \item \textbf{name} --- имя, уникальное для класса;
     \item \textbf{owner} --- класс, которому принадлежит свойство;
     \item \textbf{type} --- тип свойства;
-    \item \textbf{subsetted} --- надмножества свойства;
     \item \textbf{visibility} --- доступность;
     \item \textbf{isStatic} --- имеет ли свойство одно значение для всех объектов класса;
     \end{enumerate}
