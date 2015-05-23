@@ -86,7 +86,7 @@ HasProperty = namedtuple('HasProperty', ('classifier', 'property'))
 HasOperation = namedtuple('HasOperation', ('classifier', 'operation'))
 PropertyType = namedtuple('PropertyType', ('property', 'type'))
 OperationResult = namedtuple('OperationResult', ('operation', 'type'))
-TypeIs = namedtuple('TypeIs', ('classifier', 'type'))
+TypeClassifier = namedtuple('TypeClassifier', ('classifier', 'type'))
 Invocation = namedtuple('Invocation', ('invoker', 'invoked'))
 Overriding = namedtuple('Overriding', ('override', 'overridden'))
 HasParameter = namedtuple('HasParameter', ('operation', 'parameter'))
@@ -104,12 +104,13 @@ def make_graph(model):
             for property_ in classifier.properties:
                 yield HasProperty(classifier, property_)
                 yield PropertyType(property_, property_.type)
-                yield TypeIs(property_.type, property_.type.classifier)
+                yield TypeClassifier(property_.type, property_.type.classifier)
             for operation in classifier.operations:
                 yield HasOperation(classifier, operation)
                 if operation.result:
                     yield OperationResult(operation, operation.result)
-                    yield TypeIs(operation.result, operation.result.classifier)
+                    yield TypeClassifier(operation.result,
+                                         operation.result.classifier)
                 for invocation in operation.invocations:
                     yield Invocation(operation, invocation)
                 overridden = find_overridden(operation)
