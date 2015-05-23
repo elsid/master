@@ -9,6 +9,7 @@ from patterns import (
     AbstractFactory as AbstractFactoryPattern,
     Decorator as DecoratorPattern,
     Memento as MementoPattern,
+    Visitor as VisitorPattern,
 )
 from pattern_matcher.operation import Operation
 from pattern_matcher.property import Property
@@ -68,6 +69,29 @@ class Decorator(DecoratorPattern):
                            pattern=other.concrete_component_operation()),
                 Equivalent(target=self.component_type(),
                            pattern=other.component_type()),
+            ])
+        ])
+
+
+class Visitor(VisitorPattern):
+    def match_result(self, other):
+        return MatchResult([
+            MatchVariant([
+                Equivalent(target=self.client(), pattern=other.client()),
+                Equivalent(target=self.concrete_element(),
+                           pattern=other.concrete_element()),
+                Equivalent(target=self.concrete_visitor(),
+                           pattern=other.concrete_visitor()),
+                Equivalent(target=self.element(), pattern=other.element()),
+                Equivalent(target=self.visitor(), pattern=other.visitor()),
+                Equivalent(target=self.visitor_visit(),
+                           pattern=other.visitor_visit()),
+                Equivalent(target=self.concrete_visitor_visit(),
+                           pattern=other.concrete_visitor_visit()),
+                Equivalent(target=self.element_accept(),
+                           pattern=other.element_accept()),
+                Equivalent(target=self.concrete_element_accept(),
+                           pattern=other.concrete_element_accept()),
             ])
         ])
 
@@ -276,6 +300,14 @@ class MatchModel(TestCase):
     def test_match_decorator_patterns(self):
         target = Decorator()
         pattern = Decorator()
+        expected_match_result = target.match_result(pattern)
+        match_result = target.create().match(pattern.create())
+        assert_that(match_result, equal_to(expected_match_result))
+
+    def test_match_visitor_patterns(self):
+        target = Visitor()
+        pattern = Visitor()
+        assert_that(target.create(), equal_to(pattern.create()))
         expected_match_result = target.match_result(pattern)
         match_result = target.create().match(pattern.create())
         assert_that(match_result, equal_to(expected_match_result))

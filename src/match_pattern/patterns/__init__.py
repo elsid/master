@@ -8,6 +8,7 @@ from patterns.decorator import Decorator
 from patterns.empty import Empty
 from patterns.memento import Memento
 from patterns.method_overriding import MethodOverriding
+from patterns.visitor import Visitor
 
 
 PATTERNS = (
@@ -19,6 +20,7 @@ PATTERNS = (
     Empty,
     Memento,
     MethodOverriding,
+    Visitor,
 )
 
 
