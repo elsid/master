@@ -10,6 +10,9 @@ DEF += $(wildcard ../src/*.def)
 
 #PDF += inc/title.pdf
 PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
+PDF += inc/idef0.pdf
+PDF += inc/idef0-general.pdf
+PDF += inc/idef0-specific.pdf
 
 MAKEFILE += Makefile
 
