@@ -37,6 +37,10 @@ class Node(object):
 
         return frozenset(generate())
 
+    def count_connections(self):
+        return sum(len(x.incoming) + len(x.outgoing)
+                   for x in self.connections.values())
+
     def count_incoming_connections(self, color):
         return (len(self.connections[color].incoming)
                 if color in self.connections else 0)

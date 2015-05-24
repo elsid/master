@@ -75,3 +75,6 @@ class Graph(object):
 
     def largest_connected_component(self):
         return max(self.get_connected_components(), key=len)
+
+    def least_connected_node(self):
+        return min(self.nodes, key=Node.count_connections)

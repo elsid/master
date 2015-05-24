@@ -246,7 +246,8 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \begin{algorithmic}
 \Function{initial\_configurations}{$V_t$, $V_p$}
     \State $C \gets \varnothing$
-    \ForAll{ $( v_t, v_p ) : ( v_t \cong v_p ) \And ( v_t \in V_t ) \And ( v_p \in V_p )$ }
+    \State $p \gets v : |$\Call{neighbors}{$v$}$| = \min\limits_{w \in V_p} \{ |$\Call{neighbors}{$w$}$| \}$
+    \ForAll{ $( v_t, p ) : ( v_t \cong p ) \And ( v_t \in V_t ) $ }
         \ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
             \State $C \gets C \ \cup \{$ \Call{make\_configuration}{$v_t$, $v_p$, $chain$} $\}$
         \EndFor

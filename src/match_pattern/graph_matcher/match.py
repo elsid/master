@@ -10,6 +10,12 @@ def replace_node_by_obj(variants):
             for variant in variants)
 
 
+def generate_equivalent_one_node_pairs(target_nodes, pattern_node):
+    for target in sorted(target_nodes):
+        if target.equiv_pattern(pattern_node):
+            yield target, pattern_node
+
+
 def generate_equivalent_node_pairs(target_nodes, pattern_nodes):
     for target, pattern in product(sorted(target_nodes), sorted(pattern_nodes)):
         if target.equiv_pattern(pattern):
@@ -83,9 +89,12 @@ class ConfigurationsGenerator(object):
 
 
 def match_one(target_graph, pattern_graph):
+    if not pattern_graph.nodes:
+        return
+
     def generate_initial():
-        return generate_equivalent_node_pairs(target_graph.nodes,
-                                              pattern_graph.nodes)
+        return generate_equivalent_one_node_pairs(
+            target_graph.nodes, pattern_graph.least_connected_node())
 
     def generate_initial_configurations():
         for t, p in generate_initial():
