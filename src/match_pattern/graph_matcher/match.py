@@ -69,7 +69,6 @@ class ConfigurationsGenerator(object):
                 chain = configuration.filter(chain)
                 if chain:
                     new_conf = configuration.clone(chain)
-                    new_conf.advance()
                     yield new_conf
                     new_configurations_generated = True
             if not new_configurations_generated:

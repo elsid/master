@@ -295,7 +295,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
     \State $addition \gets chain \setminus selected$
     \If{ $addition \ne \varnothing$ }
-        \State $result \gets result \cup \{ $ \Call{advance}{ $(selected \cdot addition, current, checked)$ } $ \}$
+        \State $result \gets result \cup \{ (selected \cdot addition, current, checked) \}$
     \EndIf
 \EndFor
 \If{ $result = \varnothing$ }
