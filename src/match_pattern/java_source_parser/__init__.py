@@ -1,0 +1,10 @@
+# coding: utf-8
+
+from java_source_parser.full_classifiers_names import set_full_classifiers_names
+from java_source_parser.classifiers import make_classifiers
+from java_source_parser.external_classifiers import make_external_classifiers
+from java_source_parser.full_types_names import set_full_types_names
+from java_source_parser.classifiers_members import fill_classifiers
+from java_source_parser.generalizations import make_generalizations
+from java_source_parser.dependencies import make_dependencies
+from java_source_parser.model import make_model
