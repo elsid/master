@@ -28,7 +28,7 @@ selfConnection [0..*] : String</text>
 <line fill="#000000" stroke="#000000" stroke-width="1" x1="173" x2="185" y1="89" y2="96"/>
 <text font-family="Times New Roman" font-size="14" x="157" y="90">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="146" y="111">
+<text font-family="Times New Roman" font-size="14" x="145" y="111">
 node</text>
 <rect fill="#ffffff" height="109" stroke="#ffffff" stroke-width="1" width="137" x="478" y="40"/>
 <rect fill="none" height="109" stroke="#000000" stroke-width="1" width="137" x="478" y="40"/>
@@ -49,10 +49,8 @@ outgoing [0..*] : Node</text>
 <line fill="#000000" stroke="#000000" stroke-width="1" x1="466" x2="478" y1="41" y2="48"/>
 <text font-family="Times New Roman" font-size="14" x="440" y="40">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="407" y="63">
+<text font-family="Times New Roman" font-size="14" x="386" y="63">
 connections</text>
-<ellipse cx="427" cy="46" fill="#000000" rx="0.5" ry="0.5" stroke="#000000" stroke-width="1"/>
-<ellipse cx="428" cy="47" fill="#ffffff" rx="-0.5" ry="-0.5" stroke="#ffffff" stroke-width="1"/>
 <polyline fill="none" points="478,88 377,88" stroke="#000000" stroke-width="1"/>
 <polygon fill="#ffffff" points="478,88 468,93 458,88 468,83" stroke="#ffffff" stroke-width="1"/>
 <polygon fill="none" points="478,88 468,93 458,88 468,83" stroke="#000000" stroke-width="1"/>
@@ -60,7 +58,7 @@ connections</text>
 <line fill="#000000" stroke="#000000" stroke-width="1" x1="389" x2="377" y1="95" y2="88"/>
 <text font-family="Times New Roman" font-size="14" x="389" y="80">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="385" y="107">
+<text font-family="Times New Roman" font-size="14" x="385" y="108">
 incoming</text>
 <polyline fill="none" points="478,135 377,135" stroke="#000000" stroke-width="1"/>
 <polygon fill="#ffffff" points="478,135 468,140 458,135 468,130" stroke="#ffffff" stroke-width="1"/>
@@ -69,6 +67,6 @@ incoming</text>
 <line fill="#000000" stroke="#000000" stroke-width="1" x1="389" x2="377" y1="142" y2="135"/>
 <text font-family="Times New Roman" font-size="14" x="387" y="126">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="383" y="153">
+<text font-family="Times New Roman" font-size="14" x="383" y="152">
 outgoing</text>
 </svg>

@@ -1,62 +1,62 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="397" version="1.1" width="700" xmlns="http://www.w3.org/2000/svg">
-<rect fill="#ffffff" height="145" stroke="#ffffff" stroke-width="1" width="162" x="279" y="238"/>
-<rect fill="none" height="145" stroke="#000000" stroke-width="1" width="162" x="279" y="238"/>
-<text font-family="Times New Roman" font-size="14" x="334" y="252">
+<svg height="421" version="1.1" width="700" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="145" stroke="#ffffff" stroke-width="1" width="162" x="279" y="262"/>
+<rect fill="none" height="145" stroke="#000000" stroke-width="1" width="162" x="279" y="262"/>
+<text font-family="Times New Roman" font-size="14" x="334" y="276">
 Classifier</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="162" x="279" y="263"/>
-<text font-family="Times New Roman" font-size="14" x="283" y="278">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="162" x="279" y="287"/>
+<text font-family="Times New Roman" font-size="14" x="283" y="302">
 name : String</text>
-<text font-family="Times New Roman" font-size="14" x="283" y="296">
+<text font-family="Times New Roman" font-size="14" x="283" y="320">
 property [0..*] : Property</text>
-<text font-family="Times New Roman" font-size="14" x="283" y="314">
+<text font-family="Times New Roman" font-size="14" x="283" y="338">
 operation [0..*] : Operation</text>
-<text font-family="Times New Roman" font-size="14" x="283" y="332">
+<text font-family="Times New Roman" font-size="14" x="283" y="356">
 general [0..*] : Classifier</text>
-<text font-family="Times New Roman" font-size="14" x="283" y="350">
+<text font-family="Times New Roman" font-size="14" x="283" y="374">
 supplier [0..*] : Classifier</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="162" x="279" y="361"/>
-<rect fill="#ffffff" height="163" stroke="#ffffff" stroke-width="1" width="189" x="14" y="158"/>
-<rect fill="none" height="163" stroke="#000000" stroke-width="1" width="189" x="14" y="158"/>
-<text font-family="Times New Roman" font-size="14" x="84" y="172">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="162" x="279" y="385"/>
+<rect fill="#ffffff" height="163" stroke="#ffffff" stroke-width="1" width="189" x="14" y="182"/>
+<rect fill="none" height="163" stroke="#000000" stroke-width="1" width="189" x="14" y="182"/>
+<text font-family="Times New Roman" font-size="14" x="84" y="196">
 Property</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="183"/>
-<text font-family="Times New Roman" font-size="14" x="18" y="198">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="207"/>
+<text font-family="Times New Roman" font-size="14" x="18" y="222">
 name : String</text>
-<text font-family="Times New Roman" font-size="14" x="18" y="216">
+<text font-family="Times New Roman" font-size="14" x="18" y="240">
 owner : Classifier</text>
-<text font-family="Times New Roman" font-size="14" x="18" y="234">
+<text font-family="Times New Roman" font-size="14" x="18" y="258">
 type [0..1] : Type</text>
-<text font-family="Times New Roman" font-size="14" x="18" y="252">
+<text font-family="Times New Roman" font-size="14" x="18" y="276">
 visibility [0..1] : Visibility</text>
-<text font-family="Times New Roman" font-size="14" x="18" y="270">
+<text font-family="Times New Roman" font-size="14" x="18" y="294">
 aggregation [0..1] : Aggregation</text>
-<text font-family="Times New Roman" font-size="14" x="18" y="288">
+<text font-family="Times New Roman" font-size="14" x="18" y="312">
 isStatic [0..1] : Boolean</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="299"/>
-<rect fill="#ffffff" height="181" stroke="#ffffff" stroke-width="1" width="168" x="518" y="166"/>
-<rect fill="none" height="181" stroke="#000000" stroke-width="1" width="168" x="518" y="166"/>
-<text font-family="Times New Roman" font-size="14" x="574" y="180">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="323"/>
+<rect fill="#ffffff" height="181" stroke="#ffffff" stroke-width="1" width="168" x="518" y="190"/>
+<rect fill="none" height="181" stroke="#000000" stroke-width="1" width="168" x="518" y="190"/>
+<text font-family="Times New Roman" font-size="14" x="574" y="204">
 Operation</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="518" y="191"/>
-<text font-family="Times New Roman" font-size="14" x="522" y="206">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="518" y="215"/>
+<text font-family="Times New Roman" font-size="14" x="522" y="230">
 name : String</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="224">
+<text font-family="Times New Roman" font-size="14" x="522" y="248">
 owner : Classifier</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="242">
+<text font-family="Times New Roman" font-size="14" x="522" y="266">
 invoke [0..*] : Operation</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="260">
+<text font-family="Times New Roman" font-size="14" x="522" y="284">
 result [0..1] : Type</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="278">
+<text font-family="Times New Roman" font-size="14" x="522" y="302">
 parameter [0..*] : Parameter</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="296">
+<text font-family="Times New Roman" font-size="14" x="522" y="320">
 visibility [0..1] : Visibility</text>
-<text font-family="Times New Roman" font-size="14" x="522" y="314">
+<text font-family="Times New Roman" font-size="14" x="522" y="338">
 isStatic [0..1] : Boolean</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="518" y="325"/>
-<rect fill="#ffffff" height="109" stroke="#ffffff" stroke-width="1" width="156" x="518" y="14"/>
-<rect fill="none" height="109" stroke="#000000" stroke-width="1" width="156" x="518" y="14"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="518" y="349"/>
+<rect fill="#ffffff" height="127" stroke="#ffffff" stroke-width="1" width="156" x="518" y="14"/>
+<rect fill="none" height="127" stroke="#000000" stroke-width="1" width="156" x="518" y="14"/>
 <text font-family="Times New Roman" font-size="14" x="567" y="28">
 Parameter</text>
 <rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="156" x="518" y="39"/>
@@ -66,102 +66,104 @@ name : String</text>
 type [0..1] : Type</text>
 <text font-family="Times New Roman" font-size="14" x="522" y="90">
 direction [0..1] : Direction</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="156" x="518" y="101"/>
-<polyline fill="none" points="574,166 574,122" stroke="#000000" stroke-width="1"/>
-<polygon fill="#000000" points="574,166 569,156 574,146 579,156" stroke="#000000" stroke-width="1"/>
-<polygon fill="none" points="574,166 569,156 574,146 579,156" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="581" x2="574" y1="134" y2="122"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="567" x2="574" y1="134" y2="122"/>
-<text font-family="Times New Roman" font-size="14" x="546" y="149">
+<text font-family="Times New Roman" font-size="14" x="522" y="108">
+position : Integer</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="156" x="518" y="119"/>
+<polyline fill="none" points="574,190 574,140" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="574,190 569,180 574,170 579,180" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="574,190 569,180 574,170 579,180" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="581" x2="574" y1="152" y2="140"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="567" x2="574" y1="152" y2="140"/>
+<text font-family="Times New Roman" font-size="14" x="546" y="167">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="577" y="142">
+<text font-family="Times New Roman" font-size="14" x="577" y="160">
 parameter</text>
-<rect fill="#ffffff" height="145" stroke="#ffffff" stroke-width="1" width="181" x="270" y="46"/>
-<rect fill="none" height="145" stroke="#000000" stroke-width="1" width="181" x="270" y="46"/>
-<text font-family="Times New Roman" font-size="14" x="346" y="60">
+<rect fill="#ffffff" height="145" stroke="#ffffff" stroke-width="1" width="181" x="270" y="70"/>
+<rect fill="none" height="145" stroke="#000000" stroke-width="1" width="181" x="270" y="70"/>
+<text font-family="Times New Roman" font-size="14" x="346" y="84">
 Type</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="181" x="270" y="71"/>
-<text font-family="Times New Roman" font-size="14" x="274" y="86">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="181" x="270" y="95"/>
+<text font-family="Times New Roman" font-size="14" x="274" y="110">
 classifier : Classifier</text>
-<text font-family="Times New Roman" font-size="14" x="274" y="104">
+<text font-family="Times New Roman" font-size="14" x="274" y="128">
 lower [0..1] : Integer</text>
-<text font-family="Times New Roman" font-size="14" x="274" y="122">
+<text font-family="Times New Roman" font-size="14" x="274" y="146">
 upper [0..1] : UnlimitedNatural</text>
-<text font-family="Times New Roman" font-size="14" x="274" y="140">
+<text font-family="Times New Roman" font-size="14" x="274" y="164">
 isUnique [0..1] : Boolean</text>
-<text font-family="Times New Roman" font-size="14" x="274" y="158">
+<text font-family="Times New Roman" font-size="14" x="274" y="182">
 isOrdered [0..1] : Boolean</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="181" x="270" y="169"/>
-<polyline fill="none" points="202,174 270,174" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="202,174 212,169 222,174 212,179" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="202,174 212,169 222,174 212,179" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="258" x2="270" y1="181" y2="174"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="258" x2="270" y1="167" y2="174"/>
-<text font-family="Times New Roman" font-size="14" x="231" y="168">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="181" x="270" y="193"/>
+<polyline fill="none" points="202,198 270,198" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="202,198 212,193 222,198 212,203" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="202,198 212,193 222,198 212,203" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="258" x2="270" y1="205" y2="198"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="258" x2="270" y1="191" y2="198"/>
+<text font-family="Times New Roman" font-size="14" x="231" y="192">
 0..1</text>
-<text font-family="Times New Roman" font-size="14" x="232" y="189">
+<text font-family="Times New Roman" font-size="14" x="232" y="213">
 type</text>
-<polyline fill="none" points="518,94 450,94" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="518,94 508,99 498,94 508,89" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="518,94 508,99 498,94 508,89" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="87" y2="94"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="101" y2="94"/>
-<text font-family="Times New Roman" font-size="14" x="462" y="86">
+<polyline fill="none" points="518,118 450,118" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,118 508,123 498,118 508,113" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,118 508,123 498,118 508,113" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="111" y2="118"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="125" y2="118"/>
+<text font-family="Times New Roman" font-size="14" x="462" y="110">
 0..1</text>
-<text font-family="Times New Roman" font-size="14" x="464" y="110">
+<text font-family="Times New Roman" font-size="14" x="464" y="134">
 type</text>
-<polyline fill="none" points="518,174 450,174" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="518,174 508,179 498,174 508,169" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="518,174 508,179 498,174 508,169" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="167" y2="174"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="181" y2="174"/>
-<text font-family="Times New Roman" font-size="14" x="464" y="168">
+<polyline fill="none" points="518,198 450,198" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,198 508,203 498,198 508,193" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,198 508,203 498,198 508,193" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="191" y2="198"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="462" x2="450" y1="205" y2="198"/>
+<text font-family="Times New Roman" font-size="14" x="464" y="192">
 0..1</text>
-<text font-family="Times New Roman" font-size="14" x="463" y="189">
+<text font-family="Times New Roman" font-size="14" x="463" y="213">
 result</text>
-<polyline fill="none" points="358,190 358,238" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="358,190 363,200 358,210 353,200" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="358,190 363,200 358,210 353,200" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="351" x2="358" y1="226" y2="238"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="365" x2="358" y1="226" y2="238"/>
-<text font-family="Times New Roman" font-size="14" x="371" y="221">
+<polyline fill="none" points="358,214 358,262" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="358,214 363,224 358,234 353,224" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="358,214 363,224 358,234 353,224" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="351" x2="358" y1="250" y2="262"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="365" x2="358" y1="250" y2="262"/>
+<text font-family="Times New Roman" font-size="14" x="371" y="245">
 1</text>
-<text font-family="Times New Roman" font-size="14" x="299" y="217">
+<text font-family="Times New Roman" font-size="14" x="299" y="241">
 classifier</text>
-<polyline fill="none" points="202,270 279,270" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="202,270 212,265 222,270 212,275" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="202,270 212,265 222,270 212,275" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="277" y2="270"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="263" y2="270"/>
-<text font-family="Times New Roman" font-size="14" x="258" y="264">
+<polyline fill="none" points="202,294 279,294" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="202,294 212,289 222,294 212,299" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="202,294 212,289 222,294 212,299" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="301" y2="294"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="287" y2="294"/>
+<text font-family="Times New Roman" font-size="14" x="258" y="288">
 1</text>
-<text font-family="Times New Roman" font-size="14" x="243" y="285">
+<text font-family="Times New Roman" font-size="14" x="243" y="309">
 owner</text>
-<polyline fill="none" points="518,270 440,270" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="518,270 508,275 498,270 508,265" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="518,270 508,275 498,270 508,265" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="452" x2="440" y1="263" y2="270"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="452" x2="440" y1="277" y2="270"/>
-<text font-family="Times New Roman" font-size="14" x="453" y="261">
+<polyline fill="none" points="518,294 440,294" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,294 508,299 498,294 508,289" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,294 508,299 498,294 508,289" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="452" x2="440" y1="287" y2="294"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="452" x2="440" y1="301" y2="294"/>
+<text font-family="Times New Roman" font-size="14" x="453" y="285">
 1</text>
-<text font-family="Times New Roman" font-size="14" x="447" y="285">
+<text font-family="Times New Roman" font-size="14" x="447" y="309">
 owner</text>
-<polyline fill="none" points="440,318 518,318" stroke="#000000" stroke-width="1"/>
-<polygon fill="#000000" points="440,318 450,313 460,318 450,323" stroke="#000000" stroke-width="1"/>
-<polygon fill="none" points="440,318 450,313 460,318 450,323" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="325" y2="318"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="311" y2="318"/>
-<text font-family="Times New Roman" font-size="14" x="490" y="309">
+<polyline fill="none" points="440,342 518,342" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="440,342 450,337 460,342 450,347" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="440,342 450,337 460,342 450,347" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="349" y2="342"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="335" y2="342"/>
+<text font-family="Times New Roman" font-size="14" x="490" y="333">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="463" y="335">
+<text font-family="Times New Roman" font-size="14" x="463" y="359">
 operation</text>
-<polyline fill="none" points="279,304 202,304" stroke="#000000" stroke-width="1"/>
-<polygon fill="#000000" points="279,304 269,309 259,304 269,299" stroke="#000000" stroke-width="1"/>
-<polygon fill="none" points="279,304 269,309 259,304 269,299" stroke="#000000" stroke-width="1"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="297" y2="304"/>
-<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="311" y2="304"/>
-<text font-family="Times New Roman" font-size="14" x="209" y="295">
+<polyline fill="none" points="279,328 202,328" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="279,328 269,333 259,328 269,323" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="279,328 269,333 259,328 269,323" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="321" y2="328"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="335" y2="328"/>
+<text font-family="Times New Roman" font-size="14" x="209" y="319">
 0..*</text>
-<text font-family="Times New Roman" font-size="14" x="206" y="319">
+<text font-family="Times New Roman" font-size="14" x="206" y="343">
 property</text>
 </svg>
