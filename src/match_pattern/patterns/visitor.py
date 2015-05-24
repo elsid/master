@@ -54,10 +54,12 @@ class Visitor(object):
     def concrete_element_accept(self):
         return self._accept()
 
-    def _visit(self):
+    @staticmethod
+    def _visit():
         return Operation('visit', visibility=Visibility.PUBLIC)
 
-    def _accept(self):
+    @staticmethod
+    def _accept():
         return Operation('accept', visibility=Visibility.PUBLIC)
 
     @cached_method

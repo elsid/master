@@ -183,8 +183,8 @@ def check(equivalents, raise_if_false=True):
                         if raise_if_false:
                             e = Equivalent(equivalent.target.obj,
                                            equivalent.pattern.obj)
-                            raise CheckVariantFailed(
-                                MatchVariant(replace_nodes_by_objs(equivalents)),
+                            raise CheckVariantFailed(MatchVariant(
+                                replace_nodes_by_objs(equivalents)),
                                 e, connection)
                         else:
                             return False
