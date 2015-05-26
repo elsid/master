@@ -4,7 +4,7 @@ from graph_matcher.match import match
 from graph_matcher.node import Node
 
 
-def get_color(arc_type):
+def get_label(arc_type):
     return (None if arc_type in frozenset({tuple, set, frozenset})
             else arc_type.__name__)
 
@@ -25,14 +25,14 @@ def generate_nodes(nodes_and_arcs):
             return nodes_dict[node]
 
     def make_arc(src_node, dst_node, arc_type):
-        color = get_color(arc_type)
+        label = get_label(arc_type)
         src_node = get_node(src_node)
         dst_node = get_node(dst_node)
         if src_node == dst_node:
-            src_node.self_connections.add(color)
+            src_node.self_connections.add(label)
         else:
-            src_node.connections[color].outgoing.add(dst_node)
-            dst_node.connections[color].incoming.add(src_node)
+            src_node.connections[label].outgoing.add(dst_node)
+            dst_node.connections[label].incoming.add(src_node)
 
     nodes = set()
     for node_or_arc in nodes_and_arcs:

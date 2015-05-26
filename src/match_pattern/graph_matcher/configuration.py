@@ -73,11 +73,11 @@ class Configuration(object):
             target, pattern = self.current()
 
             def connections(neighbor, checked):
-                for color, connection in checked.connections.iteritems():
+                for label, connection in checked.connections.iteritems():
                     if neighbor in connection.incoming:
-                        yield (color, EndType.INCOMING)
+                        yield (label, EndType.INCOMING)
                     if neighbor in connection.outgoing:
-                        yield (color, EndType.OUTGOING)
+                        yield (label, EndType.OUTGOING)
 
             def is_valid(e):
                 return (frozenset(connections(pattern, e.pattern))

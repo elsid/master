@@ -41,28 +41,28 @@ class Node(object):
         return sum(len(x.incoming) + len(x.outgoing)
                    for x in self.connections.values())
 
-    def count_incoming_connections(self, color):
-        return (len(self.connections[color].incoming)
-                if color in self.connections else 0)
+    def count_incoming_connections(self, label):
+        return (len(self.connections[label].incoming)
+                if label in self.connections else 0)
 
-    def count_outgoing_connections(self, color):
-        return (len(self.connections[color].outgoing)
-                if color in self.connections else 0)
+    def count_outgoing_connections(self, label):
+        return (len(self.connections[label].outgoing)
+                if label in self.connections else 0)
 
     @cached_eq
     def equiv_pattern(self, pattern):
 
         def equiv_connections_count():
-            connections_colors = pattern.connections.keys()
+            connections_labels = pattern.connections.keys()
 
             def generate():
-                for color in connections_colors:
-                    yield (self.count_incoming_connections(color) >=
-                           pattern.count_incoming_connections(color)
-                           and self.count_outgoing_connections(color) >=
-                           pattern.count_outgoing_connections(color))
+                for label in connections_labels:
+                    yield (self.count_incoming_connections(label) >=
+                           pattern.count_incoming_connections(label)
+                           and self.count_outgoing_connections(label) >=
+                           pattern.count_outgoing_connections(label))
 
-            return sum(generate()) == len(connections_colors)
+            return sum(generate()) == len(connections_labels)
 
         return (isinstance(pattern, Node)
                 and equiv_connections_count()

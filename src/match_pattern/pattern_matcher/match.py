@@ -149,7 +149,7 @@ def match(target, pattern, limit=None, all_components=False):
                        for x in result if check(x))
 
 
-Connection = namedtuple('Connection', ('color', 'end_type', 'node'))
+Connection = namedtuple('Connection', ('label', 'end_type', 'node'))
 
 
 def check(equivalents, raise_if_false=True):
@@ -167,15 +167,15 @@ def check(equivalents, raise_if_false=True):
                         return True
 
             for tk, tv in equivalent.target.connections.iteritems():
-                if connection.color == tk:
+                if connection.label == tk:
                     if connection.end_type == EndType.INCOMING:
                         return has_equivalent(tv.incoming)
                     elif connection.end_type == EndType.OUTGOING:
                         return has_equivalent(tv.outgoing)
 
-        def check_pattern_nodes(connection_color, end_type, nodes):
+        def check_pattern_nodes(connection_label, end_type, nodes):
             for node in nodes:
-                connection = Connection(connection_color, end_type, node)
+                connection = Connection(connection_label, end_type, node)
                 if connection not in used:
                     if has_pattern(connection):
                         used.add(connection)

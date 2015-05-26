@@ -43,10 +43,10 @@ class CheckVariantFailed(Exception):
         def generate():
             for e in self.variant.equivalents:
                 base = '%s === %s' % (repr(e.target), repr(e.pattern))
-                color = self.connection.color
+                label = self.connection.label
                 end_type = self.connection.end_type
                 if e == self.equivalent:
-                    yield '  %s <<< %s (%s)' % (base, color, end_type)
+                    yield '  %s <<< %s (%s)' % (base, label, end_type)
                 else:
                     yield '  ' + base
 

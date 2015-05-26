@@ -26,7 +26,7 @@ class MakeGraph(TestCase):
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to('[1] ---> 2'))
 
-    def test_make_with_one_colored_arc_should_succeed(self):
+    def test_make_with_one_labeled_arc_should_succeed(self):
         graph = Graph({Red(1, 2)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to('[1] -Red-> 2'))
@@ -36,7 +36,7 @@ class MakeGraph(TestCase):
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1] *'))
 
-    def test_make_self_connected_by_colored_arc_node_should_succeed(self):
+    def test_make_self_connected_by_labeled_arc_node_should_succeed(self):
         graph = Graph({Red(1, 1)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1] * Red'))
@@ -47,7 +47,7 @@ class MakeGraph(TestCase):
         assert_that(repr(graph), equal_to('[1]' '\n'
                                           '[2] ---> 3'))
 
-    def test_make_one_node_and_one_colored_arc_should_succeed(self):
+    def test_make_one_node_and_one_labeled_arc_should_succeed(self):
         graph = Graph({1, Red(2, 3)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2, 3}))
         assert_that(repr(graph), equal_to('[1]' '\n'
@@ -83,11 +83,11 @@ class GraphGetConnectedComponents(TestCase):
         assert_that(get_connected_components(Graph([(1, 2)])),
                     equal_to([{1, 2}]))
 
-    def test_two_colored_connected_should_succeed(self):
+    def test_two_labeled_connected_should_succeed(self):
         assert_that(get_connected_components(Graph([Red(1, 2)])),
                     equal_to([{1, 2}]))
 
-    def test_two_twice_colored_connected_should_succeed(self):
+    def test_two_twice_labeled_connected_should_succeed(self):
         assert_that(get_connected_components(Graph([Red(1, 2), Blue(1, 2)])),
                     equal_to([{1, 2}]))
 
