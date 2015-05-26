@@ -200,15 +200,15 @@ $$Chain = \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \land ( ( \forall i, j ) (
 %
 $$\textrm{CHAINS}(V_t, V_p) = \{ Chain = \{ ( v^n_t, v^n_p ) \}_{n = 1}^N : ( v^n_t \in V_t ) \land ( v^n_p \in V_p ) \}$$
 
-\textbf{Определение}. $\textrm{CHECKED\_TARGETS} : C \to 2^V$ --- вершины целевого графа из множества проверенных пар конфигурации:
+\textbf{Определение}. $\textrm{CHECKED\_TARGETS} : 2^C \to 2^V$ --- вершины целевого графа из множества проверенных пар конфигурации:
 %
 $$\textrm{CHECKED\_TARGETS}(C) = \{ v_{target} : ( v_{target}, v_{pattern} ) \in checked_C \}$$
 
-\textbf{Определение}. $\textrm{CHECKED\_PATTERNS} : C \to 2^V$ --- вершины шаблона из множества проверенных пар конфигурации:
+\textbf{Определение}. $\textrm{CHECKED\_PATTERNS} : 2^C \to 2^V$ --- вершины шаблона из множества проверенных пар конфигурации:
 %
 $$\textrm{CHECKED\_PATTERNS}(C) = \{ v_{pattern} : ( v_{target}, v_{pattern} ) \in checked_C \}$$
 
-\textbf{Определение}. $\textrm{IS\_VALID} : C \to \{ 0, 1 \}$ --- может ли конфигурация привести к изоморфизму:
+\textbf{Определение}. $\textrm{IS\_VALID} : 2^C \to \{ 0, 1 \}$ --- может ли конфигурация привести к изоморфизму:
 %
 $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \land T_{incoming} \subseteq P_{incoming} $$
 %
