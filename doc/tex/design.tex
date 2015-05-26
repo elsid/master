@@ -87,7 +87,7 @@
 Типы вершин можно не различать, если считать, что в графе не может существовать двух эквивалентных вершин.
 Описанная модель сожержит множество типов связей.
 Может существовать несколько типов связей между вершинами.
-Введем множество типов дуг, обозначив каждый тип цветом.
+Введем множество типов дуг, обозначив каждый тип меткой.
 Структура графа представлена на рисунке~\ref{fig:graph}.
 
 \begin{figure}
@@ -110,7 +110,7 @@
     \end{enumerate}
 \item \textbf{Connections} --- множество дуг одного типа:
     \begin{enumerate}
-    \item \textbf{color} --- тип дуг;
+    \item \textbf{label} --- метка дуг;
     \item \textbf{incoming} --- множество вершин, в которые входят дуги, исходящие из текущей вершины;
     \item \textbf{selfConnection} --- множество вершин, из которых исходят дуги, входящие в текущую вершины.
     \end{enumerate}
@@ -137,9 +137,9 @@
 \begin{itemize}
 \item $target$ --- целевой граф;
 \item $pattern$ --- граф шаблона;
-\item $Colors_G$ --- множество типов дуг графа $G$;
-\item $incoming^{color}_G$ --- множество входящих дуг типа $color$ вершины графа $G$;
-\item $outgoing^{color}_G$ --- множество исходящих дуг типа $color$ вершины графа $G$;
+\item $L_G$ --- множество меток дуг графа $G$;
+\item $incoming^{l}_G$ --- множество входящих дуг с меткой $l$ вершины графа $G$;
+\item $outgoing^{l}_G$ --- множество исходящих дуг с меткой $l$ вершины графа $G$;
 \item $object_G$ --- значение вершины графа $G$;
 \end{itemize}
 
@@ -150,18 +150,18 @@ $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$
 
 \textbf{Определение}. Вершины эквивалентны ($target \cong pattern $), если:
 \begin{enumerate}
-\item $( \forall color \in Colors_{pattern} ) ( |incoming^{color}_{target}| \ge |incoming^{color}_{pattern}| )$;
-\item $( \forall color \in Colors_{pattern} ) ( |outgoing^{color}_{target}| \ge |outgoing^{color}_{pattern}| )$;
+\item $( \forall l \in L_{pattern} ) ( |incoming^{l}_{target}| \ge |incoming^{l}_{pattern}| )$;
+\item $( \forall l \in L_{pattern} ) ( |outgoing^{l}_{target}| \ge |outgoing^{l}_{pattern}| )$;
 \item $object_{target} \cong object_{pattern}$.
 \end{enumerate}
 
 Введем обозначение графа.
 
-\textbf{Определение}. $G = ( V, Color, E )$ --- граф с множество типов вершин, где
+\textbf{Определение}. $G = ( V, L, E )$ --- граф с множеством типов дуг, где
 \begin{itemize}
 \item $V = \{ v \}$ --- множество вершин;
-\item $Color = \{ color \}$ --- множество типов дуг;
-\item $E = \{ e = (u, v, color) :  u, v \in V \land c \in C \}$ --- множество дуг.
+\item $L = \{ l \}$ --- множество меток дуг;
+\item $E = \{ e = (u, v, l) :  u, v \in V \land l \in L \}$ --- множество дуг.
 \end{itemize}
 
 Последовательность конфигураций от начальной до конечной приводит к получению
@@ -192,7 +192,7 @@ $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$
 
 \textbf{Определение}. $\textrm{NEIGHBORS} : V \to 2^V$ --- множество соседей вершины графа:
 %
-$$\textrm{NEIGHBORS}(v_G) = \{ u : (u \ne v_G) \land ( ( \exists (u, v_G, color^i_G) \in E_G ) | ( \exists (v_G, v, color^j_G) \in E_G ) ) \}$$
+$$\textrm{NEIGHBORS}(v_G) = \{ u : (u \ne v_G) \land ( ( \exists (u, v_G, l^i_G) \in E_G ) | ( \exists (v_G, v, l^j_G) \in E_G ) ) \}$$
 
 \textbf{Определение}. $\textrm{CHAINS} : 2^V \times 2^V \to 2^{Chain}$ --- множество последовательностей пар вершин, изоморфизм которых нужно поверить:
 %
@@ -352,7 +352,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \land T_{incoming}
 \textbf{Определение}. $\textrm{COMPONENTS} : G \to 2^G$ --- множество компонент
 связности графа:
 
-$\textrm{COMPONENTS}(G) = \{ (V, Color, E) : V \subseteq V_G \land Color \subseteq Color_G \land E \subseteq E_G \land (\forall u, v \in V)(\exists \{ w_1 = u, \dots, w_n, \dots, w_N = v : (\forall w_n, n=\overline{2,N})(w_{n-1} \in \textrm{NEIGHBORS}(w_n)) \})$
+$\textrm{COMPONENTS}(G) = \{ (V, L, E) : V \subseteq V_G \land L \subseteq L_G \land E \subseteq E_G \land (\forall u, v \in V)(\exists \{ w_1 = u, \dots, w_n, \dots, w_N = v : (\forall w_n, n=\overline{2,N})(w_{n-1} \in \textrm{NEIGHBORS}(w_n)) \})$
 
 \textbf{Определение}. Агоритм поиска изоморфного подграфа в графе с множеством
 компонент связности.
@@ -388,7 +388,7 @@ $\textrm{COMPONENTS}(G) = \{ (V, Color, E) : V \subseteq V_G \land Color \subset
 \item $V_{Parameter} = \{ v_{Parameter} \}$ --- множество вершин, которые являются объектами класса \textbf{Parameter}.
 \end{itemize}
 
-\textbf{Определение}. $Generalization$ --- тип дуги для связи <<обобщение>>
+\textbf{Определение}. $Generalization$ --- метка дуги для связи <<обобщение>>
 %
 $$e_{Generalization} = (v_{derived}, v_{general}, Generalization) : v_{derived}, v_{general} \in V_{Classifier}$$
 
@@ -397,7 +397,7 @@ $$e_{Generalization} = (v_{derived}, v_{general}, Generalization) : v_{derived},
 \item $v_{derived}$ --- производный класс от $v_{general}$ класс.
 \end{itemize}
 
-\textbf{Определение}. $Dependency$ --- тип дуги для определения зависимости
+\textbf{Определение}. $Dependency$ --- метка дуги для определения зависимости
 между классами
 %
 $$e_{Dependency} = (v_{client}, v_{supplier}, Dependency) : v_{client}, v_{supplier} \in V_{Classifier}$$
@@ -407,27 +407,27 @@ $$e_{Dependency} = (v_{client}, v_{supplier}, Dependency) : v_{client}, v_{suppl
 \item $v_{client}$ --- использующий $v_{supplier}$ класс.
 \end{itemize}
 
-\textbf{Определение}. $HasProperty$ --- тип дуги для связи классов и их свойств
+\textbf{Определение}. $HasProperty$ --- метка дуги для связи классов и их свойств
 %
 $$e_{HasProperty} = (v_{Classifier}, v_{Property}, HasProperty)$$
 
-\textbf{Определение}. $HasOperation$ --- тип дуги для связи классов и их операций
+\textbf{Определение}. $HasOperation$ --- метка дуги для связи классов и их операций
 %
 $$e_{HasOperation} = (v_{Classifier}, v_{Operation}, HasOperation)$$
 
-\textbf{Определение}. $PropertyType$ --- тип дуги для связи свойства и его типа
+\textbf{Определение}. $PropertyType$ --- метка дуги для связи свойства и его типа
 %
 $$e_{PropertyType} = (v_{Property}, v_{Type}, PropertyType)$$
 
-\textbf{Определение}. $OperationResult$ --- тип дуги для связи операции и возвращаемого типа
+\textbf{Определение}. $OperationResult$ --- метка дуги для связи операции и возвращаемого типа
 %
 $$e_{OperationResult} = (v_{Operation}, v_{Type}, OperationResult)$$
 
-\textbf{Определение}. $TypeClassifier$ --- тип дуги для связи типа и его класса
+\textbf{Определение}. $TypeClassifier$ --- метка дуги для связи типа и его класса
 %
 $$e_{TypeClassifier} = (v_{Type}, v_{Classifier}, TypeClassifier)$$
 
-\textbf{Определение}. $Invocation$ --- тип дуги для связи вызываемой и вызввающей операции
+\textbf{Определение}. $Invocation$ --- метка дуги для связи вызываемой и вызввающей операции
 %
 $$e_{Invocation} = (v_{invoker}, v_{invoked}, Invocation)$$
 %
@@ -436,7 +436,7 @@ $$e_{Invocation} = (v_{invoker}, v_{invoked}, Invocation)$$
 \item $v_{invoker}$ --- вызывающая $v_{invoked}$ операция.
 \end{itemize}
 
-\textbf{Определение}. $Overriding$ --- тип дуги для связи
+\textbf{Определение}. $Overriding$ --- метка дуги для связи
 переопределяемой и переопределяющей операции в базовом и производном классах
 %
 $$e_{Overriding} = (v_{override}, v_{overridden}, Overriding)$$
@@ -446,11 +446,11 @@ $$e_{Overriding} = (v_{override}, v_{overridden}, Overriding)$$
 \item $v_{override}$ --- преопределяющая $v_{overridden}$ операция;
 \end{itemize}
 
-\textbf{Определение}. $HasParameter$ --- тип дуги для связи операции и ё параметров
+\textbf{Определение}. $HasParameter$ --- метка дуги для связи операции и ё параметров
 %
 $$e_{HasParameter} = (v_{Operation}, v_{Parameter}, HasParameter)$$
 
-\textbf{Определение}. $ParmeterType$ --- тип дуги для связи параметра и его типа
+\textbf{Определение}. $ParmeterType$ --- метка дуги для связи параметра и его типа
 %
 $$e_{ParmeterType} = (v_{Parameter}, v_{Type}, ParmeterType)$$
 
@@ -505,14 +505,14 @@ $(x_{target} \cong x_{pattern})$, если выполняется одно из 
 
 На основе всех определений вершин и дуг, определим граф.
 
-\textbf{Определение}. $G = (V, Color, E)$ --- граф модели объектно-ориентированной программы, где:
+\textbf{Определение}. $G = (V, L, E)$ --- граф модели объектно-ориентированной программы, где:
 \begin{itemize}
 \item $V = V_{Classifier} \cup V_{Type} \cup V_{Property} \cup V_{Operation} \cup V_{Parameter}$
 --- множество вершин
-\item $Color = \{ Generalization$, $Dependency$, $HasProperty$, $HasOperation$,
+\item $L = \{ Generalization$, $Dependency$, $HasProperty$, $HasOperation$,
 $PropertyType$, $OperationResult$, $TypeClassifier$, $Invocation$, $Overriding$,
 $HasParameter$, $ParameterType \}$  --- множество вершин
-\item $E = \{ (u, v, c) : u, v \in V \land c \in Color \}$ --- множество дуг
+\item $E = \{ (u, v, l) : u, v \in V \land l \in L \}$ --- множество дуг
 \end{itemize}
 
 Структура графа представлена на рисунке~\ref{fig:model-graph}.
@@ -592,12 +592,12 @@ $\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.g
         \EndFor
     \EndFor
     \State $V \gets \varnothing$
-    \State $Color \gets \varnothing$
-    \ForAll{ $(u, v, color) \in E$ }
+    \State $L \gets \varnothing$
+    \ForAll{ $(u, v, l) \in E$ }
         \State $V \gets V \cup \{ u, v \}$
-        \State $Color \gets Color \cup \{ color \}$
+        \State $L \gets L \cup \{ l \}$
     \EndFor
-    \State \Return $(V, Color, E)$
+    \State \Return $(V, L, E)$
 \EndFunction
 \end{algorithmic}
 
