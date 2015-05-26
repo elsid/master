@@ -161,7 +161,7 @@ $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$
 \begin{itemize}
 \item $V = \{ v \}$ --- множество вершин;
 \item $Color = \{ color \}$ --- множество типов дуг;
-\item $E = \{ e = (u, v, color) :  u, v \in V \And c \in C \}$ --- множество дуг.
+\item $E = \{ e = (u, v, color) :  u, v \in V \land c \in C \}$ --- множество дуг.
 \end{itemize}
 
 Последовательность конфигураций от начальной до конечной приводит к получению
@@ -192,13 +192,13 @@ $$object_{G_1} \cong object_{G_2} \iff isEquivalent(object_{G_1}, object_{G_2})$
 
 \textbf{Определение}. $\textrm{NEIGHBORS} : V \to 2^V$ --- множество соседей вершины графа:
 %
-$$\textrm{NEIGHBORS}(v_G) = \{ u : (u \ne v_G) \And ( ( \exists (u, v_G, color^i_G) \in E_G ) | ( \exists (v_G, v, color^j_G) \in E_G ) ) \}$$
+$$\textrm{NEIGHBORS}(v_G) = \{ u : (u \ne v_G) \land ( ( \exists (u, v_G, color^i_G) \in E_G ) | ( \exists (v_G, v, color^j_G) \in E_G ) ) \}$$
 
 \textbf{Определение}. $\textrm{CHAINS} : 2^V \times 2^V \to 2^{Chain}$ --- множество последовательностей пар вершин, изоморфизм которых нужно поверить:
 %
-$$Chain = \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \And ( ( \forall i, j ) ( v^i_t \ne v^j_t \And v^i_p \ne v^j_p ) ) \}_{n = 1}^N$$
+$$Chain = \{ ( v^n_t, v^n_p ) : ( v^n_t \cong v^n_p ) \land ( ( \forall i, j ) ( v^i_t \ne v^j_t \land v^i_p \ne v^j_p ) ) \}_{n = 1}^N$$
 %
-$$\textrm{CHAINS}(V_t, V_p) = \{ Chain = \{ ( v^n_t, v^n_p ) \}_{n = 1}^N : ( v^n_t \in V_t ) \And ( v^n_p \in V_p ) \}$$
+$$\textrm{CHAINS}(V_t, V_p) = \{ Chain = \{ ( v^n_t, v^n_p ) \}_{n = 1}^N : ( v^n_t \in V_t ) \land ( v^n_p \in V_p ) \}$$
 
 \textbf{Определение}. $\textrm{CHECKED\_TARGETS} : C \to 2^V$ --- вершины целевого графа из множества проверенных пар конфигурации:
 %
@@ -210,16 +210,16 @@ $$\textrm{CHECKED\_PATTERNS}(C) = \{ v_{pattern} : ( v_{target}, v_{pattern} ) \
 
 \textbf{Определение}. $\textrm{IS\_VALID} : C \to \{ 0, 1 \}$ --- может ли конфигурация привести к изоморфизму:
 %
-$$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} \subseteq P_{incoming} $$
+$$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \land T_{incoming} \subseteq P_{incoming} $$
 %
 \begin{itemize}
 \item $(target, pattern) = selected^{current}_C$
 \item $(V_{target}, E_{target}) = G_{target}, target \in V_{target}$ --- граф, в котором находится вершина $target$;
 \item $(V_{pattern}, E_{pattern}) = G_{pattern}, pattern \in V_{pattern}$ --- граф, в котором находится вершина $pattern$;
-\item $T_{outgoing} = \{ c : ( target, v, c ) \in E_{target} \And v \in \textrm{CHECKED\_TARGETS}(C) \} $;
-\item $T_{incoming} = \{ c : ( v, target, c ) \in E_{target} \And v \in \textrm{CHECKED\_TARGETS}(C) \} $;
-\item $P_{outgoing} = \{ c : ( pattern, v, c ) \in E_{pattern} \And v \in \textrm{CHECKED\_PATTERNS}(C) \} $;
-\item $P_{incoming} = \{ c : ( v, pattern, c ) \in E_{pattern} \And v \in \textrm{CHECKED\_PATTERNS}(C) \} $.
+\item $T_{outgoing} = \{ c : ( target, v, c ) \in E_{target} \land v \in \textrm{CHECKED\_TARGETS}(C) \} $;
+\item $T_{incoming} = \{ c : ( v, target, c ) \in E_{target} \land v \in \textrm{CHECKED\_TARGETS}(C) \} $;
+\item $P_{outgoing} = \{ c : ( pattern, v, c ) \in E_{pattern} \land v \in \textrm{CHECKED\_PATTERNS}(C) \} $;
+\item $P_{incoming} = \{ c : ( v, pattern, c ) \in E_{pattern} \land v \in \textrm{CHECKED\_PATTERNS}(C) \} $.
 \end{itemize}
 
 \textbf{Определение}. ADD --- процедура, добавляющаяя конфигурации в
@@ -248,7 +248,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \Function{initial\_configurations}{$V_t$, $V_p$}
     \State $C \gets \varnothing$
     \State $p \gets v : |$\Call{neighbors}{$v$}$| = \min\limits_{w \in V_p} \{ |$\Call{neighbors}{$w$}$| \}$
-    \ForAll{ $( v_t, p ) : ( v_t \cong p ) \And ( v_t \in V_t ) $ }
+    \ForAll{ $( v_t, p ) : ( v_t \cong p ) \land ( v_t \in V_t ) $ }
         \ForAll{ $chain \in$ \Call{chains}{ \Call{neighbors}{$v_t$}, \Call{neighbors}{$v_p$} } }
             \State $C \gets C \ \cup \{$ \Call{make\_configuration}{$v_t$, $v_p$, $chain$} $\}$
         \EndFor
@@ -276,7 +276,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
             \State \Return $C_{next}$
         \EndIf
         \State $(target, pattern) \gets selected^{current}$
-        \If{$target \not\in checked\_t \And pattern \not\in checked\_p \And$ \Call{is\_valid}{$C_{next}$}}
+        \If{$target \not\in checked\_t \land pattern \not\in checked\_p \land$ \Call{is\_valid}{$C_{next}$}}
             \State \Return $(selected, current, checked \cup \{ selected^{current} \})$
         \EndIf
     \EndWhile
@@ -352,7 +352,7 @@ $$\textrm{IS\_VALID}(C) = T_{outgoing} \subseteq P_{outgoing} \And T_{incoming} 
 \textbf{Определение}. $\textrm{COMPONENTS} : G \to 2^G$ --- множество компонент
 связности графа:
 
-$\textrm{COMPONENTS}(G) = \{ (V, Color, E) : V \subseteq V_G \And Color \subseteq Color_G \And E \subseteq E_G \And (\forall u, v \in V)(\exists \{ w_1 = u, \dots, w_n, \dots, w_N = v : (\forall w_n, n=\overline{2,N})(w_{n-1} \in \textrm{NEIGHBORS}(w_n)) \})$
+$\textrm{COMPONENTS}(G) = \{ (V, Color, E) : V \subseteq V_G \land Color \subseteq Color_G \land E \subseteq E_G \land (\forall u, v \in V)(\exists \{ w_1 = u, \dots, w_n, \dots, w_N = v : (\forall w_n, n=\overline{2,N})(w_{n-1} \in \textrm{NEIGHBORS}(w_n)) \})$
 
 \textbf{Определение}. Агоритм поиска изоморфного подграфа в графе с множеством
 компонент связности.
@@ -464,7 +464,7 @@ $$isEquivalent(target, pattern) = 1$$
 %
 \begin{multline*}
 isEquivalent(target, pattern) = (lower_{target}, upper_{target}) \cong (lower_{pattern}, upper_{pattern}) \\
-\And isUnique_{target} \cong isUnique_{pattern} \And isOrdered_{target} \cong isOrdered_{pattern}
+\land isUnique_{target} \cong isUnique_{pattern} \land isOrdered_{target} \cong isOrdered_{pattern}
 \end{multline*}
 
 \textbf{Определение}. $isEquivalent: Property \times Property \to \{ 0, 1 \}$
@@ -472,7 +472,7 @@ isEquivalent(target, pattern) = (lower_{target}, upper_{target}) \cong (lower_{p
 %
 \begin{multline*}
 isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \\
-\And aggregation_{target} \cong aggregation_{pattern} \And isStatic_{target} \cong isStatic_{pattern}
+\land aggregation_{target} \cong aggregation_{pattern} \land isStatic_{target} \cong isStatic_{pattern}
 \end{multline*}
 
 \textbf{Определение}. $isEquivalent: Operation \times Operation \to \{ 0, 1 \}$
@@ -480,7 +480,7 @@ isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \
 %
 \begin{multline*}
 isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \\
-\And isStatic_{target} \cong isStatic_{pattern}
+\land isStatic_{target} \cong isStatic_{pattern}
 \end{multline*}
 
 \textbf{Определение}. $isEquivalent: Parameter \times Parameter \to \{ 0, 1 \}$
@@ -488,7 +488,7 @@ isEquivalent(target, pattern) = visibility_{target} \cong visibility_{pattern} \
 %
 \begin{multline*}
 isEquivalent(target, pattern) = direction_{target} \cong direction_{pattern} \\
-\And position_{target} \cong position_{pattern}
+\land position_{target} \cong position_{pattern}
 \end{multline*}
 
 Для любых других пар объектов $isEquivalent(target, pattern) = 0$.
@@ -512,7 +512,7 @@ $(x_{target} \cong x_{pattern})$, если выполняется одно из 
 \item $Color = \{ Generalization$, $Dependency$, $HasProperty$, $HasOperation$,
 $PropertyType$, $OperationResult$, $TypeClassifier$, $Invocation$, $Overriding$,
 $HasParameter$, $ParameterType \}$  --- множество вершин
-\item $E = \{ (u, v, c) : u, v \in V \And c \in Color \}$ --- множество дуг
+\item $E = \{ (u, v, c) : u, v \in V \land c \in Color \}$ --- множество дуг
 \end{itemize}
 
 Структура графа представлена на рисунке~\ref{fig:model-graph}.
@@ -533,7 +533,7 @@ $HasParameter$, $ParameterType \}$  --- множество вершин
 \textbf{Определение}. $\textrm{DIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
 --- множество переопределяемых операций в заданных классах
 
-$\textrm{DIRECT}(op, classifiers) = \{ x : x = op \And (\exists g \in classifiers)(x \in g.operations) \}$
+$\textrm{DIRECT}(op, classifiers) = \{ x : x = op \land (\exists g \in classifiers)(x \in g.operations) \}$
 
 \textbf{Определение}. $\textrm{INDIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
 --- множество переопределяемых операций в заданных классах и их базовых классах
