@@ -92,35 +92,63 @@ Overriding = namedtuple('Overriding', ('override', 'overridden'))
 HasParameter = namedtuple('HasParameter', ('operation', 'parameter'))
 ParameterType = namedtuple('ParameterType', ('parameter', 'type'))
 
+CONNECTIONS_TYPES = frozenset((
+    Generalization,
+    Dependency,
+    HasProperty,
+    HasOperation,
+    PropertyType,
+    OperationResult,
+    TypeClassifier,
+    Invocation,
+    Overriding,
+    HasParameter,
+    ParameterType,
+))
 
-def make_graph(model):
+
+def make_graph(model, use_connections=CONNECTIONS_TYPES):
 
     def generate():
         for classifier in model.classifiers:
-            for general in classifier.generals:
-                yield Generalization(derived=classifier, general=general)
-            for supplier in classifier.suppliers:
-                yield Dependency(client=classifier, supplier=supplier)
+            if Generalization in use_connections:
+                for general in classifier.generals:
+                    yield Generalization(derived=classifier, general=general)
+            if Dependency in use_connections:
+                for supplier in classifier.suppliers:
+                    yield Dependency(client=classifier, supplier=supplier)
             for property_ in classifier.properties:
-                yield HasProperty(classifier, property_)
-                yield PropertyType(property_, property_.type)
-                yield TypeClassifier(property_.type, property_.type.classifier)
+                if HasProperty in use_connections:
+                    yield HasProperty(classifier, property_)
+                if PropertyType in use_connections:
+                    yield PropertyType(property_, property_.type)
+                if TypeClassifier in use_connections:
+                    yield TypeClassifier(property_.type,
+                                         property_.type.classifier)
             for operation in classifier.operations:
-                yield HasOperation(classifier, operation)
+                if HasOperation in use_connections:
+                    yield HasOperation(classifier, operation)
                 if operation.result:
-                    yield OperationResult(operation, operation.result)
-                    yield TypeClassifier(operation.result,
-                                         operation.result.classifier)
-                for invocation in operation.invocations:
-                    yield Invocation(operation, invocation)
-                overridden = find_overridden(operation)
-                if overridden:
-                    yield Overriding(operation, overridden)
+                    if OperationResult in use_connections:
+                        yield OperationResult(operation, operation.result)
+                    if TypeClassifier in use_connections:
+                        yield TypeClassifier(operation.result,
+                                             operation.result.classifier)
+                if Invocation in use_connections:
+                    for invocation in operation.invocations:
+                        yield Invocation(operation, invocation)
+                if Overriding in use_connections:
+                    overridden = find_overridden(operation)
+                    if overridden:
+                        yield Overriding(operation, overridden)
                 for parameter in operation.parameters:
-                    yield HasParameter(operation, parameter)
-                    yield ParameterType(parameter, parameter.type)
-                    yield TypeClassifier(parameter.type,
-                                         parameter.type.classifier)
+                    if HasParameter in use_connections:
+                        yield HasParameter(operation, parameter)
+                    if ParameterType in use_connections:
+                        yield ParameterType(parameter, parameter.type)
+                    if TypeClassifier in use_connections:
+                        yield TypeClassifier(parameter.type,
+                                             parameter.type.classifier)
 
     return Graph(generate())
 
@@ -141,8 +169,8 @@ def find_overridden(operation):
 
 
 def match(target, pattern, limit=None, all_components=False):
-    target_graph = make_graph(target)
     pattern_graph = make_graph(pattern)
+    target_graph = make_graph(target, pattern_graph.connections_types())
     result = islice(target_graph.match(pattern_graph, not all_components),
                     limit)
     return MatchResult(MatchVariant(replace_nodes_by_objs(x))

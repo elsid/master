@@ -5,8 +5,8 @@ from graph_matcher.node import Node
 
 
 def get_label(arc_type):
-    return (None if arc_type in frozenset({tuple, set, frozenset})
-            else arc_type.__name__)
+    return (tuple if arc_type in frozenset({tuple, set, frozenset})
+            else arc_type)
 
 
 def generate_nodes(nodes_and_arcs):
@@ -78,3 +78,7 @@ class Graph(object):
 
     def least_connected_node(self):
         return min(self.nodes, key=Node.count_connections)
+
+    def connections_types(self):
+        return reduce(frozenset.union,
+                      (x.connections_types() for x in self.nodes), frozenset())

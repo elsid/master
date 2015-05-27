@@ -19,6 +19,7 @@ class MakeNode(TestCase):
         assert_that(str(node), equal_to(str('node')))
         assert_that(hash(node), equal_to(hash('node')))
         assert_that(node < node, equal_to(False))
+        assert_that(node.connections_types(), equal_to(frozenset()))
 
 
 class NodeGetConnectedComponent(TestCase):

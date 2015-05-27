@@ -49,6 +49,10 @@ class Node(object):
         return (len(self.connections[label].outgoing)
                 if label in self.connections else 0)
 
+    def connections_types(self):
+        return (frozenset(self.self_connections)
+                | frozenset(x for x in self.connections.iterkeys()))
+
     @cached_eq
     def equiv_pattern(self, pattern):
 
@@ -90,10 +94,11 @@ class Node(object):
             for k, v in self.connections.iteritems():
                 if v.outgoing:
                     yield '[%s] -%s-> %s' % (
-                        self.obj, k or '-',
+                        self.obj, k.__name__ if k != tuple else '-',
                         ', '.join(str(n.obj) for n in v.outgoing))
             for c in self.self_connections:
-                yield '[%s] *%s' % (self.obj, ' %s' % c if c else '')
+                yield '[%s] *%s' % (self.obj, ' %s' % c.__name__
+                                    if c != tuple else '')
 
         return '\n'.join(generate())
 
