@@ -13,26 +13,13 @@ class Property(NamedElement):
                  name=None,
                  visibility=None,
                  aggregation=None,
-                 is_derived=None,
-                 is_derived_union=None,
-                 is_id=None,
-                 is_leaf=None,
-                 is_read_only=None,
                  is_static=None,
-                 subsetted_properties=None,
                  owner=None):
         super(Property, self).__init__(name)
         self.type = type
         self.visibility = visibility
         self.aggregation = aggregation
-        self.is_derived = is_derived
-        self.is_derived_union = is_derived_union
-        self.is_id = is_id
-        self.is_leaf = is_leaf
-        self.is_read_only = is_read_only
         self.is_static = is_static
-        self.subsetted_properties = (list(subsetted_properties)
-                                     if subsetted_properties else list())
         self.owner = owner
 
     @cached_eq
@@ -40,14 +27,7 @@ class Property(NamedElement):
         return (isinstance(pattern, Property)
                 and eq_pattern(self.visibility, pattern.visibility)
                 and eq_pattern(self.aggregation, pattern.aggregation)
-                and eq_pattern(self.is_derived, pattern.is_derived)
-                and eq_pattern(self.is_derived_union, pattern.is_derived_union)
-                and eq_pattern(self.is_id, pattern.is_id)
-                and eq_pattern(self.is_leaf, pattern.is_leaf)
-                and eq_pattern(self.is_read_only, pattern.is_read_only)
-                and eq_pattern(self.is_static, pattern.is_static)
-                and has_equivalents(self.subsetted_properties,
-                                    pattern.subsetted_properties))
+                and eq_pattern(self.is_static, pattern.is_static))
 
     @cached_eq
     def equiv_pattern(self, pattern):
@@ -58,13 +38,7 @@ class Property(NamedElement):
                 or isinstance(other, Property)
                 and self.visibility == other.visibility
                 and self.aggregation == other.aggregation
-                and self.is_derived == other.is_derived
-                and self.is_derived_union == other.is_derived_union
-                and self.is_id == other.is_id
-                and self.is_leaf == other.is_leaf
-                and self.is_read_only == other.is_read_only
-                and self.is_static == other.is_static
-                and self.subsetted_properties == other.subsetted_properties)
+                and self.is_static == other.is_static)
 
     @cached_eq
     def __eq__(self, other):
@@ -89,13 +63,7 @@ class Property(NamedElement):
             type=value.type,
             visibility=value.visibility,
             aggregation=value.aggregation,
-            is_derived=value.is_derived,
-            is_derived_union=value.is_derived_union,
-            is_id=value.is_id,
-            is_leaf=value.is_leaf,
-            is_read_only=value.is_read_only,
             is_static=value.is_static,
-            subsetted_properties=value.subsetted_properties or None,
             owner=value.owner,
         )
 

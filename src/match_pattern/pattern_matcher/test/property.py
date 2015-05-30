@@ -26,17 +26,6 @@ class MakeProperty(TestCase):
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))
 
-    def test_dump_and_load_yaml_with_subsetted_property_should_succeed(self):
-        obj = Property(name='a', subsetted_properties=[Property(name='b')])
-        data = (
-            "!Property\n"
-            "name: a\n"
-            "subsetted_properties:\n"
-            "- !Property {name: b}\n"
-        )
-        assert_that(yaml.dump(obj), equal_to(data))
-        assert_that(yaml.load(data), equal_to(obj))
-
 
 if __name__ == '__main__':
     main()

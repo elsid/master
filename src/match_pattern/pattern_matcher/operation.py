@@ -14,8 +14,6 @@ class Operation(NamedElement):
                  result=None,
                  visibility=None,
                  parameters=None,
-                 is_leaf=None,
-                 is_query=None,
                  is_static=None,
                  invocations=None,
                  owner=None):
@@ -23,8 +21,6 @@ class Operation(NamedElement):
         self.result = result
         self.visibility = visibility
         self.__parameters = list(parameters) if parameters else list()
-        self.is_leaf = is_leaf
-        self.is_query = is_query
         self.is_static = is_static
         self.invocations = list(invocations) if invocations else list()
         self.owner = owner
@@ -43,8 +39,6 @@ class Operation(NamedElement):
     def sub_equiv_pattern(self, pattern):
         return (isinstance(pattern, Operation)
                 and eq_pattern(self.visibility, pattern.visibility)
-                and eq_pattern(self.is_leaf, pattern.is_leaf)
-                and eq_pattern(self.is_query, pattern.is_query)
                 and eq_pattern(self.is_static, pattern.is_static))
 
     @cached_eq
@@ -55,8 +49,6 @@ class Operation(NamedElement):
                 and self.visibility == other.visibility
                 and self.result == other.result
                 and self.parameters == other.parameters
-                and self.is_leaf == other.is_leaf
-                and self.is_query == other.is_query
                 and self.is_static == other.is_static)
 
     def __str__(self):
@@ -68,15 +60,12 @@ class Operation(NamedElement):
                 direction='%s ' % value.direction if value.direction else '',
             )
 
-        return ('{visibility}{owner}{name}({parameters}){result}'
-                '{is_leaf}{is_query}{is_static}'
+        return ('{visibility}{owner}{name}({parameters}){result}{is_static}'
                 .format(
                     visibility=self.visibility if self.visibility else '',
                     name=self.name,
                     result=': %s' % self.result.name if self.result else '',
                     parameters=', '.join(str_param(x) for x in self.parameters),
-                    is_leaf=' leaf' if self.is_leaf else '',
-                    is_query=' query' if self.is_query else '',
                     is_static=' static' if self.is_static else '',
                     owner='%s::' % self.owner.name if self.owner else '',
                 ))
@@ -88,8 +77,6 @@ class Operation(NamedElement):
             result=value.result,
             visibility=value.visibility,
             parameters=value.parameters or None,
-            is_leaf=value.is_leaf,
-            is_query=value.is_query,
             is_static=value.is_static,
             invocations=value.invocations or None,
             owner=value.owner,
