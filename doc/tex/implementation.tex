@@ -1,9 +1,328 @@
 \chapter{Технологический раздел}
 \label{cha:implementation}
 
-\section{Структура программного комлекса}
-\subsection{Программа для построения модели программы на языке Java}
-\subsection{Программа для поиска шаблона проектирования}
 \section{Формат описания модели объектно-ориентированной программы}
-\section{Интерфейс программного комплекса}
+
+Основой является формат YAML~\cite{YAML}.
+Формат был выбран благодаря следующим достоинствам:
+\begin{itemize}
+\item текстовое представление;
+\item поддержка рекурсивных структур и ссылок;
+\item поддержка пользовательских типов данных.
+\end{itemize}
+
+Корневой элемент модели помечается тегом \verb;!Model; и является списком элементов
+модели:
+\begin{verbatim}
+!Model:
+- <Classifier>
+\end{verbatim}
+
+\verb;Classifier; -- любой из элементов, помеченный тегом \verb;!Class;,
+\verb;!Classifier;, \verb;!DataType;, \verb;!Enumeration;, \verb;!Interface;,
+\verb;!PrimitiveType;, который имеет структуру:
+\begin{verbatim}
+!Classifier
+name: <str>
+properties:
+  - <Property>
+operations:
+  - <Operation>
+generals:
+  - <Classifier>
+suppliers:
+  - <Classifier>
+\end{verbatim}
+
+Каждый из атрибутов является опциональным.
+Если не задано имя (\verb;name;), то элементу будет задано уникальное
+имя вида \verb;anonymous_<число>;.
+Выполняется для такого же атрибута других типов элементов.
+
+\verb;Property; --- элемент, помеченный тегом \verb;!Property; со следующей
+структурой:
+\begin{verbatim}
+!Property
+name: <str>
+type: <Type>
+visibility: <Visibility>
+aggregation: <Aggregation>
+is_static: <bool>
+owner: <Classifier>
+\end{verbatim}
+
+\verb;Operation; --- элемент, помеченный тегом \verb;!Operation; со следующей
+структурой:
+\begin{verbatim}
+!Operation
+name: <str>
+result: <Type>
+visibility: <Visibility>
+parameters:
+  - <Parameter>
+is_static: <bool>
+invocations:
+  - <Operation>
+owner: <Classifier>
+\end{verbatim}
+
+\verb;Type; --- элемент, помеченный тегом \verb;!Type; со следующей
+структурой:
+\begin{verbatim}
+!Operation
+classifier: <Classifier>
+lower: <int>
+upper: <int>
+is_ordered: <bool>
+is_unique: <bool>
+\end{verbatim}
+
+\verb;Visibility; --- элемент, помеченный тегом \verb;!Visibility;,
+имеющий одно из допустимых значений:
+\begin{itemize}
+\item \verb;'public';
+\item \verb;'protected';
+\item \verb;'private';
+\end{itemize}
+
+\verb;Aggregation; --- элемент, помеченный тегом \verb;!Aggregation;,
+имеющий одно из допустимых значений:
+\begin{itemize}
+\item \verb;'none';
+\item \verb;'shared';
+\item \verb;'composite';
+\end{itemize}
+
+\textbf{YAML} предоставляет возможность ссылаться на другие элементы по адресу.
+Каждый элемент должен быть описан один раз.
+Например, если нужно описать связь наследования между двумя классами, можно
+сделать следующим образом:
+\begin{verbatim}
+!Model
+- &id001 !Class
+  name: Base
+- !Class
+  name: Derived
+  generals:
+  - *id001
+\end{verbatim}
+
+\verb;&id001; означает, что классу с названием \verb;Base; присваивается такой
+адрес. В перечислении базовых классов в классе с названием \verb;Derived;
+указывается ссылка \verb;*id001; на \verb;Base;.
+
+\section{Структура программного комлекса}
+
+Для реализации разработанного метода разработан программный комплекс,
+который позволяет выполнять поиск шаблонов проектирования в программах,
+написанных на языке программирования \textbf{Java}.
+
+В комплекс входят следующие программы:
+\begin{itemize}
+\item \textbf{java\_source\_model} --- программа для построения модели программы
+на языке Java;
+\item \textbf{java\_bytecode\_model} --- программа для построения модели программы
+на основе байткода для виртуальной машины \textbf{Java};
+\item \textbf{pattern\_model} --- программа для построения модели шаблона;
+\item \textbf{match\_pattern} --- программа для поиска шаблона проектирования.
+\end{itemize}
+
+Основной сценарий использования программного комплекса:
+\begin{enumerate}
+\item построение модели программы с помощью \textbf{java\_source\_model} или \textbf{java\_bytecode\_model};
+\item построение модели шаблона из заранее заготовленных с помощью \textbf{pattern\_model};
+\item запуск \textbf{match\_pattern} с результатами первых двух шагов в качестве входных данных.
+\end{enumerate}
+
+Таким образом, программу или шаблон можно описать вручную.
+
+Программы \textbf{java\_source\_model}, \textbf{pattern\_model},
+\textbf{match\_pattern} написаны на языке \textbf{Python} версии 2.7.
+\textbf{java\_bytecode\_model} написана на \textbf{Java} версии 1.8.
+
+\subsection{Программа для построения модели программы на языке Java}
+
+Выполняет синтаксический анализ исходного кода на языке \textbf{Java} с выводом
+полных имен типов.
+Программа может работать с одним или множество файлов формата \textbf{.java}.
+Для синтаксического анализа используется библиотека \textbf{plyj}~\cite{plyj}.
+Определение полных имен внешних типов выполняется с помошью \textbf{.class} или
+\textbf{.jar}-файлов.
+Для их анализа используется библиотека \textbf{javatools}~\cite{javatools}.
+Вывод модели в формате \textbf{.yaml} выполняется с помощью библиотеки
+\textbf{PyYAML}~\cite{PyYAML}.
+
+Интерфейс запуска:
+\begin{verbatim}
+python java_source_model.py [-h] [-p <external_path>] <path> [<path> ...]
+\end{verbatim}
+
+\begin{itemize}
+\item \verb;path; --- путь к .java файлу или директории;
+\item \verb;-h; или \verb;--help; --- выводит сообщение с описанием параметров
+запуска;
+\item \verb;-p <external_path>; или \verb;--path <external_path>; --- задает
+путь \verb;external_path; к \textbf{.class}, \textbf{.jar} файлам или директории;
+\end{itemize}
+
+Выводит модель в формате \textbf{.yaml} в \textbf{stdout}.
+Сообщения об ошибках выводятся в \textbf{stderr}.
+
+Алгоритм работы программы:
+\begin{enumerate}
+\item рекурсивно найти все \textbf{.java}-файлы по всем заданным путям;
+\item выполнить синтаксический анализ всех \textbf{.java}-файлов и построить
+деревья вывода;
+\item во всех деревьях вывода установить полные имена классов в их определении.
+\item создать пустые элементы модели: классы, интерфейсы и перечисления;
+\item создать пустые элементы модели для внешних зависимостей;
+\item во всех деревьях вывода установить полные имена типов в любых местах их
+использования;
+\item определить связи обобщения;
+\item заполнить элементы модели свойствами, операциями и создать типы данных;
+\item определить связи зависимости;
+\item вывести модель в формате \textbf{.yaml}.
+\end{enumerate}
+
+При анализе программ с множеством пакетов и вложенных классов может возникнуть
+ситуация конфликта имен.
+Допустим \verb;class A; есть в \verb;package x; и в \verb;package y;.
+Это два разных класса.
+В исходном коде и дереве вывода скорее всего будет представлено короткое название
+для каждого класса.
+При построении модели недопустимо использовать эти короткие названия.
+Нужно вывести полное названия типа.
+Таким образом, в модель попадут классы \verb;x.A; и \verb;y.A;.
+В этом случае конфликта имен не будет.
+
+Проблема имеет место не только в определениях типов, но и в их использовании.
+Например, есть \verb;class x.A;, \verb;class y.A; и в \verb;class z.B; определен
+метод \verb;A f();.
+Нужно определить полное имя возвращаемого типа.
+Сюда же можно отнести определение типа поля класса, локальной переменной,
+параметра метода, базового класса.
+В данном случае нужно учитывать, импорт какого пакета был выполнен.
+Аналогичная ситуация с вложенными классами.
+
+Другая проблема, которая не решалась в этой программе, заключается в определении
+зависимостей между вызываемым и вызывающим методов.
+
+Программа не во всех случая определяет полные имена типов.
+В таких случая классы, интефейсы и перечисления их представляющие игнорируются
+при построении модели.
+Здесь не будут описаны все ситуации, когда тип определяется, а когда нет.
+Разработка программы была приостановлена.
+Для дальнейшей разработки требовалось написание части компилятора \textbf{Java}.
+Реальной необходимости в этом не было
+поэтому взамен была написана программа на \textbf{Java},
+которая содержит всю нужную функциональность.
+Она описана в следующем разделе.
+
+\subsection{Программа для построения модели программы на основе байткода для виртуальной машины Java}
+
+Анализирует байткод виртуальной машины \textbf{Java}.
+Для этого используется библиотека \textbf{Apache Commons BCEL}
+(The Byte Code Engineering Library) версии 6.0~\cite{BCEL}.
+Для сборки программы используется \textbf{Apache Maven} версии 3~\cite{Maven}.
+
+Интерфейс запуска:
+\begin{verbatim}
+java -jar java_bytecode_model.jar <path> [<path> ...]
+\end{verbatim}
+
+\begin{itemize}
+\item \verb;path; --- путь к \textbf{.class}, \textbf{.jar}-файлу или директории;
+\end{itemize}
+
+Выводит модель в формате \textbf{.yaml} в \textbf{stdout}.
+Сообщения об ошибках выводятся в \textbf{stderr}.
+
+Алгоритм работы программы:
+\begin{enumerate}
+\item рекурсивно и разобрать найти все \textbf{.jar} и \textbf{.class}-файлы по
+всем заданным путям, \textbf{.class}-файлы в \textbf{.jar}-файлах;
+\item создать пустые элементы модели для классов, интерфейсов и перечислений;
+\item определить связи -- обобщения;
+\item создать типы данных;
+\item заполнить элементы модели свойствами и операциями;
+\item определить связи -- зависимости;
+\item определить связи -- вызовы методов;
+\item вывести модель в формате \textbf{.yaml}.
+\end{enumerate}
+
+\subsection{Программа для построения модели шаблона}
+
+Строит модель для одного из заготовленных шаблонов.
+
+Интерфейс запуска:
+\begin{verbatim}
+python pattern_model.py [-h] <name>
+\end{verbatim}
+
+\begin{itemize}
+\item \verb;name; --- название шаблона проектирования;
+\item \verb;-h; или \verb;--help; --- выводит сообщение с описанием параметров
+запуска.
+\end{itemize}
+
+Выводит модель в формате \textbf{.yaml} в \textbf{stdout}.
+Сообщения об ошибках выводятся в \textbf{stderr}.
+
+Реализованы следующие шаблоны:
+\begin{itemize}
+\item \textbf{AbstractFactory} --- абстрактная фабрика;
+\item \textbf{BaseDerived} --- связка базового и производного классов;
+\item \textbf{Bridge} --- мост;
+\item \textbf{ChainOfResponsibility} --- цепочка ответственности;
+\item \textbf{Decorator} --- декоратор;
+\item \textbf{Empty} --- пустой, используется для тестирования;
+\item \textbf{Memento} --- хранитель;
+\item \textbf{OverriddenMethodCall} --- вызов метода базового класса,
+переопределеного в производном;
+\item \textbf{Visitor} --- посетитель.
+\end{itemize}
+
+\subsection{Программа для поиска шаблона проектирования}
+
+Выполняет поиск изоморфизмов между моделями объектно-ориетированных систем.
+Для чтения модели используется библиотека \textbf{PyYAML}.
+
+Интерфейс запуска:
+\begin{verbatim}
+python match_pattern.py [-h] [-l <limit>] [-a] <pattern> <target>
+\end{verbatim}
+
+\begin{itemize}
+\item \verb;pattern; --- путь к \textbf{.yaml}-файлу модели шаблона;
+\item \verb;target; --- путь к \textbf{.yaml}-файлу целевой модели;
+\item \verb;-h; или \verb;--help; --- выводит сообщение с описанием параметров
+запуска;
+\item \verb;-l <limit>; или \verb;--limit <limit>; --- задает максимальное
+количество изоморфизмов \verb;limit;, которое нужно найти;
+\item \verb;-a; или \verb;--all_components; --- определяет, нужно ли искать
+шаблон во всех компонентах связности цели, если не задан, то поиск выполняется
+в наибольшей;
+\end{itemize}
+
+Выводит варианты соответствий элементов в \textbf{stdout}.
+Сообщения об ошибках выводятся в \textbf{stderr}.
+
 \section{Тестирование}
+
+\subsection{Модульное тестирование}
+
+\subsubsection{Тестирование модуля model}
+
+\subsubsection{Тестирование модуля java\_source\_parser}
+
+\subsubsection{Тестирование модуля graph\_matcher}
+
+\subsubsection{Тестирование модуля pattern\_matcher}
+
+\subsection{Функциональное тестирование}
+
+\subsubsection{Тестирование программы java\_bytecode\_model}
+
+\subsubsection{Тестирование программы pattern\_model}
+
+\subsubsection{Тестирование программы match\_pattern}
