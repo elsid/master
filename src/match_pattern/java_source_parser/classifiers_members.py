@@ -62,9 +62,9 @@ class VariableType(object):
         self.variable = variable
 
     def type(self, classifier):
-        mult_lower, mult_upper = ((0, None) if get_dimensions(self.field.type)
-                                  + self.variable.dimensions else (1, 1))
-        return Type(classifier, mult_lower, mult_upper)
+        lower, upper = ((0, None) if get_dimensions(self.field.type)
+                        + self.variable.dimensions else (1, 1))
+        return Type(classifier, lower, upper)
 
     def type_name(self):
         return get_type_name(self.field.type, self.variable.dimensions)
@@ -78,10 +78,10 @@ class MethodReturnType(object):
         self.method = method
 
     def type(self, classifier):
-        mult_lower, mult_upper = (
+        lower, upper = (
             (0, None) if get_dimensions(self.method.return_type)
             + self.method.extended_dims else (1, 1))
-        return Type(classifier, mult_lower, mult_upper)
+        return Type(classifier, lower, upper)
 
     def type_name(self):
         return get_type_name(self.method.return_type, self.method.extended_dims)
@@ -95,10 +95,10 @@ class FormalParameterType(object):
         self.parameter = parameter
 
     def type(self, classifier):
-        mult_lower, mult_upper = (
+        lower, upper = (
             (0, None) if get_dimensions(self.parameter.type)
             + self.parameter.variable.dimensions else (1, 1))
-        return Type(classifier, mult_lower, mult_upper)
+        return Type(classifier, lower, upper)
 
     def type_name(self):
         return get_type_name(self.parameter.type,

@@ -155,7 +155,7 @@ class MakeVariableType(TestCase):
         variable_type = VariableType(field, variable_decl.variable)
         classifier = Class('A')
         assert_that(variable_type.type(classifier),
-                    equal_to(Type(classifier, mult_lower=0, mult_upper=None)))
+                    equal_to(Type(classifier, lower=0, upper=None)))
         assert_that(variable_type.type_name(), equal_to('A[][]'))
         assert_that(variable_type.classifier_name(), equal_to('A'))
 
