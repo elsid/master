@@ -100,7 +100,7 @@ class Node(object):
                 yield '[%s] *%s' % (self.obj, ' %s' % c.__name__
                                     if c != tuple else '')
 
-        return '\n'.join(generate())
+        return '\n'.join(sorted(generate()))
 
     def __str__(self):
         return str(self.obj)
