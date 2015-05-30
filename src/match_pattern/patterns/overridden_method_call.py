@@ -3,7 +3,7 @@
 from pattern_matcher import cached_method, Model, Class, Interface, Operation
 
 
-class MethodOverriding(object):
+class OverriddenMethodCall(object):
     @cached_method
     def client(self):
         return Class('Client', operations=[self.client_invoke_operation()])
@@ -40,4 +40,4 @@ class MethodOverriding(object):
 
 
 if __name__ == '__main__':
-    print MethodOverriding().create()
+    print OverriddenMethodCall().create()
