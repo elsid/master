@@ -6,8 +6,9 @@ from unittest import TestCase, main
 from itertools import permutations, combinations, izip, product
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
 from graph_matcher.configuration import Isomorphic
-from graph_matcher.match import match, replace_node_by_obj
+from graph_matcher.match import match as original_match, replace_node_by_obj
 from graph_matcher.graph import Graph
+from graph_matcher.check import check
 
 
 def to_list(value):
@@ -50,6 +51,10 @@ def generate_graphs(nodes_count):
                 for node in pattern.nodes:
                     node.obj = chr(ord('a') + int(node.obj) - 1)
                 yield target, pattern
+
+
+def match(target, pattern):
+    return (x for x in original_match(target, pattern) if check(x, False))
 
 
 class Match(TestCase):
@@ -198,11 +203,11 @@ class Match(TestCase):
         for nodes_count in xrange(2, 5):
             for target, pattern in generate_graphs(nodes_count):
                 if target.nodes and pattern.nodes:
-                    target = Graph(nodes=target.largest_connected_component())
-                    pattern = Graph(nodes=pattern.largest_connected_component())
-                    for v in replace_node_by_obj(match(target, pattern)):
-                        assert_that({x.pattern for x in v},
-                                    equal_to({x.obj for x in pattern.nodes}))
+                    t = Graph(nodes=target.largest_connected_component())
+                    p = Graph(nodes=pattern.largest_connected_component())
+                    for i in replace_node_by_obj(match(t, p)):
+                        assert_that({x.pattern for x in i},
+                                    equal_to({x.obj for x in p.nodes}))
 
     def test_match_chain_of_two_in_chain_of_three_should_succeed(self):
         target = Graph({(1, 2), (2, 3)})
