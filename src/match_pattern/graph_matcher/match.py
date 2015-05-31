@@ -6,7 +6,7 @@ from graph_matcher.configuration import Configuration, Equivalent
 
 
 def replace_node_by_obj(variants):
-    return ((Equivalent(x.target.obj, x.pattern.obj) for x in variant)
+    return ((type(x)(x.target.obj, x.pattern.obj) for x in variant)
             for variant in variants)
 
 

@@ -41,7 +41,7 @@ class CheckVariantFailed(Exception):
     def __str__(self):
 
         def generate():
-            for e in self.variant.equivalents:
+            for e in self.variant.isomorphism:
                 base = '%s === %s' % (repr(e.target), repr(e.pattern))
                 label = self.connection.label.__name__
                 end_type = self.connection.end_type

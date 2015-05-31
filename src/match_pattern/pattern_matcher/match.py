@@ -2,32 +2,32 @@
 
 from collections import namedtuple, deque
 from itertools import islice
-from graph_matcher import Graph, Equivalent
+from graph_matcher import Graph, Isomorphic
 from graph_matcher.configuration import EndType
 from pattern_matcher.errors import CheckVariantFailed
 
 
 class MatchVariant(object):
-    def __init__(self, equivalents=None):
-        self.equivalents = tuple(equivalents) if equivalents else tuple()
+    def __init__(self, isomorphism=None):
+        self.isomorphism = tuple(isomorphism) if isomorphism else tuple()
 
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, MatchVariant)
-                and eq_ignore_order(self.equivalents, other.equivalents))
+                and eq_ignore_order(self.isomorphism, other.isomorphism))
 
     def __str__(self):
-        return '\n'.join(str(x) for x in self.equivalents)
+        return '\n'.join(str(x) for x in self.isomorphism)
 
     def __repr__(self):
-        e = ',\n'.join(repr(x) for x in self.equivalents)
+        e = ',\n'.join(repr(x) for x in self.isomorphism)
         return 'MatchVariant(%s)' % ('[\n%s\n]' % e if e else '')
 
     def __len__(self):
-        return len(self.equivalents)
+        return len(self.isomorphism)
 
     def __contains__(self, item):
-        return isinstance(item, tuple) and item in self.equivalents
+        return isinstance(item, tuple) and item in self.isomorphism
 
 
 class MatchResult(object):
@@ -180,21 +180,21 @@ def match(target, pattern, limit=None, all_components=False):
 Connection = namedtuple('Connection', ('label', 'end_type', 'node'))
 
 
-def check(equivalents, raise_if_false=True):
-    equivalents = tuple(equivalents)
-    all_target_nodes = frozenset(x.target for x in equivalents)
+def check(isomorphism, raise_if_false=True):
+    isomorphism = tuple(isomorphism)
+    all_target_nodes = frozenset(x.target for x in isomorphism)
     used = set()
 
-    def check_one(equivalent):
+    def check_one(isomorphic):
 
         def has_pattern(connection):
 
             def has_equivalent(target_nodes):
                 for target_node in target_nodes & all_target_nodes:
-                    if Equivalent(target_node, connection.node) in equivalents:
+                    if Isomorphic(target_node, connection.node) in isomorphism:
                         return True
 
-            for tk, tv in equivalent.target.connections.iteritems():
+            for tk, tv in isomorphic.target.connections.iteritems():
                 if connection.label == tk:
                     if connection.end_type == EndType.INCOMING:
                         return has_equivalent(tv.incoming)
@@ -209,27 +209,27 @@ def check(equivalents, raise_if_false=True):
                         used.add(connection)
                     else:
                         if raise_if_false:
-                            e = Equivalent(equivalent.target.obj,
-                                           equivalent.pattern.obj)
+                            e = Isomorphic(isomorphic.target.obj,
+                                           isomorphic.pattern.obj)
                             raise CheckVariantFailed(MatchVariant(
-                                replace_nodes_by_objs(equivalents)),
+                                replace_nodes_by_objs(isomorphism)),
                                 e, connection)
                         else:
                             return False
             return True
 
-        for pk, pv in equivalent.pattern.connections.iteritems():
+        for pk, pv in isomorphic.pattern.connections.iteritems():
             if not check_pattern_nodes(pk, EndType.INCOMING, pv.incoming):
                 return False
             if not check_pattern_nodes(pk, EndType.OUTGOING, pv.outgoing):
                 return False
         return True
 
-    for x in equivalents:
+    for x in isomorphism:
         if not check_one(x):
             return False
     return True
 
 
-def replace_nodes_by_objs(equivalents):
-    return (Equivalent(x.target.obj, x.pattern.obj) for x in equivalents)
+def replace_nodes_by_objs(isomorphism):
+    return (type(x)(x.target.obj, x.pattern.obj) for x in isomorphism)

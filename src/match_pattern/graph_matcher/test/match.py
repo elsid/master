@@ -5,7 +5,8 @@ from types import GeneratorType
 from unittest import TestCase, main
 from itertools import permutations, combinations, izip, product
 from hamcrest import assert_that, equal_to, empty, contains_inanyorder
-from graph_matcher.match import Equivalent, match, replace_node_by_obj
+from graph_matcher.configuration import Isomorphic
+from graph_matcher.match import match, replace_node_by_obj
 from graph_matcher.graph import Graph
 
 
@@ -60,10 +61,10 @@ class Match(TestCase):
         second = Graph({'a'})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
         assert_that(first_variants, equal_to(
-            [[Equivalent(target=1, pattern='a')]]))
+            [[Isomorphic(target=1, pattern='a')]]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
         assert_that(second_variants, equal_to(
-            [[Equivalent(target='a', pattern=1)]]))
+            [[Isomorphic(target='a', pattern=1)]]))
 
     def test_match_with_one_and_with_two_components_should_succeed(self):
         first = Graph({1})

@@ -2,7 +2,7 @@
 
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
-from graph_matcher.configuration import Configuration, Equivalent
+from graph_matcher.configuration import Configuration, Equivalent, Isomorphic
 from graph_matcher.node import Node
 
 
@@ -20,9 +20,17 @@ class Obj(object):
 class MakeEquivalent(TestCase):
     def test_make_should_succeed(self):
         equivalent = Equivalent(Obj('a'), Obj('b'))
-        assert_that(str(equivalent), equal_to('a === b'))
+        assert_that(str(equivalent), equal_to('a ~~~ b'))
         assert_that(repr(equivalent),
                     equal_to("Equivalent(Obj('a'), Obj('b'))"))
+
+
+class MakeIsomorphic(TestCase):
+    def test_make_should_succeed(self):
+        isomorphic = Isomorphic(Obj('a'), Obj('b'))
+        assert_that(str(isomorphic), equal_to('a === b'))
+        assert_that(repr(isomorphic),
+                    equal_to("Isomorphic(Obj('a'), Obj('b'))"))
 
 
 class MakeConfiguration(TestCase):
@@ -31,7 +39,7 @@ class MakeConfiguration(TestCase):
         pattern = Node('pattern')
         conf = Configuration(target, pattern, [])
         assert_that(conf.selected, equal_to([(target, pattern)]))
-        assert_that(conf.checked, equal_to(set(conf.selected)))
+        assert_that(conf.checked, equal_to({(target, pattern)}))
         assert_that(conf.target(), equal_to(target))
         assert_that(conf.pattern(), equal_to(pattern))
         assert_that(conf.checked_patterns(), equal_to({pattern}))

@@ -3,7 +3,7 @@
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, calling, raises
 from itertools import permutations
-from graph_matcher import Equivalent
+from graph_matcher import Isomorphic
 from pattern_matcher import Class, Model
 from pattern_matcher.errors import CheckVariantFailed
 from pattern_matcher.match import (
@@ -61,9 +61,9 @@ class Check(TestCase):
         target = GeneralDerived().create().graph()
         pattern = GeneralDerived().create().graph()
         assert_that(check([
-            Equivalent(target.get_node_by_obj_attr_value('name', 'General'),
+            Isomorphic(target.get_node_by_obj_attr_value('name', 'General'),
                        pattern.get_node_by_obj_attr_value('name', 'General')),
-            Equivalent(target.get_node_by_obj_attr_value('name', 'Derived'),
+            Isomorphic(target.get_node_by_obj_attr_value('name', 'Derived'),
                        pattern.get_node_by_obj_attr_value('name', 'Derived')),
         ]), equal_to(True))
 
@@ -73,9 +73,9 @@ class Check(TestCase):
 
         def check_(raise_if_false=True):
             return check([
-                Equivalent(t.get_node_by_obj_attr_value('name', 'General'),
+                Isomorphic(t.get_node_by_obj_attr_value('name', 'General'),
                            p.get_node_by_obj_attr_value('name', 'Derived')),
-                Equivalent(t.get_node_by_obj_attr_value('name', 'Derived'),
+                Isomorphic(t.get_node_by_obj_attr_value('name', 'Derived'),
                            p.get_node_by_obj_attr_value('name', 'General')),
             ], raise_if_false)
 
@@ -100,8 +100,8 @@ class MakeMatchVariant(TestCase):
 
     def test_make_not_empty_should_succeed(self):
         match_variant = MatchVariant([
-            Equivalent(Class('A'), Class('B')),
-            Equivalent(Class('C'), Class('D')),
+            Isomorphic(Class('A'), Class('B')),
+            Isomorphic(Class('C'), Class('D')),
         ])
         assert_that(str(match_variant), equal_to(
             'class A === class B\n'
@@ -109,8 +109,8 @@ class MakeMatchVariant(TestCase):
         ))
         assert_that(repr(match_variant), equal_to(
             "MatchVariant([\n"
-            "Equivalent(Class('A'), Class('B')),\n"
-            "Equivalent(Class('C'), Class('D'))\n"
+            "Isomorphic(Class('A'), Class('B')),\n"
+            "Isomorphic(Class('C'), Class('D'))\n"
             "])"
         ))
         assert_that(len(match_variant), equal_to(2))
@@ -125,10 +125,10 @@ class MakeMatchResult(TestCase):
 
     def test_make_not_empty_should_succeed(self):
         match_result = MatchResult([
-            MatchVariant([Equivalent(Class('A'), Class('B'))]),
+            MatchVariant([Isomorphic(Class('A'), Class('B'))]),
             MatchVariant([
-                Equivalent(Class('C'), Class('D')),
-                Equivalent(Class('E'), Class('F')),
+                Isomorphic(Class('C'), Class('D')),
+                Isomorphic(Class('E'), Class('F')),
             ]),
         ])
         assert_that(str(match_result), equal_to(
@@ -140,11 +140,11 @@ class MakeMatchResult(TestCase):
         assert_that(repr(match_result), equal_to(
             "MatchResult([\n"
             "MatchVariant([\n"
-            "Equivalent(Class('A'), Class('B'))\n"
+            "Isomorphic(Class('A'), Class('B'))\n"
             "]),\n"
             "MatchVariant([\n"
-            "Equivalent(Class('C'), Class('D')),\n"
-            "Equivalent(Class('E'), Class('F'))\n"
+            "Isomorphic(Class('C'), Class('D')),\n"
+            "Isomorphic(Class('E'), Class('F'))\n"
             "])\n"
             "])"
         ))

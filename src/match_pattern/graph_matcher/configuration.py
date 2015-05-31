@@ -7,10 +7,26 @@ from enum import Enum
 
 class Equivalent(namedtuple('Equivalent', ('target', 'pattern'))):
     def __str__(self):
-        return '%s === %s' % (self.target, self.pattern)
+        return '%s ~~~ %s' % (self.target, self.pattern)
 
     def __repr__(self):
         return 'Equivalent(%s, %s)' % (repr(self.target), repr(self.pattern))
+
+    def __eq__(self, other):
+        return (not isinstance(other, Isomorphic)
+                and super(Equivalent, self).__eq__(other))
+
+
+class Isomorphic(namedtuple('Isomorphic', ('target', 'pattern'))):
+    def __str__(self):
+        return '%s === %s' % (self.target, self.pattern)
+
+    def __repr__(self):
+        return 'Isomorphic(%s, %s)' % (repr(self.target), repr(self.pattern))
+
+    def __eq__(self, other):
+        return (not isinstance(other, Equivalent)
+                and super(Isomorphic, self).__eq__(other))
 
 
 class EndType(Enum):
@@ -23,9 +39,8 @@ class EndType(Enum):
 
 class Configuration(object):
     def __init__(self, target_node, pattern_node, selected):
-        e = Equivalent(target_node, pattern_node)
-        self.__selected = [e] + selected
-        self.__checked = {e}
+        self.__selected = [Equivalent(target_node, pattern_node)] + selected
+        self.__checked = {Isomorphic(target_node, pattern_node)}
         self.__current = 0
 
     def current(self):
@@ -93,7 +108,7 @@ class Configuration(object):
             if self.at_end():
                 return
             if is_current_unchecked() and is_current_valid():
-                self.__checked.add(self.current())
+                self.__checked.add(Isomorphic(*self.current()))
                 return
 
     def at_end(self):
@@ -105,7 +120,7 @@ class Configuration(object):
             for i, e in enumerate(self.__selected):
                 if i == self.__current:
                     yield '[%s === %s]' % e
-                elif e in self.__checked:
+                elif Isomorphic(*e) in self.__checked:
                     yield '{%s === %s}' % e
                 elif i > self.__current:
                     yield '%s === %s' % e
