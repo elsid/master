@@ -9,14 +9,14 @@ from pattern_matcher import Model
 def main():
     args = parse_args()
     pattern = load_model(args.pattern)
-    target = load_model(args.model)
+    target = load_model(args.target)
     print target.match(pattern, args.limit, args.all_components)
 
 
 def parse_args():
     parser = ArgumentParser()
+    parser.add_argument('target', type=FileType('r'))
     parser.add_argument('pattern', type=FileType('r'))
-    parser.add_argument('model', type=FileType('r'))
     parser.add_argument('-l', '--limit', type=int, default=None)
     parser.add_argument('-a', '--all_components', action='store_true',
                         default=False)
