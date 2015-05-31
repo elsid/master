@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="251" version="1.1" width="629" xmlns="http://www.w3.org/2000/svg">
+<svg height="393" version="1.1" width="629" xmlns="http://www.w3.org/2000/svg">
 <rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="112" x="14" y="56"/>
 <rect fill="none" height="73" stroke="#000000" stroke-width="1" width="112" x="14" y="56"/>
 <text font-family="Times New Roman" font-size="14" x="52" y="70">
@@ -69,4 +69,66 @@ incoming</text>
 0..*</text>
 <text font-family="Times New Roman" font-size="14" x="383" y="152">
 outgoing</text>
+<rect fill="#ffffff" height="91" stroke="#ffffff" stroke-width="1" width="112" x="174" y="288"/>
+<rect fill="none" height="91" stroke="#000000" stroke-width="1" width="112" x="174" y="288"/>
+<text font-family="Times New Roman" font-size="14" x="201" y="302">
+Equivalent</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="112" x="174" y="313"/>
+<text font-family="Times New Roman" font-size="14" x="178" y="328">
+target : Node</text>
+<text font-family="Times New Roman" font-size="14" x="178" y="346">
+pattern : Node</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="112" x="174" y="357"/>
+<rect fill="#ffffff" height="91" stroke="#ffffff" stroke-width="1" width="105" x="270" y="184"/>
+<rect fill="none" height="91" stroke="#000000" stroke-width="1" width="105" x="270" y="184"/>
+<text font-family="Times New Roman" font-size="14" x="290" y="198">
+Isomorphic</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="105" x="270" y="209"/>
+<text font-family="Times New Roman" font-size="14" x="274" y="224">
+target : Node</text>
+<text font-family="Times New Roman" font-size="14" x="274" y="242">
+pattern : Node</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="105" x="270" y="253"/>
+<rect fill="#ffffff" height="109" stroke="#ffffff" stroke-width="1" width="167" x="446" y="224"/>
+<rect fill="none" height="109" stroke="#000000" stroke-width="1" width="167" x="446" y="224"/>
+<text font-family="Times New Roman" font-size="14" x="491" y="238">
+Configuration</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="167" x="446" y="249"/>
+<text font-family="Times New Roman" font-size="14" x="450" y="264">
+selected [1..*] : Equivalent</text>
+<text font-family="Times New Roman" font-size="14" x="450" y="282">
+checked [1..*] : Isomorphic</text>
+<text font-family="Times New Roman" font-size="14" x="450" y="300">
+current : Integer</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="167" x="446" y="311"/>
+<polyline fill="none" points="294,184 294,148" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="294,184 289,174 294,164 299,174" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="294,184 289,174 294,164 299,174" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="301" x2="294" y1="160" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="287" x2="294" y1="160" y2="148"/>
+<polyline fill="none" points="446,256 374,256" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="446,256 436,261 426,256 436,251" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="446,256 436,261 426,256 436,251" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="386" x2="374" y1="249" y2="256"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="386" x2="374" y1="263" y2="256"/>
+<polyline fill="none" points="446,308 285,308" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="446,308 436,313 426,308 436,303" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="446,308 436,313 426,308 436,303" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="297" x2="285" y1="301" y2="308"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="297" x2="285" y1="315" y2="308"/>
+<polyline fill="none" points="206,288 206,148" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="206,288 201,278 206,268 211,278" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="206,288 201,278 206,268 211,278" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="213" x2="206" y1="160" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="199" x2="206" y1="160" y2="148"/>
+<polyline fill="none" points="350,184 350,148" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="350,184 345,174 350,164 355,174" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="350,184 345,174 350,164 355,174" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="357" x2="350" y1="160" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="343" x2="350" y1="160" y2="148"/>
+<polyline fill="none" points="254,288 254,148" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="254,288 249,278 254,268 259,278" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="254,288 249,278 254,268 259,278" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="261" x2="254" y1="160" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="247" x2="254" y1="160" y2="148"/>
 </svg>

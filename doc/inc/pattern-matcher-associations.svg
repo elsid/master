@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="591" version="1.1" width="706" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="127" stroke="#ffffff" stroke-width="1" width="168" x="279" y="328"/>
+<rect fill="none" height="127" stroke="#000000" stroke-width="1" width="168" x="279" y="328"/>
+<text font-family="Times New Roman" font-size="14" x="337" y="342">
+Classifier</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="279" y="353"/>
+<text font-family="Times New Roman" font-size="14" x="283" y="368">
+properties [0..*] : Property</text>
+<text font-family="Times New Roman" font-size="14" x="283" y="386">
+operations [0..*] : Operation</text>
+<text font-family="Times New Roman" font-size="14" x="283" y="404">
+generals [0..*] : Classifier</text>
+<text font-family="Times New Roman" font-size="14" x="283" y="422">
+suppliers [0..*] : Classifier</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="168" x="279" y="433"/>
+<rect fill="#ffffff" height="150" stroke="#ffffff" stroke-width="1" width="189" x="14" y="256"/>
+<rect fill="none" height="150" stroke="#000000" stroke-width="1" width="189" x="14" y="256"/>
+<text font-family="Times New Roman" font-size="14" x="84" y="270">
+Property</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="281"/>
+<text font-family="Times New Roman" font-size="14" x="18" y="296">
+owner : Classifier</text>
+<text font-family="Times New Roman" font-size="14" x="18" y="314">
+type [0..1] : Type</text>
+<text font-family="Times New Roman" font-size="14" x="18" y="332">
+visibility [0..1] : Visibility</text>
+<text font-family="Times New Roman" font-size="14" x="18" y="350">
+aggregation [0..1] : Aggregation</text>
+<text font-family="Times New Roman" font-size="14" x="18" y="368">
+is_static [0..1] : Boolean</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="189" x="14" y="381"/>
+<rect fill="#ffffff" height="163" stroke="#ffffff" stroke-width="1" width="174" x="518" y="256"/>
+<rect fill="none" height="163" stroke="#000000" stroke-width="1" width="174" x="518" y="256"/>
+<text font-family="Times New Roman" font-size="14" x="577" y="270">
+Operation</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="174" x="518" y="281"/>
+<text font-family="Times New Roman" font-size="14" x="522" y="296">
+owner : Classifier</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="314">
+invocations [0..*] : Operation</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="332">
+result [0..1] : Type</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="350">
+parameters [0..*] : Parameter</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="368">
+visibility [0..1] : Visibility</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="386">
+is_static [0..1] : bool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="174" x="518" y="397"/>
+<rect fill="#ffffff" height="109" stroke="#ffffff" stroke-width="1" width="156" x="518" y="98"/>
+<rect fill="none" height="109" stroke="#000000" stroke-width="1" width="156" x="518" y="98"/>
+<text font-family="Times New Roman" font-size="14" x="567" y="112">
+Parameter</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="156" x="518" y="123"/>
+<text font-family="Times New Roman" font-size="14" x="522" y="138">
+type [0..1] : Type</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="156">
+direction [0..1] : Direction</text>
+<text font-family="Times New Roman" font-size="14" x="522" y="174">
+position : int</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="156" x="518" y="185"/>
+<polyline fill="none" points="574,256 574,206" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="574,256 569,246 574,236 579,246" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="574,256 569,246 574,236 579,246" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="581" x2="574" y1="218" y2="206"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="567" x2="574" y1="218" y2="206"/>
+<text font-family="Times New Roman" font-size="14" x="546" y="233">
+0..*</text>
+<text font-family="Times New Roman" font-size="14" x="577" y="228">
+parameters</text>
+<rect fill="#ffffff" height="145" stroke="#ffffff" stroke-width="1" width="138" x="294" y="136"/>
+<rect fill="none" height="145" stroke="#000000" stroke-width="1" width="138" x="294" y="136"/>
+<text font-family="Times New Roman" font-size="14" x="348" y="150">
+Type</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="138" x="294" y="161"/>
+<text font-family="Times New Roman" font-size="14" x="298" y="176">
+classifier : Classifier</text>
+<text font-family="Times New Roman" font-size="14" x="298" y="194">
+lower [0..1] : int</text>
+<text font-family="Times New Roman" font-size="14" x="298" y="212">
+upper [0..1] : int</text>
+<text font-family="Times New Roman" font-size="14" x="298" y="230">
+is_unique [0..1] : bool</text>
+<text font-family="Times New Roman" font-size="14" x="298" y="248">
+is_ordered [0..1] : bool</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="138" x="294" y="259"/>
+<polyline fill="none" points="202,264 294,264" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="202,264 212,259 222,264 212,269" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="202,264 212,259 222,264 212,269" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="282" x2="294" y1="271" y2="264"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="282" x2="294" y1="257" y2="264"/>
+<text font-family="Times New Roman" font-size="14" x="255" y="258">
+0..1</text>
+<text font-family="Times New Roman" font-size="14" x="256" y="279">
+type</text>
+<polyline fill="none" points="518,184 431,184" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,184 508,189 498,184 508,179" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,184 508,189 498,184 508,179" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="443" x2="431" y1="177" y2="184"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="443" x2="431" y1="191" y2="184"/>
+<text font-family="Times New Roman" font-size="14" x="443" y="176">
+0..1</text>
+<text font-family="Times New Roman" font-size="14" x="445" y="200">
+type</text>
+<polyline fill="none" points="518,264 431,264" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,264 508,269 498,264 508,259" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,264 508,269 498,264 508,259" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="443" x2="431" y1="257" y2="264"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="443" x2="431" y1="271" y2="264"/>
+<text font-family="Times New Roman" font-size="14" x="445" y="258">
+0..1</text>
+<text font-family="Times New Roman" font-size="14" x="444" y="279">
+result</text>
+<polyline fill="none" points="358,280 358,328" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="358,280 363,290 358,300 353,290" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="358,280 363,290 358,300 353,290" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="351" x2="358" y1="316" y2="328"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="365" x2="358" y1="316" y2="328"/>
+<text font-family="Times New Roman" font-size="14" x="371" y="311">
+1</text>
+<text font-family="Times New Roman" font-size="14" x="299" y="307">
+classifier</text>
+<polyline fill="none" points="202,360 279,360" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="202,360 212,355 222,360 212,365" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="202,360 212,355 222,360 212,365" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="367" y2="360"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="267" x2="279" y1="353" y2="360"/>
+<text font-family="Times New Roman" font-size="14" x="258" y="354">
+1</text>
+<text font-family="Times New Roman" font-size="14" x="243" y="375">
+owner</text>
+<polyline fill="none" points="518,360 446,360" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="518,360 508,365 498,360 508,355" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="518,360 508,365 498,360 508,355" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="458" x2="446" y1="353" y2="360"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="458" x2="446" y1="367" y2="360"/>
+<text font-family="Times New Roman" font-size="14" x="459" y="351">
+1</text>
+<text font-family="Times New Roman" font-size="14" x="453" y="375">
+owner</text>
+<polyline fill="none" points="446,408 518,408" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="446,408 456,403 466,408 456,413" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="446,408 456,403 466,408 456,413" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="415" y2="408"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="506" x2="518" y1="401" y2="408"/>
+<text font-family="Times New Roman" font-size="14" x="490" y="399">
+0..*</text>
+<text font-family="Times New Roman" font-size="14" x="457" y="427">
+operations</text>
+<polyline fill="none" points="279,392 202,392" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="279,392 269,397 259,392 269,387" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="279,392 269,397 259,392 269,387" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="385" y2="392"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="214" x2="202" y1="399" y2="392"/>
+<text font-family="Times New Roman" font-size="14" x="209" y="383">
+0..*</text>
+<text font-family="Times New Roman" font-size="14" x="202" y="407">
+properties</text>
+<rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="163" x="286" y="504"/>
+<rect fill="none" height="73" stroke="#000000" stroke-width="1" width="163" x="286" y="504"/>
+<text font-family="Times New Roman" font-size="14" x="350" y="518">
+Model</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="163" x="286" y="529"/>
+<text font-family="Times New Roman" font-size="14" x="290" y="544">
+classifiers [0..*] : Classifier</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="163" x="286" y="555"/>
+<polyline fill="none" points="366,504 366,454" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="366,504 361,494 366,484 371,494" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="366,504 361,494 366,484 371,494" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="373" x2="366" y1="466" y2="454"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="359" x2="366" y1="466" y2="454"/>
+<text font-family="Times New Roman" font-size="14" x="330" y="478">
+0..*</text>
+<text font-family="Times New Roman" font-size="14" x="373" y="476">
+classifiers</text>
+<rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="193" x="278" y="16"/>
+<rect fill="none" height="73" stroke="#000000" stroke-width="1" width="193" x="278" y="16"/>
+<text font-family="Times New Roman" font-size="14" x="336" y="30">
+MatchVariant</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="193" x="278" y="41"/>
+<text font-family="Times New Roman" font-size="14" x="282" y="56">
+isomorphism [1..*] : Isomorphic</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="193" x="278" y="67"/>
+<rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="175" x="62" y="16"/>
+<rect fill="none" height="73" stroke="#000000" stroke-width="1" width="175" x="62" y="16"/>
+<text font-family="Times New Roman" font-size="14" x="114" y="30">
+MatchResult</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="175" x="62" y="41"/>
+<text font-family="Times New Roman" font-size="14" x="66" y="56">
+variants [0..*] : MatchVariant</text>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="175" x="62" y="67"/>
+<polyline fill="none" points="236,48 278,48" stroke="#000000" stroke-width="1"/>
+<polygon fill="#000000" points="236,48 246,43 256,48 246,53" stroke="#000000" stroke-width="1"/>
+<polygon fill="none" points="236,48 246,43 256,48 246,53" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="266" x2="278" y1="55" y2="48"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="266" x2="278" y1="41" y2="48"/>
+</svg>
