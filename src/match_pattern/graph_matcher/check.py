@@ -41,7 +41,7 @@ def check(isomorphism, raise_if_false=True):
 
     def check_one(isomorphic):
 
-        def has_pattern(connection):
+        def has_target(connection):
 
             def has_equivalent(target_nodes):
                 for target_node in target_nodes & all_target_nodes:
@@ -59,7 +59,7 @@ def check(isomorphism, raise_if_false=True):
             for node in nodes:
                 connection = Connection(connection_label, end_type, node)
                 if connection not in used:
-                    if has_pattern(connection):
+                    if has_target(connection):
                         used.add(connection)
                     else:
                         if raise_if_false:
