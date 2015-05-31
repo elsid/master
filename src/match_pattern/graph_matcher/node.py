@@ -78,11 +78,11 @@ class Node(object):
         visited = set()
         while nodes:
             node = nodes.pop()
-            visited.add(node)
-            for neighbor in node.neighbors():
-                if neighbor not in visited:
-                    nodes.append(neighbor)
-                    visited.add(neighbor)
+            if node not in visited:
+                visited.add(node)
+                for neighbor in node.neighbors():
+                    if neighbor not in visited:
+                        nodes.append(neighbor)
         return visited
 
     def __repr__(self):
