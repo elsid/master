@@ -29,29 +29,3 @@ class MultRangeError(Exception):
     def __init__(self, lower, upper):
         super(MultRangeError, self).__init__(
             'multiplicity range error: lower(%d) > upper(%d)' % (lower, upper))
-
-
-class CheckVariantFailed(Exception):
-    def __init__(self, variant, equivalent, connection):
-        super(CheckVariantFailed, self).__init__()
-        self.variant = variant
-        self.equivalent = equivalent
-        self.connection = connection
-
-    def __str__(self):
-
-        def generate():
-            for e in self.variant.isomorphism:
-                base = '%s === %s' % (repr(e.target), repr(e.pattern))
-                label = self.connection.label.__name__
-                end_type = self.connection.end_type
-                if e == self.equivalent:
-                    yield '  %s <<< %s (%s)' % (base, label, end_type)
-                else:
-                    yield '  ' + base
-
-        return 'check variant failed\n%s' % '\n'.join(generate())
-
-    def __repr__(self):
-        return 'CheckVariantFailed(%s, %s, %s)' % tuple(repr(x) for x in (
-            self.variant, self.equivalent, self.connection))

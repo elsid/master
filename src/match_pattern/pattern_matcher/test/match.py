@@ -3,9 +3,8 @@
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, calling, raises
 from itertools import permutations
-from graph_matcher import Isomorphic
+from graph_matcher import Isomorphic, CheckIsomorphismFailed
 from pattern_matcher import Class, Model
-from pattern_matcher.errors import CheckVariantFailed
 from pattern_matcher.match import (
     eq_ignore_order, check, MatchVariant, MatchResult)
 from pattern_matcher.cached_method import cached_method
@@ -80,12 +79,12 @@ class Check(TestCase):
             ], raise_if_false)
 
         assert_that(check_(False), equal_to(False))
-        assert_that(calling(check_), raises(CheckVariantFailed))
+        assert_that(calling(check_), raises(CheckIsomorphismFailed))
         try:
             check_()
-        except CheckVariantFailed as error:
+        except CheckIsomorphismFailed as error:
             assert_that(str(error), equal_to(
-                "check variant failed\n"
+                "check isomorphism failed\n"
                 "  Class('General') === Class('Derived') "
                 "<<< Generalization (outgoing)\n"
                 "  Class('Derived') === Class('General')"))

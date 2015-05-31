@@ -5,9 +5,11 @@ from itertools import tee, combinations, permutations, izip, product
 from graph_matcher.configuration import Configuration, Equivalent
 
 
-def replace_node_by_obj(variants):
-    return ((type(x)(x.target.obj, x.pattern.obj) for x in variant)
-            for variant in variants)
+def replace_node_by_obj(value):
+    if hasattr(value, 'target') and hasattr(value, 'pattern'):
+        return type(value)(value.target.obj, value.pattern.obj)
+    else:
+        return (replace_node_by_obj(x) for x in value)
 
 
 def generate_equivalent_one_node_pairs(target_nodes, pattern_node):
