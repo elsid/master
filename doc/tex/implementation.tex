@@ -313,7 +313,107 @@ python match_pattern.py [-h] [-l <limit>] [-a] <pattern> <target>
 
 \subsubsection{Тестирование модуля graph\_matcher}
 
+Выделены следующие классы прецедентов:
+\begin{enumerate}
+    \item тестирование создания объектов и проверка их состояния:
+    \begin{enumerate}
+        \item класс \textbf{Node};
+        \item класс \textbf{Configuration};
+        \item класс \textbf{Equivalent};
+        \item класс \textbf{Graph};
+    \end{enumerate}
+    \item тестирование реализации алгоритмов:
+    \begin{enumerate}
+        \item \textbf{Node.get\_connected\_component} --- компонента связности вершины;
+        \item \textbf{Graph.get\_connected\_components} --- все компоненты связности графа;
+        \item \textbf{match} --- поиск изоморфного подграфа.
+    \end{enumerate}
+\end{enumerate}
+
+%\begin{enumerate}
+%\item тестирование создания объектов и их методов:
+%\begin{enumerate}
+%    \item класс \textbf{Node};
+%    \begin{enumerate}
+%        \item отдельная вершина;
+%    \end{enumerate}
+%    \item класс \textbf{Configuration};
+%    \begin{enumerate}
+%        \item начальная конфигурация;
+%    \end{enumerate}
+%    \item класс \textbf{Equivalent};
+%    \begin{enumerate}
+%        \item между двумя объектами;
+%    \end{enumerate}
+%    \item класс \textbf{Graph};
+%    \begin{enumerate}
+%        \item пустой граф;
+%        \item с одной вершиной;
+%        \item с одной дугой, соединяющей две вершины;
+%        \item с одной помеченной дугой;
+%        \item с одной дугой, соединяюшей одну вершину;
+%        \item с тремя вершинами и одной дугой, соединяющей две;
+%        \item с тремя вершинами и одной помеченной дугой, соединяющей две;
+%        \item с двумя вершинами, одной дугой, их соединяющей и повторением вершины;
+%        \item с несколькими размеченными и нет дугами;
+%    \end{enumerate}
+%\end{enumerate}
+%\item тестирование реализации алгоритмов:
+%\begin{enumerate}
+%    \item компонента связности вершины;
+%    \begin{enumerate}
+%        \item отдельная вершина;
+%        \item две не соединенные вершины;
+%        \item две соединенные одной дугой вершины;
+%        \item две соединенные двумя дугами вершины;
+%        \item три вершины, соединенные цепочкой;
+%        \item четыре вершины, одна дуга соединяет одну пару, другая --- другую;
+%    \end{enumerate}
+%    \item все компоненты связности графа;
+%    \begin{enumerate}
+%        \item пустой граф;
+%        \item с двумя вершинами;
+%        \item с двумя вершинами, соединенными дугой;
+%        \item ;
+%        \item три вершины, соединенные цепочкой;
+%        \item четыре вершины, одна дуга соединяет одну пару, другая --- другую;
+%    \end{enumerate}
+%    \item алгоритм поиска изоморфного подграфа;
+%\end{enumerate}
+%\item тестирование реализации алгоритмов:
+%\end{enumerate}
+
 \subsubsection{Тестирование модуля pattern\_matcher}
+
+Выделены следующие классы прецедентов:
+\begin{enumerate}
+    \item тестирование создания объектов и проверка их состояния:
+    \begin{enumerate}
+        \item класс \textbf{Aggragation};
+        \item класс \textbf{Class};
+        \item класс \textbf{Classifier};
+        \item класс \textbf{DataType};
+        \item класс \textbf{Direction};
+        \item класс \textbf{Enumeration};
+        \item класс \textbf{Interface};
+        \item класс \textbf{Model};
+        \item класс \textbf{MatchVariant};
+        \item класс \textbf{MatchResult};
+        \item класс \textbf{Operation};
+        \item класс \textbf{Parameter};
+        \item класс \textbf{PrimitiveType};
+        \item класс \textbf{Property};
+        \item класс \textbf{Type};
+        \item класс \textbf{Visibility};
+    \end{enumerate}
+    \item тестирование реализации алгоритмов:
+    \begin{enumerate}
+        \item \textbf{eq\_ignore\_order} --- сравнение коллекций без учета порядка;
+        \item \textbf{match} --- поиск шаблона в модели;
+        \item \textbf{check} --- проверка результата \textbf{match};
+        \item чтение и запись модели в формате \textbf{YAML}.
+    \end{enumerate}
+\end{enumerate}
 
 \subsubsection{Тестирование модуля java\_source\_parser}
 
