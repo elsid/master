@@ -1,0 +1,14 @@
+class Automobile === class Base
+class Convertible === class Derived
+
+class Automobile === class Base
+class Sedan === class Derived
+
+class Truck === class Derived
+class Vehicle === class Base
+
+class Automobile === class Derived
+class Vehicle === class Base
+
+class Vehicle === class Base
+class Motorcycle === class Derived

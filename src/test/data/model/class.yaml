@@ -1,0 +1,8 @@
+!Model
+- &id001 !PrimitiveType {name: void}
+- !Class
+  suppliers:
+  - &id002 !DataType {name: java.lang.Object}
+  - *id001
+  name: Class
+- *id002
