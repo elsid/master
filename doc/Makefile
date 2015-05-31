@@ -8,8 +8,10 @@ TEX += $(wildcard tex/*.tex)
 SVG += $(wildcard inc/*.svg)
 DEF += $(wildcard ../src/*.def)
 
+GEN_PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
+
 #PDF += inc/title.pdf
-PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
+PDF += $(GEN_PDF)
 PDF += inc/idef0.pdf
 PDF += inc/idef0-general.pdf
 PDF += inc/idef0-specific.pdf
@@ -33,5 +35,5 @@ inc/%.conv.svg: inc/%.svg $(MAKEFILE)
 	sed 's/font-family="[^"]*"/font-family="Times New Roman"/g' > $@
 
 clean:
-	rm -rf $(PDF) doc.pdf doc.aux doc.log doc.out doc.toc doc.idx tex/*.aux \
-		inc/fsm.* inc/*.pdf inc/*.tex tex/*.log inc/*.conv.svg
+	rm -rf $(GEN_PDF) doc.pdf doc.aux doc.log doc.out doc.toc doc.idx \
+		tex/*.aux inc/fsm.* inc/*.tex tex/*.log inc/*.conv.svg
