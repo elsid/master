@@ -1,0 +1,45 @@
+!Model
+- &id001 !Class
+  operations:
+  - &id003 !Operation
+    owner: *id001
+    result: &id002 !Type
+      classifier: &id005 !PrimitiveType {name: void}
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: invoked
+  - !Operation
+    owner: *id001
+    result: *id002
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: invoke
+    invocations:
+    - *id003
+  - !Operation
+    owner: *id001
+    result: *id002
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: invokeB
+    invocations:
+    - &id004 !Operation
+      owner: &id006 !Class
+        operations:
+        - *id004
+        suppliers:
+        - *id005
+        - &id007 !DataType {name: java.lang.Object}
+        name: B
+      result: *id002
+      visibility: !Visibility 'PRIVATE'
+      is_static: false
+      name: invoked
+  suppliers:
+  - *id006
+  - *id005
+  - *id007
+  name: A
+- *id006
+- *id005
+- *id007

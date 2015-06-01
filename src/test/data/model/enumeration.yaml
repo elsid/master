@@ -1,0 +1,52 @@
+!Model
+- &id001 !Enumeration
+  generals:
+  - &id003 !DataType {name: java.lang.Enum}
+  operations:
+  - !Operation
+    owner: *id001
+    result: &id004 !Type
+      classifier: *id001
+    visibility: !Visibility 'PUBLIC'
+    is_static: true
+    name: values
+  - !Operation
+    owner: *id001
+    result: !Type
+      classifier: *id001
+    visibility: !Visibility 'PUBLIC'
+    is_static: true
+    name: valueOf
+    parameters:
+    - !Parameter
+      type: !Type
+        classifier: &id007 !DataType {name: java.lang.String}
+      direction: !Direction 'IN'
+  - !Operation
+    owner: *id001
+    result: !Type
+      classifier: &id002 !PrimitiveType {name: void}
+    visibility: !Visibility 'PRIVATE'
+    is_static: true
+    name: <clinit>
+  suppliers:
+  - &id006 !DataType {name: java.lang.Class}
+  - &id008 !PrimitiveType {name: int}
+  - *id001
+  - *id002
+  - *id003
+  - &id005 !DataType {name: java.lang.Object}
+  name: Enumeration
+  properties:
+  - !Property
+    owner: *id001
+    visibility: !Visibility 'PRIVATE'
+    is_static: true
+    name: $VALUES
+    type: *id004
+- *id002
+- *id003
+- *id005
+- *id006
+- *id007
+- *id008

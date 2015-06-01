@@ -1,0 +1,27 @@
+!Model
+- &id004 !Class
+  suppliers:
+  - &id001 !PrimitiveType {name: void}
+  - &id002 !DataType {name: java.lang.Object}
+  name: SupplierObjectConstructor
+- !Class
+  suppliers:
+  - *id001
+  - *id002
+  name: SupplierLocalVariableType
+- *id001
+- *id002
+- &id003 !Class
+  operations:
+  - !Operation
+    owner: *id003
+    result: !Type
+      classifier: *id001
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: operation
+  suppliers:
+  - *id001
+  - *id004
+  - *id002
+  name: Client

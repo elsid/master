@@ -1,0 +1,35 @@
+!Model
+- &id001 !PrimitiveType {name: void}
+- &id002 !Class
+  suppliers:
+  - &id004 !DataType {name: java.lang.Object}
+  - *id001
+  name: Class
+  properties:
+  - !Property
+    owner: *id002
+    visibility: !Visibility 'PUBLIC'
+    is_static: false
+    name: publicProperty
+    type: &id003 !Type
+      classifier: &id005 !PrimitiveType {name: int}
+  - !Property
+    owner: *id002
+    visibility: !Visibility 'PROTECTED'
+    is_static: false
+    name: protectedProperty
+    type: *id003
+  - !Property
+    owner: *id002
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: privateProperty
+    type: *id003
+  - !Property
+    owner: *id002
+    visibility: !Visibility 'PUBLIC'
+    is_static: true
+    name: staticProperty
+    type: *id003
+- *id004
+- *id005

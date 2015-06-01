@@ -1,0 +1,71 @@
+!Model
+- &id002 !PrimitiveType {name: void}
+- &id001 !Class
+  operations:
+  - !Operation
+    owner: *id001
+    result: &id003 !Type
+      classifier: *id002
+    visibility: !Visibility 'PUBLIC'
+    is_static: false
+    name: publicOperation
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PROTECTED'
+    is_static: false
+    name: protectedOperation
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PRIVATE'
+    is_static: false
+    name: privateOperation
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PUBLIC'
+    is_static: false
+    name: operationWithParameters
+    parameters:
+    - !Parameter
+      type: &id004 !Type
+        classifier: &id008 !PrimitiveType {name: int}
+      direction: !Direction 'IN'
+    - !Parameter
+      type: &id005 !Type
+        classifier: &id007 !PrimitiveType {name: float}
+      direction: !Direction 'IN'
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PUBLIC'
+    is_static: true
+    name: staticOperation
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PUBLIC'
+    is_static: false
+    name: overloadedOperation
+    parameters:
+    - !Parameter
+      type: *id004
+      direction: !Direction 'IN'
+  - !Operation
+    owner: *id001
+    result: *id003
+    visibility: !Visibility 'PUBLIC'
+    is_static: false
+    name: overloadedOperation
+    parameters:
+    - !Parameter
+      type: *id005
+      direction: !Direction 'IN'
+  suppliers:
+  - &id006 !DataType {name: java.lang.Object}
+  - *id002
+  name: Class
+- *id006
+- *id007
+- *id008
