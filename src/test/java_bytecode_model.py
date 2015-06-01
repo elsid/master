@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from os import remove, makedirs
+from os import remove, makedirs, listdir
 from os.path import dirname, realpath, join, isdir, exists
 from shutil import rmtree
 from subprocess import check_call, check_output
@@ -22,9 +22,9 @@ def make_model(target_path):
     return check_output(['java', '-jar', JAR, target_path])
 
 
-def make_model_from_source(name):
-    source_path = join(SOURCE_DIR, name + '.java')
-    target_dir = join(TARGET_DIR, name)
+def make_model_from_source(file_name):
+    source_path = join(SOURCE_DIR, file_name)
+    target_dir = join(TARGET_DIR, file_name.replace('.java', ''))
     if exists(target_dir):
         if isdir(target_dir):
             rmtree(target_dir)
@@ -35,29 +35,16 @@ def make_model_from_source(name):
     return make_model(target_dir)
 
 
-def load_model(name):
-    return open(join(MODEL_DIR, name + '.yaml')).read()
+def load_model(file_name):
+    return open(join(MODEL_DIR, file_name)).read()
 
 
-def base_test_make_model(name):
-    assert_that(make_model_from_source(name), equal_to(load_model(name)))
+def base_test_make_model(file_name):
+    assert_that(make_model_from_source(file_name),
+                equal_to(load_model(file_name.replace('.java', '.yaml'))))
 
 
-def test_make_empty_model():
-    base_test_make_model('empty')
-
-
-def test_make_class_model():
-    base_test_make_model('class')
-
-
-def test_make_base_derived_model():
-    base_test_make_model('base_derived')
-
-
-def test_make_overridden_method_call_model():
-    base_test_make_model('overridden_method_call')
-
-
-def test_make_hierarchy_model():
-    base_test_make_model('hierarchy')
+def test_all():
+    for file_name in listdir(SOURCE_DIR):
+        if file_name.endswith('.java'):
+            base_test_make_model(file_name)
