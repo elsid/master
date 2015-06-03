@@ -40,21 +40,23 @@ def generate_graphs(nodes_count):
     nodes = range(1, nodes_count + 1)
     arcs = list(combinations(nodes, 2))
 
-    def make_graph(mask):
-        return Graph(frozenset(mask_filter(mask, arcs)))
+    def sym(x):
+        return chr(ord('a') + int(x) - 1)
+
+    def sym_iter(iterable):
+        return type(iterable)(sym(x) for x in iterable)
 
     for target_mask in product({True, False}, repeat=len(arcs)):
-        target = make_graph(target_mask)
+        target = Graph(mask_filter(target_mask, arcs))
         for pattern_mask in product({True, False}, repeat=len(arcs)):
             if Mask(pattern_mask) <= Mask(target_mask):
-                pattern = make_graph(pattern_mask)
-                for node in pattern.nodes:
-                    node.obj = chr(ord('a') + int(node.obj) - 1)
+                pattern = Graph(sym_iter(x)
+                                for x in mask_filter(pattern_mask, arcs))
                 yield target, pattern
 
 
 def match(target, pattern):
-    return (x for x in original_match(target, pattern) if check(x, False))
+    return (x for x in original_match(target, pattern) if check(x))
 
 
 class Match(TestCase):
