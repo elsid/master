@@ -10,7 +10,13 @@ def main():
     args = parse_args()
     pattern = load_model(args.pattern)
     target = load_model(args.target)
-    print target.match(pattern, args.limit, args.all_components)
+    first = True
+    for variant in target.match(pattern, args.limit, args.all_components):
+        if first:
+            first = False
+            print '%s' % variant
+        else:
+            print '\n%s' % variant
 
 
 def parse_args():

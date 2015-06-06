@@ -60,6 +60,9 @@ class MatchResult(object):
     def __contains__(self, item):
         return isinstance(item, MatchVariant) and item in self.variants_iter
 
+    def __iter__(self):
+        return self.variants_iter
+
 
 def eq_ignore_order(first, second):
 
