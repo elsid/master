@@ -1,7 +1,7 @@
 # coding: utf-8
 
 from collections import namedtuple, deque
-from itertools import islice
+from itertools import islice, tee
 from graph_matcher import Graph, check, replace_node_by_obj
 
 
@@ -30,7 +30,17 @@ class MatchVariant(object):
 
 class MatchResult(object):
     def __init__(self, variants=None):
-        self.variants = tuple(variants) if variants else tuple()
+        self.__variants = (iter(variants)
+                           if variants is not None else iter(tuple()))
+
+    @property
+    def variants_iter(self):
+        self.__variants, variants = tee(self.__variants)
+        return variants
+
+    @property
+    def variants(self):
+        return tuple(self.variants_iter)
 
     def __eq__(self, other):
         return (id(self) == id(other)
@@ -38,17 +48,17 @@ class MatchResult(object):
                 and eq_ignore_order(self.variants, other.variants))
 
     def __str__(self):
-        return '\n\n'.join(str(x) for x in self.variants)
+        return '\n\n'.join(str(x) for x in self.variants_iter)
 
     def __repr__(self):
-        v = ',\n'.join(repr(x) for x in self.variants)
+        v = ',\n'.join(repr(x) for x in self.variants_iter)
         return 'MatchResult(%s)' % ('[\n%s\n]' % v if v else '')
 
     def __len__(self):
         return len(self.variants)
 
     def __contains__(self, item):
-        return isinstance(item, MatchVariant) and item in self.variants
+        return isinstance(item, MatchVariant) and item in self.variants_iter
 
 
 def eq_ignore_order(first, second):
