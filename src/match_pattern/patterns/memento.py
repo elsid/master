@@ -35,8 +35,8 @@ class Memento(object):
 
     @cached_method
     def originator_create_memento(self):
-        return Operation('create_memento', visibility=Visibility.PUBLIC,
-                         is_static=False)
+        return Operation('create_memento', self.memento_type(),
+                         visibility=Visibility.PUBLIC, is_static=False)
 
     @cached_method
     def memento_type(self):
