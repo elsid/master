@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import logging
+
 from collections import defaultdict
 from itertools import tee, combinations, permutations, izip, product
 from graph_matcher.configuration import Configuration, Equivalent
@@ -56,6 +58,7 @@ class ConfigurationsGenerator(object):
     def __init__(self, initial_variants):
         self.__generators = [initial_variants]
         self.__result = []
+        self.__generated_count = 0
 
     def __iter__(self):
         return self
@@ -63,9 +66,13 @@ class ConfigurationsGenerator(object):
     def next(self):
         while self.__generators:
             try:
-                return next(self.__generators[-1])
+                result = next(self.__generators[-1])
+                self.__generated_count += 1
+                logging.debug('yield configuration %d', self.__generated_count)
+                return result
             except StopIteration:
                 self.__generators.pop()
+                logging.debug('pop generator %d', len(self.__generators))
         raise StopIteration
 
     def generate(self, configuration):
@@ -83,14 +90,20 @@ class ConfigurationsGenerator(object):
                 yield configuration
 
         self.__generators.append(generate())
+        logging.debug('add generator %d', len(self.__generators))
 
     def add_result(self, configuration):
         if configuration.checked not in self.__result:
             self.__result.append(configuration.checked)
+            logging.debug('add result %d', len(self.__result))
             return True
 
 
 def match_one(target_graph, pattern_graph):
+    logging.info('match single components graphs')
+    log_graph_stats(pattern_graph, 'pattern')
+    log_graph_stats(target_graph, 'target')
+
     if not pattern_graph.nodes:
         return
 
@@ -168,6 +181,9 @@ def match_many(more_components, less_components, match_one_in_many, graph_type):
 
 def match(target_graph, pattern_graph):
     assert type(target_graph) == type(pattern_graph)
+    logging.info('match graphs')
+    log_graph_stats(pattern_graph, 'pattern')
+    log_graph_stats(target_graph, 'target')
     graph_type = type(target_graph)
     pattern_components = tuple(pattern_graph.get_connected_components())
     target_components = tuple(target_graph.get_connected_components())
@@ -211,3 +227,20 @@ def unite_two_variants_sets(first, second):
     if {x.pattern for x in first} & {x.pattern for x in second}:
         return None
     return first + second
+
+
+def log_graph_stats(graph, name):
+    logging.info('%s graph has %d nodes, %d arcs, %s (%s) connected '
+                 'components', name, len(graph.nodes), count_arcs(graph),
+                 *count_connected_components(graph))
+
+
+def count_arcs(graph):
+    return sum(sum(len(x.incoming) + len(x.outgoing)
+                   for x in n.connections.values()) for n in graph.nodes)
+
+
+def count_connected_components(graph):
+    components = tuple(graph.get_connected_components())
+    return len(components), ', '.join(str(len(x)) for x in components)
+
