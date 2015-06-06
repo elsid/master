@@ -177,13 +177,38 @@ class Match(TestCase):
         assert_that(second_variants[0], equal_to([('a', 1), ('b', 2)]))
 
     def test_check_current_isomorphism_before_add_to_visited(self):
-        target = Graph({(1, 2), (2, 3), (1, 4), (5, 6), (3, 7), (4, 7), (6, 7)})
-        pattern = Graph({('a', 'b'), ('b', 'c'), ('a', 'd'), ('c', 'e'),
-                         ('d', 'e')})
+        target = Graph({
+            Red(1, 3),
+            Red(1, 4),
+            Red(2, 3),
+            Blue(5, 4),
+            Blue(6, 3),
+            Blue(2, 4),
+        })
+        pattern = Graph({
+            Red('a', 'b'),
+            Red('a', 'c'),
+            Blue('d', 'b'),
+            Blue('e', 'c'),
+        })
         variants = to_list(replace_node_by_obj(match(target, pattern)))
         assert_that(variants, equal_to([
-            [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'), (7, 'e')],
+            [(1, 'a'), (2, 'e'), (3, 'b'), (4, 'c'), (6, 'd')],
+            [(1, 'a'), (3, 'b'), (4, 'c'), (5, 'e'), (6, 'd')],
+            [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b'), (6, 'e')],
+            [(1, 'a'), (3, 'c'), (4, 'b'), (5, 'd'), (6, 'e')],
         ]))
+        # without is_current_valid() check
+        # variants = to_list(replace_node_by_obj(original_match(target,
+        #                                                       pattern)))
+        # assert_that(variants, equal_to([
+        #     [(1, 'a'), (2, 'e'), (3, 'c'), (4, 'b'), (5, 'd')],  # error
+        #     [(1, 'a'), (2, 'e'), (3, 'b'), (4, 'c'), (6, 'd')],  # ok
+        #     [(1, 'a'), (2, 'd'), (3, 'b'), (4, 'c'), (5, 'e')],  # error
+        #     [(1, 'a'), (3, 'b'), (4, 'c'), (5, 'e'), (6, 'd')],  # ok
+        #     [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b'), (6, 'e')],  # ok
+        #     [(1, 'a'), (3, 'c'), (4, 'b'), (5, 'd'), (6, 'e')],  # ok
+        # ]))
 
     def test_match_generated_graphs_should_succeed(self):
         for nodes_count in xrange(2, 5):
