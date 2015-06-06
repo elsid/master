@@ -11,7 +11,7 @@ def main():
     pattern = load_model(args.pattern)
     target = load_model(args.target)
     first = True
-    for variant in target.match(pattern, args.limit, args.all_components):
+    for variant in target.match(pattern, args.limit):
         if first:
             first = False
             print '%s' % variant
@@ -24,8 +24,6 @@ def parse_args():
     parser.add_argument('target', type=FileType('r'))
     parser.add_argument('pattern', type=FileType('r'))
     parser.add_argument('-l', '--limit', type=int, default=None)
-    parser.add_argument('-a', '--all_components', action='store_true',
-                        default=False)
     return parser.parse_args()
 
 

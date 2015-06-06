@@ -166,14 +166,11 @@ def match_many(more_components, less_components, match_one_in_many, graph_type):
             yield variant
 
 
-def match(target_graph, pattern_graph, match_largest_target_component=False):
+def match(target_graph, pattern_graph):
     assert type(target_graph) == type(pattern_graph)
     graph_type = type(target_graph)
     pattern_components = tuple(pattern_graph.get_connected_components())
-    if match_largest_target_component and target_graph.nodes:
-        target_components = (target_graph.largest_connected_component(),)
-    else:
-        target_components = tuple(target_graph.get_connected_components())
+    target_components = tuple(target_graph.get_connected_components())
     target_n = len(target_components)
     pattern_n = len(pattern_components)
     if target_n <= 1:

@@ -299,8 +299,6 @@ python match_pattern.py [-h] [-l <limit>] [-a] <pattern> <target>
 запуска;
 \item \verb;-l <limit>; или \verb;--limit <limit>; --- задает максимальное
 количество изоморфизмов \verb;limit;, которое нужно найти;
-\item \verb;-a; или \verb;--all_components; --- определяет, нужно ли искать
-шаблон во всех компонентах связности цели, если не задан, то поиск выполняется
 в наибольшей;
 \end{itemize}
 
@@ -379,9 +377,6 @@ def match(target_graph, pattern_graph, match_largest_target_component=False)
 \begin{itemize}
 \item \textbf{target\_graph} --- целевой граф, объект типа \textbf{Graph};
 \item \textbf{pattern\_graph} --- граф шаблона, объект типа \textbf{Graph};
-\item \textbf{match\_largest\_target\_component} --- \textbf{bool},
-если \textbf{True}, будет выполняться поиск шаблона в наибольшей компоненте
-целевого графа, иначе во всех.
 \end{itemize}
 
 Возвращает генератор списков объектов типа \textbf{Isomoprhic}.
@@ -530,7 +525,7 @@ def check(isomorphism)
 Реализация алгоритма поиска шаблонов проектирования --- функция \textbf{match}:
 
 \begin{minted}{python}
-def match(target, pattern, limit=None, all_components=False)
+def match(target, pattern, limit=None)
 \end{minted}
 
 Параметры:
@@ -539,8 +534,6 @@ def match(target, pattern, limit=None, all_components=False)
 \item \textbf{pattern} --- модель шаблона, объект типа \textbf{Model};
 \item \textbf{limit} --- \textbf{int}, максимальное количество
 вариантов, которое нужно найти. Если \textbf{None}, то выполняется поиск всех;
-\item \textbf{all\_components} --- выполнять ли поиск во всех компонентах графа
-модели.
 \end{itemize}
 
 \section{Тестирование}

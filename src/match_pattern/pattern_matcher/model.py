@@ -12,8 +12,8 @@ class Model(object):
             assert isinstance(classifier, Classifier)
         self.classifiers = classifiers
 
-    def match(self, pattern, limit=None, all_components=False):
-        return match(self, pattern, limit, all_components)
+    def match(self, pattern, limit=None):
+        return match(self, pattern, limit)
 
     def graph(self):
         return make_graph(self)
