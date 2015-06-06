@@ -177,30 +177,13 @@ class Match(TestCase):
         assert_that(second_variants[0], equal_to([('a', 1), ('b', 2)]))
 
     def test_check_current_isomorphism_before_add_to_visited(self):
-        target = Graph({
-            ('FormattedCommandAlias', 'Command'),
-            ('Command', 'Command::create'),
-            ('FormattedCommandAlias', 'FormattedCommandAlias::create'),
-            ('PluginCommand', 'PluginCommand::create'),
-            ('Command::create', 'Type(CommandSender)'),
-            ('FormattedCommandAlias::create', 'Type(CommandSender)'),
-            ('PluginCommand::create', 'Type(CommandSender)'),
-        })
-        pattern = Graph({
-            ('ConcreteFactory', 'AbstractFactory'),
-            ('AbstractFactory', 'AbstractFactory::create'),
-            ('ConcreteFactory', 'ConcreteFactory::create'),
-            ('AbstractFactory::create', 'Type(AbstractProduct)'),
-            ('ConcreteFactory::create', 'Type(AbstractProduct)'),
-        })
+        target = Graph({(1, 2), (2, 3), (1, 4), (5, 6), (3, 7), (4, 7), (6, 7)})
+        pattern = Graph({('a', 'b'), ('b', 'c'), ('a', 'd'), ('c', 'e'),
+                         ('d', 'e')})
         variants = to_list(replace_node_by_obj(match(target, pattern)))
-        assert_that(variants, equal_to([[
-            ('Command', 'AbstractFactory'),
-            ('Command::create', 'AbstractFactory::create'),
-            ('FormattedCommandAlias', 'ConcreteFactory'),
-            ('FormattedCommandAlias::create', 'ConcreteFactory::create'),
-            ('Type(CommandSender)', 'Type(AbstractProduct)'),
-        ]]))
+        assert_that(variants, equal_to([
+            [(1, 'a'), (2, 'b'), (3, 'c'), (4, 'd'), (7, 'e')],
+        ]))
 
     def test_match_generated_graphs_should_succeed(self):
         for nodes_count in xrange(2, 5):
