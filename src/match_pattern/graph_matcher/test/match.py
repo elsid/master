@@ -9,6 +9,7 @@ from graph_matcher.configuration import Isomorphic
 from graph_matcher.match import match as original_match, replace_node_by_obj
 from graph_matcher.graph import Graph
 from graph_matcher.check import check
+from graph_matcher.test.arc_types import Red, Blue
 
 
 def to_list(value):
@@ -248,6 +249,20 @@ class Match(TestCase):
             [(1, 'a'), (2, 'b')],
             [(3, 'a'), (4, 'b')],
         ]))
+
+    def test_match_with_one_explicit_labeled_arc_should_succeed(self):
+        first = Graph({Red(1, 2)})
+        second = Graph({Red('a', 'b')})
+        first_variants = to_list(replace_node_by_obj(match(first, second)))
+        assert_that(first_variants, equal_to([[(1, 'a'), (2, 'b')]]))
+        second_variants = to_list(replace_node_by_obj(match(second, first)))
+        assert_that(second_variants, equal_to([[('a', 1), ('b', 2)]]))
+
+    def test_match_with_one_different_labeled_arcs_should_be_empty_result(self):
+        first = Graph({Red(1, 2)})
+        second = Graph({Blue('a', 'b')})
+        variants = to_list(replace_node_by_obj(match(first, second)))
+        assert_that(variants, empty())
 
 
 if __name__ == '__main__':
