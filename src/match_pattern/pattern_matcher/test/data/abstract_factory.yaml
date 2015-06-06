@@ -1,5 +1,5 @@
 !Model
-- !Class
+- !Classifier
   name: Client
   suppliers:
   - &id001 !Interface

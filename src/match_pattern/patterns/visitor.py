@@ -2,13 +2,13 @@
 
 from pattern_matcher import (
     Class, Type, Operation, Model, Interface, Visibility, Parameter, Direction,
-    cached_method)
+    cached_method, Classifier)
 
 
 class Visitor(object):
     @cached_method
     def client(self):
-        return Class('Client')
+        return Classifier('Client')
 
     @cached_method
     def element(self):

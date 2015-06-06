@@ -1,5 +1,5 @@
-interface InterfaceA === class Base
-class Implementation === class Derived
+interface InterfaceA === classifier Base
+class Implementation === classifier Derived
 
-interface InterfaceB === class Base
-class Implementation === class Derived
+interface InterfaceB === classifier Base
+class Implementation === classifier Derived

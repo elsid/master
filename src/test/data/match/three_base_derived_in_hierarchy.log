@@ -1,8 +1,8 @@
-class Automobile === class Base
-class Convertible === class Derived
+class Automobile === classifier Base
+class Convertible === classifier Derived
 
-class Automobile === class Base
-class Sedan === class Derived
+class Automobile === classifier Base
+class Sedan === classifier Derived
 
-class Truck === class Derived
-class Vehicle === class Base
+class Truck === classifier Derived
+class Vehicle === classifier Base

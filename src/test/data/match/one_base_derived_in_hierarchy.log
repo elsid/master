@@ -1,2 +1,2 @@
-class Automobile === class Base
-class Convertible === class Derived
+class Automobile === classifier Base
+class Convertible === classifier Derived

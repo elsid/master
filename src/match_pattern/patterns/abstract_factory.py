@@ -1,7 +1,8 @@
 # coding: utf-8
 
 from pattern_matcher import (
-    Class, Type, Operation, Model, Interface, Visibility, cached_method)
+    Class, Type, Operation, Model, Interface, Visibility, cached_method,
+    Classifier)
 
 
 class AbstractFactory(object):
@@ -43,7 +44,7 @@ class AbstractFactory(object):
 
     @cached_method
     def client(self):
-        return Class('Client')
+        return Classifier('Client')
 
     @cached_method
     def create(self):

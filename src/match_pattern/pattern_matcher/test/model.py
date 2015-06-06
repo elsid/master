@@ -451,7 +451,7 @@ class ReprModel(TestCase):
 
     def test_repr_abstract_factory_empty_should_succeed(self):
         assert_that(repr(AbstractFactory().create()), equal_to(
-            "Model((Class('Client'), Interface('AbstractFactory'), "
+            "Model((Classifier('Client'), Interface('AbstractFactory'), "
             "Interface('AbstractProduct'), Class('ConcreteFactory'), "
             "Class('ConcreteProduct')))"))
 

@@ -1,12 +1,13 @@
 # coding: utf-8
 
-from pattern_matcher import cached_method, Model, Class, Interface, Operation
+from pattern_matcher import (
+    cached_method, Model, Class, Interface, Operation, Classifier)
 
 
 class OverriddenMethodCall(object):
     @cached_method
     def client(self):
-        return Class('Client', operations=[self.client_invoke_operation()])
+        return Classifier('Client', operations=[self.client_invoke_operation()])
 
     @cached_method
     def interface(self):

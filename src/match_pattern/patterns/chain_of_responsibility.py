@@ -1,14 +1,14 @@
 # coding: utf-8
 
 from pattern_matcher import (
-    Class, Type, Operation, Model, Visibility, Property, Interface,
+    Class, Type, Operation, Model, Visibility, Property, Interface, Classifier,
     cached_method)
 
 
 class ChainOfResponsibility(object):
     @cached_method
     def client(self):
-        return Class('Client')
+        return Classifier('Client')
 
     @cached_method
     def handler(self):

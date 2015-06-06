@@ -1,16 +1,16 @@
 # coding: utf-8
 
-from pattern_matcher import Class, Model, cached_method
+from pattern_matcher import Classifier, Model, cached_method
 
 
 class BaseDerived(object):
     @cached_method
     def base(self):
-        return Class('Base')
+        return Classifier('Base')
 
     @cached_method
     def derived(self):
-        return Class('Derived', generals=[self.base()])
+        return Classifier('Derived', generals=[self.base()])
 
     @cached_method
     def create(self):
