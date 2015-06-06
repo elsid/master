@@ -175,7 +175,7 @@ class Match(TestCase):
         assert_that(len(second_variants), equal_to(1))
         assert_that(second_variants[0], equal_to([('a', 1), ('b', 2)]))
 
-    def test_check_current_equivalence_before_add_to_visited(self):
+    def test_check_current_isomorphism_before_add_to_visited(self):
         target = Graph({
             ('FormattedCommandAlias', 'Command'),
             ('Command', 'Command::create'),
