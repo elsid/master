@@ -6,9 +6,10 @@ SVG2PDF = inkscape -z
 TEX += doc.tex
 TEX += $(wildcard tex/*.tex)
 SVG += $(wildcard inc/*.svg)
-DEF += $(wildcard ../src/*.def)
+DOT += $(wildcard inc/*.dot)
 
 GEN_PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
+GEN_PDF += $(patsubst inc/%.dot, inc/%.pdf, $(DOT))
 
 #PDF += inc/title.pdf
 PDF += $(GEN_PDF)
@@ -33,6 +34,9 @@ inc/%.conv.svg: inc/%.svg $(MAKEFILE)
 	sed 's/font-size="[^"]*"/font-size="14"/g' | \
 	sed 's/lengthAdjust="spacingAndGlyphs" *//g' | \
 	sed 's/font-family="[^"]*"/font-family="Times New Roman"/g' > $@
+
+inc/%.svg: inc/%.dot $(MAKEFILE)
+	dot -Tsvg $< > $@
 
 clean:
 	rm -rf $(GEN_PDF) doc.pdf doc.aux doc.log doc.out doc.toc doc.idx \

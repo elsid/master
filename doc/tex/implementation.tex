@@ -545,116 +545,247 @@ def match(target, pattern, limit=None, all_components=False)
 
 \section{Тестирование}
 
+Все тесты написаны на языке Python.
+Для запуска используется фреймворк \textbf{pytest}~\cite{pytest}.
+
 \subsection{Модульное тестирование}
+
+Для написания модульных тестов использовались библиотеки:
+\begin{itemize}
+\item \textbf{unittest} --- для описания структуры тестов;
+\item \textbf{PyHamcrest}~\cite{PyHamcrest} --- для описания проверок в тестах.
+\end{itemize}
 
 \subsubsection{Тестирование модуля graph\_matcher}
 
-Выделены следующие классы прецедентов:
-\begin{enumerate}
-    \item тестирование создания объектов и проверка их состояния:
-    \begin{enumerate}
-        \item класс \textbf{Node};
-        \item класс \textbf{Configuration};
-        \item класс \textbf{Equivalent};
-        \item класс \textbf{Graph};
-    \end{enumerate}
-    \item тестирование реализации алгоритмов:
-    \begin{enumerate}
-        \item \textbf{Node.get\_connected\_component} --- компонента связности вершины;
-        \item \textbf{Graph.get\_connected\_components} --- все компоненты связности графа;
-        \item \textbf{match} --- поиск изоморфного подграфа.
-    \end{enumerate}
-\end{enumerate}
+Протестировано создание объектов классов и их состояния:
+\begin{itemize}
+\item \textbf{Node};
+\item \textbf{Configuration};
+\item \textbf{Equivalent};
+\item \textbf{Isomorphic};
+\item \textbf{Graph}.
+\end{itemize}
 
-%\begin{enumerate}
-%\item тестирование создания объектов и их методов:
-%\begin{enumerate}
-%    \item класс \textbf{Node};
-%    \begin{enumerate}
-%        \item отдельная вершина;
-%    \end{enumerate}
-%    \item класс \textbf{Configuration};
-%    \begin{enumerate}
-%        \item начальная конфигурация;
-%    \end{enumerate}
-%    \item класс \textbf{Equivalent};
-%    \begin{enumerate}
-%        \item между двумя объектами;
-%    \end{enumerate}
-%    \item класс \textbf{Graph};
-%    \begin{enumerate}
-%        \item пустой граф;
-%        \item с одной вершиной;
-%        \item с одной дугой, соединяющей две вершины;
-%        \item с одной помеченной дугой;
-%        \item с одной дугой, соединяюшей одну вершину;
-%        \item с тремя вершинами и одной дугой, соединяющей две;
-%        \item с тремя вершинами и одной помеченной дугой, соединяющей две;
-%        \item с двумя вершинами, одной дугой, их соединяющей и повторением вершины;
-%        \item с несколькими размеченными и нет дугами;
-%    \end{enumerate}
-%\end{enumerate}
-%\item тестирование реализации алгоритмов:
-%\begin{enumerate}
-%    \item компонента связности вершины;
-%    \begin{enumerate}
-%        \item отдельная вершина;
-%        \item две не соединенные вершины;
-%        \item две соединенные одной дугой вершины;
-%        \item две соединенные двумя дугами вершины;
-%        \item три вершины, соединенные цепочкой;
-%        \item четыре вершины, одна дуга соединяет одну пару, другая --- другую;
-%    \end{enumerate}
-%    \item все компоненты связности графа;
-%    \begin{enumerate}
-%        \item пустой граф;
-%        \item с двумя вершинами;
-%        \item с двумя вершинами, соединенными дугой;
-%        \item ;
-%        \item три вершины, соединенные цепочкой;
-%        \item четыре вершины, одна дуга соединяет одну пару, другая --- другую;
-%    \end{enumerate}
-%    \item алгоритм поиска изоморфного подграфа;
-%\end{enumerate}
-%\item тестирование реализации алгоритмов:
-%\end{enumerate}
+Функций:
+\begin{itemize}
+\item \textbf{Graph.get\_connected\_cmponents} --- реализация алгоритма поиска
+компонент связности графа;
+\item \textbf{match} --- реализация алгоритма поиска изоморфных подграфов.
+\end{itemize}
+
+Цель --- проверить простейшие ситуации на графах из нескольких вершин.
+Для этого написаны тесты, представленные в таблице~\ref{table:match-graph-tests}.
+
+\begin{table}[ht!]
+    \centering
+    \begin{tabulary}{\textwidth}{|C|C|C|C|}
+        \hline
+        № & Целевой граф & Граф шаблона & Результат \\
+        \hline
+        1 & $(\varnothing, \varnothing, \varnothing)$ & $(\varnothing, \varnothing, \varnothing)$ & $\varnothing$ \\
+        \hline
+        2 & $(\{ 1 \}, \varnothing, \varnothing)$ & $(\{ a \}, \varnothing, \varnothing)$ & $\{ (1, a) \}$ \\
+        \hline
+        3 & $(\{ 1, 2 \}, \varnothing, \varnothing)$ & $(\{ a \}, \varnothing, \varnothing)$ & $\{ (1, a) \}$, $\{ (2, a) \}$ \\
+        \hline
+        4 & $(\{ 1 \}, \varnothing, \varnothing)$ & $(\{ a, b \}, \varnothing, \varnothing)$ & $\{ (1, a) \}$, $\{ (1, b) \}$ \\
+        \hline
+        5 & $(\{ 1, 2 \}$, $\{ l \}$, $\{ ( 1, 2, l ) \})$ & $(\{ a, b \}$, $\{ l \}$, $\{ ( a, b, l ) \})$ & $\{ (1, a), (2, b) \}$ \\
+        \hline
+        6 & $(\{ 1, 2 \}$, $\{ x \}$, $\{ ( 1, 2, x ) \})$ & $(\{ a, b \}$, $\{ y \}$, $\{ ( a, b, y ) \})$ & $\varnothing$ \\
+        \hline
+        7 & $(\{ 1 \}$, $\{ l \}$, $\{ ( 1, 1, l ) \})$ & $(\{ a \}, \{ l \}$, $\{ ( a, a, l ) \})$ & $\{ (1, a) \}$ \\
+        \hline
+        8 & $(\{ 1, 2, 3 \}$, $\{ l \}$, $\{ ( 1, 2, l ), ( 2, 3, l ) \})$ & $(\{ a, b \}$, $\{ l \}$, $\{ ( a, b, l ), ( b, a, l ) \})$ & $\varnothing$ \\
+        \hline
+        9 & $(\{ 1, 2, 3 \}$, $\{ l \}$, $\{ ( 1, 2, l ), ( 2, 3, l ) \})$ & $(\{ a, b \}$, $\{ l \}$, $\{ ( a, b, l ) \})$ & $\{ (1, a), (2, b) \}$, $\{ (2, a), (3, b) \}$ \\
+        \hline
+        10 & $(\{ 1, 2, 3, 4 \}$, $\{ l \}$, $\{ ( 1, 2, l ), ( 3, 4, l ) \})$ & $(\{ a, b \}$, $\{ l \}$ , $\{ ( a, b, l ) \})$ & $\{ (1, a), (2, b) \}$, $\{ (3, a), (4, b) \}$ \\
+        \hline
+    \end{tabulary}
+    \caption{Простейшие тесты алгоритма поиска изоморфных подграфов}
+    \label{table:match-graph-tests}
+\end{table}
+
+Также протестированы случаи:
+\begin{itemize}
+\item у вершин заданы функции эквивалентности;
+\item полные графы из четырех вершин;
+\item все возможные графы из 2-4 вершин;
+\end{itemize}
+
+В случае со всеми возможными графами из 2, 3, 4 вершин применяется следующий алгоритм:
+
+\begin{algorithmic}
+\ForAll{ $n \in \{ 2, 3, 4 \}$ }
+    \ForAll{ $G_t \in$ множество всех возможных графов из одной компоненты}
+        \ForAll{ $G_p = (V_p, L_p, E_p) \in$ множество всех возможных подграфов $G_t$}
+            \ForAll{ $I \in$ \Call{match}{$G_t$, $G_p$}}
+                \State \Call{assert}{\Call{check}{$I$}}
+                \State $V^I_p \gets \{ v_p : (v_t, v_p) \in I \}$
+                \State \Call{assert}{$V_p = V^I_p$}
+            \EndFor
+        \EndFor
+    \EndFor
+\EndFor
+\State \Return $C$
+\end{algorithmic}
+
+Тестирование для большего количества вершин требует неприемлимо большого
+количества времени.
+
+В процессе разработки были найдены ошибки, часть из которых была исправлена,
+и для которых были написаны тесты:
+\begin{itemize}
+\item выполнение проверки на изоморфизм графов, состоящих из вершин,
+которые находятся в множестве $checked$ конфигурации алгоритма;
+\item поиск изоморфного подграфа из двух компонент, имеющих по одной дуге,
+в графе из одной компоненты, имеющей несколько дуг.
+\end{itemize}
+
+В первом случае ошибка проявлялась на графах, представленных на
+рисунках \ref{fig:check-current-isomorphism-target}
+\ref{fig:check-current-isomorphism-pattern}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{inc/check-current-isomorphism-target.pdf}
+\caption{Целевой граф}
+\label{fig:check-current-isomorphism-target}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{inc/check-current-isomorphism-pattern.pdf}
+\caption{Граф шаблона}
+\label{fig:check-current-isomorphism-pattern}
+\end{figure}
+
+Ожидался следующий результат:
+\begin{itemize}
+\item $\{ (1, a), (2, e), (3, b), (4, c), (6, d) \}$
+\item $\{ (1, a), (3, b), (4, c), (5, e), (6, d) \}$
+\item $\{ (1, a), (2, d), (3, c), (4, b), (6, e) \}$
+\item $\{ (1, a), (3, c), (4, b), (5, d), (6, e) \}$
+\end{itemize}
+Первый вариант результат представлен на
+рисунке~\ref{fig:check-current-isomorphism-result}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{inc/check-current-isomorphism-result.pdf}
+\caption{Вариант изоморфизма графов}
+\label{fig:check-current-isomorphism-result}
+\end{figure}
+
+Отсутсвие проверки приводило к дополнительным вариантам:
+\begin{itemize}
+\item $\{ (1, a), (2, e), (3, c), (4, b), (5, d) \}$
+\item $\{ (1, a), (2, d), (3, b), (4, c), (5, e) \}$
+\end{itemize}
+Первый вариант представлен на
+рисунке~\ref{fig:check-current-isomorphism-invalid-result}.
+Здесь вершина $4 \cong b$ соединена с тремя вершинами шаблона,
+что невозможно, так как вершина $b$ имеет только две связи.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics{inc/check-current-isomorphism-invalid-result.pdf}
+\caption{Варианта ошибочного изоморфизма графов}
+\label{fig:check-current-isomorphism-invalid-result}
+\end{figure}
+
+Во втором случае ошибка заключается в отсутствии объединения результатов.
+Для графов $G_t = (\{ 1, 2, 3, 4 \}, \{ l \}, \{ (1, 2, l), (2, 3, l), (3, 4, l) \})$
+и $G_p = (\{ a, b, c, d \}, \{ l \}, \{ (a, b, l), (c, d, l) \})$
+результат должен быть таким:
+$\{ (1, a), (2, b), (3, c), (4, d) \}$,
+$\{ (2, a), (3, b) \}$,
+$\{ (1, c), (2, d), (3, a), (4, b) \}$,
+$\{ (2, c), (3, d) \}$;
+но результат следующий:
+$\{ (1, a), (2, b) \}$,
+$\{ (2, a), (3, b) \}$,
+$\{ (3, a), (4, b) \}$,
+$\{ (1, c), (2, d) \}$,
+$\{ (2, c), (3, d) \}$,
+$\{ (3, c), (4, d) \}$.
+Учитывая, что в данной работе не используются шаблоны из нескольких компонент
+связности, можно исправить ошибку позднее, когда это потребуется.
 
 \subsubsection{Тестирование модуля pattern\_matcher}
 
-Выделены следующие классы прецедентов:
-\begin{enumerate}
-    \item тестирование создания объектов и проверка их состояния:
-    \begin{enumerate}
-        \item класс \textbf{Aggregation};
-        \item класс \textbf{Class};
-        \item класс \textbf{Classifier};
-        \item класс \textbf{DataType};
-        \item класс \textbf{Direction};
-        \item класс \textbf{Enumeration};
-        \item класс \textbf{Interface};
-        \item класс \textbf{Model};
-        \item класс \textbf{MatchVariant};
-        \item класс \textbf{MatchResult};
-        \item класс \textbf{Operation};
-        \item класс \textbf{Parameter};
-        \item класс \textbf{PrimitiveType};
-        \item класс \textbf{Property};
-        \item класс \textbf{Type};
-        \item класс \textbf{Visibility};
-    \end{enumerate}
-    \item тестирование реализации алгоритмов:
-    \begin{enumerate}
-        \item \textbf{eq\_ignore\_order} --- сравнение коллекций без учета порядка;
-        \item \textbf{match} --- поиск шаблона в модели;
-        \item \textbf{check} --- проверка результата \textbf{match};
-        \item чтение и запись модели в формате \textbf{YAML}.
-    \end{enumerate}
-\end{enumerate}
+Протестировано создание объектов классов и их состояния:
+\begin{itemize}
+\item \textbf{Aggregation};
+\item \textbf{Class};
+\item \textbf{Classifier};
+\item \textbf{DataType};
+\item \textbf{Direction};
+\item \textbf{Enumeration};
+\item \textbf{Interface};
+\item \textbf{Model};
+\item \textbf{MatchVariant};
+\item \textbf{MatchResult};
+\item \textbf{Operation};
+\item \textbf{Parameter};
+\item \textbf{PrimitiveType};
+\item \textbf{Property};
+\item \textbf{Type};
+\item \textbf{Visibility}.
+\end{itemize}
 
-\subsubsection{Тестирование модуля java\_source\_parser}
+Функций:
+\begin{itemize}
+\item \textbf{eq\_ignore\_order} --- сравнение коллекций без учета порядка;
+\item \textbf{match} --- реализация алгоритма поиска шаблона проектирования в модели;
+\item \textbf{check} --- проверка результата \textbf{match};
+\item чтения и записи модели и отдельных ее элементов в формате \textbf{YAML}.
+\end{itemize}
 
 \subsection{Функциональное тестирование}
 
+Здесь проверялась работа программ, использовались заранее подготовленные данные
+и ожидаемые результаты в виде файлов.
+
 \subsubsection{Тестирование программы java\_bytecode\_model}
 
+В качестве входных данных используются \textbf{.java}-файлы.
+Выполняется их компиляция и запуск \textbf{java\_bytecode\_model} с
+получившимися \textbf{.class}-файлами.
+Резульат выполнения программы сравнивается с заранее заготовленными
+\textbf{.yaml}-файлами.
+
+Проводятся следующие тесты создания модели для:
+\begin{itemize}
+\item пустого файла;
+\item одного класса (\textbf{class});
+\item одного перечисления (\textbf{enum});
+\item одного интерфейса (\textbf{interface});
+\item двух классов, связанных обобщением (\textbf{extends});
+\item двух интерфейсов и класса, связанных обобщением (\textbf{implements});
+\item иерархии обобщения из шести классов, на трех уровнях;
+\item класса со свойствами;
+\item класса с методами;
+\item зависимостей между классами;
+\item вызовов методов внутри класса и между классами;
+\item вызова переопределенного метода.
+\end{itemize}
+
 \subsubsection{Тестирование программы match\_pattern}
+
+Для моделей, описанных в \textbf{.yaml}-файлах, выполняется поиск шаблонов,
+реализованных в программе \textbf{pattern\_model}.
+Результат сравнивается с записанным в файл выводом программы.
+
+Проводятся тесты поиска:
+\begin{itemize}
+\item пустого шаблона в пустой модели;
+\item шаблона \textbf{BaseDerived} в модели с одной связью обобшения;
+\item шаблона \textbf{BaseDerived} в модели с множеством связей обобшения
+без ограничения количества вариантов;
+\item шаблона \textbf{BaseDerived} в модели с множеством связей обобшения
+c ограничением количества вариантов;
+\item шаблона \textbf{OverriddenMethodCall} в соответствующей модели;
+\end{itemize}

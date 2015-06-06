@@ -1,0 +1,8 @@
+digraph pattern {
+    "1, a" -> "3, b" [label=x, style=dashed]
+    "1, a" -> "4, c" [label=x, style=dashed]
+    "2, e" -> "3, b" [label=x, style=dashed]
+    5 -> "4, c" [label=y]
+    "6, d" -> "3, b" [label=y]
+    "2, e" -> "4, c" [label=y]
+}

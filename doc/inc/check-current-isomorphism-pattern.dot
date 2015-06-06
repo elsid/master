@@ -1,0 +1,6 @@
+digraph pattern {
+    a -> b [label=x, style=dashed]
+    a -> c [label=x, style=dashed]
+    d -> b [label=y]
+    e -> c [label=y]
+}
