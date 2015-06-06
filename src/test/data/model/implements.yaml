@@ -1,0 +1,13 @@
+!Model
+- &id001 !Interface {name: InterfaceA}
+- &id002 !Interface {name: InterfaceB}
+- &id003 !PrimitiveType {name: void}
+- &id004 !DataType {name: java.lang.Object}
+- !Class
+  generals:
+  - *id001
+  - *id002
+  suppliers:
+  - *id003
+  - *id004
+  name: Implementation

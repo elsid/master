@@ -1,0 +1,5 @@
+interface InterfaceA === class Base
+class Implementation === class Derived
+
+interface InterfaceB === class Base
+class Implementation === class Derived
