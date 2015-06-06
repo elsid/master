@@ -3,8 +3,31 @@
 import logging
 
 from collections import defaultdict
+from heapq import heappush, heappop
 from itertools import tee, combinations, permutations, izip, product
 from graph_matcher.configuration import Configuration, Equivalent
+
+
+class PriorityQueue(object):
+    def __init__(self):
+        self.__queue = []
+        self.__index = 0
+
+    def append(self, item, priority):
+        heappush(self.__queue, (-priority, self.__index, item))
+        self.__index += 1
+
+    def pop(self):
+        return heappop(self.__queue)[-1]
+
+    def __len__(self):
+        return len(self.__queue)
+
+    def __nonzero__(self):
+        return bool(self.__queue)
+
+    def __getitem__(self, item):
+        return self.__queue[item][-1]
 
 
 def replace_node_by_obj(value):
@@ -56,9 +79,12 @@ def generate_chains(target_nodes, pattern_nodes):
 
 class ConfigurationsGenerator(object):
     def __init__(self, initial_variants):
-        self.__generators = [initial_variants]
+        self.__generators = PriorityQueue()
         self.__result = []
         self.__generated_count = 0
+        self.__generators.append(initial_variants, 1)
+        logging.debug('add generator %d with priority %d',
+                      len(self.__generators), 1)
 
     def __iter__(self):
         return self
@@ -66,9 +92,10 @@ class ConfigurationsGenerator(object):
     def next(self):
         while self.__generators:
             try:
-                result = next(self.__generators[-1])
+                result = next(self.__generators[0])
                 self.__generated_count += 1
-                logging.debug('yield configuration %d', self.__generated_count)
+                logging.debug('generate configuration %d',
+                              self.__generated_count)
                 return result
             except StopIteration:
                 self.__generators.pop()
@@ -89,8 +116,9 @@ class ConfigurationsGenerator(object):
             if not new_configurations_generated:
                 yield configuration
 
-        self.__generators.append(generate())
-        logging.debug('add generator %d', len(self.__generators))
+        self.__generators.append(generate(), len(configuration.checked))
+        logging.debug('add generator %d with priority %d',
+                      len(self.__generators), len(configuration.checked))
 
     def add_result(self, configuration):
         if configuration.checked not in self.__result:
@@ -243,4 +271,3 @@ def count_arcs(graph):
 def count_connected_components(graph):
     components = tuple(graph.get_connected_components())
     return len(components), ', '.join(str(len(x)) for x in components)
-
