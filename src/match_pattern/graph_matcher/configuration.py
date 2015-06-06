@@ -121,11 +121,11 @@ class Configuration(object):
                 if i == self.__current:
                     yield '[%s === %s]' % e
                 elif Isomorphic(*e) in self.__checked:
-                    yield '{%s === %s}' % e
-                elif i > self.__current:
                     yield '%s === %s' % e
+                elif i > self.__current:
+                    yield '%s ~~~ %s' % e
                 else:
-                    yield '(%s === %s)' % e
+                    yield '%s =!= %s' % e
 
         return ', '.join(generate())
 

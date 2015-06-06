@@ -146,11 +146,13 @@ def match_one(target_graph, pattern_graph):
 
     configurations = ConfigurationsGenerator(generate_initial_configurations())
     for configuration in configurations:
+        logging.debug('process configuration %s', configuration)
         configuration.advance()
         if configuration.at_end():
             checked_patterns = configuration.checked_patterns()
             if len(checked_patterns) == len(pattern_graph.nodes):
                 if configurations.add_result(configuration):
+                    logging.debug('result configuration %s', configuration)
                     yield sorted(configuration.checked)
         else:
             configurations.generate(configuration)

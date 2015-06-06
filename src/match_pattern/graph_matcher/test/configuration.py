@@ -48,7 +48,7 @@ class MakeConfiguration(TestCase):
         assert_that(str(conf), equal_to("[target === pattern]"))
         assert_that(conf.advance(), equal_to(None))
         assert_that(conf.at_end(), equal_to(True))
-        assert_that(str(conf), equal_to("{target === pattern}"))
+        assert_that(str(conf), equal_to("target === pattern"))
 
 if __name__ == '__main__':
     main()
