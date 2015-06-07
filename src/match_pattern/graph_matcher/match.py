@@ -153,8 +153,13 @@ def match_one(target_graph, pattern_graph):
             checked_patterns = configuration.checked_patterns()
             if len(checked_patterns) == len(pattern_graph.nodes):
                 if configurations.add_result(configuration):
-                    logging.debug('result configuration %s', configuration)
+                    logging.debug('result configuration %s', configuration.id)
                     yield sorted(configuration.checked)
+                else:
+                    logging.debug('duplicate result configuration %s',
+                                  configuration.id)
+            else:
+                logging.debug('drop configuration %s', configuration.id)
         else:
             configurations.generate(configuration)
 
