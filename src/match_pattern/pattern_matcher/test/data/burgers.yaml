@@ -1,5 +1,5 @@
 !Model
-- &id001 !Class
+- &id001 !Interface
   name: Burger
   operations:
   - &id002 !Operation

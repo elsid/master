@@ -34,8 +34,8 @@ class Decorator(object):
 
     @cached_method
     def decorator(self):
-        return Interface('Decorator', properties=[self.decorator_component()],
-                         operations=[self.decorator_operation()])
+        return Class('Decorator', properties=[self.decorator_component()],
+                     operations=[self.decorator_operation()])
 
     @cached_method
     def decorator_operation(self):

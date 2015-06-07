@@ -36,8 +36,8 @@ class Operation(NamedElement):
         self.__update_parameters()
 
     @cached_eq
-    def sub_equiv_pattern(self, pattern):
-        return (isinstance(pattern, Operation)
+    def equiv_pattern(self, pattern):
+        return (super(Operation, self).equiv_pattern(pattern)
                 and eq_pattern(self.visibility, pattern.visibility)
                 and eq_pattern(self.is_static, pattern.is_static))
 

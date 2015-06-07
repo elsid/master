@@ -23,14 +23,3 @@ def equiv_pattern(value, other):
                 return True
 
     return _op_pattern(value, other, mult, lambda: value.equiv_pattern(other))
-
-
-def sub_equiv_pattern(value, other):
-
-    def mult():
-        for x in other:
-            if value.sub_equiv_pattern(x):
-                return True
-
-    return _op_pattern(value, other, mult,
-                       lambda: value.sub_equiv_pattern(other))

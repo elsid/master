@@ -1,7 +1,6 @@
 # coding: utf-8
 
 import yaml
-from graph_matcher import cached_eq
 from pattern_matcher.named_element import NamedElement
 from pattern_matcher.match import eq_ignore_order
 
@@ -44,10 +43,6 @@ class Classifier(NamedElement):
 
     def has_operation(self, name):
         return name in set(operation.name for operation in self.__operations)
-
-    @cached_eq
-    def equiv_pattern(self, pattern):
-        return isinstance(pattern, Classifier)
 
     def __eq__(self, other):
         return (id(self) == id(other)

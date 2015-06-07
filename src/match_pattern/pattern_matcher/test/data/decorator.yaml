@@ -17,7 +17,7 @@
     name: operation
     owner: *id002
     visibility: *id003
-- &id005 !Interface
+- &id005 !Class
   generals:
   - *id001
   name: Decorator

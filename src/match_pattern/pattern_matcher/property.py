@@ -22,29 +22,20 @@ class Property(NamedElement):
         self.owner = owner
 
     @cached_eq
-    def sub_equiv_pattern(self, pattern):
-        return (isinstance(pattern, Property)
+    def equiv_pattern(self, pattern):
+        return (super(Property, self).equiv_pattern(pattern)
                 and eq_pattern(self.visibility, pattern.visibility)
                 and eq_pattern(self.aggregation, pattern.aggregation)
                 and eq_pattern(self.is_static, pattern.is_static))
-
-    @cached_eq
-    def equiv_pattern(self, pattern):
-        return self.sub_equiv_pattern(pattern)
-
-    def sub_eq(self, other):
-        return (id(self) == id(other)
-                or isinstance(other, Property)
-                and self.visibility == other.visibility
-                and self.aggregation == other.aggregation
-                and self.is_static == other.is_static)
 
     @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)
                 or super(Property, self).__eq__(other)
                 and isinstance(other, Property)
-                and self.sub_eq(other)
+                and self.visibility == other.visibility
+                and self.aggregation == other.aggregation
+                and self.is_static == other.is_static
                 and self.type == other.type)
 
     def __str__(self):

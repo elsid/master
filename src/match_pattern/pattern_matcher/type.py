@@ -55,8 +55,8 @@ class Type(Element):
         self.is_unique = is_unique
 
     @cached_eq
-    def sub_equiv_pattern(self, pattern):
-        return (isinstance(pattern, Type)
+    def equiv_pattern(self, pattern):
+        return (super(Type, self).equiv_pattern(pattern)
                 and self.equiv_pattern_range(pattern)
                 and eq_pattern(self.is_ordered, pattern.is_ordered)
                 and eq_pattern(self.is_unique, pattern.is_unique))

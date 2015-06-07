@@ -131,10 +131,10 @@ class MakeModel(TestCaseWithParser):
 
     def test_from_text_should_succeed(self):
         tree = self.parse('''
-            class Burger {
-                public int price() {}
+            interface Burger {
+                public int price();
             }
-            class BurgerWith extends Burger {
+            class BurgerWith implements Burger {
                 public Burger burger;
                 public int price() {}
             }
@@ -144,11 +144,11 @@ class MakeModel(TestCaseWithParser):
             class Cheese extends BurgerWith {
                 public int price() {}
             }
-            class Hamburger extends Burger {
+            class Hamburger implements Burger {
                 public Cutlet cutlet;
                 public int price() {}
             }
-            class Cheeseburger extends Burger {
+            class Cheeseburger implements Burger {
                 public Cutlet cutlet;
                 public Cheese cheese;
                 public int price() {}

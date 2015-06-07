@@ -11,7 +11,7 @@ Class = __import__('pattern_matcher.class', fromlist=['Class']).Class
 
 class MakeOperation(TestCase):
     def test_equivalent_pattern_should_succeed(self):
-        assert_that(Operation().sub_equiv_pattern(Operation()), equal_to(True))
+        assert_that(Operation().equiv_pattern(Operation()), equal_to(True))
 
     def test_str_should_succeed(self):
         assert_that(str(Operation()),

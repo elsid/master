@@ -16,8 +16,8 @@ class Parameter(NamedElement):
         self.owner = owner
 
     @cached_eq
-    def sub_equiv_pattern(self, pattern):
-        return (isinstance(pattern, Parameter)
+    def equiv_pattern(self, pattern):
+        return (super(Parameter, self).equiv_pattern(pattern)
                 and eq_pattern(self.direction, pattern.direction)
                 and eq_pattern(self.position, pattern.position))
 

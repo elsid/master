@@ -19,6 +19,7 @@ from pattern_matcher.model import Model
 from pattern_matcher.match import MatchResult, MatchVariant
 from pattern_matcher.visibility import Visibility
 from pattern_matcher.cached_method import cached_method
+from pattern_matcher.interface import Interface
 Class = __import__('pattern_matcher.class', fromlist=['Class']).Class
 
 
@@ -148,7 +149,7 @@ class Burgers(object):
 
     @cached_method
     def burger(self):
-        return Class('Burger', operations=[self.burger_price()])
+        return Interface('Burger', operations=[self.burger_price()])
 
     @cached_method
     def burger_type(self):
@@ -244,11 +245,11 @@ class BukkitExample(object):
 
     @cached_method
     def command(self):
-        return Class('Command', operations=[self.command_create()])
+        return Interface('Command', operations=[self.command_create()])
 
     @cached_method
     def command_sender(self):
-        return Class('CommandSender')
+        return Interface('CommandSender')
 
     @cached_method
     def command_sender_type(self):
@@ -387,6 +388,26 @@ class MatchModel(TestCase):
                 Isomorphic(t.burger_type(), p.component_type()),
             ]),
         ])
+        assert_that(t.burger().equiv_pattern(p.component()))
+        assert_that(t.burger_price().equiv_pattern(p.component_operation()))
+        assert_that(t.burger_type().equiv_pattern(p.component_type()))
+        assert_that(t.burger_with().equiv_pattern(p.decorator()))
+        assert_that(t.burger_with_burger().equiv_pattern(
+            p.decorator_component()))
+        assert_that(t.burger_with_price().equiv_pattern(
+            p.decorator_operation()))
+        assert_that(t.cheese().equiv_pattern(p.concrete_decorator()))
+        assert_that(t.cheese_price().equiv_pattern(
+            p.concrete_decorator_operation()))
+        assert_that(t.cheeseburger().equiv_pattern(p.concrete_component()))
+        assert_that(t.cheeseburger_price().equiv_pattern(
+            p.concrete_component_operation()))
+        assert_that(t.cutlet().equiv_pattern(p.concrete_decorator()))
+        assert_that(t.cutlet_price().equiv_pattern(
+            p.concrete_decorator_operation()))
+        assert_that(t.hamburger().equiv_pattern(p.concrete_component()))
+        assert_that(t.hamburger_price().equiv_pattern(
+            p.concrete_component_operation()))
         match_result = t.create().match(p.create())
         assert_that(match_result, equal_to(expected_match_result))
 
@@ -441,6 +462,22 @@ class MatchModel(TestCase):
                 Isomorphic(t.command_sender_type(), p.abstract_product_type())
             ]),
         ])
+        assert_that(t.command().equiv_pattern(p.abstract_factory()))
+        assert_that(t.command_create().equiv_pattern(
+            p.abstract_factory_create()))
+        assert_that(t.command_sender().equiv_pattern(p.abstract_product()))
+        assert_that(t.command_sender_type().equiv_pattern(
+            p.abstract_product_type()))
+        assert_that(t.console_command_sender().equiv_pattern(
+            p.concrete_product()))
+        assert_that(t.formatted_command_alias().equiv_pattern(
+            p.concrete_factory()))
+        assert_that(t.formatted_command_alias_create().equiv_pattern(
+            p.concrete_factory_create()))
+        assert_that(t.plugin_command().equiv_pattern(p.concrete_factory()))
+        assert_that(t.plugin_command_create().equiv_pattern(
+            p.concrete_factory_create()))
+        assert_that(t.tab_completer().equiv_pattern(p.client()))
         match_result = t.create().match(p.create())
         assert_that(match_result, equal_to(expected_match_result))
 
@@ -458,7 +495,7 @@ class ReprModel(TestCase):
     def test_repr_decorator_empty_should_succeed(self):
         assert_that(repr(Decorator().create()), equal_to(
             "Model((Interface('Component'), Class('ConcreteComponent'), "
-            "Interface('Decorator'), Class('ConcreteDecorator')))"))
+            "Class('Decorator'), Class('ConcreteDecorator')))"))
 
 
 class YamlModel(TestCase):

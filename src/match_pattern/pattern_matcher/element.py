@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from graph_matcher import cached_eq
 from pattern_matcher.cached_method import cached_method
 
 
@@ -15,6 +16,10 @@ class Element(object):
         for attr, value in kwargs.iteritems():
             if hasattr(self, attr):
                 setattr(self, attr, value)
+
+    @cached_eq
+    def equiv_pattern(self, pattern):
+        return isinstance(self, type(pattern))
 
     @staticmethod
     def _yaml_representer(dumper, value, **kwargs):
