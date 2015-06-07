@@ -21,7 +21,7 @@
     visibility: !Visibility 'PRIVATE'
     is_static: false
     name: privateOperation
-  - !Operation
+  - &id004 !Operation
     owner: *id001
     result: *id003
     visibility: !Visibility 'PUBLIC'
@@ -29,12 +29,14 @@
     name: operationWithParameters
     parameters:
     - !Parameter
-      type: &id004 !Type
-        classifier: &id008 !PrimitiveType {name: int}
+      owner: *id004
+      type: &id006 !Type
+        classifier: &id011 !PrimitiveType {name: int}
       direction: !Direction 'IN'
     - !Parameter
-      type: &id005 !Type
-        classifier: &id007 !PrimitiveType {name: float}
+      owner: *id004
+      type: &id008 !Type
+        classifier: &id010 !PrimitiveType {name: float}
       direction: !Direction 'IN'
   - !Operation
     owner: *id001
@@ -42,7 +44,7 @@
     visibility: !Visibility 'PUBLIC'
     is_static: true
     name: staticOperation
-  - !Operation
+  - &id005 !Operation
     owner: *id001
     result: *id003
     visibility: !Visibility 'PUBLIC'
@@ -50,9 +52,10 @@
     name: overloadedOperation
     parameters:
     - !Parameter
-      type: *id004
+      owner: *id005
+      type: *id006
       direction: !Direction 'IN'
-  - !Operation
+  - &id007 !Operation
     owner: *id001
     result: *id003
     visibility: !Visibility 'PUBLIC'
@@ -60,12 +63,13 @@
     name: overloadedOperation
     parameters:
     - !Parameter
-      type: *id005
+      owner: *id007
+      type: *id008
       direction: !Direction 'IN'
   suppliers:
-  - &id006 !Classifier {name: java.lang.Object}
+  - &id009 !Classifier {name: java.lang.Object}
   - *id002
   name: Class
-- *id006
-- *id007
-- *id008
+- *id009
+- *id010
+- *id011

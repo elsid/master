@@ -6,6 +6,7 @@ public class Parameter extends NamedElement {
 
     private Type type;
     private Direction direction;
+    private Operation owner;
 
     public Type getType() {
         return type;
@@ -19,10 +20,16 @@ public class Parameter extends NamedElement {
         this.direction = direction;
     }
 
+    public void setOwner(Operation owner) {
+        this.owner = owner;
+    }
+
     public Map<String, Object> toMap() {
         Map<String, Object> result = super.toMap();
         result.put("type", type);
         result.put("direction", direction);
+        result.put("owner", owner);
         return result;
     }
+
 }

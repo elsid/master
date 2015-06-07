@@ -57,6 +57,7 @@ class ClassifiersMembersFactory extends EmptyVisitor {
             Parameter parameter = new Parameter();
             parameter.setType(types.get(argumentType));
             parameter.setDirection(Direction.IN);
+            parameter.setOwner(operation);
             operation.addParameter(parameter);
         }
 
