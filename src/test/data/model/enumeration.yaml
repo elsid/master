@@ -20,6 +20,7 @@
     parameters:
     - !Parameter
       owner: *id002
+      position: 1
       type: !Type
         classifier: &id008 !Classifier {name: java.lang.String}
       direction: !Direction 'IN'

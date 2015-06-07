@@ -30,11 +30,13 @@
     parameters:
     - !Parameter
       owner: *id004
+      position: 1
       type: &id006 !Type
         classifier: &id011 !PrimitiveType {name: int}
       direction: !Direction 'IN'
     - !Parameter
       owner: *id004
+      position: 2
       type: &id008 !Type
         classifier: &id010 !PrimitiveType {name: float}
       direction: !Direction 'IN'
@@ -53,6 +55,7 @@
     parameters:
     - !Parameter
       owner: *id005
+      position: 1
       type: *id006
       direction: !Direction 'IN'
   - &id007 !Operation
@@ -64,6 +67,7 @@
     parameters:
     - !Parameter
       owner: *id007
+      position: 1
       type: *id008
       direction: !Direction 'IN'
   suppliers:

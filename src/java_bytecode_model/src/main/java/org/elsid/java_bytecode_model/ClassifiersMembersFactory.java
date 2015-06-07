@@ -53,10 +53,12 @@ class ClassifiersMembersFactory extends EmptyVisitor {
         operation.setVisibility(getVisibility(obj));
         operation.setIsStatic(obj.isStatic());
 
+        int position = 1;
         for (org.apache.bcel.generic.Type argumentType : obj.getArgumentTypes()) {
             Parameter parameter = new Parameter();
             parameter.setType(types.get(argumentType));
             parameter.setDirection(Direction.IN);
+            parameter.setPosition(position++);
             parameter.setOwner(operation);
             operation.addParameter(parameter);
         }
