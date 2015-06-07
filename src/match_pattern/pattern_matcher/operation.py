@@ -98,8 +98,7 @@ class Operation(NamedElement):
                 and is_substitutable(operation.parameters))
 
     def __update_parameters(self):
-        for position, parameter in enumerate(self.__parameters):
-            parameter.position = position + 1
+        for parameter in self.__parameters:
             parameter.owner = self
 
 

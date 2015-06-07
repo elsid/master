@@ -26,7 +26,9 @@ class MakeOperation(TestCase):
         assert_that(yaml.load(data), equal_to(obj))
 
     def test_dump_and_load_yaml_with_attrs_and_parameters_should_succeed(self):
-        obj = Operation('f', is_static=True, parameters=[Parameter(name='x')])
+        obj = Operation('f', is_static=True, parameters=[
+            Parameter(name='x', position=1)
+        ])
         data = (
             "&id001 !Operation\n"
             "is_static: true\n"
