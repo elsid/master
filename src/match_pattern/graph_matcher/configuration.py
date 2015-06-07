@@ -37,11 +37,25 @@ class EndType(Enum):
         return self.value
 
 
+def id_generator(initial_value=0):
+
+    def generate():
+        value = initial_value
+        while True:
+            yield value
+            value += 1
+
+    return generate()
+
+
 class Configuration(object):
+    __ids = id_generator()
+
     def __init__(self, target_node, pattern_node, selected):
         self.__selected = [Equivalent(target_node, pattern_node)] + selected
         self.__checked = {Isomorphic(target_node, pattern_node)}
         self.__current = 0
+        self.__id_chain = [next(self.__ids)]
 
     def current(self):
         return self.__selected[self.__current]
@@ -71,6 +85,7 @@ class Configuration(object):
         other.__selected = copy(self.__selected)
         other.__selected.extend(additional_selected)
         other.__checked = copy(self.__checked)
+        other.__id_chain = copy(self.__id_chain) + [next(self.__ids)]
         return other
 
     def filter(self, pairs):
@@ -127,9 +142,13 @@ class Configuration(object):
                 else:
                     yield '%s =!= %s' % e
 
-        return ', '.join(generate())
+        return '%s: %s' % (self.id, ', '.join(generate()))
 
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, Configuration)
                 and frozenset(self.__selected) == frozenset(other.selected))
+
+    @property
+    def id(self):
+        return '.'.join(str(x) for x in self.__id_chain)
