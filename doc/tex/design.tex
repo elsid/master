@@ -471,25 +471,34 @@ $HasParameter$, $ParameterType \}$  --- множество вершин
 и шаблона и выполнить поиск изоморфных шаблону подграфов модели.
 Определим необходимые функции и используемые алгоритмы.
 
-\textbf{Определение}. $\textrm{DIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
+\textbf{Определение}. $\textrm{INDIR\_GENERALS}: Classifier \to 2^{Classifier}$
+--- множество всех ненапрямую базовых классов.
+
+$\textrm{INDIR\_GENERALS}(c) = \begin{cases}
+\varnothing \ \textrm{, если} \ c.generals = \varnothing \\
+\{ x : (\exists g \in c.generals)(x \in \textrm{INDIR\_GENERALS}(g)) \}
+\end{cases}
+$
+
+\textbf{Определение}. $\textrm{DOVERRID}: Operation \times 2^{Classifier} \to 2^{Operation}$
 --- множество переопределяемых операций в заданных классах
 
-$\textrm{DIRECT}(op, classifiers) = \{ x : x = op \land (\exists g \in classifiers)(x \in g.operations) \}$
+$\textrm{DOVERRID}(op, classifiers) = \{ x : x = op \land (\exists g \in classifiers)(x \in g.operations) \}$
 
-\textbf{Определение}. $\textrm{INDIRECT}: Operation \times 2^{Classifier} \to 2^{Operation}$
+\textbf{Определение}. $\textrm{IOVERRID}: Operation \times 2^{Classifier} \to 2^{Operation}$
 --- множество переопределяемых операций в заданных классах и их базовых классах
 
-$\textrm{INDIRECT}(op, C) = \begin{cases}
+$\textrm{IOVERRID}(op, C) = \begin{cases}
 \varnothing \ \textrm{, если} \ C = \varnothing \\
-\textrm{DIRECT}(op, C) \ \textrm{, если} \ \textrm{DIRECT}(op, C) \ne \varnothing \\
-\textrm{INDIRECT}(op, \{ s : (\exists c \in C)(s \in c.generals) \})
+\textrm{DOVERRID}(op, C) \ \textrm{, если} \ \textrm{DOVERRID}(op, C) \ne \varnothing \\
+\textrm{IOVERRID}(op, \{ s : (\exists c \in C)(s \in c.generals) \})
 \end{cases}
 $
 
 \textbf{Определение}. $\textrm{OVERRIDDEN}: Operation \to 2^{Operation}$
 --- множество переопределяемых операций
 
-$\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.generals)$
+$\textrm{OVERRIDDEN}(operation) = \textrm{IOVERRID}(operation, operation.owner.generals)$
 
 \textbf{Определение}. Алгоритм построения графа модели объектно-ориентированной программы.
 
@@ -501,7 +510,7 @@ $\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.g
 \Function{model\_graph}{$model$}
     \State $E \gets \varnothing$
     \ForAll{ $classifier \in model.classifiers$ }
-        \ForAll{ $general \in classifier.generals$ }
+        \ForAll{ $general \in$ \Call{indir\_generals}{$classifier$} }
             \State $E \gets E \cup \{ ( classifier, general, Generalization ) \}$
         \EndFor
         \ForAll{ $supplier \in classifier.suppliers$ }
@@ -515,6 +524,7 @@ $\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.g
         \ForAll{ $operation \in classifier.operations$ }
             \State $E \gets E \cup \{ ( classifier, operation, HasOperation ) \}$
             \If{ $operation.result \ne \varnothing$ }
+                \State $E \gets E \cup \{ ( classifier, operation.result, Dependency ) \}$
                 \State $E \gets E \cup \{ ( operation, operation.result, OperationResult ) \}$
                 \State $E \gets E \cup \{ ( operation.result, operation.result.classifier, TypeClassifier ) \}$
             \EndIf
@@ -526,6 +536,7 @@ $\textrm{OVERRIDDEN}(operation) = \textrm{INDIRECT}(operation, operation.owner.g
                 \State $E \gets E \cup \{ ( operation, x, Overriding ) : \{ x \} \subseteq overridden \}$
             \EndIf
             \ForAll{ $parameter \in operation.parameters$ }
+                \State $E \gets E \cup \{ ( classifier, parameter.type.classifier, Dependency ) \}$
                 \State $E \gets E \cup \{ ( operation, parameter, HasParameters ) \}$
                 \State $E \gets E \cup \{ ( parameter, parameter.type, ParameterType ) \}$
                 \State $E \gets E \cup \{ ( parameter.type, parameter.type.classifier, TypeClassifier ) \}$

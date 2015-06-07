@@ -289,7 +289,7 @@ python pattern_model.py [-h] <name>
 
 Интерфейс запуска:
 \begin{verbatim}
-python match_pattern.py [-h] [-l <limit>] [-a] <pattern> <target>
+python match_pattern.py [-h] [-l <limit>] [-v <level>] <pattern> <target>
 \end{verbatim}
 
 \begin{itemize}
@@ -300,6 +300,12 @@ python match_pattern.py [-h] [-l <limit>] [-a] <pattern> <target>
 \item \verb;-l <limit>; или \verb;--limit <limit>; --- задает максимальное
 количество изоморфизмов \verb;limit;, которое нужно найти;
 в наибольшей;
+\item \verb;-v <level>; или \verb;--verbosity <level>; --- включает вывод
+журнала в \textbf{stderr} с уровнем подробности \verb;level;:
+\begin{itemize}
+\item \verb;DEBUG; --- подробный отладочный вывод;
+\item \verb;INFO; --- выводится основная информация.
+\end{itemize}
 \end{itemize}
 
 Выводит варианты соответствий элементов в \textbf{stdout}.
