@@ -15,19 +15,19 @@ class MakeGraph(TestCase):
         graph = Graph()
         assert_that(graph.nodes, equal_to(tuple()))
         assert_that(repr(graph), equal_to(''))
-        assert_that(graph.connections_types(), equal_to(frozenset()))
+        assert_that(graph.connections_types, equal_to(frozenset()))
 
     def test_make_with_one_node_should_succeed(self):
         graph = Graph({1})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1]'))
-        assert_that(graph.connections_types(), equal_to(frozenset()))
+        assert_that(graph.connections_types, equal_to(frozenset()))
 
     def test_make_with_one_arc_should_succeed(self):
         graph = Graph({(1, 2)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to('[1] ---> 2'))
-        assert_that(graph.connections_types(), equal_to({tuple}))
+        assert_that(graph.connections_types, equal_to({tuple}))
 
     def test_make_with_one_labeled_arc_should_succeed(self):
         graph = Graph({Red(1, 2)})
@@ -38,13 +38,13 @@ class MakeGraph(TestCase):
         graph = Graph({(1, 1)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1] *'))
-        assert_that(graph.connections_types(), equal_to({tuple}))
+        assert_that(graph.connections_types, equal_to({tuple}))
 
     def test_make_self_connected_by_labeled_arc_node_should_succeed(self):
         graph = Graph({Red(1, 1)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1}))
         assert_that(repr(graph), equal_to('[1] * Red'))
-        assert_that(graph.connections_types(), equal_to({Red}))
+        assert_that(graph.connections_types, equal_to({Red}))
 
     def test_make_one_node_and_one_arc_should_succeed(self):
         graph = Graph({1, (2, 3)})
@@ -57,13 +57,13 @@ class MakeGraph(TestCase):
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2, 3}))
         assert_that(repr(graph), equal_to('[1]' '\n'
                                           '[2] -Red-> 3'))
-        assert_that(graph.connections_types(), equal_to({Red}))
+        assert_that(graph.connections_types, equal_to({Red}))
 
     def test_make_one_node_and_one_arc_with_duplication_should_succeed(self):
         graph = Graph({1, (1, 2)})
         assert_that(replace_node_by_obj(graph.nodes), equal_to({1, 2}))
         assert_that(repr(graph), equal_to('[1] ---> 2'))
-        assert_that(graph.connections_types(), equal_to({tuple}))
+        assert_that(graph.connections_types, equal_to({tuple}))
 
     def test_make_complex_should_succeed(self):
         graph = Graph([Red(1, 2), (1, 2), Blue(2, 4), Blue(3, 2), (4, 3)])
@@ -73,11 +73,11 @@ class MakeGraph(TestCase):
                                           '[2] -Blue-> 4' '\n'
                                           '[3] -Blue-> 2' '\n'
                                           '[4] ---> 3'))
-        assert_that(graph.connections_types(), equal_to({tuple, Red, Blue}))
+        assert_that(graph.connections_types, equal_to({tuple, Red, Blue}))
 
 
 def get_connected_components(graph):
-    return [replace_node_by_obj(x) for x in graph.get_connected_components()]
+    return [replace_node_by_obj(x) for x in graph.connected_components]
 
 
 class GraphGetConnectedComponents(TestCase):

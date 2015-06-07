@@ -181,7 +181,7 @@ def find_overridden(operation):
 
 def match(target, pattern, limit=None):
     pattern_graph = make_graph(pattern)
-    target_graph = make_graph(target, pattern_graph.connections_types())
+    target_graph = make_graph(target, pattern_graph.connections_types)
     result = islice(target_graph.match(pattern_graph), limit)
     return MatchResult(MatchVariant(replace_node_by_obj(x))
                        for x in result if check(x))

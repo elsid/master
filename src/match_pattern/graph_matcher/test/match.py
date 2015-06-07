@@ -214,8 +214,8 @@ class Match(TestCase):
         for nodes_count in xrange(2, 5):
             for target, pattern in generate_graphs(nodes_count):
                 if target.nodes and pattern.nodes:
-                    t = Graph(nodes=target.largest_connected_component())
-                    p = Graph(nodes=pattern.largest_connected_component())
+                    t = Graph(nodes=target.largest_connected_component)
+                    p = Graph(nodes=pattern.largest_connected_component)
                     for i in replace_node_by_obj(match(t, p)):
                         assert_that({x.pattern for x in i},
                                     equal_to({x.obj for x in p.nodes}))

@@ -57,15 +57,6 @@ class Configuration(object):
         self.__current = 0
         self.__id_chain = [next(self.__ids)]
 
-    def current(self):
-        return self.__selected[self.__current]
-
-    def target(self):
-        return self.current().target
-
-    def pattern(self):
-        return self.current().pattern
-
     @property
     def selected(self):
         return self.__selected
@@ -74,11 +65,32 @@ class Configuration(object):
     def checked(self):
         return self.__checked
 
+    @property
+    def id(self):
+        return '.'.join(str(x) for x in self.__id_chain)
+
+    @property
+    def current(self):
+        return self.__selected[self.__current]
+
+    @property
+    def target(self):
+        return self.current.target
+
+    @property
+    def pattern(self):
+        return self.current.pattern
+
+    @property
     def checked_targets(self):
         return frozenset(x.target for x in self.__checked)
 
+    @property
     def checked_patterns(self):
         return frozenset(x.pattern for x in self.__checked)
+
+    def count_remaining_selected(self):
+        return len(self.__selected) - self.__current
 
     def clone(self, additional_selected):
         other = copy(self)
@@ -92,15 +104,15 @@ class Configuration(object):
         return frozenset(pairs) - frozenset(self.__selected)
 
     def advance(self):
-        checked_targets = self.checked_targets()
-        checked_patterns = self.checked_patterns()
+        checked_targets = self.checked_targets
+        checked_patterns = self.checked_patterns
 
         def is_current_unchecked():
-            return (self.target() not in checked_targets
-                    and self.pattern() not in checked_patterns)
+            return (self.target not in checked_targets
+                    and self.pattern not in checked_patterns)
 
         def is_current_valid():
-            target, pattern = self.current()
+            target, pattern = self.current
 
             def connections(neighbor, checked):
                 for label, connection in checked.connections.iteritems():
@@ -123,7 +135,7 @@ class Configuration(object):
             if self.at_end():
                 return
             if is_current_unchecked() and is_current_valid():
-                self.__checked.add(Isomorphic(*self.current()))
+                self.__checked.add(Isomorphic(*self.current))
                 return
 
     def at_end(self):
@@ -148,10 +160,3 @@ class Configuration(object):
         return (id(self) == id(other)
                 or isinstance(other, Configuration)
                 and frozenset(self.__selected) == frozenset(other.selected))
-
-    @property
-    def id(self):
-        return '.'.join(str(x) for x in self.__id_chain)
-
-    def count_remaining_selected(self):
-        return len(self.__selected) - self.__current

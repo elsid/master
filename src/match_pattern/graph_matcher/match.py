@@ -106,8 +106,8 @@ class ConfigurationsGenerator(object):
 
         def generate():
             new_configurations_generated = False
-            for chain in generate_chains(configuration.target().neighbors(),
-                                         configuration.pattern().neighbors()):
+            for chain in generate_chains(configuration.target.neighbors,
+                                         configuration.pattern.neighbors):
                 chain = configuration.filter(chain)
                 if chain:
                     new_conf = configuration.clone(chain)
@@ -138,11 +138,11 @@ def match_one(target_graph, pattern_graph):
 
     def generate_initial():
         return generate_equivalent_one_node_pairs(
-            target_graph.nodes, pattern_graph.least_connected_node())
+            target_graph.nodes, pattern_graph.least_connected_node)
 
     def generate_initial_configurations():
         for t, p in generate_initial():
-            for chain in generate_chains(t.neighbors(), p.neighbors()):
+            for chain in generate_chains(t.neighbors, p.neighbors):
                 yield Configuration(t, p, chain)
 
     configurations = ConfigurationsGenerator(generate_initial_configurations(),
@@ -151,7 +151,7 @@ def match_one(target_graph, pattern_graph):
         logging.debug('process configuration %s', configuration)
         configuration.advance()
         if configuration.at_end():
-            checked_patterns = configuration.checked_patterns()
+            checked_patterns = configuration.checked_patterns
             if len(checked_patterns) == len(pattern_graph.nodes):
                 if configurations.add_result(configuration):
                     logging.debug('result configuration %s', configuration.id)
@@ -222,8 +222,8 @@ def match(target_graph, pattern_graph):
     log_graph_stats(pattern_graph, 'pattern')
     log_graph_stats(target_graph, 'target')
     graph_type = type(target_graph)
-    pattern_components = tuple(pattern_graph.get_connected_components())
-    target_components = tuple(target_graph.get_connected_components())
+    pattern_components = tuple(pattern_graph.connected_components)
+    target_components = tuple(target_graph.connected_components)
     target_n = len(target_components)
     pattern_n = len(pattern_components)
     if target_n <= 1:
@@ -271,7 +271,7 @@ def log_graph_stats(graph, name):
         '%s graph has %d nodes, %d arcs, %s connected components (nodes)%s',
         name, len(graph.nodes), count_arcs(graph),
         '%s (%s)' % count_connected_components(graph),
-        ', least connected node is %s' % graph.least_connected_node()
+        ', least connected node is %s' % graph.least_connected_node
         if graph.nodes else '')
 
 
@@ -281,5 +281,5 @@ def count_arcs(graph):
 
 
 def count_connected_components(graph):
-    components = tuple(graph.get_connected_components())
+    components = tuple(graph.connected_components)
     return len(components), ', '.join(str(len(x)) for x in components)

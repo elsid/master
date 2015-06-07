@@ -13,7 +13,7 @@ def main():
     graph = model.graph()
     print 'nodes: %d' % len(graph.nodes)
     print 'arcs: %d' % count_arcs(graph)
-    node = graph.least_connected_node()
+    node = graph.least_connected_node
     print 'least connected node: %s (%s)' % (node, node.count_connections())
     print ('connected components count: %s (%s)' %
            count_connected_components(graph))

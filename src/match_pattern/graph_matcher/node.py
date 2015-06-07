@@ -26,6 +26,7 @@ class Node(object):
         if hasattr(self.obj, 'equiv_pattern'):
             self.obj_equivalent_pattern = self.obj.equiv_pattern
 
+    @property
     def neighbors(self):
 
         def generate():
@@ -36,6 +37,24 @@ class Node(object):
                     yield node
 
         return frozenset(generate())
+
+    @property
+    def connections_types(self):
+        return (frozenset(self.self_connections)
+                | frozenset(x for x in self.connections.iterkeys()))
+
+    @property
+    def connected_component(self):
+        nodes = deque((self,))
+        visited = set()
+        while nodes:
+            node = nodes.pop()
+            if node not in visited:
+                visited.add(node)
+                for neighbor in node.neighbors:
+                    if neighbor not in visited:
+                        nodes.append(neighbor)
+        return visited
 
     def count_connections(self):
         return sum(len(x.incoming) + len(x.outgoing)
@@ -48,10 +67,6 @@ class Node(object):
     def count_outgoing_connections(self, label):
         return (len(self.connections[label].outgoing)
                 if label in self.connections else 0)
-
-    def connections_types(self):
-        return (frozenset(self.self_connections)
-                | frozenset(x for x in self.connections.iterkeys()))
 
     @cached_eq
     def equiv_pattern(self, pattern):
@@ -72,18 +87,6 @@ class Node(object):
                 and equiv_connections_count()
                 and (self.obj_equivalent_pattern is None
                      or self.obj_equivalent_pattern(pattern.obj)))
-
-    def get_connected_component(self):
-        nodes = deque((self,))
-        visited = set()
-        while nodes:
-            node = nodes.pop()
-            if node not in visited:
-                visited.add(node)
-                for neighbor in node.neighbors():
-                    if neighbor not in visited:
-                        nodes.append(neighbor)
-        return visited
 
     def __repr__(self):
 
