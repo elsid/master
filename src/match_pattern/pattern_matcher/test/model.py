@@ -27,7 +27,6 @@ class AbstractFactory(AbstractFactoryPattern):
     def match_result(self, other):
         return MatchResult([
             MatchVariant([
-                Isomorphic(target=self.client(), pattern=other.client()),
                 Isomorphic(target=self.abstract_factory(),
                            pattern=other.abstract_factory()),
                 Isomorphic(target=self.concrete_factory(),
@@ -441,7 +440,6 @@ class MatchModel(TestCase):
                 Isomorphic(t.command_sender(), p.abstract_product()),
                 Isomorphic(t.console_command_sender(), p.concrete_product()),
                 Isomorphic(t.plugin_command(), p.concrete_factory()),
-                Isomorphic(t.tab_completer(), p.client()),
                 Isomorphic(t.command_create(),
                            p.abstract_factory_create()),
                 Isomorphic(t.plugin_command_create(),
@@ -453,7 +451,6 @@ class MatchModel(TestCase):
                 Isomorphic(t.command_sender(), p.abstract_product()),
                 Isomorphic(t.console_command_sender(), p.concrete_product()),
                 Isomorphic(t.formatted_command_alias(), p.concrete_factory()),
-                Isomorphic(t.tab_completer(), p.client()),
                 Isomorphic(t.command_create(),
                            p.abstract_factory_create()),
                 Isomorphic(t.formatted_command_alias_create(),
@@ -476,7 +473,6 @@ class MatchModel(TestCase):
         assert_that(t.plugin_command().equiv_pattern(p.concrete_factory()))
         assert_that(t.plugin_command_create().equiv_pattern(
             p.concrete_factory_create()))
-        assert_that(t.tab_completer().equiv_pattern(p.client()))
         match_result = t.create().match(p.create())
         assert_that(match_result, equal_to(expected_match_result))
 
@@ -487,7 +483,7 @@ class ReprModel(TestCase):
 
     def test_repr_abstract_factory_empty_should_succeed(self):
         assert_that(repr(AbstractFactory().create()), equal_to(
-            "Model((Classifier('Client'), Interface('AbstractFactory'), "
+            "Model((Interface('AbstractFactory'), "
             "Interface('AbstractProduct'), Class('ConcreteFactory'), "
             "Class('ConcreteProduct')))"))
 

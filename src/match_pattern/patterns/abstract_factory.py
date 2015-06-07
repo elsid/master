@@ -1,8 +1,7 @@
 # coding: utf-8
 
 from pattern_matcher import (
-    Class, Type, Operation, Model, Interface, Visibility, cached_method,
-    Classifier)
+    Class, Type, Operation, Model, Interface, Visibility, cached_method)
 
 
 class AbstractFactory(object):
@@ -43,18 +42,11 @@ class AbstractFactory(object):
                          Visibility.PUBLIC, is_static=False)
 
     @cached_method
-    def client(self):
-        return Classifier('Client')
-
-    @cached_method
     def create(self):
         self.concrete_factory().generals = [self.abstract_factory()]
         self.concrete_product().generals = [self.abstract_product()]
-        self.client().suppliers = [self.abstract_factory(),
-                                   self.abstract_product()]
         self.concrete_factory().suppliers = [self.concrete_product()]
         return Model([
-            self.client(),
             self.abstract_factory(),
             self.abstract_product(),
             self.concrete_factory(),

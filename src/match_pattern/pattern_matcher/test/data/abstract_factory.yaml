@@ -1,20 +1,15 @@
 !Model
-- !Classifier
-  name: Client
-  suppliers:
-  - &id001 !Interface
-    name: AbstractFactory
-    operations:
-    - !Operation
-      is_static: false
-      name: create
-      owner: *id001
-      result: &id004 !Type
-        classifier: &id002 !Interface
-          name: AbstractProduct
-      visibility: &id005 !Visibility 'public'
-  - *id002
-- *id001
+- &id001 !Interface
+  name: AbstractFactory
+  operations:
+  - !Operation
+    is_static: false
+    name: create
+    owner: *id001
+    result: &id004 !Type
+      classifier: &id002 !Interface
+        name: AbstractProduct
+    visibility: &id005 !Visibility 'public'
 - *id002
 - &id003 !Class
   generals:
