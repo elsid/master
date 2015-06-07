@@ -47,10 +47,6 @@ public class Classifier extends NamedElement {
         ).findAny();
     }
 
-    public Optional<Operation> getOverriddenOperation(Operation overriding) {
-        return operations.stream().filter((operation) -> operation.equals(overriding)).findAny();
-    }
-
     public void addGeneral(Classifier general) {
         generals.add(general);
     }
