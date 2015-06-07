@@ -32,6 +32,7 @@ LOG_LEVEL_NAMES = (
     'DEBUG',
 )
 
+
 def parse_args():
     parser = ArgumentParser()
     parser.add_argument('target', type=FileType('r'))
