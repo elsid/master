@@ -78,7 +78,6 @@ class Visitor(VisitorPattern):
     def match_result(self, other):
         return MatchResult([
             MatchVariant([
-                Isomorphic(target=self.client(), pattern=other.client()),
                 Isomorphic(target=self.concrete_element(),
                            pattern=other.concrete_element()),
                 Isomorphic(target=self.concrete_visitor(),

@@ -2,14 +2,10 @@
 
 from pattern_matcher import (
     Class, Type, Operation, Model, Interface, Visibility, Parameter, Direction,
-    cached_method, Classifier)
+    cached_method)
 
 
 class Visitor(object):
-    @cached_method
-    def client(self):
-        return Classifier('Client')
-
     @cached_method
     def element(self):
         return Class('Element', operations=[self.element_accept()])
@@ -87,7 +83,6 @@ class Visitor(object):
 
     @cached_method
     def create(self):
-        self.client().suppliers = [self.element(), self.visitor()]
         self.concrete_element().generals = [self.element()]
         self.concrete_visitor().generals = [self.visitor()]
         self.concrete_element_accept().invocations = [self.visitor_visit()]
@@ -99,7 +94,6 @@ class Visitor(object):
         self.concrete_element_accept().parameters = [
             self.concrete_element_accept_visitor()]
         return Model([
-            self.client(),
             self.concrete_element(),
             self.concrete_visitor(),
             self.element(),
