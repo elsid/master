@@ -1,5 +1,7 @@
 # coding: utf-8
 
+import pytest
+
 from os import remove, makedirs, listdir
 from os.path import dirname, realpath, join, isdir, exists
 from shutil import rmtree
@@ -39,12 +41,10 @@ def load_model(file_name):
     return open(join(MODEL_DIR, file_name)).read()
 
 
-def base_test_make_model(file_name):
+FILES_NAMES = (x for x in listdir(SOURCE_DIR) if x.endswith('.java'))
+
+
+@pytest.mark.parametrize("file_name", FILES_NAMES)
+def test_one(file_name):
     assert_that(make_model_from_source(file_name),
                 equal_to(load_model(file_name.replace('.java', '.yaml'))))
-
-
-def test_all():
-    for file_name in listdir(SOURCE_DIR):
-        if file_name.endswith('.java'):
-            base_test_make_model(file_name)
