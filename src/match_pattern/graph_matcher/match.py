@@ -78,7 +78,8 @@ def generate_chains(target_nodes, pattern_nodes):
 
 
 class ConfigurationsGenerator(object):
-    def __init__(self, initial_variants):
+    def __init__(self, initial_variants, pattern_nodes_count):
+        self.__pattern_nodes_count = pattern_nodes_count
         self.__generators = PriorityQueue()
         self.__result = []
         self.__generators.append(initial_variants, 1)
@@ -99,6 +100,10 @@ class ConfigurationsGenerator(object):
 
     def generate(self, configuration):
 
+        def priority():
+            return (self.__pattern_nodes_count * len(configuration.checked)
+                    + configuration.count_remaining_selected())
+
         def generate():
             new_configurations_generated = False
             for chain in generate_chains(configuration.target().neighbors(),
@@ -111,9 +116,9 @@ class ConfigurationsGenerator(object):
             if not new_configurations_generated:
                 yield configuration
 
-        self.__generators.append(generate(), len(configuration.checked))
+        self.__generators.append(generate(), priority())
         logging.debug('add generator %d with priority %d',
-                      len(self.__generators), len(configuration.checked))
+                      len(self.__generators), priority())
 
     def add_result(self, configuration):
         if configuration.checked not in self.__result:
@@ -139,7 +144,8 @@ def match_one(target_graph, pattern_graph):
             for chain in generate_chains(t.neighbors(), p.neighbors()):
                 yield Configuration(t, p, chain)
 
-    configurations = ConfigurationsGenerator(generate_initial_configurations())
+    configurations = ConfigurationsGenerator(generate_initial_configurations(),
+                                             len(pattern_graph.nodes))
     for configuration in configurations:
         logging.debug('process configuration %s', configuration)
         configuration.advance()

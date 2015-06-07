@@ -152,3 +152,6 @@ class Configuration(object):
     @property
     def id(self):
         return '.'.join(str(x) for x in self.__id_chain)
+
+    def count_remaining_selected(self):
+        return len(self.__selected) - self.__current
