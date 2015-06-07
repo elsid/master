@@ -81,7 +81,6 @@ class ConfigurationsGenerator(object):
     def __init__(self, initial_variants):
         self.__generators = PriorityQueue()
         self.__result = []
-        self.__generated_count = 0
         self.__generators.append(initial_variants, 1)
         logging.debug('add generator %d with priority %d',
                       len(self.__generators), 1)
@@ -92,11 +91,7 @@ class ConfigurationsGenerator(object):
     def next(self):
         while self.__generators:
             try:
-                result = next(self.__generators[0])
-                self.__generated_count += 1
-                logging.debug('generate configuration %d',
-                              self.__generated_count)
-                return result
+                return next(self.__generators[0])
             except StopIteration:
                 self.__generators.pop()
                 logging.debug('pop generator %d', len(self.__generators))
