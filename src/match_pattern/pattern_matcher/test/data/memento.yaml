@@ -23,7 +23,7 @@
       direction: !Direction 'in'
       name: memento
       owner: *id004
-      position: 0
+      position: 1
       type: *id005
     visibility: *id006
   - !Operation

@@ -99,7 +99,7 @@ class Operation(NamedElement):
 
     def __update_parameters(self):
         for position, parameter in enumerate(self.__parameters):
-            parameter.position = position
+            parameter.position = position + 1
             parameter.owner = self
 
 

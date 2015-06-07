@@ -35,7 +35,7 @@ class MakeOperation(TestCase):
             "- !Parameter\n"
             "  name: x\n"
             "  owner: *id001\n"
-            "  position: 0\n"
+            "  position: 1\n"
         )
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))

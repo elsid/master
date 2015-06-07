@@ -10,9 +10,10 @@ class Parameter(NamedElement):
     def __init__(self, name=None, type=None, direction=None, position=None,
                  owner=None):
         super(Parameter, self).__init__(name)
+        assert position is None or position > 0
         self.type = type
         self.direction = direction
-        self.position = position
+        self.__position = position
         self.owner = owner
 
     @cached_eq
@@ -38,6 +39,15 @@ class Parameter(NamedElement):
             direction='%s ' % self.direction if self.direction else '',
             owner=' of %s' % self.owner if self.owner else '',
         )
+
+    @property
+    def position(self):
+        return self.__position
+
+    @position.setter
+    def position(self, value):
+        assert value is None or value > 0
+        self.__position = value
 
     @staticmethod
     def yaml_representer(dumper, value):
