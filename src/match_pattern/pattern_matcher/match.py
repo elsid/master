@@ -170,14 +170,18 @@ def make_graph(model, use_connections=CONNECTIONS_TYPES):
 
 
 def find_overridden(operation):
-    visited = set()
-    generals = deque(operation.owner.generals)
-    while generals:
-        classifier = generals.popleft()
-        visited.add(classifier)
+    for classifier in all_indirect_generals(operation.owner):
         overridden = classifier.get_overridden_operation(operation)
         if overridden:
             return overridden
+
+
+def all_indirect_generals(classifier):
+    visited = set(classifier.generals)
+    generals = deque(classifier.generals)
+    while generals:
+        classifier = generals.popleft()
+        yield classifier
         for general in classifier.generals:
             if general not in visited:
                 visited.add(general)

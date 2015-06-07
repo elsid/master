@@ -1,13 +1,16 @@
 # coding: utf-8
 
 from unittest import TestCase, main
-from hamcrest import assert_that, equal_to, calling, raises
+from hamcrest import assert_that, equal_to, calling, raises, empty
 from itertools import permutations
 from graph_matcher import Isomorphic, CheckIsomorphismFailed
 from pattern_matcher import Class, Model
 from pattern_matcher.match import (
-    eq_ignore_order, check, MatchVariant, MatchResult)
+    eq_ignore_order, check, MatchVariant, MatchResult, all_indirect_generals,
+    find_overridden)
 from pattern_matcher.cached_method import cached_method
+from pattern_matcher.classifier import Classifier
+from pattern_matcher.operation import Operation
 
 
 class EqIgnoreOrder(TestCase):
@@ -148,6 +151,82 @@ class MakeMatchResult(TestCase):
             "])"
         ))
         assert_that(len(match_result), equal_to(2))
+
+
+class AllIndirectGenerals(TestCase):
+    def test_for_classifier_without_generals(self):
+        assert_that(list(all_indirect_generals(Classifier('A'))), empty())
+
+    def test_for_classifier_with_one_general(self):
+        base = Classifier('Base')
+        derived = Classifier('Derived', generals=[base])
+        assert_that(list(all_indirect_generals(derived)), equal_to([base]))
+
+    def test_for_classifier_with_three_generals(self):
+        base1 = Classifier('Base')
+        base2 = Classifier('Base')
+        base3 = Classifier('Base')
+        derived = Classifier('Derived', generals=[base1, base2, base3])
+        assert_that(list(all_indirect_generals(derived)),
+                    equal_to([base1, base2, base3]))
+
+    def test_for_classifier_in_generalization_chain(self):
+        first = Classifier('First')
+        second = Classifier('Second', generals=[first])
+        third = Classifier('Third', generals=[second])
+        assert_that(list(all_indirect_generals(third)),
+                    equal_to([second, first]))
+
+    def test_for_classifier_in_generalization_tree(self):
+        leaf1 = Classifier('Leaf1')
+        leaf2 = Classifier('Leaf2')
+        leaf3 = Classifier('Leaf3')
+        leaf4 = Classifier('Leaf4')
+        middle1 = Classifier('Middle1', generals=[leaf1, leaf2])
+        middle2 = Classifier('Middle2', generals=[leaf3, leaf4])
+        top = Classifier('Top', generals=[middle1, middle2])
+        assert_that(list(all_indirect_generals(top)),
+                    equal_to([middle1, middle2, leaf1, leaf2, leaf3, leaf4]))
+
+    def test_for_classifier_in_diamond_generalization(self):
+        leaf = Classifier('Leaf')
+        middle1 = Classifier('Middle1', generals=[leaf])
+        middle2 = Classifier('Middle2', generals=[leaf])
+        top = Classifier('Top', generals=[middle1, middle2])
+        assert_that(list(all_indirect_generals(top)),
+                    equal_to([middle1, middle2, leaf]))
+
+
+class FindOverridden(TestCase):
+    def test_find_for_classifier_without_generals(self):
+        operation = Operation('f')
+        Classifier('A', operations=[operation])
+        assert_that(find_overridden(operation), equal_to(None))
+
+    def test_find_for_classifier_with_one_general(self):
+        base_operation = Operation('f')
+        base = Classifier('Base', operations=[base_operation])
+        operation = Operation('f')
+        Classifier('Derived', operations=[operation], generals=[base])
+        assert_that(find_overridden(operation), equal_to(base_operation))
+
+    def test_find_direct_in_generalization_chain(self):
+        first_operation = Operation('f')
+        first = Classifier('First', operations=[first_operation])
+        second_operation = Operation('f')
+        second = Classifier('Second', generals=[first],
+                            operations=[second_operation])
+        operation = Operation('f')
+        Classifier('Third', generals=[second], operations=[operation])
+        assert_that(find_overridden(operation), equal_to(second_operation))
+
+    def test_find_indirect_in_generalization_chain(self):
+        first_operation = Operation('f')
+        first = Classifier('First', operations=[first_operation])
+        second = Classifier('Second', generals=[first])
+        operation = Operation('f')
+        Classifier('Third', generals=[second], operations=[operation])
+        assert_that(find_overridden(operation), equal_to(first_operation))
 
 
 if __name__ == '__main__':
