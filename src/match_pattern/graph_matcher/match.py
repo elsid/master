@@ -116,6 +116,7 @@ class ConfigurationsGenerator(object):
             if not new_configurations_generated:
                 yield configuration
 
+
         self.__generators.append(generate(), priority())
         logging.debug('add generator %d with priority %d',
                       len(self.__generators), priority())

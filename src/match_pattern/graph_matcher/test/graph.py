@@ -13,7 +13,7 @@ def replace_node_by_obj(nodes):
 class MakeGraph(TestCase):
     def test_make_empty_should_succeed(self):
         graph = Graph()
-        assert_that(graph.nodes, equal_to(set()))
+        assert_that(graph.nodes, equal_to(tuple()))
         assert_that(repr(graph), equal_to(''))
         assert_that(graph.connections_types(), equal_to(frozenset()))
 

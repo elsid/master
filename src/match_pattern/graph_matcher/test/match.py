@@ -99,13 +99,13 @@ class Match(TestCase):
         second = Graph({'a', 'b', 'c'})
         first_variants = to_list(replace_node_by_obj(match(first, second)))
         assert_that(first_variants, equal_to([
-            [(1, 'a'), (2, 'c')], [(1, 'c'), (2, 'a')], [(1, 'a'), (2, 'b')],
-            [(1, 'b'), (2, 'a')], [(1, 'c'), (2, 'b')], [(1, 'b'), (2, 'c')],
+            [(1, 'a'), (2, 'b')], [(1, 'b'), (2, 'a')], [(1, 'a'), (2, 'c')],
+            [(1, 'c'), (2, 'a')], [(1, 'b'), (2, 'c')], [(1, 'c'), (2, 'b')],
         ]))
         second_variants = to_list(replace_node_by_obj(match(second, first)))
         assert_that(second_variants, equal_to([
-            [('a', 1), ('c', 2)], [('a', 2), ('c', 1)], [('a', 1), ('b', 2)],
-            [('a', 2), ('b', 1)], [('b', 2), ('c', 1)], [('b', 1), ('c', 2)],
+            [('a', 1), ('b', 2)], [('a', 2), ('b', 1)], [('a', 1), ('c', 2)],
+            [('a', 2), ('c', 1)], [('b', 1), ('c', 2)], [('b', 2), ('c', 1)],
         ]))
 
     def test_match_with_one_arc_should_succeed(self):
@@ -193,10 +193,10 @@ class Match(TestCase):
         })
         variants = to_list(replace_node_by_obj(match(target, pattern)))
         assert_that(variants, equal_to([
-            [(1, 'a'), (2, 'e'), (3, 'b'), (4, 'c'), (6, 'd')],
-            [(1, 'a'), (3, 'b'), (4, 'c'), (5, 'e'), (6, 'd')],
             [(1, 'a'), (2, 'd'), (3, 'c'), (4, 'b'), (6, 'e')],
             [(1, 'a'), (3, 'c'), (4, 'b'), (5, 'd'), (6, 'e')],
+            [(1, 'a'), (2, 'e'), (3, 'b'), (4, 'c'), (6, 'd')],
+            [(1, 'a'), (3, 'b'), (4, 'c'), (5, 'e'), (6, 'd')],
         ]))
         # without is_current_valid() check
         # variants = to_list(replace_node_by_obj(original_match(target,
