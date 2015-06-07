@@ -123,7 +123,7 @@ def make_graph(model, use_connections=CONNECTIONS_TYPES):
     def generate():
         for classifier in model.classifiers:
             if Generalization in use_connections:
-                for general in classifier.generals:
+                for general in all_indirect_generals(classifier):
                     yield Generalization(derived=classifier, general=general)
             if Dependency in use_connections:
                 for supplier in classifier.suppliers:

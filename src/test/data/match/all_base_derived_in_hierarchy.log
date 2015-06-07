@@ -4,6 +4,9 @@ class Vehicle === classifier Base
 class Automobile === classifier Base
 class Convertible === classifier Derived
 
+class Convertible === classifier Derived
+class Vehicle === classifier Base
+
 class Truck === classifier Derived
 class Vehicle === classifier Base
 
@@ -11,4 +14,7 @@ class Vehicle === classifier Base
 class Motorcycle === classifier Derived
 
 class Automobile === classifier Base
+class Sedan === classifier Derived
+
+class Vehicle === classifier Base
 class Sedan === classifier Derived
