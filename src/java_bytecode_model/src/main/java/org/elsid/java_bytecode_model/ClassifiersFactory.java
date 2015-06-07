@@ -14,7 +14,7 @@ class ClassifiersFactory extends EmptyVisitor {
     private final Collection<Classifier> classifiers = new ArrayList<>();
 
     public void visitJavaClass(JavaClass obj) {
-        if (obj.isInterface()) {
+        if (obj.isInterface() || obj.isAbstract()) {
             classifiers.add(new Interface(obj.getClassName()));
         } else {
             classifiers.add(new Class(obj.getClassName()));
