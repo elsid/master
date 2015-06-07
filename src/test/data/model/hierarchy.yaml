@@ -1,8 +1,8 @@
 !Model
 - &id001 !Class
   suppliers:
-  - &id002 !DataType {name: java.lang.Object}
-  - &id003 !PrimitiveType {name: void}
+  - &id002 !PrimitiveType {name: void}
+  - &id003 !Classifier {name: java.lang.Object}
   name: Vehicle
 - !Class
   generals:
@@ -25,7 +25,7 @@
   - *id002
   - *id003
   name: Convertible
-- *id003
+- *id002
 - !Class
   generals:
   - *id001
@@ -33,7 +33,7 @@
   - *id002
   - *id003
   name: Truck
-- *id002
+- *id003
 - !Class
   generals:
   - *id004

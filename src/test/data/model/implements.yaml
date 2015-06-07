@@ -1,8 +1,8 @@
 !Model
 - &id001 !Interface {name: InterfaceA}
 - &id002 !Interface {name: InterfaceB}
-- &id003 !PrimitiveType {name: void}
-- &id004 !DataType {name: java.lang.Object}
+- &id004 !PrimitiveType {name: void}
+- &id003 !Classifier {name: java.lang.Object}
 - !Class
   generals:
   - *id001

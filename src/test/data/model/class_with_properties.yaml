@@ -2,8 +2,8 @@
 - &id001 !PrimitiveType {name: void}
 - &id002 !Class
   suppliers:
-  - &id004 !DataType {name: java.lang.Object}
   - *id001
+  - &id004 !Classifier {name: java.lang.Object}
   name: Class
   properties:
   - !Property

@@ -1,7 +1,6 @@
 package org.elsid.java_bytecode_model;
 
 import org.elsid.java_bytecode_model.model.Classifier;
-import org.elsid.java_bytecode_model.model.DataType;
 import org.elsid.java_bytecode_model.model.PrimitiveType;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ class ClassifiersMap extends HashMap<String, Classifier> {
         if (PRIMITIVE_TYPES.contains(name)) {
             return new PrimitiveType(name);
         } else {
-            return new DataType(name);
+            return new Classifier(name);
         }
     }
 

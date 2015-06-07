@@ -2,10 +2,8 @@
 
 from pattern_matcher.aggregation import Aggregation
 from pattern_matcher.classifier import Classifier
-from pattern_matcher.data_type import DataType
 from pattern_matcher.model import Model
 from pattern_matcher.direction import Direction
-from pattern_matcher.enumeration import Enumeration
 from pattern_matcher.interface import Interface
 from pattern_matcher.match import MatchResult
 from pattern_matcher.named_element import NamedElement

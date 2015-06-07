@@ -4,12 +4,12 @@
   generals:
   - &id003 !Class
     suppliers:
-    - &id002 !DataType {name: java.lang.Object}
     - *id001
+    - &id002 !Classifier {name: java.lang.Object}
     name: Base
   suppliers:
-  - *id002
   - *id001
+  - *id002
   name: Derived
 - *id002
 - *id003

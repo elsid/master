@@ -19,8 +19,8 @@
 \end{minted}
 
 \verb;Classifier; -- любой из элементов, помеченный тегом \verb;!Class;,
-\verb;!Classifier;, \verb;!DataType;, \verb;!Enumeration;, \verb;!Interface;,
-\verb;!PrimitiveType;, который имеет структуру:
+\verb;!Classifier;, \verb;!Interface;, \verb;!PrimitiveType;,
+который имеет структуру:
 \begin{minted}{yaml}
 !Classifier
 name: <str>
@@ -398,7 +398,7 @@ def check(isomorphism)
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=\textwidth]{inc/pattern-matcher-generalizations.pdf}
+\includegraphics{inc/pattern-matcher-generalizations.pdf}
 \caption{Структура классов модуля pattern\_matcher. Обобщения}
 \label{fig:pattern-matcher-generalizations}
 \end{figure}
@@ -504,10 +504,6 @@ def check(isomorphism)
 \textbf{Class} --- класс.
 
 \textbf{Interface} --- интерфейс.
-
-\textbf{Enumeration} --- перечисление.
-
-\textbf{DataType} --- абстрактный тип данных, используется для внешних зависимостей.
 
 \textbf{PrimitiveType} --- примитивный тип данных, например \textbf{int} в \textbf{Java}.
 
@@ -714,9 +710,7 @@ $\{ (3, c), (4, d) \}$.
 \item \textbf{Aggregation};
 \item \textbf{Class};
 \item \textbf{Classifier};
-\item \textbf{DataType};
 \item \textbf{Direction};
-\item \textbf{Enumeration};
 \item \textbf{Interface};
 \item \textbf{Model};
 \item \textbf{MatchVariant};

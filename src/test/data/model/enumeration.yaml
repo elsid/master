@@ -1,7 +1,7 @@
 !Model
-- &id001 !Enumeration
+- &id001 !Class
   generals:
-  - &id003 !DataType {name: java.lang.Enum}
+  - &id003 !Classifier {name: java.lang.Enum}
   operations:
   - !Operation
     owner: *id001
@@ -20,7 +20,7 @@
     parameters:
     - !Parameter
       type: !Type
-        classifier: &id007 !DataType {name: java.lang.String}
+        classifier: &id007 !Classifier {name: java.lang.String}
       direction: !Direction 'IN'
   - !Operation
     owner: *id001
@@ -30,12 +30,12 @@
     is_static: true
     name: <clinit>
   suppliers:
-  - &id006 !DataType {name: java.lang.Class}
-  - &id008 !PrimitiveType {name: int}
   - *id001
+  - &id005 !Classifier {name: java.lang.Object}
+  - &id006 !Classifier {name: java.lang.Class}
   - *id002
   - *id003
-  - &id005 !DataType {name: java.lang.Object}
+  - &id008 !PrimitiveType {name: int}
   name: Enumeration
   properties:
   - !Property

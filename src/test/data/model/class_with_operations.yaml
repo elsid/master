@@ -63,7 +63,7 @@
       type: *id005
       direction: !Direction 'IN'
   suppliers:
-  - &id006 !DataType {name: java.lang.Object}
+  - &id006 !Classifier {name: java.lang.Object}
   - *id002
   name: Class
 - *id006

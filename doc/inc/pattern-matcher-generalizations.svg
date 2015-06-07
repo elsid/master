@@ -1,111 +1,93 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg height="497" version="1.1" width="662" xmlns="http://www.w3.org/2000/svg">
-<rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="97" x="273" y="118"/>
-<rect fill="none" height="73" stroke="#000000" stroke-width="1" width="97" x="273" y="118"/>
-<text font-family="Times New Roman" font-size="14" x="279" y="132">
+<svg height="400" version="1.1" width="444" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="73" stroke="#ffffff" stroke-width="1" width="97" x="132" y="118"/>
+<rect fill="none" height="73" stroke="#000000" stroke-width="1" width="97" x="132" y="118"/>
+<text font-family="Times New Roman" font-size="14" x="138" y="132">
 NamedElement</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="97" x="273" y="143"/>
-<text font-family="Times New Roman" font-size="14" x="277" y="158">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="97" x="132" y="143"/>
+<text font-family="Times New Roman" font-size="14" x="136" y="158">
 name : String</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="97" x="273" y="169"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="161" y="214"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="161" y="214"/>
-<text font-family="Times New Roman" font-size="14" x="169" y="228">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="97" x="132" y="169"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="28" y="214"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="28" y="214"/>
+<text font-family="Times New Roman" font-size="14" x="36" y="228">
 Property</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="161" y="239"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="161" y="260"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="329" y="214"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="329" y="214"/>
-<text font-family="Times New Roman" font-size="14" x="336" y="228">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="28" y="239"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="28" y="260"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="188" y="214"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="188" y="214"/>
+<text font-family="Times New Roman" font-size="14" x="195" y="228">
 Classifier</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="329" y="239"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="329" y="260"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="409" y="214"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="409" y="214"/>
-<text font-family="Times New Roman" font-size="14" x="414" y="228">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="188" y="239"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="188" y="260"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="268" y="214"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="268" y="214"/>
+<text font-family="Times New Roman" font-size="14" x="273" y="228">
 Operation</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="409" y="239"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="409" y="260"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="68" x="249" y="214"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="68" x="249" y="214"/>
-<text font-family="Times New Roman" font-size="14" x="254" y="228">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="268" y="239"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="268" y="260"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="68" x="108" y="214"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="68" x="108" y="214"/>
+<text font-family="Times New Roman" font-size="14" x="113" y="228">
 Parameter</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="68" x="249" y="239"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="68" x="249" y="260"/>
-<polyline fill="none" points="226,214 273,190" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="273,190 265,201 259,189" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="273,190 265,201 259,189" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="308,214 308,190" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="308,190 315,202 301,202" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="308,190 315,202 301,202" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="345,214 345,190" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="345,190 352,202 338,202" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="345,190 352,202 338,202" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="409,214 369,190" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="369,190 382,190 375,202" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="369,190 382,190 375,202" stroke="#000000" stroke-width="1"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="345" y="14"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="345" y="14"/>
-<text font-family="Times New Roman" font-size="14" x="355" y="28">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="68" x="108" y="239"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="68" x="108" y="260"/>
+<polyline fill="none" points="93,214 132,190" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="132,190 125,202 118,190" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="132,190 125,202 118,190" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="167,214 167,190" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="167,190 174,202 160,202" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="167,190 174,202 160,202" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="204,214 204,190" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="204,190 211,202 197,202" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="204,190 211,202 197,202" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="268,214 228,190" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="228,190 241,190 234,202" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="228,190 241,190 234,202" stroke="#000000" stroke-width="1"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="204" y="14"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="204" y="14"/>
+<text font-family="Times New Roman" font-size="14" x="214" y="28">
 Element</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="345" y="39"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="345" y="60"/>
-<polyline fill="none" points="361,118 361,81" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="361,81 368,93 354,93" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="361,81 368,93 354,93" stroke="#000000" stroke-width="1"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="393" y="118"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="393" y="118"/>
-<text font-family="Times New Roman" font-size="14" x="411" y="132">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="204" y="39"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="204" y="60"/>
+<polyline fill="none" points="220,118 220,81" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="220,81 227,93 213,93" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="220,81 227,93 213,93" stroke="#000000" stroke-width="1"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="244" y="118"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="244" y="118"/>
+<text font-family="Times New Roman" font-size="14" x="262" y="132">
 Type</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="393" y="143"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="393" y="164"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="401" y="318"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="401" y="318"/>
-<text font-family="Times New Roman" font-size="14" x="419" y="332">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="244" y="143"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="244" y="164"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="188" y="318"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="188" y="318"/>
+<text font-family="Times New Roman" font-size="14" x="206" y="332">
 Class</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="401" y="343"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="401" y="364"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="89" x="473" y="318"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="89" x="473" y="318"/>
-<text font-family="Times New Roman" font-size="14" x="478" y="332">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="188" y="343"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="188" y="364"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="89" x="268" y="318"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="89" x="268" y="318"/>
+<text font-family="Times New Roman" font-size="14" x="273" y="332">
 PrimitiveType</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="89" x="473" y="343"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="89" x="473" y="364"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="169" y="318"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="169" y="318"/>
-<text font-family="Times New Roman" font-size="14" x="174" y="332">
-DataType</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="169" y="343"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="169" y="364"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="329" y="318"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="329" y="318"/>
-<text font-family="Times New Roman" font-size="14" x="336" y="332">
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="89" x="268" y="343"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="89" x="268" y="364"/>
+<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="66" x="108" y="318"/>
+<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="66" x="108" y="318"/>
+<text font-family="Times New Roman" font-size="14" x="115" y="332">
 Interface</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="329" y="343"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="329" y="364"/>
-<rect fill="#ffffff" height="68" stroke="#ffffff" stroke-width="1" width="81" x="241" y="318"/>
-<rect fill="none" height="68" stroke="#000000" stroke-width="1" width="81" x="241" y="318"/>
-<text font-family="Times New Roman" font-size="14" x="246" y="332">
-Enumeration</text>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="81" x="241" y="343"/>
-<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="81" x="241" y="364"/>
-<polyline fill="none" points="401,318 394,281" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="394,281 403,291 389,294" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="394,281 403,291 389,294" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="473,318 394,281" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="394,281 407,279 401,292" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="394,281 407,279 401,292" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="361,318 361,281" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="361,281 368,293 354,293" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="361,281 368,293 354,293" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="234,318 329,281" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="329,281 320,291 315,278" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="329,281 320,291 315,278" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="321,318 329,281" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="329,281 333,294 319,291" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="329,281 333,294 319,291" stroke="#000000" stroke-width="1"/>
-<polyline fill="none" points="401,118 401,81" stroke="#000000" stroke-width="1"/>
-<polygon fill="#ffffff" points="401,81 408,93 394,93" stroke="#ffffff" stroke-width="1"/>
-<polygon fill="none" points="401,81 408,93 394,93" stroke="#000000" stroke-width="1"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="108" y="343"/>
+<rect fill="#000000" height="1" stroke="#000000" stroke-width="1" width="66" x="108" y="364"/>
+<polyline fill="none" points="220,318 220,281" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="220,281 227,293 213,293" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="220,281 227,293 213,293" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="268,318 253,281" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="253,281 263,289 251,294" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="253,281 263,289 251,294" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="173,318 188,281" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="188,281 189,294 177,289" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="188,281 189,294 177,289" stroke="#000000" stroke-width="1"/>
+<polyline fill="none" points="260,118 260,81" stroke="#000000" stroke-width="1"/>
+<polygon fill="#ffffff" points="260,81 267,93 253,93" stroke="#ffffff" stroke-width="1"/>
+<polygon fill="none" points="260,81 267,93 253,93" stroke="#000000" stroke-width="1"/>
 </svg>

@@ -7,13 +7,13 @@ from plyj.model import (
     VariableDeclarator, Variable, ClassDeclaration)
 from pattern_matcher import (
     Visibility, Type, Class, Property, Operation, Parameter, PrimitiveType,
-    Enumeration, Direction)
+    Direction)
 from java_source_parser.classifiers import make_classifiers
 from java_source_parser.classifiers_members import (
     get_visibility, has_duplications, get_name_value, format_type_arguments,
     get_type_name, get_classifier_name, VariableType, fill_classifiers,)
 from java_source_parser.test.classifiers import TestCaseWithParser
-from java_source_parser.errors import PlyjNameTypeError, ClassRedeclaration
+from java_source_parser.errors import PlyjNameTypeError, ClassifierRedeclaration
 
 
 class GetVisibility(TestCase):
@@ -348,7 +348,7 @@ class FillClassifiers(TestCaseWithParser):
         ''')
         classifiers, errors = make_classifiers(tree)
         assert_that(errors, equal_to(
-            [ClassRedeclaration(ClassDeclaration('SubClass', []))]))
+            [ClassifierRedeclaration(ClassDeclaration('SubClass', []))]))
         _, errors = fill_classifiers(tree, classifiers)
         assert_that(classifiers, equal_to({
             'Class': Class('Class'),
@@ -369,7 +369,7 @@ class FillClassifiers(TestCaseWithParser):
         classifiers, errors = make_classifiers(tree)
         _, errors = fill_classifiers(tree, classifiers)
         assert_that(classifiers, equal_to({
-            'Enum': Enumeration('Enum', operations=[
+            'Enum': Class('Enum', operations=[
                 Operation('f', VOID_TYPE, Visibility.PUBLIC, is_static=False),
             ]),
             'void': VOID_TYPE.classifier,

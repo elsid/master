@@ -7,7 +7,7 @@ from plyj.model import ClassDeclaration, InterfaceDeclaration
 from pattern_matcher import Class, Interface
 from java_source_parser.classifiers import (
     make_class, make_interface, make_classifiers)
-from java_source_parser.errors import ClassRedeclaration, InterfaceRedeclaration
+from java_source_parser.errors import ClassifierRedeclaration
 
 
 class MakeClass(TestCase):
@@ -75,7 +75,7 @@ class MakeClassifiers(TestCaseWithParser):
         classifiers, errors = make_classifiers(tree)
         assert_that(classifiers, equal_to({'Class': Class('Class')}))
         assert_that(errors, equal_to(
-            [ClassRedeclaration(ClassDeclaration('Class', []))]))
+            [ClassifierRedeclaration(ClassDeclaration('Class', []))]))
 
     def test_declaration_of_two_same_interfaces_should_return_error(self):
         tree = self.parse('''
@@ -86,7 +86,7 @@ class MakeClassifiers(TestCaseWithParser):
         assert_that(classifiers, equal_to(
             {'Interface': Interface('Interface')}))
         assert_that(errors, equal_to(
-            [InterfaceRedeclaration(InterfaceDeclaration('Interface', []))]))
+            [ClassifierRedeclaration(InterfaceDeclaration('Interface', []))]))
 
 if __name__ == '__main__':
     main()

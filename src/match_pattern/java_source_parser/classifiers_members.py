@@ -3,8 +3,8 @@
 from plyj.model import Visitor, Type as PlyjType
 
 from pattern_matcher import (
-    Property, Operation, DataType, Visibility, Type, Parameter, PrimitiveType,
-    Direction)
+    Property, Operation, Visibility, Type, Parameter, PrimitiveType, Direction,
+    Classifier)
 from java_source_parser.full_classifiers_names import get_name_value
 from java_source_parser.errors import (
     MethodRedeclaration, VariableRedeclaration, FieldModifiersDuplication,
@@ -231,7 +231,7 @@ class ClassifiersMembersFactory(Visitor):
             self.classifiers[classifier_name] = (
                 PrimitiveType(classifier_name)
                 if classifier_name in PRIMITIVE_TYPES
-                else DataType(classifier_name))
+                else Classifier(classifier_name))
         type_name = declaration_type.type_name()
         if type_name not in self.types:
             classifier = self.classifiers[classifier_name]

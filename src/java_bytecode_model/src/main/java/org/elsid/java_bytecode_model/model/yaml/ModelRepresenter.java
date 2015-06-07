@@ -1,9 +1,8 @@
 package org.elsid.java_bytecode_model.model.yaml;
 
 import org.elsid.java_bytecode_model.model.Class;
-import org.elsid.java_bytecode_model.model.DataType;
+import org.elsid.java_bytecode_model.model.Classifier;
 import org.elsid.java_bytecode_model.model.Direction;
-import org.elsid.java_bytecode_model.model.Enumeration;
 import org.elsid.java_bytecode_model.model.Interface;
 import org.elsid.java_bytecode_model.model.Operation;
 import org.elsid.java_bytecode_model.model.Parameter;
@@ -24,8 +23,7 @@ public class ModelRepresenter extends Representer {
 
     public ModelRepresenter() {
         representers.put(Class.class, new ClassRepresent());
-        representers.put(DataType.class, new DataTypeRepresent());
-        representers.put(Enumeration.class, new EnumerationRepresent());
+        representers.put(Classifier.class, new ClassifierRepresent());
         representers.put(Interface.class, new InterfaceRepresent());
         representers.put(Operation.class, new OperationRepresent());
         representers.put(Parameter.class, new ParameterRepresent());
@@ -44,26 +42,18 @@ public class ModelRepresenter extends Representer {
             .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
+    private class ClassifierRepresent implements Represent {
+
+        public Node representData(Object data) {
+            return representMapping(new Tag("!Classifier"), filter(((Classifier) data).toMap()), null);
+        }
+
+    }
+
     private class ClassRepresent implements Represent {
 
         public Node representData(Object data) {
             return representMapping(new Tag("!Class"), filter(((Class) data).toMap()), null);
-        }
-
-    }
-
-    private class DataTypeRepresent implements Represent {
-
-        public Node representData(Object data) {
-            return representMapping(new Tag("!DataType"), filter(((DataType) data).toMap()), null);
-        }
-
-    }
-
-    private class EnumerationRepresent implements Represent {
-
-        public Node representData(Object data) {
-            return representMapping(new Tag("!Enumeration"), filter(((Enumeration) data).toMap()), null);
         }
 
     }

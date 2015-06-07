@@ -1,9 +1,8 @@
 # coding: utf-8
 
 from plyj.model import Visitor
-from pattern_matcher import Class, Interface, Enumeration
-from java_source_parser.errors import (
-    ClassRedeclaration, InterfaceRedeclaration, EnumerationRedeclaration)
+from pattern_matcher import Class, Interface
+from java_source_parser.errors import ClassifierRedeclaration
 
 
 def make_class(declaration):
@@ -14,10 +13,6 @@ def make_interface(declaration):
     return Interface(declaration.name)
 
 
-def make_enumeration(declaration):
-    return Enumeration(declaration.name)
-
-
 class ClassifiersFactory(Visitor):
     def __init__(self):
         super(ClassifiersFactory, self).__init__()
@@ -25,20 +20,17 @@ class ClassifiersFactory(Visitor):
         self.errors = []
 
     def visit_ClassDeclaration(self, declaration):
-        return self.__visit_classifier(declaration, make_class,
-                                       ClassRedeclaration)
+        return self.__visit_classifier(declaration, make_class)
 
     def visit_InterfaceDeclaration(self, declaration):
-        return self.__visit_classifier(declaration, make_interface,
-                                       InterfaceRedeclaration)
+        return self.__visit_classifier(declaration, make_interface)
 
     def visit_EnumDeclaration(self, declaration):
-        return self.__visit_classifier(declaration, make_enumeration,
-                                       EnumerationRedeclaration)
+        return self.__visit_classifier(declaration, make_class)
 
-    def __visit_classifier(self, declaration, make, redeclaration_error):
+    def __visit_classifier(self, declaration, make):
         if declaration.name in self.classifiers:
-            self.errors.append(redeclaration_error(declaration))
+            self.errors.append(ClassifierRedeclaration(declaration))
             return False
         classifier = make(declaration)
         self.classifiers[declaration.name] = classifier

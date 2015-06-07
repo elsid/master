@@ -60,51 +60,25 @@ class Redeclaration(Error):
                 and self.declaration == other.declaration)
 
 
-class ClassRedeclaration(Redeclaration):
-    ENTITY = 'class'
+class ClassifierRedeclaration(Redeclaration):
+    ENTITY = 'classifier'
 
     def __init__(self, declaration):
-        super(ClassRedeclaration, self).__init__(declaration)
+        super(ClassifierRedeclaration, self).__init__(declaration)
 
     def __eq__(self, other):
         return (id(self) == id(other)
-                or super(ClassRedeclaration, self).__eq__(other)
-                and isinstance(other, ClassRedeclaration))
-
-
-class InterfaceRedeclaration(Redeclaration):
-    ENTITY = 'interface'
-
-    def __init__(self, declaration):
-        super(InterfaceRedeclaration, self).__init__(declaration)
-
-    def __eq__(self, other):
-        return (id(self) == id(other)
-                or super(InterfaceRedeclaration, self).__eq__(other)
-                and isinstance(other, InterfaceRedeclaration))
-
-
-class EnumerationRedeclaration(Redeclaration):
-    ENTITY = 'enumeration'
-
-    def __init__(self, declaration):
-        super(EnumerationRedeclaration, self).__init__(declaration)
-
-    def __eq__(self, other):
-        return (id(self) == id(other)
-                or super(EnumerationRedeclaration, self).__eq__(other)
-                and isinstance(other, EnumerationRedeclaration))
+                or super(ClassifierRedeclaration, self).__eq__(other)
+                and isinstance(other, ClassifierRedeclaration))
 
 
 def get_classifier_type_name(classifier):
-    from pattern_matcher import Class, Interface, Enumeration
+    from pattern_matcher import Class, Interface
 
     if isinstance(classifier, Class):
         return 'class'
     elif isinstance(classifier, Interface):
         return 'interface'
-    elif isinstance(classifier, Enumeration):
-        return 'enumeration'
     else:
         raise ClassifierTypeError(classifier)
 

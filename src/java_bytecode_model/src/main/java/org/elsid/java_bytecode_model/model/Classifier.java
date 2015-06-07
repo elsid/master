@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public abstract class Classifier extends NamedElement {
+public class Classifier extends NamedElement {
 
     private final Collection<Property> properties = new ArrayList<>();
     private final Collection<Operation> operations = new ArrayList<>();
@@ -19,7 +19,7 @@ public abstract class Classifier extends NamedElement {
     private final Collection<Classifier> suppliers = new HashSet<>();
     private final Map<Method, Operation> operationsTable = new HashMap<>();
 
-    Classifier(String name) {
+    public Classifier(String name) {
         super(name);
     }
 

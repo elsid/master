@@ -1,6 +1,6 @@
 !Model
 - &id002 !PrimitiveType {name: void}
-- &id007 !DataType {name: java.lang.Object}
+- &id005 !Classifier {name: java.lang.Object}
 - &id001 !Class
   operations:
   - !Operation
@@ -12,7 +12,7 @@
     name: invokeOperation
     invocations:
     - &id003 !Operation
-      owner: &id005 !Interface
+      owner: &id006 !Interface
         operations:
         - *id003
         name: Interface
@@ -21,23 +21,23 @@
       is_static: false
       name: operation
   suppliers:
+  - *id005
+  - *id006
   - *id002
-  - &id006 !Class
+  - &id007 !Class
     generals:
-    - *id005
+    - *id006
     operations:
     - !Operation
-      owner: *id006
+      owner: *id007
       result: *id004
       visibility: !Visibility 'PUBLIC'
       is_static: false
       name: operation
     suppliers:
+    - *id005
     - *id002
-    - *id007
     name: Implementation
-  - *id005
-  - *id007
   name: Client
   properties:
   - !Property
@@ -46,6 +46,6 @@
     is_static: false
     name: x
     type: !Type
-      classifier: *id005
+      classifier: *id006
+- *id007
 - *id006
-- *id005

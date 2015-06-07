@@ -2,7 +2,7 @@
 - &id004 !Class
   suppliers:
   - &id001 !PrimitiveType {name: void}
-  - &id002 !DataType {name: java.lang.Object}
+  - &id002 !Classifier {name: java.lang.Object}
   name: SupplierObjectConstructor
 - !Class
   suppliers:
