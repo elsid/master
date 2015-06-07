@@ -83,8 +83,8 @@ class ConfigurationsGenerator(object):
         self.__generators = PriorityQueue()
         self.__result = []
         self.__generators.append(initial_variants, 1)
-        logging.debug('add generator %d with priority %d',
-                      len(self.__generators), 1)
+        logging.debug('add generator %d with priority %d and checked len %d',
+                      len(self.__generators), 1, 1)
 
     def __iter__(self):
         return self
@@ -118,8 +118,9 @@ class ConfigurationsGenerator(object):
 
 
         self.__generators.append(generate(), priority())
-        logging.debug('add generator %d with priority %d',
-                      len(self.__generators), priority())
+        logging.debug('add generator %d with priority %d and checked len %d',
+                      len(self.__generators), priority(),
+                      len(configuration.checked))
 
     def add_result(self, configuration):
         if configuration.checked not in self.__result:
