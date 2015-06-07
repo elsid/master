@@ -8,7 +8,7 @@ from pattern_matcher import (
 class Visitor(object):
     @cached_method
     def element(self):
-        return Class('Element', operations=[self.element_accept()])
+        return Interface('Element', operations=[self.element_accept()])
 
     @cached_method
     def concrete_element(self):
