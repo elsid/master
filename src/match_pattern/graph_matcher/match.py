@@ -255,9 +255,12 @@ def unite_two_variants_sets(first, second):
 
 
 def log_graph_stats(graph, name):
-    logging.info('%s graph has %d nodes, %d arcs, %s (%s) connected '
-                 'components', name, len(graph.nodes), count_arcs(graph),
-                 *count_connected_components(graph))
+    logging.info(
+        '%s graph has %d nodes, %d arcs, %s connected components (nodes)%s',
+        name, len(graph.nodes), count_arcs(graph),
+        '%s (%s)' % count_connected_components(graph),
+        ', least connected node is %s' % graph.least_connected_node()
+        if graph.nodes else '')
 
 
 def count_arcs(graph):
