@@ -140,6 +140,9 @@ def make_graph(model, use_connections=CONNECTIONS_TYPES):
                 if HasOperation in use_connections:
                     yield HasOperation(classifier, operation)
                 if operation.result:
+                    if Dependency in use_connections:
+                        yield Dependency(classifier,
+                                         operation.result.classifier)
                     if OperationResult in use_connections:
                         yield OperationResult(operation, operation.result)
                     if TypeClassifier in use_connections:
@@ -153,6 +156,8 @@ def make_graph(model, use_connections=CONNECTIONS_TYPES):
                     if overridden:
                         yield Overriding(operation, overridden)
                 for parameter in operation.parameters:
+                    if Dependency in use_connections:
+                        yield Dependency(classifier, parameter.type.classifier)
                     if HasParameter in use_connections:
                         yield HasParameter(operation, parameter)
                     if ParameterType in use_connections:
