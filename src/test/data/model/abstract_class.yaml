@@ -1,0 +1,8 @@
+!Model
+- &id001 !PrimitiveType {name: void}
+- !Interface
+  suppliers:
+  - *id001
+  - &id002 !Classifier {name: java.lang.Object}
+  name: AbstractClass
+- *id002
