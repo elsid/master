@@ -1,0 +1,217 @@
+\append{А}{Тестирование модуля graph\_matcher}
+
+\inputminted{text}{inc/graph_matcher_test.log}
+
+\append{Б}{Тестирование модуля java\_source\_parser}
+
+\inputminted{text}{inc/java_source_parser_test.log}
+
+\append{В}{Тестирование модуля pattern\_matcher}
+
+\inputminted{text}{inc/pattern_matcher_test.log}
+
+\append{Г}{Тестирование программы java\_bytecode\_model}
+
+\section*{Описание тестов}
+
+\subsection*{Пустой файл}
+
+Название теста: \verb;test_one_file[empty.java];
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/empty.yaml}
+
+\subsection*{Построение модели класса}
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/class.java}
+
+Название теста: \verb;test_one_file[class.java];
+
+Ожидаемый результат (файл \verb;empty.yaml;):
+
+\inputminted{yaml}{../src/test/data/model/class.yaml}
+
+\subsection*{Построение модели перечисления}
+
+Название теста: \verb;test_one_file[enumeration.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/enumeration.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/enumeration.yaml}
+
+\subsection*{Построение модели интерфейса}
+
+Название теста: \verb;test_one_file[interface.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/interface.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/interface.yaml}
+
+\subsection*{Построение модели абстрактного класса}
+
+Название теста: \verb;test_one_file[abstract_class.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/abstract_class.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/abstract_class.yaml}
+
+\subsection*{Построение модели двух классов, связанных обобщением (extends)}
+
+Название теста: \verb;test_one_file[extends.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/extends.java}
+
+Ожидаемый результат (файл \verb;extends.yaml;):
+
+\inputminted{yaml}{../src/test/data/model/extends.yaml}
+
+\subsection*{Построение модели двух интерфейсов и класса, связанных обобщением (implements)}
+
+Название теста: \verb;test_one_file[implements.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/implements.java}
+
+Ожидаемый результат (файл \verb;implements.yaml;):
+
+\inputminted{yaml}{../src/test/data/model/implements.yaml}
+
+\subsection*{Построение модели иерархии обобщения из шести классов, на трех уровнях}
+
+Название теста: \verb;test_one_file[hierarchy.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/hierarchy.java}
+
+Ожидаемый результат (файл \verb;hierarchy.yaml;):
+
+\inputminted{yaml}{../src/test/data/model/hierarchy.yaml}
+
+\subsection*{Построение модели класса со свойствами}
+
+Название теста: \verb;test_one_file[class_with_properties.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/class_with_properties.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/class_with_properties.yaml}
+
+\subsection*{Построение модели класса с методами}
+
+Название теста: \verb;test_one_file[class_with_operations.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/class_with_operations.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/class_with_operations.yaml}
+
+\subsection*{Построение модели зависимостей между классами}
+
+Название теста: \verb;test_one_file[dependencies.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/dependencies.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/dependencies.yaml}
+
+\subsection*{Построение модели вызовов методов внутри класса и между классами}
+
+Название теста: \verb;test_one_file[invocations.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/invocations.java}
+
+Ожидаемый результат:
+
+\inputminted{yaml}{../src/test/data/model/invocations.yaml}
+
+\subsection*{Построение модели вызова переопределенного метода}
+
+Название теста: \verb;test_one_file[overridden_method_call.java];
+
+Входные данные:
+
+\inputminted{java}{../src/test/data/src/overridden_method_call.java}
+
+Ожидаемый результат (файл \verb;overridden_method_call.yaml;):
+
+\inputminted{yaml}{../src/test/data/model/overridden_method_call.yaml}
+
+\section*{Результат выполнения тестов}
+
+\inputminted{text}{inc/java_bytecode_model_test.log}
+
+\append{Д}{Тестирование программы match\_pattern}
+
+\section*{Описание тестов}
+
+\subsection*{Поиск пустого шаблона в пустой модели}
+
+Название теста: \verb;test_match_empty_in_empty;
+
+Входные данные --- файл \verb;empty.yaml;.
+
+Ожидаемый результат --- пустой вывод.
+
+\subsection*{Поиск шаблона BaseDerived в модели с одной связью обобщения}
+
+Название теста: \verb;test_match_base_derived;
+
+Входные данные --- файл \verb;extends.yaml;.
+
+Ожидаемый результат:
+
+\inputminted{text}{../src/test/data/match/base_derived_in_extends.log}
+
+\subsection*{Поиск шаблона BaseDerived в модели с множеством связей обобщения}
+
+Название теста: \verb;test_match_all_base_derived_in_hierarchy;
+
+Входные данные --- файл \verb;hierarchy.yaml;.
+
+Ожидаемый результат:
+
+\inputminted{text}{../src/test/data/match/all_base_derived_in_hierarchy.log}
+
+\subsection*{Поиск шаблона OverriddenMethodCall в соответствующей модели}
+
+Название теста: \verb;test_match_overridden_method_call;
+
+Входные данные --- файл \verb;overridden_method_call.yaml;.
+
+Ожидаемый результат:
+
+\inputminted{text}{../src/test/data/match/overridden_method_call.log}
+
+\section*{Результат выполнения тестов}
+
+\inputminted{text}{inc/match_pattern_test.log}
