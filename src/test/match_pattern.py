@@ -43,16 +43,11 @@ def test_match_empty_in_empty():
     base_test_match_pattern('empty', 'empty', 'Empty')
 
 
-def test_match_base_derived_in_extends():
+def test_match_base_derived():
     base_test_match_pattern('base_derived_in_extends', 'extends', 'BaseDerived')
 
 
-def test_match_base_derived_in_implements():
-    base_test_match_pattern('base_derived_in_implements', 'implements',
-                            'BaseDerived')
-
-
-def test_match_overridden_method_call_in_overridden_method_call():
+def test_match_overridden_method_call():
     base_test_match_pattern('overridden_method_call', 'overridden_method_call',
                             'OverriddenMethodCall')
 
