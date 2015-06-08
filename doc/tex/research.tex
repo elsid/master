@@ -5,15 +5,108 @@
 
 \section{Описание используемых шаблонов проектирования}
 
-\subsubsection{Шаблон abstract factory}
+\subsection{Шаблон <<базовый-производный классы>>}
 
-\subsubsection{Шаблон bridge}
+Определяет обобщение одного класса другим.
+Учитывает прямую и непрямую связь.
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:base-derived-uml},
+граф --- на рисунке~\ref{fig:base-derived-graph}.
 
-\subsubsection{Шаблон visitor}
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/base-derived-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<базовый-производный классы>>}
+\label{fig:base-derived-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/base-derived-graph.pdf}
+\caption{Граф шаблона <<базовый-производный классы>>}
+\label{fig:base-derived-graph}
+\end{figure}
+
+\subsection{Шаблон <<вызов переопределенного метода>>}
+
+Представляет ситуацию, когда вызывается метод интерфейса,
+для которого имеется реализация в производном классе.
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:overridden-method-call-uml},
+граф --- на рисунке~\ref{fig:overridden-method-call-graph}.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/overridden-method-call-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<вызов переопределенного метода>>}
+\label{fig:overridden-method-call-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/overridden-method-call-graph.pdf}
+\caption{Граф шаблона <<вызов переопределенного метода>>}
+\label{fig:overridden-method-call-graph}
+\end{figure}
+
+\subsection{Шаблон <<абстрактная фабрика>>}
+
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:abstract-factory-uml},
+граф --- на рисунке~\ref{fig:abstract-factory-graph}.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/abstract-factory-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<абстрактная фабрика>>}
+\label{fig:abstract-factory-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/abstract-factory-graph.pdf}
+\caption{Граф шаблона <<абстрактная фабрика>>}
+\label{fig:abstract-factory-graph}
+\end{figure}
+
+\subsection{Шаблон <<мост>>}
+
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:bridge-uml},
+граф --- на рисунке~\ref{fig:bridge-graph}.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/bridge-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<мост>>}
+\label{fig:bridge-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/bridge-graph.pdf}
+\caption{Граф шаблона <<мост>>}
+\label{fig:bridge-graph}
+\end{figure}
+
+\subsection{Шаблон <<посетитель>>}
+
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:visitor-uml},
+граф --- на рисунке~\ref{fig:visitor-graph}.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/visitor-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<посетитель>>}
+\label{fig:visitor-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/visitor-graph.pdf}
+\caption{Граф шаблона <<посетитель>>}
+\label{fig:visitor-graph}
+\end{figure}
 
 \section{Поиск шаблонов проектирования в существующих программах}
 
-\subsection{java-design-patterns}
+\subsection{Проект <<java-design-patterns>>}
 
 Проект находится в открытом доступе, размещен на ресурсе
 github.com~\cite{java-design-patterns}.
@@ -23,10 +116,13 @@ github.com~\cite{java-design-patterns}.
 Здесь можно увидеть некоторые из особенностей реализации шабонов,
 поэксперементировать с разными представлениями шаблона.
 
-\subsubsection{Шаблон abstract factory}
+\subsubsection{Поиск шаблона <<базовый-производный классы>>}
 
-Первый реализованный в проекте шабон --- \textbf{Abstract factory}
-(абстрактная фабрика).
+\subsubsection{Поиск шаблона <<вызов переопределенного метода>>}
+
+\subsubsection{Поиск шаблона <<абстрактная фабрика>>}
+
+Первый реализованный пример шаблона в проекте.
 Реализация совпадает с разными описаниями.
 Шаблон находится, результат представлен в таблице~\ref{table:java-design-patterns-abstract-factory}.
 
@@ -55,9 +151,9 @@ github.com~\cite{java-design-patterns}.
     \label{table:java-design-patterns-abstract-factory}
 \end{table}
 
-\subsubsection{Шаблон bridge}
+\subsubsection{Поиск шаблона <<мост>>}
 
-C шаблоном \textbf{Bridge} (мост) возникла странная ситуация.
+C этим шаблоном возникла странная ситуация.
 В его реализации он не был найден, но был найден в других примерах.
 Проблема его реализации в примере заключается в том,
 что используется дополнительное обобщение,
@@ -101,4 +197,4 @@ UML-диаграммы классов не предоставляют таког
 Для примера \textbf{adapter} резульат представлен в
 таблице~\ref{table:java-design-patterns-bridge-in-adapter}.
 
-\subsubsection{Шаблон visitor}
+\subsubsection{Поиск шаблона <<посетитель>>}
