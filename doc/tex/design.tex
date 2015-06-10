@@ -311,11 +311,11 @@ $\textrm{COMPONENTS}(G) = \{ (V, L, E) : V \subseteq V_G \land L \subseteq L_G \
 \item вершины, связанные с вершиной шаблона, изоморфны вершинам цели.
 \end{enumerate}
 
-\textbf{Определение}. Условие корректности изоморфизма $I$ между графами
-$G_p = (V_p, L_p, E_p)$ и $G_t = (V_t, L_t, E_t)$:
+\textbf{Определение}. Условие корректности изоморфизма $I$ подграфа графа
+$G_t = (V_t, L_t, E_t)$ и графа $G_p = (V_p, L_p, E_p)$, где $I = \{ (t, p) : t \in V_t \land p \in V_p \}$:
 %
-$$(\forall (p, t) \in I)$$
-$$( (\forall (p, p_x, l) \in E_p)(\exists (t, t_y, l) \in E_t: (p_x, t_y) \in I) \land (\forall (p_a, p, l) \in E_p)(\exists (t_b, t, l) \in E_t: (p_a, t_b) \in I) )$$
+$$(\forall (t, p) \in I)$$
+$$( (\forall (p, p_x, l) \in E_p)(\exists (t, t_y, l) \in E_t: (t_y, p_x) \in I) \land (\forall (p_a, p, l) \in E_p)(\exists (t_b, t, l) \in E_t: (t_b, p_a) \in I) )$$
 
 \section{Граф модели объектно-ориентированной программы}
 
