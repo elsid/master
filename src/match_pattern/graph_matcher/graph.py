@@ -1,6 +1,6 @@
 # coding: utf-8
 
-from pydot import Graph as DotGraph, Edge
+from pydot import Dot as DotGraph, Edge
 from graph_matcher.match import match
 from graph_matcher.node import Node
 

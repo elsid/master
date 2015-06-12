@@ -64,13 +64,14 @@ def format_text(variant):
     return str(variant)
 
 
-def format_dot(variant):
-    return variant.as_dot().to_string()
+def format_from_dot(variant, to_format='raw'):
+    return variant.as_dot().create(format=to_format)
 
 
 OUTPUT_FORMATS = {
     'txt': format_text,
-    'dot': format_dot,
+    'dot': lambda x: format_from_dot(x),
+    'dot.svg': lambda x: format_from_dot(x, 'svg'),
 }
 
 
