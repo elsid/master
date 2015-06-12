@@ -32,7 +32,7 @@ class Parameter(NamedElement):
                 and self.position == other.position)
 
     def __str__(self):
-        return '{position}parameter {direction}{name}{type}{owner}'.format(
+        return '{position}{direction}{name}{type}{owner}'.format(
             position='%dth ' % self.position if self.position else '',
             name=self.name,
             type=': %s' % self.type.name if self.type else '',

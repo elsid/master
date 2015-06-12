@@ -11,9 +11,8 @@ Class = __import__('pattern_matcher.class', fromlist=['Class']).Class
 
 class MakeParameter(TestCase):
     def test_str_should_succeed(self):
-        assert_that(str(Parameter()), starts_with('parameter anonymous_'))
-        assert_that(str(Parameter('x', Type(Class('A')))),
-                    equal_to('parameter x: A'))
+        assert_that(str(Parameter()), starts_with('anonymous_'))
+        assert_that(str(Parameter('x', Type(Class('A')))), equal_to('x: A'))
 
     def test_dump_and_load_yaml_with_name_should_succeed(self):
         obj = Parameter('a')
