@@ -161,7 +161,11 @@ def match_one(target_graph, pattern_graph):
                     logging.debug('duplicate result configuration %s',
                                   configuration)
             else:
-                logging.debug('drop configuration %s', configuration)
+                not_found = (frozenset(x for x in pattern_graph.nodes)
+                             - checked_patterns)
+                logging.debug('drop configuration %s; not found %s',
+                              configuration,
+                              ', '.join(str(x.obj) for x in not_found))
         else:
             configurations.generate(configuration)
 
