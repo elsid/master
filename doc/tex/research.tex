@@ -5,84 +5,82 @@
 
 \section{Описание используемых шаблонов проектирования}
 
-\subsection{Шаблон <<базовый-производный классы>>}
-
-Определяет обобщение одного класса другим.
-Учитывает прямую и непрямую связь.
-UML-диграмма классов шаблона представлена на рисунке~\ref{fig:base-derived-uml},
-граф --- на рисунке~\ref{fig:base-derived-graph}.
-
-\begin{figure}[!ht]
-\centering
-%\includegraphics[width=\textwidth]{inc/base-derived-uml.pdf}
-\caption{UML-диаграмма классов шаблона <<базовый-производный классы>>}
-\label{fig:base-derived-uml}
-\end{figure}
-
-\begin{figure}[!ht]
-\centering
-%\includegraphics[width=\textwidth]{inc/base-derived-graph.pdf}
-\caption{Граф шаблона <<базовый-производный классы>>}
-\label{fig:base-derived-graph}
-\end{figure}
-
 \subsection{Шаблон <<вызов переопределенного метода>>}
 
 Представляет ситуацию, когда вызывается метод интерфейса,
 для которого имеется реализация в производном классе.
-UML-диграмма классов шаблона представлена на рисунке~\ref{fig:overridden-method-call-uml},
-граф --- на рисунке~\ref{fig:overridden-method-call-graph}.
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:OverriddenMethodCall-uml},
+граф --- на рисунке~\ref{fig:OverriddenMethodCall-graph}.
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/overridden-method-call-uml.pdf}
+%\includegraphics[width=\textwidth]{inc/OverriddenMethodCall-uml.pdf}
 \caption{UML-диаграмма классов шаблона <<вызов переопределенного метода>>}
-\label{fig:overridden-method-call-uml}
+\label{fig:OverriddenMethodCall-uml}
 \end{figure}
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/overridden-method-call-graph.pdf}
+%\includegraphics[width=\textwidth]{inc/OverriddenMethodCall-graph.pdf}
 \caption{Граф шаблона <<вызов переопределенного метода>>}
-\label{fig:overridden-method-call-graph}
+\label{fig:OverriddenMethodCall-graph}
 \end{figure}
 
 \subsection{Шаблон <<абстрактная фабрика>>}
 
-UML-диграмма классов шаблона представлена на рисунке~\ref{fig:abstract-factory-uml},
-граф --- на рисунке~\ref{fig:abstract-factory-graph}.
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:AbstractFactory-uml},
+граф --- на рисунке~\ref{fig:AbstractFactory-graph}.
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/abstract-factory-uml.pdf}
+%\includegraphics[width=\textwidth]{inc/AbstractFactory-uml.pdf}
 \caption{UML-диаграмма классов шаблона <<абстрактная фабрика>>}
-\label{fig:abstract-factory-uml}
+\label{fig:AbstractFactory-uml}
 \end{figure}
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/abstract-factory-graph.pdf}
+%\includegraphics[width=\textwidth]{inc/AbstractFactory-graph.pdf}
 \caption{Граф шаблона <<абстрактная фабрика>>}
-\label{fig:abstract-factory-graph}
+\label{fig:AbstractFactory-graph}
+\end{figure}
+
+\subsection{Шаблон <<адаптер>>}
+
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:Adapter-uml},
+граф --- на рисунке~\ref{fig:Adapter-graph}.
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/Adapter-uml.pdf}
+\caption{UML-диаграмма классов шаблона <<абстрактная фабрика>>}
+\label{fig:Adapter-uml}
+\end{figure}
+
+\begin{figure}[!ht]
+\centering
+%\includegraphics[width=\textwidth]{inc/Adapter-graph.pdf}
+\caption{Граф шаблона <<абстрактная фабрика>>}
+\label{fig:Adapter-graph}
 \end{figure}
 
 \subsection{Шаблон <<мост>>}
 
-UML-диграмма классов шаблона представлена на рисунке~\ref{fig:bridge-uml},
-граф --- на рисунке~\ref{fig:bridge-graph}.
+UML-диграмма классов шаблона представлена на рисунке~\ref{fig:Bridge-uml},
+граф --- на рисунке~\ref{fig:Bridge-graph}.
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/bridge-uml.pdf}
+%\includegraphics[width=\textwidth]{inc/Bridge-uml.pdf}
 \caption{UML-диаграмма классов шаблона <<мост>>}
-\label{fig:bridge-uml}
+\label{fig:Bridge-uml}
 \end{figure}
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/bridge-graph.pdf}
+%\includegraphics[width=\textwidth]{inc/Bridge-graph.pdf}
 \caption{Граф шаблона <<мост>>}
-\label{fig:bridge-graph}
+\label{fig:Bridge-graph}
 \end{figure}
 
 \subsection{Шаблон <<посетитель>>}
@@ -99,7 +97,7 @@ UML-диграмма классов шаблона представлена на
 
 \begin{figure}[!ht]
 \centering
-%\includegraphics[width=\textwidth]{inc/visitor-graph.pdf}
+%\includegraphics[width=\textwidth]{inc/Visitor-graph.pdf}
 \caption{Граф шаблона <<посетитель>>}
 \label{fig:visitor-graph}
 \end{figure}
@@ -115,8 +113,6 @@ github.com~\cite{java-design-patterns}.
 что очень хорошо подходит для проверки работы программного комплекса.
 Здесь можно увидеть некоторые из особенностей реализации шабонов,
 поэксперементировать с разными представлениями шаблона.
-
-\subsubsection{Поиск шаблона <<базовый-производный классы>>}
 
 \subsubsection{Поиск шаблона <<вызов переопределенного метода>>}
 
@@ -151,12 +147,13 @@ github.com~\cite{java-design-patterns}.
     \label{table:java-design-patterns-abstract-factory}
 \end{table}
 
+
+\subsubsection{Поиск шаблона <<адаптер>>}
+
 \subsubsection{Поиск шаблона <<мост>>}
 
-C этим шаблоном возникла странная ситуация.
-В его реализации он не был найден, но был найден в других примерах.
-Проблема его реализации в примере заключается в том,
-что используется дополнительное обобщение,
+В примере реализации не найден, но найден в других примерах.
+Проблема заключается в том, что используется дополнительное обобщение,
 чтобы не было дублирования кода.
 Класс \textbf{Abstraction} разделен на две части: базовый абстрактный класс
 \textbf{MagicWeapon},
