@@ -89,8 +89,8 @@ class Graph(object):
             if hasattr(node.obj, attr) and getattr(node.obj, attr) == value:
                 return node
 
-    def as_dot(self):
-        graph = DotGraph(graph_name='Model', graph_type='digraph')
+    def as_dot(self, name='Model'):
+        graph = DotGraph(graph_name=name, graph_type='digraph')
         for node in self.nodes:
             dot_node = node.as_dot()
             graph.add_node(dot_node)

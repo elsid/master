@@ -9,6 +9,19 @@ class MatchVariant(object):
     def __init__(self, isomorphism=None):
         self.isomorphism = tuple(isomorphism) if isomorphism else tuple()
 
+    def as_dot(self):
+        from pattern_matcher.model import Model
+        from pattern_matcher.classifier import Classifier
+        pattern_model = Model(x.pattern for x in self.isomorphism
+                              if isinstance(x.pattern, Classifier))
+        pattern_graph = pattern_model.graph().as_dot('MatchVariant')
+        for x in self.isomorphism:
+            node = pattern_graph.get_node('"%s"' % str(x.pattern))[0]
+            node.set('label', '<<%s>>\n%s\n%s' % (
+                type(x.pattern).__name__, x.pattern.full_name,
+                x.target.full_name))
+        return pattern_graph
+
     def __eq__(self, other):
         return (id(self) == id(other)
                 or isinstance(other, MatchVariant)
@@ -26,6 +39,9 @@ class MatchVariant(object):
 
     def __contains__(self, item):
         return isinstance(item, tuple) and item in self.isomorphism
+
+    def __iter__(self):
+        return iter(self.isomorphism)
 
 
 class MatchResult(object):
