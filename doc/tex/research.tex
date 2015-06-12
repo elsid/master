@@ -82,42 +82,34 @@ github.com~\cite{java-design-patterns}.
 Здесь можно увидеть некоторые из особенностей реализации шабонов,
 поэксперементировать с разными представлениями шаблона.
 
-\subsubsection{Поиск шаблона <<вызов переопределенного метода>>}
+\subsubsection*{Поиск шаблона <<вызов переопределенного метода>>}
 
-\subsubsection{Поиск шаблона <<абстрактная фабрика>>}
+\subsubsection*{Поиск шаблона <<абстрактная фабрика>>}
 
 Первый реализованный пример шаблона в проекте.
 Реализация совпадает с разными описаниями.
-Шаблон находится, результат представлен в таблице~\ref{table:java-design-patterns-abstract-factory}.
+Шаблон находится, результат представлен на рисунке~\ref{fig:java-design-patterns-abstract-factory}.
 
-\begin{table}[ht!]
-    \centering
-    \begin{tabulary}{\textwidth}{|C|C|C|}
-        \hline
-        Тип элемента & Название целевого элемент & Название элемента шаблона \\
-        \hline
-        Class & ElfCastle & ConcreteProduct \\
-        \hline
-        Operation & ElfKingdomFactory::createCastle() & ConcreteFactory::create() \\
-        \hline
-        Interface & Castle & AbstractProduct \\
-        \hline
-        Operation & KingdomFactory::createCastle() & AbstractFactory::create() \\
-        \hline
-        Type & Castle & AbstractProduct \\
-        \hline
-        Interface & KingdomFactory & AbstractFactory \\
-        \hline
-        Class & ElfKingdomFactory & ConcreteFactory \\
-        \hline
-    \end{tabulary}
-    \caption{Результат поиска шаблона проектирования abstract factory в примере его реализации}
-    \label{table:java-design-patterns-abstract-factory}
-\end{table}
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{inc/java-design-patterns-adapter.pdf}
+\caption{Результат поиска шаблона проектирования <<абстрактная фабрика>> в примере его реализации}
+\label{fig:java-design-patterns-abstract-factory}
+\end{figure}
 
-\subsubsection{Поиск шаблона <<адаптер>>}
+\subsubsection*{Поиск шаблона <<адаптер>>}
 
-\subsubsection{Поиск шаблона <<мост>>}
+Для шаблона есть пример, и шаблон в нем находится.
+Результат представлен на рисунке~\ref{fig:java-design-patterns-adapter}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{inc/java-design-patterns-adapter.pdf}
+\caption{Результат поиска шаблона проектирования <<адаптер>> в примере его реализации}
+\label{fig:java-design-patterns-adapter}
+\end{figure}
+
+\subsubsection*{Поиск шаблона <<мост>>}
 
 В примере реализации не найден, но найден в других примерах.
 Проблема заключается в том, что используется дополнительное обобщение,
@@ -150,4 +142,20 @@ UML-диаграммы классов не предоставляют таког
 \item strategy.
 \end{itemize}
 
-\subsubsection{Поиск шаблона <<посетитель>>}
+\subsubsection*{Поиск шаблона <<посетитель>>}
+
+Шаблон реализован в специальном примере и находится.
+Результат представлен на рисунке~\ref{fig:java-design-patterns-visitor}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{inc/java-design-patterns-visitor.pdf}
+\caption{Результат поиска шаблона проектирования <<посетитель>> в примере его реализации}
+\label{fig:java-design-patterns-visitor}
+\end{figure}
+
+\subsection{Библиотека <<Apache BCEL>>}
+
+Исследовалась в качестве примера реального проекта.
+Модель проекта в \textbf{YAML}-формате занимает 4,1 МБ.
+Граф модели состоит из 7700 вершин и 52000 дуг.
