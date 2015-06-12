@@ -1,5 +1,6 @@
 # coding: utf-8
 
+from pydot import Graph as DotGraph, Edge
 from graph_matcher.match import match
 from graph_matcher.node import Node
 
@@ -87,6 +88,16 @@ class Graph(object):
         for node in self.nodes:
             if hasattr(node.obj, attr) and getattr(node.obj, attr) == value:
                 return node
+
+    def as_dot(self):
+        graph = DotGraph(graph_name='Model', graph_type='digraph')
+        for node in self.nodes:
+            dot_node = node.as_dot()
+            graph.add_node(dot_node)
+            for arc in node.outgoing_arcs:
+                graph.add_edge(Edge(dot_node, arc.target.as_dot(),
+                                    label=arc.label.__name__))
+        return graph
 
     def __repr__(self):
         return '\n'.join(sorted(repr(node) for node in self.nodes

@@ -29,3 +29,7 @@ class NamedElement(Element):
     def _yaml_representer(dumper, value, **kwargs):
         return Element._yaml_representer(dumper, value, name=str(value.name),
                                          **kwargs)
+
+    @property
+    def full_name(self):
+        return self.name

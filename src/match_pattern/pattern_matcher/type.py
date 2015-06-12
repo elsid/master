@@ -73,6 +73,10 @@ class Type(Element):
     def name(self):
         return self.classifier.name
 
+    @property
+    def full_name(self):
+        return self.name
+
     @cached_eq
     def __eq__(self, other):
         return (id(self) == id(other)

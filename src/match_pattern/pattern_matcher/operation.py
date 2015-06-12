@@ -35,6 +35,10 @@ class Operation(NamedElement):
         self.__parameters = value
         self.__update_parameters()
 
+    @property
+    def full_name(self):
+        return '%s::%s' % (self.owner.full_name, self.name)
+
     @cached_eq
     def equiv_pattern(self, pattern):
         return (super(Operation, self).equiv_pattern(pattern)

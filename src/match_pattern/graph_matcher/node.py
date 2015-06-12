@@ -1,7 +1,11 @@
 # coding: utf-8
 
-from collections import deque, defaultdict
+from collections import deque, defaultdict, namedtuple
+from pydot import Node as DotNode
 from graph_matcher.cached_eq import cached_eq
+
+
+Arc = namedtuple('Arc', ('source', 'target', 'label'))
 
 
 class Connections(object):
@@ -56,6 +60,12 @@ class Node(object):
                         nodes.append(neighbor)
         return visited
 
+    @property
+    def outgoing_arcs(self):
+        for label, connections in self.connections.iteritems():
+            for target in sorted(connections.outgoing):
+                yield Arc(self, target, label)
+
     def count_connections(self):
         return sum(len(x.incoming) + len(x.outgoing)
                    for x in self.connections.values())
@@ -87,6 +97,14 @@ class Node(object):
                 and equiv_connections_count()
                 and (self.obj_equivalent_pattern is None
                      or self.obj_equivalent_pattern(pattern.obj)))
+
+    def as_dot(self):
+        if hasattr(self.obj, 'full_name'):
+            obj_label = '"<<%s>>\n%s"' % (type(self.obj).__name__,
+                                          self.obj.full_name)
+            return DotNode('"%s"' % str(self.obj), label=obj_label, shape='box')
+        else:
+            return DotNode('"%s"' % str(self.obj), shape='box')
 
     def __repr__(self):
 

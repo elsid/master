@@ -21,6 +21,10 @@ class Property(NamedElement):
         self.is_static = is_static
         self.owner = owner
 
+    @property
+    def full_name(self):
+        return '%s::%s' % (self.owner.full_name, self.name)
+
     @cached_eq
     def equiv_pattern(self, pattern):
         return (super(Property, self).equiv_pattern(pattern)

@@ -113,5 +113,53 @@ class GraphGetConnectedComponents(TestCase):
                     equal_to([{1, 2}, {3, 4}]))
 
 
+class AsDot(TestCase):
+    def test_empty(self):
+        graph = Graph()
+        assert_that(graph.as_dot().to_string(), equal_to(
+            'digraph Model {\n'
+            '}\n'
+        ))
+
+    def test_with_one_node(self):
+        graph = Graph([1])
+        assert_that(graph.as_dot().to_string(), equal_to(
+            'digraph Model {\n'
+            '"1" [shape=box];\n'
+            '}\n'
+        ))
+
+    def test_with_one_arc(self):
+        graph = Graph([(1, 2)])
+        assert_that(graph.as_dot().to_string(), equal_to(
+            'digraph Model {\n'
+            '"1" [shape=box];\n'
+            '"1" -> "2"  [label=tuple];\n'
+            '"2" [shape=box];\n'
+            '}\n'
+        ))
+
+    def test_with_one_labeled_arc(self):
+        graph = Graph([Red(1, 2)])
+        assert_that(graph.as_dot().to_string(), equal_to(
+            'digraph Model {\n'
+            '"1" [shape=box];\n'
+            '"1" -> "2"  [label=Red];\n'
+            '"2" [shape=box];\n'
+            '}\n'
+        ))
+
+    def test_with_two_arcs_between_two_nodes(self):
+        graph = Graph([{1, 2}])
+        assert_that(graph.as_dot().to_string(), equal_to(
+            'digraph Model {\n'
+            '"1" [shape=box];\n'
+            '"1" -> "2"  [label=tuple];\n'
+            '"2" [shape=box];\n'
+            '"2" -> "1"  [label=tuple];\n'
+            '}\n'
+        ))
+
+
 if __name__ == '__main__':
     main()
