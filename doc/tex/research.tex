@@ -163,21 +163,13 @@ C этим шаблоном возникла странная ситуация.
 который совязан ассоциацией с \textbf{MagicWeaponImp},
 являющимся интерфейсом \textbf{Implementor};
 и конкретными реализацими: \textbf{BlindingMagicWeapon},
-\textbf{FlyingMagicWeapon}, \textbf{SoulEatingMagicWeapon}
-(см. рисунок ~\ref{fig:java-design-patterns-bridge}).
+\textbf{FlyingMagicWeapon}, \textbf{SoulEatingMagicWeapon}.
 Здесь требуется механизм, который позволит описать класс так,
 все ассоциации базового класса также являются и ассоциациями производного.
 Нужна сущность, которая может объединять иерархии наследования классов в
 некоторый надкласс.
 UML-диаграммы классов не предоставляют такого механизма.
 В данной работе эта проблема осталась не решенной.
-
-\begin{figure}[!ht]
-\centering
-%\includegraphics{inc/java-design-patterns-bridge.pdf}
-\caption{Особенность реализации шаблона bridge}
-\label{fig:java-design-patterns-bridge}
-\end{figure}
 
 Шаблон был найден в следующих примерах:
 \begin{itemize}
@@ -193,8 +185,5 @@ UML-диаграммы классов не предоставляют таког
 \item state;
 \item strategy.
 \end{itemize}
-
-Для примера \textbf{adapter} резульат представлен в
-таблице~\ref{table:java-design-patterns-bridge-in-adapter}.
 
 \subsubsection{Поиск шаблона <<посетитель>>}
