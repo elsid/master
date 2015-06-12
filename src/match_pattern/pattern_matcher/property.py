@@ -8,8 +8,8 @@ from pattern_matcher.eq_pattern import eq_pattern
 
 class Property(NamedElement):
     def __init__(self,
-                 type=None,
                  name=None,
+                 type=None,
                  visibility=None,
                  aggregation=None,
                  is_static=None,

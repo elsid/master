@@ -30,7 +30,7 @@ class Decorator(object):
 
     @cached_method
     def decorator_component(self):
-        return Property(self.component_type(), 'component', is_static=False)
+        return Property('component', self.component_type(), is_static=False)
 
     @cached_method
     def decorator(self):

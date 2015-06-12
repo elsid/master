@@ -21,7 +21,7 @@ class ChainOfResponsibility(object):
 
     @cached_method
     def handler_next(self):
-        return Property(self.handler_type(), 'next', is_static=False)
+        return Property('next', self.handler_type(), is_static=False)
 
     @cached_method
     def handler_handle_request(self):

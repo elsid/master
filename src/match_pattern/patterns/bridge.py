@@ -17,7 +17,7 @@ class Bridge(object):
 
     @cached_method
     def abstraction_implementor(self):
-        return Property(self.implementor_type(), 'implementor', is_static=False)
+        return Property('implementor', self.implementor_type(), is_static=False)
 
     @cached_method
     def implementor(self):

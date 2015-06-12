@@ -181,7 +181,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         assert_that(classifiers, equal_to({
             'A': Class('A', properties=[
-                Property(INT_TYPE, 'a', Visibility.PUBLIC, is_static=False)
+                Property('a', INT_TYPE, Visibility.PUBLIC, is_static=False)
             ]),
             'int': INT_TYPE.classifier,
         }))
@@ -201,7 +201,7 @@ class FillClassifiers(TestCaseWithParser):
             'error: redeclaration of variable "a" in class "A"'))
         assert_that(classifiers, equal_to({
             'A': Class('A', properties=[
-                Property(INT_TYPE, 'a', Visibility.PUBLIC, is_static=False),
+                Property('a', INT_TYPE, Visibility.PUBLIC, is_static=False),
             ]),
             'int': INT_TYPE.classifier,
         }))
@@ -312,7 +312,7 @@ class FillClassifiers(TestCaseWithParser):
         assert_that(errors, empty())
         a_type = Type(Class('A'))
         a_type.classifier.properties = [
-            Property(a_type, 'a', Visibility.PUBLIC, is_static=False),
+            Property('a', a_type, Visibility.PUBLIC, is_static=False),
         ]
         assert_that(classifiers, equal_to({'A': a_type.classifier}))
 
@@ -392,7 +392,7 @@ class FillClassifiers(TestCaseWithParser):
             Operation('f', VOID_TYPE, Visibility.PUBLIC, is_static=False),
         ]))
         class_type.classifier.properties = [
-            Property(class_type, 'value', Visibility.PRIVATE, is_static=False)]
+            Property('value', class_type,Visibility.PRIVATE, is_static=False)]
         assert_that(classifiers, equal_to({
             'Class': class_type.classifier,
             'void': VOID_TYPE.classifier,

@@ -155,7 +155,7 @@ class Burgers(object):
 
     @cached_method
     def hamburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet', Visibility.PUBLIC,
+        return Property('cutlet', self.cutlet_type(), Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
@@ -173,12 +173,12 @@ class Burgers(object):
 
     @cached_method
     def cheeseburger_cutlet(self):
-        return Property(self.cutlet_type(), 'cutlet', Visibility.PUBLIC,
+        return Property('cutlet', self.cutlet_type(), Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
     def cheeseburger_cheese(self):
-        return Property(self.cheese_type(), 'cheese', Visibility.PUBLIC,
+        return Property('cheese', self.cheese_type(), Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
@@ -198,7 +198,7 @@ class Burgers(object):
 
     @cached_method
     def burger_with_burger(self):
-        return Property(self.burger_type(), 'burger', Visibility.PUBLIC,
+        return Property('burger', self.burger_type(), Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method

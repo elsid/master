@@ -23,7 +23,7 @@ class Memento(object):
 
     @cached_method
     def caretaker_memento(self):
-        return Property(self.memento_type(), 'memento', Visibility.PUBLIC,
+        return Property('memento', self.memento_type(), Visibility.PUBLIC,
                         is_static=False)
 
     @cached_method
