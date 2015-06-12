@@ -4,6 +4,7 @@
 import logging
 import yaml
 from argparse import ArgumentParser, FileType
+from os.path import join, isdir
 from sys import stderr
 from pattern_matcher import Model
 
@@ -16,13 +17,19 @@ def main():
     pattern = load_model(args.pattern)
     target = load_model(args.target)
     format_variant = OUTPUT_FORMATS[args.format]
-    first = True
-    for variant in target.match(pattern, args.limit):
-        if first:
-            first = False
-            print format_variant(variant)
-        else:
-            print '\n%s' % format_variant(variant)
+    if args.dir:
+        assert isdir(args.dir)
+        for num, variant in enumerate(target.match(pattern, args.limit)):
+            file_path = join(args.dir, '%d.%s' % (num + 1, args.format))
+            open(file_path, 'w').write(format_variant(variant))
+    else:
+        first = True
+        for variant in target.match(pattern, args.limit):
+            if first:
+                first = False
+                print format_variant(variant)
+            else:
+                print '\n%s' % format_variant(variant)
 
 
 LOG_LEVEL_NAMES = (
@@ -42,6 +49,7 @@ def parse_args():
     parser.add_argument('-v', '--verbose', choices=LOG_LEVEL_NAMES)
     parser.add_argument('-f', '--format', choices=OUTPUT_FORMATS.keys(),
                         default='txt')
+    parser.add_argument('-d', '--dir')
     return parser.parse_args()
 
 
