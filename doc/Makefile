@@ -4,11 +4,21 @@ DIR = $(shell pwd)
 PDFLATEX = pdflatex -interaction=nonstopmode -shell-escape
 SVG2PDF = inkscape -z
 FORMAT_TEST_LOG = $(DIR)/utils/format_test_log.py
+PATTERN_MODEL = ../src/match_pattern/pattern_model.py
+MODEL_GRAPH_TO_DOT = ../src/match_pattern/model_graph_to_dot.py
+
+PATTERN = $(shell $(PATTERN_MODEL))
+
+GRAPH = $(patsubst %, %-graph, $(PATTERN))
+
+DOT += $(wildcard inc/*.dot)
+DOT += $(patsubst %, inc/%.dot, $(GRAPH))
+
+SVG += $(wildcard inc/*.svg)
+SVG += $(patsubst %, inc/%.svg, $(GRAPH))
 
 TEX += doc.tex
 TEX += $(wildcard tex/*.tex)
-SVG += $(wildcard inc/*.svg)
-DOT += $(wildcard inc/*.dot)
 
 GEN_PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
 GEN_PDF += $(patsubst inc/%.dot, inc/%.pdf, $(DOT))
@@ -42,7 +52,7 @@ inc/%.conv.svg: inc/%.svg
 	sed 's/font-family="[^"]*"/font-family="Times New Roman"/g' > $@
 
 inc/%.svg: inc/%.dot
-	dot -Tsvg $< > $@
+	dot -T svg $< > $@
 
 inc/graph_matcher_test.log:
 	cd ../src/match_pattern && py.test -v graph_matcher/test/*.py | $(FORMAT_TEST_LOG) > ../../doc/inc/graph_matcher_test.log
@@ -59,6 +69,18 @@ inc/java_bytecode_model_test.log:
 inc/match_pattern_test.log:
 	cd ../src/test && py.test -v match_pattern.py | $(FORMAT_TEST_LOG) > ../../doc/inc/match_pattern_test.log
 
+inc/%-graph.dot:
+	$(PATTERN_MODEL) $* | $(MODEL_GRAPH_TO_DOT) > $@
+
 clean:
-	rm -rf $(GEN_PDF) doc.pdf doc.aux doc.log doc.out doc.toc doc.idx \
-		tex/*.aux inc/fsm.* inc/*.tex tex/*.log inc/*.conv.svg inc/*.log
+	rm -f $(GEN_PDF) \
+	doc.pdf \
+	doc.aux \
+	doc.log \
+	doc.out \
+	doc.toc \
+	doc.idx \
+	tex/*.aux \
+	inc/*.tex \
+	tex/*.log \
+	inc/*.conv.svg
