@@ -14,11 +14,11 @@ class MakeNode(TestCase):
         assert_that(node.connections, equal_to(dict()))
         assert_that(node.self_connections, equal_to(set()))
         assert_that(node.neighbors, equal_to(set()))
-        assert_that(node.equiv_pattern(node), equal_to(True))
+        assert_that(node.equiv_pattern(node))
         assert_that(repr(node), equal_to('[node]'))
         assert_that(str(node), equal_to(str('node')))
         assert_that(hash(node), equal_to(hash('node')))
-        assert_that(node < node, equal_to(False))
+        assert_that(not node < node)
         assert_that(node.connections_types, equal_to(frozenset()))
 
 

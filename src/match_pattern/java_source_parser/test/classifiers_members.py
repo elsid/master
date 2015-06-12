@@ -45,19 +45,19 @@ class GetVisibility(TestCase):
 
 class HasDuplications(TestCase):
     def test_empty_should_return_false(self):
-        assert_that(has_duplications([]), equal_to(False))
+        assert_that(not has_duplications([]))
 
     def test_with_one_should_return_false(self):
-        assert_that(has_duplications([1]), equal_to(False))
+        assert_that(not has_duplications([1]))
 
     def test_many_different_should_return_false(self):
-        assert_that(has_duplications([1, 2, 3]), equal_to(False))
+        assert_that(not has_duplications([1, 2, 3]))
 
     def test_two_same_should_return_true(self):
-        assert_that(has_duplications([1, 1]), equal_to(True))
+        assert_that(has_duplications([1, 1]))
 
     def test_many_with_two_same_should_return_true(self):
-        assert_that(has_duplications([1, 2, 3, 1]), equal_to(True))
+        assert_that(has_duplications([1, 2, 3, 1]))
 
 
 class GetNameValue(TestCase):

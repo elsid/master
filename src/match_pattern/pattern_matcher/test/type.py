@@ -21,11 +21,10 @@ class ReprMultiplicity(TestCase):
 
 class MakeType(TestCase):
     def test_sub_equivalent_pattern_should_succeed(self):
-        assert_that(Type(Class()).equiv_pattern(Type(Class())), equal_to(True))
+        assert_that(Type(Class()).equiv_pattern(Type(Class())))
 
     def test_equivalent_pattern_range_should_succeed(self):
-        assert_that(Type(Class()).equiv_pattern_range(Type(Class())),
-                    equal_to(True))
+        assert_that(Type(Class()).equiv_pattern_range(Type(Class())))
 
     def test_eq_should_succeed(self):
         assert_that(Type(Class()), not equal_to(Type(Class())))

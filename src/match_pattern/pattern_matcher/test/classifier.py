@@ -11,8 +11,7 @@ from pattern_matcher.operation import Operation
 
 class MakeClassifier(TestCase):
     def test_equivalent_pattern_should_succeed(self):
-        assert_that(Classifier().equiv_pattern(Classifier()),
-                    equal_to(True))
+        assert_that(Classifier().equiv_pattern(Classifier()))
 
     def test_eq_empty_should_succeed(self):
         assert_that(Classifier(), not equal_to(Classifier()))
@@ -30,7 +29,7 @@ class MakeClassifier(TestCase):
         a2 = Classifier('A')
         a2.properties = [Property(Type(a2), 'a')]
         assert_that(a1, equal_to(a2))
-        assert_that(a1.equiv_pattern(a2), equal_to(True))
+        assert_that(a1.equiv_pattern(a2))
 
     def test_dump_and_load_yaml_classifier_with_name_should_succeed(self):
         data = "!Classifier {name: a}\n"

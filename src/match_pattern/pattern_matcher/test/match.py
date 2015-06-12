@@ -15,30 +15,29 @@ from pattern_matcher.operation import Operation
 
 class EqIgnoreOrder(TestCase):
     def test_compare_empty_should_be_equal(self):
-        assert_that(eq_ignore_order([], []), equal_to(True))
+        assert_that(eq_ignore_order([], []))
 
     def test_compare_empty_to_not_empty_should_be_not_equal(self):
-        assert_that(eq_ignore_order([], [1]), equal_to(False))
-        assert_that(eq_ignore_order([1], []), equal_to(False))
+        assert_that(not eq_ignore_order([], [1]))
+        assert_that(not eq_ignore_order([1], []))
 
     def test_compare_different_len_should_be_not_equal(self):
-        assert_that(eq_ignore_order([1, 2, 3], [1, 2]), equal_to(False))
+        assert_that(not eq_ignore_order([1, 2, 3], [1, 2]))
 
     def test_compare_equal_should_be_equal(self):
-        assert_that(eq_ignore_order([1, 2, 3], [1, 2, 3]), equal_to(True))
+        assert_that(eq_ignore_order([1, 2, 3], [1, 2, 3]))
 
     def test_compare_values_with_all_permutations_should_be_equal(self):
         values = [1, 2, 3]
         for p in permutations(values):
-            assert_that(eq_ignore_order(values, p), equal_to(True))
+            assert_that(eq_ignore_order(values, p))
 
     def test_compare_nested_tuples_equal_should_be_equal(self):
-        assert_that(eq_ignore_order([(1, 2), (3, 2)], [(3, 2), (1, 2)]),
-                    equal_to(True))
+        assert_that(eq_ignore_order([(1, 2), (3, 2)], [(3, 2), (1, 2)]))
 
     def test_compare_twice_nested_tuples_equal_should_be_equal(self):
         assert_that(eq_ignore_order([[(1, 2), (2, 3)], [(3, 4), (4, 5)]],
-                    [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]), equal_to(True))
+                    [[(3, 4), (4, 5)], [(2, 3), (1, 2)]]))
 
 
 class GeneralDerived(object):
@@ -57,7 +56,7 @@ class GeneralDerived(object):
 
 class Check(TestCase):
     def test_check_empty_should_succeed(self):
-        assert_that(check(tuple()), equal_to(True))
+        assert_that(check(tuple()))
 
     def test_check_model_with_one_generalization_should_succeed(self):
         target = GeneralDerived().create().graph()
@@ -67,7 +66,7 @@ class Check(TestCase):
                        pattern.get_node_by_obj_attr_value('name', 'General')),
             Isomorphic(target.get_node_by_obj_attr_value('name', 'Derived'),
                        pattern.get_node_by_obj_attr_value('name', 'Derived')),
-        ]), equal_to(True))
+        ]))
 
     def test_check_model_with_one_generalization_should_return_error(self):
         t = GeneralDerived().create().graph()
@@ -81,7 +80,7 @@ class Check(TestCase):
                            p.get_node_by_obj_attr_value('name', 'General')),
             ], raise_if_false)
 
-        assert_that(check_(False), equal_to(False))
+        assert_that(not check_(False))
         assert_that(calling(check_), raises(CheckIsomorphismFailed))
         try:
             check_()
