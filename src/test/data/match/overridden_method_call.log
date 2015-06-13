@@ -1,6 +1,6 @@
--Client::invokeOperation(): void === Client::invoke_operation()
-interface Interface === interface Interface
 +Implementation::operation(): void === Implementation::operation()
++Interface::operation(): void === Interface::operation()
+-Client::invokeOperation(): void === Client::invoke_operation()
 class Client === classifier Client
 class Implementation === class Implementation
-+Interface::operation(): void === Interface::operation()
+interface Interface === interface Interface

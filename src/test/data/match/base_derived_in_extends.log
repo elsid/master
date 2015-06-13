@@ -1,2 +1,2 @@
-class Derived === classifier Derived
 class Base === classifier Base
+class Derived === classifier Derived

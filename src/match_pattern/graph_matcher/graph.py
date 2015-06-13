@@ -60,13 +60,12 @@ class Graph(object):
 
     @property
     def connected_components(self):
-        nodes_components = {}
+        visited = set()
         for node in self.nodes:
-            if node not in nodes_components:
+            if node not in visited:
                 component = node.connected_component
-                for component_node in component:
-                    nodes_components[component_node] = component
-                yield component
+                visited |= component
+                yield tuple(sorted(component))
 
     @property
     def largest_connected_component(self):

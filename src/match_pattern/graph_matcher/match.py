@@ -65,7 +65,7 @@ def generate_chains(target_nodes, pattern_nodes):
     def generate(pattern_iter, chain):
         try:
             pattern, targets = next(pattern_iter)
-            not_used_targets = targets - {x.target for x in chain}
+            not_used_targets = sorted(targets - {x.target for x in chain})
             pattern_iter_list = tee(pattern_iter, len(not_used_targets))
             for new_iter, target in izip(pattern_iter_list, not_used_targets):
                 new_chain = chain + [Equivalent(target, pattern)]

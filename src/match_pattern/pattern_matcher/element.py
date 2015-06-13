@@ -10,7 +10,7 @@ class Element(object):
         return hash(str(self))
 
     def __lt__(self, other):
-        return hash(self) < hash(other)
+        return str(self) < str(other)
 
     def update(self, **kwargs):
         for attr, value in kwargs.iteritems():
