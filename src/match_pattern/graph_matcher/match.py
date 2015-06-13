@@ -108,6 +108,9 @@ class ConfigurationsGenerator(object):
             new_configurations_generated = False
             for chain in generate_chains(configuration.target.neighbors,
                                          configuration.pattern.neighbors):
+                logging.debug('generate chain %s',
+                              ', '.join('%s ~~~ %s' % (str(t.obj), str(p.obj))
+                                        for t, p in chain))
                 chain = configuration.filter(chain)
                 if chain:
                     new_conf = configuration.clone(chain)
