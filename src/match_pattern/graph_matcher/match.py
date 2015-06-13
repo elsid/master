@@ -165,7 +165,7 @@ def match_one(target_graph, pattern_graph):
                              - checked_patterns)
                 logging.debug('drop configuration %s; not found %s',
                               configuration,
-                              ', '.join(str(x.obj) for x in not_found))
+                              ', '.join(str(x.obj) for x in sorted(not_found)))
         else:
             configurations.generate(configuration)
 
