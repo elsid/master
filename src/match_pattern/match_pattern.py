@@ -74,10 +74,16 @@ def format_from_dot(variant, to_format='raw'):
     return variant.as_dot().create(format=to_format)
 
 
+def format_yaml(variant):
+    return yaml.dump([dict(target=t, pattern=p)
+                      for t, p in variant.isomorphism])
+
+
 OUTPUT_FORMATS = {
     'txt': format_text,
     'dot': lambda x: format_from_dot(x),
     'dot.svg': lambda x: format_from_dot(x, 'svg'),
+    'yaml': format_yaml,
 }
 
 
