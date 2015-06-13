@@ -18,7 +18,7 @@
 - <Classifier>
 \end{minted}
 
-\verb;Classifier; -- любой из элементов, помеченный тегом \verb;!Class;,
+\verb;Classifier; --- любой из элементов, помеченный тегом \verb;!Class;,
 \verb;!Classifier;, \verb;!Interface;, \verb;!PrimitiveType;,
 который имеет структуру:
 \begin{minted}{yaml}
@@ -77,6 +77,16 @@ is_ordered: <bool>
 is_unique: <bool>
 \end{minted}
 
+\verb;Parameter; --- элемент, помеченный тегом \verb;!Parameter; со следующей
+структурой:
+\begin{minted}{yaml}
+!Parameter
+type: <Type>
+direction: <Direction>
+position: <int>
+owner: <Operation>
+\end{minted}
+
 \verb;Visibility; --- элемент, помеченный тегом \verb;!Visibility;,
 имеющий одно из допустимых значений:
 \begin{itemize}
@@ -91,6 +101,14 @@ is_unique: <bool>
 \item \verb;'none';
 \item \verb;'shared';
 \item \verb;'composite';
+\end{itemize}
+
+\verb;Direction; --- элемент, помеченный тегом \verb;!Direction;,
+имеющий одно из допустимых значений:
+\begin{itemize}
+\item \verb;'in';
+\item \verb;'out';
+\item \verb;'inout';
 \end{itemize}
 
 \textbf{YAML} предоставляет возможность ссылаться на другие элементы по адресу.
@@ -111,7 +129,7 @@ is_unique: <bool>
 адрес. В перечислении базовых классов в классе с названием \verb;Derived;
 указывается ссылка \verb;*id001; на \verb;Base;.
 
-\section{Структура программного комлекса}
+\section{Структура программного комплекса}
 
 Для реализации разработанного метода разработан программный комплекс,
 который позволяет выполнять поиск шаблонов проектирования в программах,
@@ -122,7 +140,7 @@ is_unique: <bool>
 \item \textbf{java\_source\_model} --- программа для построения модели программы
 на языке Java;
 \item \textbf{java\_bytecode\_model} --- программа для построения модели программы
-на основе байткода для виртуальной машины \textbf{Java};
+на основе байт-кода для виртуальной машины \textbf{Java};
 \item \textbf{pattern\_model} --- программа для построения модели шаблона;
 \item \textbf{match\_pattern} --- программа для поиска шаблонов проектирования.
 \end{itemize}
@@ -218,7 +236,7 @@ python java_source_model.py [-h] [-p <external_path>] <path> [<path> ...]
 зависимостей между вызываемым и вызывающим методов.
 
 Программа не во всех случая определяет полные имена типов.
-В таких случая классы, интефейсы и перечисления их представляющие игнорируются
+В таких случая классы, интерфейсы и перечисления их представляющие игнорируются
 при построении модели.
 Здесь не будут описаны все ситуации, когда тип определяется, а когда нет.
 Разработка программы была приостановлена.
@@ -228,7 +246,7 @@ python java_source_model.py [-h] [-p <external_path>] <path> [<path> ...]
 которая содержит всю нужную функциональность.
 Она описана в следующем разделе.
 
-\subsection{Программа для построения модели программы на основе байткода для виртуальной машины Java}
+\subsection{Программа для построения модели программы на основе байт-кода для виртуальной машины Java}
 
 Анализирует байткод виртуальной машины \textbf{Java}.
 Для этого используется библиотека \textbf{Apache Commons BCEL}
@@ -252,11 +270,11 @@ java -jar java_bytecode_model.jar <path> [<path> ...]
 \item рекурсивно и разобрать найти все \textbf{.jar} и \textbf{.class}-файлы по
 всем заданным путям, \textbf{.class}-файлы в \textbf{.jar}-файлах;
 \item создать пустые элементы модели для классов, интерфейсов и перечислений;
-\item определить связи -- обобщения;
+\item определить связи --- обобщения;
 \item создать типы данных;
 \item заполнить элементы модели свойствами и операциями;
-\item определить связи -- зависимости;
-\item определить связи -- вызовы методов;
+\item определить связи --- зависимости;
+\item определить связи --- вызовы методов;
 \item вывести модель в формате \textbf{.yaml}.
 \end{enumerate}
 
@@ -299,7 +317,8 @@ python pattern_model.py [-h] <name>
 
 Интерфейс запуска:
 \begin{verbatim}
-python match_pattern.py [-h] [-l <limit>] [-v <level>] <pattern> <target>
+python match_pattern.py [-h] [-l <limit>] [-v <level>] [-f <format>] \
+                        [-d <dir>] <pattern> <target>
 \end{verbatim}
 
 \begin{itemize}
@@ -314,8 +333,21 @@ python match_pattern.py [-h] [-l <limit>] [-v <level>] <pattern> <target>
 журнала в \textbf{stderr} с уровнем подробности \verb;level;:
 \begin{itemize}
 \item \verb;DEBUG; --- подробный отладочный вывод;
-\item \verb;INFO; --- выводится основная информация.
+\item \verb;INFO; --- выводится основная информация;
 \end{itemize}
+\item \verb;-f <format>; или \verb;--format <format>; --- определяет формат
+вывода \verb;format;:
+\begin{itemize}
+\item \verb;txt; --- текст;
+\item \verb;dot; --- граф в формате \textbf{DOT}, каждая вершина содержит
+название элемента шаблона и цели;
+\item \verb;dot.svg; --- отображение в \textbf{SVG}-формате графа в формате
+\textbf{DOT};
+\item \verb;yaml; --- в формате \textbf{YAML} в виде списка словарей \verb;{pattern: <pattern>, target: <target>};
+\end{itemize}
+\item \verb;-d <dir>; или \verb;--dir <dir>; --- определяет путь к директории,
+куда будут записываться файлы с вариантами соответствий вместо вывода в
+\textbf{stdout}.
 \end{itemize}
 
 Выводит варианты соответствий элементов в \textbf{stdout}.
@@ -355,7 +387,7 @@ python match_pattern.py [-h] [-l <limit>] [-v <level>] <pattern> <target>
 \begin{itemize}
 \item \textbf{label} --- метка дуг;
 \item \textbf{incoming} --- множество вершин, в которые входят дуги, исходящие из текущей вершины;
-\item \textbf{selfConnection} --- множество вершин, из которых исходят дуги, входящие в текущую вершины.
+\item \textbf{selfConnection} --- множество вершин, из которых исходят дуги, входящие в текущую вершину.
 \end{itemize}
 
 \textbf{Equivalent} --- пара эквивалентных вершин.
@@ -550,7 +582,7 @@ def match(target, pattern, limit=None)
 
 \section{Тестирование}
 
-Все тесты написаны на языке Python.
+Все тесты написаны на языке \textbf{Python}.
 Для запуска используется фреймворк \textbf{pytest}~\cite{pytest}.
 
 \subsection{Модульное тестирование}
@@ -637,7 +669,7 @@ def match(target, pattern, limit=None)
 \State \Return $C$
 \end{algorithmic}
 
-Тестирование для большего количества вершин требует неприемлимо большого
+Тестирование для большего количества вершин требует неприемлемо большого
 количества времени.
 
 В процессе разработки были найдены ошибки, часть из которых была исправлена,
@@ -684,7 +716,7 @@ def match(target, pattern, limit=None)
 \label{fig:check-current-isomorphism-result}
 \end{figure}
 
-Отсутсвие проверки приводило к дополнительным вариантам:
+Отсутствие проверки приводило к дополнительным вариантам:
 \begin{itemize}
 \item $\{ (1, a), (2, e), (3, c), (4, b), (5, d) \}$
 \item $\{ (1, a), (2, d), (3, b), (4, c), (5, e) \}$
@@ -761,7 +793,7 @@ $\{ (3, c), (4, d) \}$.
 В качестве входных данных используются \textbf{.java}-файлы.
 Выполняется их компиляция и запуск \textbf{java\_bytecode\_model} с
 получившимися \textbf{.class}-файлами.
-Резульат выполнения программы сравнивается с заранее заготовленными
+Результат выполнения программы сравнивается с заранее заготовленными
 \textbf{.yaml}-файлами.
 
 Проводятся следующие тесты создания модели для:
