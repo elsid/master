@@ -48,13 +48,15 @@ def parse_args():
     parser.add_argument('-f', '--format', choices=OUTPUT_FORMATS.keys(),
                         default='txt')
     parser.add_argument('-d', '--dir')
+    parser.add_argument('-t', '--log_time', action='store_true')
     return parser.parse_args()
 
 
 def setup_logging(args):
     if args.verbose:
+        log_format = ('[%(asctime)s] ' if args.log_time else '') + '%(message)s'
         logging.basicConfig(level=verbose(args.verbose), stream=stderr,
-                            format='[%(asctime)s] %(message)s')
+                            format=log_format)
 
 
 def load_model(stream):
