@@ -70,6 +70,10 @@ def generate_chains(target_nodes, pattern_nodes):
             for new_iter, target in izip(pattern_iter_list, not_used_targets):
                 new_chain = chain + [Equivalent(target, pattern)]
                 for sub_chain in generate(new_iter, new_chain):
+                    logging.debug(
+                        'generate sub chain %s',
+                        ', '.join('%s ~~~ %s' % (str(t.obj), str(p.obj))
+                                  for t, p in sub_chain))
                     yield sub_chain
         except StopIteration:
             yield chain
