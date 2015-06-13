@@ -11,9 +11,7 @@ from pattern_matcher import Model
 
 def main():
     args = parse_args()
-    if args.verbose:
-        logging.basicConfig(level=verbose(args.verbose), stream=stderr,
-                            format='[%(asctime)s] %(message)s')
+    setup_logging(args)
     pattern = load_model(args.pattern)
     target = load_model(args.target)
     format_variant = OUTPUT_FORMATS[args.format]
@@ -51,6 +49,12 @@ def parse_args():
                         default='txt')
     parser.add_argument('-d', '--dir')
     return parser.parse_args()
+
+
+def setup_logging(args):
+    if args.verbose:
+        logging.basicConfig(level=verbose(args.verbose), stream=stderr,
+                            format='[%(asctime)s] %(message)s')
 
 
 def load_model(stream):
