@@ -101,7 +101,7 @@ class Configuration(object):
         return other
 
     def filter(self, pairs):
-        return frozenset(pairs) - frozenset(self.__selected)
+        return tuple(x for x in pairs if x not in frozenset(self.__selected))
 
     def advance(self):
         checked_targets = self.checked_targets
