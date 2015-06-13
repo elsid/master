@@ -110,6 +110,7 @@ class ConfigurationsGenerator(object):
 
         def generate():
             new_configurations_generated = False
+            used_chains = set()
             for chain in generate_chains(configuration.target.neighbors,
                                          configuration.pattern.neighbors):
                 logging.debug('generate chain %s',
@@ -117,9 +118,13 @@ class ConfigurationsGenerator(object):
                                         for t, p in chain))
                 chain = configuration.filter(chain)
                 if chain:
-                    new_conf = configuration.clone(chain)
-                    yield new_conf
-                    new_configurations_generated = True
+                    if chain in used_chains:
+                        logging.debug('duplicate chain')
+                    else:
+                        used_chains.add(chain)
+                        new_conf = configuration.clone(chain)
+                        yield new_conf
+                        new_configurations_generated = True
             if not new_configurations_generated:
                 yield configuration
 
