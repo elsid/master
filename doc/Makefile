@@ -47,9 +47,7 @@ inc/%.pdf: inc/%.conv.svg
 inc/%.conv.svg: inc/%.svg
 	cat $< | \
 	sed 's/textLength="[^"]*" *//g' | \
-	sed 's/font-size="[^"]*"/font-size="14"/g' | \
-	sed 's/lengthAdjust="spacingAndGlyphs" *//g' | \
-	sed 's/font-family="[^"]*"/font-family="Times New Roman"/g' > $@
+	sed 's/lengthAdjust="spacingAndGlyphs" *//g' > $@
 
 inc/%.svg: inc/%.dot
 	dot -T svg $< > $@
