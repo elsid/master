@@ -23,8 +23,8 @@ TEX += $(wildcard tex/*.tex)
 GEN_PDF += $(patsubst inc/%.svg, inc/%.pdf, $(SVG))
 GEN_PDF += $(patsubst inc/%.dot, inc/%.pdf, $(DOT))
 
-#PDF += inc/title.pdf
 PDF += $(GEN_PDF)
+PDF += inc/title.pdf
 PDF += inc/idef0.pdf
 PDF += inc/idef0-general.pdf
 PDF += inc/idef0-specific.pdf
