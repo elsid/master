@@ -38,7 +38,7 @@
 
 \begin{figure}[!ht]
 \centering
-\includegraphics[width=0.8\textwidth]{inc/graph.pdf}
+\includegraphics[width=\textwidth]{inc/graph.pdf}
 \caption{Структура графа с множеством типов дуг}
 \label{fig:graph}
 \end{figure}
@@ -318,6 +318,15 @@ $$( (\forall (p, p_x, l) \in E_p)(\exists (t, t_y, l) \in E_t: (t_y, p_x) \in I)
 \section{Граф модели объектно-ориентированной программы}
 
 На основе модели нужно построить граф, где разные типы связей будут разными типами дуг.
+Структура графа представлена на рисунке~\ref{fig:model-graph}.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=\textwidth]{inc/model-graph.pdf}
+\caption{Граф модели объектно-ориентированной программы}
+\label{fig:model-graph}
+\end{figure}
+
 Введём обозначения:
 \begin{itemize}
 \item $V_{Classifier} = \{ v_{Classifier} \}$ --- множество вершин, которые являются объектами класса \textbf{Classifier};
@@ -453,15 +462,6 @@ $PropertyType$, $OperationResult$, $TypeClassifier$, $Invocation$, $Overriding$,
 $HasParameter$, $ParameterType \}$  --- множество вершин
 \item $E = \{ (u, v, l) : u, v \in V \land l \in L \}$ --- множество дуг
 \end{itemize}
-
-Структура графа представлена на рисунке~\ref{fig:model-graph}.
-
-\begin{figure}[!ht]
-\centering
-\includegraphics[width=0.8\textwidth]{inc/model-graph.pdf}
-\caption{Граф модели объектно-ориентированной программы}
-\label{fig:model-graph}
-\end{figure}
 
 \section{Алгоритм поиска шаблона в модели объектно-ориентированной программы}
 
