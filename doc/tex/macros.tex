@@ -6,6 +6,8 @@
 \newcommand{\then}{\Rightarrow}
 \newcommand{\N}{\mathbb{N}}
 \renewcommand{\iff}{\Leftrightarrow}
-\newcommand\append[2]{\begin{center}\chapter*{Приложение #1. #2}\end{center}\addcontentsline{toc}{chapter}{Приложение #1 \quad #2}}
+\newcommand\append[2]{\let\cleardoublepage\clearpage\chapter*{Приложение #1 \quad #2}\addcontentsline{toc}{chapter}{Приложение #1 \quad #2} \EqInChapter\PicInChapter\TableInChapter%
+ \gdef\@chapapp{#1}%
+ \gdef\thechapter{#1}}
 
 \usemintedstyle{bw}
