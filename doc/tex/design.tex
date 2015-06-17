@@ -31,7 +31,7 @@
 \item $V = \{ v : v = (object) \}$ --- множество вершин;
 \item $object$ --- значение вершины;
 \item $L = \{ l \}$ --- множество меток дуг;
-\item $E = \{ e = (u, v, l) :  u, v \in V \land l \in L \land ( \forall l' \in L, \forall u', v' \in V) ( | \{ (u', v', l') \} | = 1 ) ) \}$ --- множество дуг.
+\item $E = \{ e = (u, v, l) :  u, v \in V \land l \in L \land ( \forall l' \in L, \forall u', v' \in V) ( | \{ (u', v', l') \} | \le 1 ) ) \}$ --- множество дуг.
 \end{itemize}
 
 Структура графа представлена на рисунке~\ref{fig:graph}.
