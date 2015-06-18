@@ -30,6 +30,7 @@ class Node(object):
             self.obj_equivalent_pattern = self.obj.equiv_pattern
 
     @property
+    @cached_method
     def neighbors(self):
 
         def generate():
@@ -42,11 +43,13 @@ class Node(object):
         return frozenset(generate())
 
     @property
+    @cached_method
     def connections_types(self):
         return (frozenset(self.self_connections)
                 | frozenset(x for x in self.connections.iterkeys()))
 
     @property
+    @cached_method
     def connected_component(self):
         nodes = deque((self,))
         visited = set()
@@ -60,6 +63,7 @@ class Node(object):
         return visited
 
     @property
+    @cached_method
     def outgoing_arcs(self):
         for label, connections in self.connections.iteritems():
             for target in sorted(connections.outgoing):
@@ -122,11 +126,14 @@ class Node(object):
 
         return '\n'.join(sorted(generate()))
 
+    @cached_method
     def __str__(self):
         return str(self.obj)
 
+    @cached_method
     def __hash__(self):
         return hash(self.obj)
 
+    @cached_eq
     def __lt__(self, other):
         return self.obj < other.obj
