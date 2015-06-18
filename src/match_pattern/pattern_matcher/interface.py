@@ -1,7 +1,7 @@
 # coding: utf-8
 
 import yaml
-from graph_matcher import cached_eq
+from utils import cached_eq
 from pattern_matcher.classifier import Classifier
 
 

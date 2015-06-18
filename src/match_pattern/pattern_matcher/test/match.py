@@ -4,11 +4,11 @@ from unittest import TestCase, main
 from hamcrest import assert_that, equal_to, calling, raises, empty
 from itertools import permutations
 from graph_matcher import Isomorphic, CheckIsomorphismFailed
+from utils import cached_method
 from pattern_matcher import Class, Model
 from pattern_matcher.match import (
     eq_ignore_order, check, MatchVariant, MatchResult, all_indirect_generals,
     find_overridden)
-from pattern_matcher.cached_method import cached_method
 from pattern_matcher.classifier import Classifier
 from pattern_matcher.operation import Operation
 

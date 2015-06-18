@@ -3,7 +3,7 @@
 
 import yaml
 from itertools import izip
-from graph_matcher import cached_eq
+from utils import cached_eq
 from pattern_matcher.named_element import NamedElement
 from pattern_matcher.eq_pattern import eq_pattern
 

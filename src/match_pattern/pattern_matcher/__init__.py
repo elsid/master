@@ -13,5 +13,4 @@ from pattern_matcher.primitive_type import PrimitiveType
 from pattern_matcher.property import Property
 from pattern_matcher.type import Type
 from pattern_matcher.visibility import Visibility
-from pattern_matcher.cached_method import cached_method
 Class = __import__('pattern_matcher.class', fromlist=['Class']).Class

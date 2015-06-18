@@ -1,7 +1,7 @@
 # coding: utf-8
 
-from pattern_matcher import (
-    cached_method, Model, Class, Interface, Operation, Classifier)
+from utils import cached_method
+from pattern_matcher import Model, Class, Interface, Operation, Classifier
 
 
 class OverriddenMethodCall(object):

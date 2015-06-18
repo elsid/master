@@ -1,6 +1,7 @@
 # coding: utf-8
 
-from pattern_matcher import Classifier, Model, cached_method
+from utils import cached_method
+from pattern_matcher import Classifier, Model
 
 
 class BaseDerived(object):

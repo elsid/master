@@ -2,7 +2,7 @@
 
 import yaml
 from pattern_matcher.classifier import Classifier
-from graph_matcher import cached_eq
+from utils import cached_eq
 
 
 class Class(Classifier):

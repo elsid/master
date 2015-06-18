@@ -5,6 +5,7 @@ from os.path import dirname, join
 from unittest import TestCase, main
 from hamcrest import assert_that, equal_to
 from graph_matcher import Isomorphic
+from utils import cached_method
 from patterns import (
     AbstractFactory as AbstractFactoryPattern,
     Decorator as DecoratorPattern,
@@ -18,7 +19,6 @@ from pattern_matcher.primitive_type import PrimitiveType
 from pattern_matcher.model import Model
 from pattern_matcher.match import MatchResult, MatchVariant
 from pattern_matcher.visibility import Visibility
-from pattern_matcher.cached_method import cached_method
 from pattern_matcher.interface import Interface
 Class = __import__('pattern_matcher.class', fromlist=['Class']).Class
 

@@ -1,7 +1,6 @@
 # coding: utf-8
 
-from graph_matcher import cached_eq
-from pattern_matcher.cached_method import cached_method
+from utils import cached_eq, cached_method
 
 
 class Element(object):

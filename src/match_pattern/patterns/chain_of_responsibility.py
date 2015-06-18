@@ -1,8 +1,8 @@
 # coding: utf-8
 
+from utils import cached_method
 from pattern_matcher import (
-    Class, Type, Operation, Model, Visibility, Property, Interface, Classifier,
-    cached_method)
+    Class, Type, Operation, Model, Visibility, Property, Interface, Classifier)
 
 
 class ChainOfResponsibility(object):

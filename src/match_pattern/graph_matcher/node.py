@@ -2,8 +2,7 @@
 
 from collections import deque, defaultdict, namedtuple
 from pydot import Node as DotNode
-from graph_matcher.cached_eq import cached_eq
-
+from utils import cached_eq, cached_method
 
 Arc = namedtuple('Arc', ('source', 'target', 'label'))
 

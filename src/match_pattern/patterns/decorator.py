@@ -1,8 +1,8 @@
 # coding: utf-8
 
+from utils import cached_method
 from pattern_matcher import (
-    Class, Type, Operation, Model, Interface, Property, Visibility,
-    cached_method)
+    Class, Type, Operation, Model, Interface, Property, Visibility)
 
 
 class Decorator(object):

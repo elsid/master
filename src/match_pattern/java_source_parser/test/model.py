@@ -3,9 +3,10 @@
 from os.path import dirname, join
 from hamcrest import assert_that, equal_to, empty
 from unittest import main
+from utils import cached_method
 from pattern_matcher import (
     Model, Operation, Type, PrimitiveType, Interface, Class, Property,
-    Visibility, cached_method)
+    Visibility)
 from pattern_matcher.test.model import Burgers as BaseBurgers
 from patterns import Decorator as BaseDecorator
 from java_source_parser.model import make_model
