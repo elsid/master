@@ -172,15 +172,17 @@ def make_graph(model, use_connections=CONNECTIONS_TYPES):
                     if overridden:
                         yield Overriding(operation, overridden)
                 for parameter in operation.parameters:
-                    if Dependency in use_connections:
-                        yield Dependency(classifier, parameter.type.classifier)
                     if HasParameter in use_connections:
                         yield HasParameter(operation, parameter)
-                    if ParameterType in use_connections:
-                        yield ParameterType(parameter, parameter.type)
-                    if TypeClassifier in use_connections:
-                        yield TypeClassifier(parameter.type,
+                    if parameter.type:
+                        if Dependency in use_connections:
+                            yield Dependency(classifier,
                                              parameter.type.classifier)
+                        if ParameterType in use_connections:
+                            yield ParameterType(parameter, parameter.type)
+                        if TypeClassifier in use_connections:
+                            yield TypeClassifier(parameter.type,
+                                                 parameter.type.classifier)
 
     return Graph(generate())
 
