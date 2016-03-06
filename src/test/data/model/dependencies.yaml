@@ -1,22 +1,22 @@
 !Model
 - &id004 !Class
   suppliers:
-  - &id001 !PrimitiveType {name: void}
-  - &id002 !Classifier {name: java.lang.Object}
+  - &id001 !Classifier {name: java.lang.Object}
+  - &id002 !PrimitiveType {name: void}
   name: SupplierObjectConstructor
 - !Class
   suppliers:
   - *id001
   - *id002
   name: SupplierLocalVariableType
-- *id001
 - *id002
+- *id001
 - &id003 !Class
   operations:
   - !Operation
     owner: *id003
     result: !Type
-      classifier: *id001
+      classifier: *id002
     visibility: !Visibility 'PRIVATE'
     is_static: false
     name: operation

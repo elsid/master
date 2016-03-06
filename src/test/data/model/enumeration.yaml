@@ -1,7 +1,7 @@
 !Model
 - &id001 !Class
   generals:
-  - &id004 !Classifier {name: java.lang.Enum}
+  - &id003 !Classifier {name: java.lang.Enum}
   operations:
   - !Operation
     owner: *id001
@@ -27,17 +27,17 @@
   - !Operation
     owner: *id001
     result: !Type
-      classifier: &id003 !PrimitiveType {name: void}
+      classifier: &id004 !PrimitiveType {name: void}
     visibility: !Visibility 'PRIVATE'
     is_static: true
     name: <clinit>
   suppliers:
-  - *id001
-  - &id006 !Classifier {name: java.lang.Object}
-  - &id007 !Classifier {name: java.lang.Class}
   - *id003
+  - *id001
   - *id004
   - &id009 !PrimitiveType {name: int}
+  - &id007 !Classifier {name: java.lang.Class}
+  - &id006 !Classifier {name: java.lang.Object}
   name: Enumeration
   properties:
   - !Property
@@ -46,8 +46,8 @@
     is_static: true
     name: $VALUES
     type: *id005
-- *id003
 - *id004
+- *id003
 - *id006
 - *id007
 - *id008

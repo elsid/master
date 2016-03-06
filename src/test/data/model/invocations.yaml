@@ -28,17 +28,17 @@
         operations:
         - *id004
         suppliers:
-        - *id005
         - &id006 !Classifier {name: java.lang.Object}
+        - *id005
         name: B
       result: *id002
       visibility: !Visibility 'PRIVATE'
       is_static: false
       name: invoked
   suppliers:
-  - *id005
   - *id006
   - *id007
+  - *id005
   name: A
 - *id007
 - *id005
