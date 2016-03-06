@@ -79,7 +79,3 @@ class MakeClassifier(TestCase):
         loaded = yaml.load(data)
         assert_that(loaded, equal_to(classifier))
         assert_that(loaded.suppliers, equal_to([loaded]))
-
-
-if __name__ == '__main__':
-    main()

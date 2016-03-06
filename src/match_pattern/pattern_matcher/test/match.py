@@ -226,7 +226,3 @@ class FindOverridden(TestCase):
         operation = Operation('f')
         Classifier('Third', generals=[second], operations=[operation])
         assert_that(find_overridden(operation), equal_to(first_operation))
-
-
-if __name__ == '__main__':
-    main()

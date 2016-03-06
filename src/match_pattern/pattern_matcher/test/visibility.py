@@ -33,7 +33,3 @@ class MakeVisibility(TestCase):
                     equal_to(Visibility.PROTECTED))
         assert_that(yaml.load("!Visibility 'PRIVATE'\n"),
                     equal_to(Visibility.PRIVATE))
-
-
-if __name__ == '__main__':
-    main()

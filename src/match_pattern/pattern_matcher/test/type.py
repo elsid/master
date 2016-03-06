@@ -56,7 +56,3 @@ class MakeType(TestCase):
         data = "!Type {}\n"
         assert_that(yaml.dump(obj, default_flow_style=False), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))
-
-
-if __name__ == '__main__':
-    main()

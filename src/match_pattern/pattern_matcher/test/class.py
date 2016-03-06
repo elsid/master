@@ -45,7 +45,3 @@ class MakeClass(TestCase):
         )
         assert_that(yaml.dump(clazz), equal_to(data))
         assert_that(yaml.load(data), equal_to(clazz))
-
-
-if __name__ == '__main__':
-    main()

@@ -26,7 +26,3 @@ class MakePrimitiveType(TestCase):
         )
         assert_that(yaml.dump(primitive_type), equal_to(data))
         assert_that(yaml.load(data), equal_to(primitive_type))
-
-
-if __name__ == '__main__':
-    main()

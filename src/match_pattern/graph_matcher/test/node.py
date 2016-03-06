@@ -54,7 +54,3 @@ class NodeGetConnectedComponent(TestCase):
         assert_that(nodes[2].connected_component, {nodes[1], nodes[2]})
         assert_that(nodes[3].connected_component, {nodes[3], nodes[4]})
         assert_that(nodes[4].connected_component, {nodes[3], nodes[4]})
-
-
-if __name__ == '__main__':
-    main()

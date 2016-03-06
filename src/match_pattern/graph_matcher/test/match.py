@@ -271,7 +271,3 @@ class Match(TestCase):
         second = Graph({Blue('a', 'b')})
         variants = to_list(replace_node_by_obj(match(first, second)))
         assert_that(variants, empty())
-
-
-if __name__ == '__main__':
-    main()

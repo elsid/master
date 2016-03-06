@@ -71,6 +71,3 @@ class MakeGeneralizations(TestCaseWithParser):
             Interface('InterfaceA'),
             Interface('InterfaceB'),
         ]))
-
-if __name__ == '__main__':
-    main()

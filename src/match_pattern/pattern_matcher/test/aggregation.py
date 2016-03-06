@@ -27,7 +27,3 @@ class MakeAggregation(TestCase):
                     equal_to(Aggregation.SHARED))
         assert_that(yaml.load("!Aggregation 'composite'\n"),
                     equal_to(Aggregation.COMPOSITE))
-
-
-if __name__ == '__main__':
-    main()

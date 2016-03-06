@@ -398,6 +398,3 @@ class FillClassifiers(TestCaseWithParser):
             'void': VOID_TYPE.classifier,
         }))
         assert_that(errors, empty())
-
-if __name__ == '__main__':
-    main()

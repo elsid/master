@@ -159,7 +159,3 @@ class AsDot(TestCase):
             '"2" -> "1"  [label=tuple];\n'
             '}\n'
         ))
-
-
-if __name__ == '__main__':
-    main()

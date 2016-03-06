@@ -168,10 +168,6 @@ class Burgers(object):
                      operations=[self.hamburger_price()])
 
     @cached_method
-    def hamburger_type(self):
-        return Type(self.hamburger())
-
-    @cached_method
     def cheeseburger_cutlet(self):
         return Property('cutlet', self.cutlet_type(), Visibility.PUBLIC,
                         is_static=False)
@@ -193,10 +189,6 @@ class Burgers(object):
         ], operations=[self.cheeseburger_price()])
 
     @cached_method
-    def cheeseburger_type(self):
-        return Type(self.cheeseburger())
-
-    @cached_method
     def burger_with_burger(self):
         return Property('burger', self.burger_type(), Visibility.PUBLIC,
                         is_static=False)
@@ -209,10 +201,6 @@ class Burgers(object):
     def burger_with(self):
         return Class('BurgerWith', properties=[self.burger_with_burger()],
                      operations=[self.burger_with_price()])
-
-    @cached_method
-    def burger_with_type(self):
-        return Type(self.burger_with())
 
     @cached_method
     def create(self):
@@ -543,7 +531,3 @@ class YamlModel(TestCase):
         model = Burgers().create()
         file_path = join(dirname(__file__), 'data/burgers.yaml')
         assert_that(yaml.load(open(file_path)), equal_to(model))
-
-
-if __name__ == '__main__':
-    main()

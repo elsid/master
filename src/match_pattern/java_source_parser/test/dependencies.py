@@ -43,6 +43,3 @@ class MakeDependencies(TestCaseWithParser):
             classifiers['x.Interface'],
             classifiers['x.AnotherImplementation'],
         ]))
-
-if __name__ == '__main__':
-    main()

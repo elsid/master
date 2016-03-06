@@ -87,6 +87,3 @@ class MakeClassifiers(TestCaseWithParser):
             {'Interface': Interface('Interface')}))
         assert_that(errors, equal_to(
             [ClassifierRedeclaration(InterfaceDeclaration('Interface', []))]))
-
-if __name__ == '__main__':
-    main()

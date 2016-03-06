@@ -162,6 +162,3 @@ class MakeModel(TestCaseWithParser):
         model, errors = make_model(trees=[tree])
         assert_that(errors, empty())
         assert_that(model, equal_to(Burgers().create()))
-
-if __name__ == '__main__':
-    main()

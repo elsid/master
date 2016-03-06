@@ -25,7 +25,3 @@ class MakeInterface(TestCase):
         )
         assert_that(yaml.dump(interface), equal_to(data))
         assert_that(yaml.load(data), equal_to(interface))
-
-
-if __name__ == '__main__':
-    main()

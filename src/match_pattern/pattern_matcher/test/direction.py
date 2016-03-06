@@ -27,7 +27,3 @@ class MakeDirection(TestCase):
                     equal_to(Direction.OUT))
         assert_that(yaml.load("!Direction 'inout'\n"),
                     equal_to(Direction.INOUT))
-
-
-if __name__ == '__main__':
-    main()

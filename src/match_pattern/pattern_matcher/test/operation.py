@@ -41,7 +41,3 @@ class MakeOperation(TestCase):
         )
         assert_that(yaml.dump(obj), equal_to(data))
         assert_that(yaml.load(data), equal_to(obj))
-
-
-if __name__ == '__main__':
-    main()
