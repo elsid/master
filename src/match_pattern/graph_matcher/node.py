@@ -16,16 +16,10 @@ class Connections(object):
 class Node(object):
     obj_equivalent_pattern = None
 
-    def __init__(self, obj, connections=None):
+    def __init__(self, obj):
         self.obj = obj
-        self.connections = (defaultdict(Connections, **{
-            k: Connections(set(v.incoming).difference({self}),
-                           set(v.outgoing).difference({self}))
-            for k, v in connections.iteritems()})
-            if connections else defaultdict(Connections))
-        self.self_connections = ({k for k, v in connections.iteritems()
-                                 if self in v.incoming and self in v.outgoing}
-                                 if connections else set())
+        self.connections = defaultdict(Connections)
+        self.self_connections = set()
         if hasattr(self.obj, 'equiv_pattern'):
             self.obj_equivalent_pattern = self.obj.equiv_pattern
 
