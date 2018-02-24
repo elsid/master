@@ -18,7 +18,7 @@ class Node(object):
 
     def __init__(self, obj, connections=None):
         self.obj = obj
-        self.connections = (defaultdict(Connections, {
+        self.connections = (defaultdict(Connections, **{
             k: Connections(set(v.incoming).difference({self}),
                            set(v.outgoing).difference({self}))
             for k, v in connections.iteritems()})

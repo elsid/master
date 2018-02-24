@@ -32,12 +32,12 @@
     is_static: true
     name: <clinit>
   suppliers:
-  - *id003
   - *id001
+  - *id003
+  - &id006 !Classifier {name: java.lang.Object}
+  - &id007 !Classifier {name: java.lang.Class}
   - *id004
   - &id009 !PrimitiveType {name: int}
-  - &id007 !Classifier {name: java.lang.Class}
-  - &id006 !Classifier {name: java.lang.Object}
   name: Enumeration
   properties:
   - !Property

@@ -392,7 +392,7 @@ class FillClassifiers(TestCaseWithParser):
             Operation('f', VOID_TYPE, Visibility.PUBLIC, is_static=False),
         ]))
         class_type.classifier.properties = [
-            Property('value', class_type,Visibility.PRIVATE, is_static=False)]
+            Property('value', class_type, Visibility.PRIVATE, is_static=False)]
         assert_that(classifiers, equal_to({
             'Class': class_type.classifier,
             'void': VOID_TYPE.classifier,

@@ -15,14 +15,14 @@ MATCH_PATTERN = join(MATCH_PATTERN_DIR, 'match_pattern.py')
 
 
 def make_pattern_model(name):
-    model = check_output(['python', PATTERN_MODEL, name])
+    model = check_output(['python2', PATTERN_MODEL, name])
     pattern_path = join(PATTERN_DIR, name + '.yaml')
     open(pattern_path, 'w').write(model)
     return pattern_path
 
 
 def match_pattern(target, pattern, limit=None):
-    command = ['python', MATCH_PATTERN]
+    command = ['python2', MATCH_PATTERN]
     if limit:
         command += ['-l', str(limit)]
     return check_output(command + [target, pattern])

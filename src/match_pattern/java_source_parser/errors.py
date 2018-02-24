@@ -209,8 +209,8 @@ class AmbiguousTypeName(TypeNameError):
                         type='"%s"' % get_name_value(self.declaration.name),
                         classifier='"%s"' % self.classifier.name,
                         candidates=self.__format_candidates())
-        return ('error: type name {type} is ambiguous, candidates are:\n{'
-                'candidates}'.format(
+        return ('error: type name {type} is ambiguous, candidates are:\n'
+                '{candidates}'.format(
                     type='"%s"' % get_name_value(self.declaration.name),
                     candidates=self.__format_candidates()))
 

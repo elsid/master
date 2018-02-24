@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-py.test ${@} *.py
+python2 -m pytest ${@} *.py

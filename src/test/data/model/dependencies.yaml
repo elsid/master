@@ -1,14 +1,14 @@
 !Model
-- &id004 !Class
+- !Class
   suppliers:
   - &id001 !Classifier {name: java.lang.Object}
   - &id002 !PrimitiveType {name: void}
-  name: SupplierObjectConstructor
-- !Class
+  name: SupplierLocalVariableType
+- &id004 !Class
   suppliers:
   - *id001
   - *id002
-  name: SupplierLocalVariableType
+  name: SupplierObjectConstructor
 - *id002
 - *id001
 - &id003 !Class
@@ -21,7 +21,7 @@
     is_static: false
     name: operation
   suppliers:
-  - *id001
   - *id004
+  - *id001
   - *id002
   name: Client

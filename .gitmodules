@@ -1,0 +1,3 @@
+[submodule "src/plyj"]
+	path = src/plyj
+	url = git@github.com:elsid/plyj.git

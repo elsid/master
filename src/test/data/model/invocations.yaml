@@ -24,11 +24,11 @@
     name: invokeB
     invocations:
     - &id004 !Operation
-      owner: &id007 !Class
+      owner: &id006 !Class
         operations:
         - *id004
         suppliers:
-        - &id006 !Classifier {name: java.lang.Object}
+        - &id007 !Classifier {name: java.lang.Object}
         - *id005
         name: B
       result: *id002
@@ -40,6 +40,6 @@
   - *id007
   - *id005
   name: A
-- *id007
-- *id005
 - *id006
+- *id005
+- *id007
