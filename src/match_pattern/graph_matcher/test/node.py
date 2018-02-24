@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # coding: utf-8
 
-from unittest import TestCase, main
+from unittest import TestCase
 from hamcrest import assert_that, equal_to
 from graph_matcher.node import Node
 from graph_matcher.graph import Graph
